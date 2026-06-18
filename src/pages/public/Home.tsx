@@ -115,6 +115,71 @@ const Home = () => {
   const heroSection = sectionsData['home_hero'];
   const welcomeSection = sectionsData['home_welcome'];
   const gallerySection = sectionsData['home_gallery'];
+  const eventsSection = sectionsData['home_events'];
+  const blogSection = sectionsData['home_sermons'];
+  const donationSection = sectionsData['home_donations'];
+  const birthdaySection = sectionsData['home_birthdays'];
+
+  const dynamicEvents = eventsSection?.content_blocks && eventsSection.content_blocks.length > 0
+    ? eventsSection.content_blocks.map((block: any, idx: number) => ({
+        id: block.id || `event-${idx}`,
+        title: block.title || block.name || 'Evento de Café',
+        date: block.subtitle || block.date || 'Próximamente',
+        description: block.description || block.text || '',
+        imageUrl: block.imageUrl || 'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=600&auto=format&fit=crop&q=80'
+      }))
+    : [
+        {
+          id: 'event-1',
+          title: 'Catación Guiada: Bourbon Honey',
+          date: 'Sábado 27 de Junio - 4:00 PM',
+          description: 'Aprende a identificar notas florales y frutales con nuestro barista certificado. Incluye degustación de 3 orígenes.',
+          imageUrl: 'https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=600&auto=format&fit=crop&q=80'
+        },
+        {
+          id: 'event-2',
+          title: 'Taller de Arte Latte para Aficionados',
+          date: 'Sábado 11 de Julio - 10:00 AM',
+          description: 'Domina la emulsión de la leche y crea tus primeros diseños de corazones y tulipanes en casa.',
+          imageUrl: 'https://images.unsplash.com/photo-1570968915860-54d5c301fc9f?w=600&auto=format&fit=crop&q=80'
+        }
+      ];
+
+  const dynamicBlog = blogSection?.content_blocks && blogSection.content_blocks.length > 0
+    ? blogSection.content_blocks.map((block: any, idx: number) => ({
+        id: block.id || `blog-${idx}`,
+        title: block.title || block.name || 'Artículo de Blog',
+        author: block.author || 'Redacción Rose Coffee',
+        date: block.subtitle || block.date || 'Reciente',
+        description: block.description || block.text || '',
+        imageUrl: block.imageUrl || 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&auto=format&fit=crop&q=80'
+      }))
+    : [
+        {
+          id: 'blog-1',
+          title: 'Guía Práctica: Cómo Cuidar Tu Masa Madre en Clima Cálido',
+          author: 'Naomy Alvarado',
+          date: '15 Jun, 2026',
+          description: 'Trucos y recomendaciones para mantener tu masa madre activa, fresca y evitar sobre-fermentación en climas tropicales como Milagro.',
+          imageUrl: 'https://images.unsplash.com/photo-1549931319-a545dcf3bc73?w=600&auto=format&fit=crop&q=80'
+        },
+        {
+          id: 'blog-2',
+          title: 'Métodos de Extracción: V60 vs Prensa Francesa',
+          author: 'Naomy Alvarado',
+          date: '08 Jun, 2026',
+          description: 'Analizamos las diferencias en cuerpo, acidez y dulzor de estos populares métodos de filtrado de café de especialidad.',
+          imageUrl: 'https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=600&auto=format&fit=crop&q=80'
+        },
+        {
+          id: 'blog-3',
+          title: 'La Importancia del Comercio Justo con Caficultores',
+          author: 'Naomy Alvarado',
+          date: '28 May, 2026',
+          description: 'Te contamos cómo compramos nuestro café Bourbon de Zaruma directamente a pequeños productores, eliminando intermediarios.',
+          imageUrl: 'https://images.unsplash.com/photo-1507133750040-4a8f57021571?w=600&auto=format&fit=crop&q=80'
+        }
+      ];
 
   // Static flavor notes dictionary matching categories/products
   const getProductExtraInfo = (productName: string) => {
@@ -442,6 +507,55 @@ const Home = () => {
         )}
       </section>
 
+      {/* EVENTS SECTION - PRÓXIMAS DEGUSTACIONES */}
+      <section id="events" className="max-w-7xl mx-auto px-6 space-y-12">
+        <SlideUp className="text-center max-w-2xl mx-auto space-y-3">
+          <span className="inline-block text-[10px] font-bold text-coffee uppercase tracking-widest border border-coffee/25 bg-coffee/5 px-4 py-1.5 rounded-full">
+            Eventos
+          </span>
+          <h2 className="text-3xl md:text-4xl font-bold text-primary">
+            {eventsSection?.title || 'Próximas Degustaciones'}
+          </h2>
+          <p className="text-stone-500 text-sm leading-relaxed">
+            {eventsSection?.subtitle || 'Entérate de las catas de café, talleres de barismo y lanzamientos de nuevos productos.'}
+          </p>
+        </SlideUp>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {dynamicEvents.map((event: any, idx: number) => (
+            <motion.div
+              key={event.id}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: idx * 0.1 }}
+              className="bg-white rounded-[32px] border border-stone-200 overflow-hidden shadow-2xs hover:shadow-md transition-all duration-300 flex flex-col sm:flex-row group h-full"
+            >
+              <div className="w-full sm:w-48 h-48 bg-stone-50 flex-shrink-0 overflow-hidden relative">
+                <img
+                  src={event.imageUrl}
+                  alt={event.title}
+                  className="w-full h-full object-cover group-hover:scale-103 transition-transform duration-500"
+                />
+              </div>
+              <div className="p-6 flex flex-col justify-between text-left flex-1">
+                <div className="space-y-2">
+                  <span className="text-[10px] font-extrabold text-gold uppercase tracking-wider block">
+                    {event.date}
+                  </span>
+                  <h3 className="font-bold text-base text-primary font-sans leading-snug group-hover:text-coffee transition-colors duration-200">
+                    {event.title}
+                  </h3>
+                  <p className="text-stone-550 text-xs leading-relaxed line-clamp-3">
+                    {event.description}
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </section>
+
       {/* ORIGIN SECTION - NUESTRO CAFÉ TIENE HISTORIA */}
       <OriginSection data={sectionsData['home_origin']} />
 
@@ -452,10 +566,63 @@ const Home = () => {
       <RoseClubSection />
 
       {/* COFFEE CLUB SUBSCRIPTIONS */}
-      <CoffeeSubscription />
+      <CoffeeSubscription data={donationSection} />
 
       {/* TESTIMONIALS SECTION */}
-      <TestimonialsSection />
+      <TestimonialsSection data={birthdaySection} />
+
+      {/* BLOG SECTION - ARTÍCULOS DEL BLOG */}
+      <section id="blog" className="max-w-7xl mx-auto px-6 space-y-12">
+        <SlideUp className="text-center max-w-2xl mx-auto space-y-3">
+          <span className="inline-block text-[10px] font-bold text-coffee uppercase tracking-widest border border-coffee/25 bg-coffee/5 px-4 py-1.5 rounded-full">
+            Blog Rose Coffee
+          </span>
+          <h2 className="text-3xl md:text-4xl font-bold text-primary">
+            {blogSection?.title || 'Artículos del Blog'}
+          </h2>
+          <p className="text-stone-550 text-sm leading-relaxed">
+            {blogSection?.subtitle || 'Consejos de barismo, recetas con masa madre y novedades del mundo del café.'}
+          </p>
+        </SlideUp>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {dynamicBlog.map((post: any, idx: number) => (
+            <motion.div
+              key={post.id}
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: idx * 0.1 }}
+              className="bg-white rounded-[28px] border border-stone-200 overflow-hidden shadow-2xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col h-full group"
+            >
+              <div className="h-48 bg-stone-100 relative overflow-hidden block">
+                <img
+                  src={post.imageUrl}
+                  alt={post.title}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  loading="lazy"
+                />
+                <span className="absolute top-4 left-4 bg-white/85 backdrop-blur-md text-stone-700 text-[9px] font-bold px-2.5 py-1 rounded-full border border-stone-200/50 shadow-xxs">
+                  {post.date}
+                </span>
+              </div>
+              <div className="p-6 flex-1 flex flex-col justify-between space-y-4 text-left">
+                <div className="space-y-2">
+                  <span className="text-[9px] font-bold text-coffee uppercase tracking-widest bg-coffee/5 px-2.5 py-1 rounded-md inline-block">
+                    Por {post.author}
+                  </span>
+                  <h3 className="font-bold text-base text-primary leading-tight group-hover:text-coffee transition-colors duration-200">
+                    {post.title}
+                  </h3>
+                  <p className="text-stone-550 text-xs line-clamp-3 leading-relaxed">
+                    {post.description}
+                  </p>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </section>
 
       {/* HOURS & LOCATION */}
       <section id="location" className="max-w-4xl mx-auto px-6">

@@ -37,7 +37,28 @@ const TESTIMONIALS: Testimonial[] = [
   }
 ];
 
-export default function TestimonialsSection() {
+interface TestimonialsSectionProps {
+  data?: {
+    title?: string;
+    subtitle?: string;
+    content_blocks?: any[];
+  };
+}
+
+export default function TestimonialsSection({ data }: TestimonialsSectionProps) {
+  const dynamicTestimonials = data?.content_blocks && data.content_blocks.length > 0
+    ? data.content_blocks.map((block: any, idx: number) => ({
+        id: block.id || `test-${idx}`,
+        name: block.title || block.name || 'Cliente de Rose Coffee',
+        location: block.subtitle || block.location || 'Milagro, Ecuador',
+        rating: typeof block.rating === 'number' ? block.rating : 5,
+        text: block.text || block.description || '',
+        avatarUrl: block.imageUrl || block.avatarUrl || ''
+      }))
+    : null;
+
+  const testimonials = dynamicTestimonials || TESTIMONIALS;
+
   return (
     <section className="max-w-7xl mx-auto px-6 py-12 space-y-12">
       <motion.div
@@ -51,15 +72,15 @@ export default function TestimonialsSection() {
           Opiniones
         </span>
         <h2 className="text-3xl md:text-4xl font-bold text-primary">
-          Lo que dicen nuestros clientes
+          {data?.title || 'Lo que dicen nuestros clientes'}
         </h2>
         <p className="text-stone-500 text-sm md:text-base leading-relaxed">
-          Nuestra mayor satisfacción es brindar una experiencia premium en cada taza y bocado.
+          {data?.subtitle || 'Nuestra mayor satisfacción es brindar una experiencia premium en cada taza y bocado.'}
         </p>
       </motion.div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {TESTIMONIALS.map((testimonial, index) => (
+        {testimonials.map((testimonial, index) => (
           <motion.div
             key={testimonial.id}
             initial={{ opacity: 0, y: 24 }}

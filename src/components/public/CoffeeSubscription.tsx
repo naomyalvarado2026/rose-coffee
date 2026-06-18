@@ -1,13 +1,19 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
 import { Check, ShieldCheck, Sparkles } from 'lucide-react';
 import MagneticButton from '../animations/MagneticButton';
 
-export default function CoffeeSubscription() {
-  const [selectedPlan, setSelectedPlan] = useState<'quincenal' | 'mensual' | 'bimestral'>('mensual');
+interface CoffeeSubscriptionProps {
+  data?: {
+    title?: string;
+    subtitle?: string;
+    content_blocks?: any[];
+  };
+}
 
-  const plans = [
+export default function CoffeeSubscription({ data }: CoffeeSubscriptionProps) {
+  const defaultPlans = [
     {
       id: 'quincenal',
       name: 'Plan Quincenal',
@@ -35,6 +41,28 @@ export default function CoffeeSubscription() {
     },
   ];
 
+  const dynamicPlans = data?.content_blocks && data.content_blocks.length > 0
+    ? data.content_blocks.map((block: any, idx: number) => ({
+        id: block.id || `plan-${idx}`,
+        name: block.title || block.name || `Plan ${idx + 1}`,
+        price: block.price || block.subtitle || '$0.00',
+        period: block.period || 'mes',
+        description: block.description || block.text || '',
+        benefits: Array.isArray(block.list) ? block.list : (block.list ? block.list.split(',').map((item: string) => item.trim()) : []),
+        popular: !!block.popular || idx === 1
+      }))
+    : null;
+
+  const plans = dynamicPlans || defaultPlans;
+
+  const [selectedPlan, setSelectedPlan] = useState<string>('');
+
+  useEffect(() => {
+    if (plans.length > 0) {
+      setSelectedPlan(plans[0].id);
+    }
+  }, [plans]);
+
   const handleSubscribe = () => {
     const planName = plans.find(p => p.id === selectedPlan)?.name;
     toast.success(`¡Gracias por suscribirte al ${planName}! Nos pondremos en contacto contigo para coordinar tu primera entrega.`);
@@ -52,10 +80,10 @@ export default function CoffeeSubscription() {
           Suscripción Rose Coffee
         </span>
         <h2 className="text-2xl md:text-4xl font-extrabold text-[#021a54] tracking-tight font-sans">
-          Asegura tu café favorito siempre fresco.
+          {data?.title || 'Asegura tu café favorito siempre fresco.'}
         </h2>
         <p className="text-stone-550 text-xs md:text-sm font-medium leading-relaxed">
-          Suscríbete a nuestros planes exclusivos y recibe café de especialidad recién tostado directamente en tu puerta. Cancela o modifica tu plan cuando quieras sin cargos adicionales.
+          {data?.subtitle || 'Suscríbete a nuestros planes exclusivos y recibe café de especialidad recién tostado directamente en tu puerta. Cancela o modifica tu plan cuando quieras sin cargos adicionales.'}
         </p>
       </div>
 
@@ -99,7 +127,7 @@ export default function CoffeeSubscription() {
                 </p>
 
                 <ul className="space-y-2.5 pt-4 border-t border-stone-100">
-                  {plan.benefits.map((b, i) => (
+                  {plan.benefits.map((b: string, i: number) => (
                     <li key={i} className="flex gap-2 items-center text-stone-600 text-xs font-medium">
                       <div className="w-4.5 h-4.5 bg-emerald-50 text-emerald-600 border border-emerald-100 rounded-full flex items-center justify-center shrink-0">
                         <Check size={10} strokeWidth={3.5} />
