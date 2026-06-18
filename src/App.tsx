@@ -17,6 +17,7 @@ import Contact from './pages/public/Contact';
 import MyPurchases from './pages/public/MyPurchases';
 import ARShowcase from './pages/public/ARShowcase';
 import ARMenuScanner from './pages/public/ARMenuScanner';
+import ARShowroom from './pages/public/ARShowroom';
 import ProductDetail from './pages/public/ProductDetail';
 
 import DashboardHome from './pages/admin/DashboardHome';
@@ -25,6 +26,7 @@ import LogosManager from './pages/admin/LogosManager';
 import UsersManager from './pages/admin/UsersManager';
 import PageEditor from './pages/admin/PageEditor';
 import AdminARManager from './pages/admin/AdminARManager';
+import ARShowroomManager from './pages/admin/ARShowroomManager';
 import OrdersManager from './pages/admin/OrdersManager';
 import CustomersManager from './pages/admin/CustomersManager';
 import InventoryManager from './pages/admin/InventoryManager';
@@ -61,6 +63,7 @@ function App() {
             <Route path="/mis-compras" element={<PageTransition><MyPurchases /></PageTransition>} />
             <Route path="/ar" element={<PageTransition><ARShowcase /></PageTransition>} />
             <Route path="/ar/menu" element={<PageTransition><ARMenuScanner /></PageTransition>} />
+            <Route path="/ar/showroom" element={<PageTransition><ARShowroom /></PageTransition>} />
           </Route>
 
           {/* Protected Routes: Dashboard */}
@@ -93,6 +96,7 @@ function App() {
           <Route element={<ProtectedRoute module="ar_manager" />}>
             <Route element={<AdminLayout />}>
               <Route path="/admin/ar" element={<PageTransition><AdminARManager /></PageTransition>} />
+              <Route path="/admin/ar-showroom" element={<PageTransition><ARShowroomManager /></PageTransition>} />
             </Route>
           </Route>
 

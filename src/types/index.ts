@@ -50,6 +50,8 @@ export interface Product {
   deleted_at?: string | null;
   ar_model_url?: string | null;
   ar_poster_url?: string | null;
+  ar_enabled?: boolean;
+  ar_experience_id?: string | null;
   stock_min?: number;
   created_at: string;
   product_variants?: ProductVariant[];
@@ -152,6 +154,29 @@ export interface ARTargetMapping {
   product_id?: string | null;
   video_url?: string | null;
   video_chromakey?: boolean;
+  created_at: string;
+}
+
+export type ARExperienceType = 'MODEL_3D' | 'VIDEO_AR' | 'MIXED_EXPERIENCE';
+export type ARExperienceCategory = 'PRODUCT' | 'VIDEO' | 'ANIMATION';
+
+export interface ARExperience {
+  id: string;
+  name: string;
+  type: ARExperienceType;
+  category: ARExperienceCategory;
+  preview_image?: string | null;
+  model_url?: string | null;
+  video_url?: string | null;
+  scale?: { x: number; y: number; z: number } | null;
+  position?: { x: number; y: number; z: number } | null;
+  rotation?: string | null;
+  animation_settings?: Record<string, any> | null;
+  enabled?: boolean;
+  product_id?: string | null;
+  views_count?: number;
+  interaction_count?: number;
+  purchase_clicks_count?: number;
   created_at: string;
 }
 
