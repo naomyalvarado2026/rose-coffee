@@ -790,28 +790,87 @@ const StoreManager = () => {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-3 border-t border-gray-100">
                 <div className={editingProduct ? "md:col-span-2" : "md:col-span-3"}>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* Modelo 3D GLB */}
                     <div>
                       <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1.5">
                         Modelo 3D para AR (.glb)
                       </label>
-                      <input
-                        type="text"
-                        {...register('ar_model_url')}
-                        className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none"
-                        placeholder="https://cdn.jsdelivr.net/gh/usuario/repo/modelo.glb"
-                      />
+                      <div className="flex flex-col gap-2">
+                        {/* Cloudinary Upload Button */}
+                        <MediaUploader
+                          folder="modelos-3d"
+                          label="Subir Archivo .GLB"
+                          allowedFormats={['glb', 'gltf']}
+                          onUploadSuccess={(url) => {
+                            setValue('ar_model_url', url, { shouldValidate: true });
+                          }}
+                          className="w-full justify-center"
+                        />
+                        {/* Preview or manual URL */}
+                        <input
+                          type="text"
+                          {...register('ar_model_url')}
+                          className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none bg-gray-50 text-gray-500"
+                          placeholder="URL del modelo (se rellena automáticamente al subir)"
+                          readOnly
+                        />
+                        {watch('ar_model_url') && (
+                          <div className="flex items-center gap-1.5 text-emerald-600 text-[11px] font-semibold">
+                            <span>✅</span>
+                            <span className="truncate">{watch('ar_model_url')?.split('/').pop()}</span>
+                            <button
+                              type="button"
+                              onClick={() => setValue('ar_model_url', '', { shouldValidate: true })}
+                              className="ml-auto text-gray-400 hover:text-red-500 cursor-pointer text-xs font-bold shrink-0"
+                            >
+                              Quitar
+                            </button>
+                          </div>
+                        )}
+                      </div>
                       {errors.ar_model_url && <p className="text-accent-red text-xs mt-1">{errors.ar_model_url.message}</p>}
                     </div>
+
+                    {/* Póster 2D */}
                     <div>
                       <label className="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-1.5">
                         Póster 2D para AR (.webp / .png)
                       </label>
-                      <input
-                        type="text"
-                        {...register('ar_poster_url')}
-                        className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none"
-                        placeholder="https://cloudinary.com/poster.webp"
-                      />
+                      <div className="flex flex-col gap-2">
+                        <MediaUploader
+                          folder="posters-ar"
+                          label="Subir Imagen Póster"
+                          allowedFormats={['png', 'webp', 'jpg', 'jpeg']}
+                          onUploadSuccess={(url) => {
+                            setValue('ar_poster_url', url, { shouldValidate: true });
+                          }}
+                          className="w-full justify-center"
+                        />
+                        <input
+                          type="text"
+                          {...register('ar_poster_url')}
+                          className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none bg-gray-50 text-gray-500"
+                          placeholder="URL del póster (se rellena automáticamente)"
+                          readOnly
+                        />
+                        {watch('ar_poster_url') && (
+                          <div className="flex items-center gap-2 text-emerald-600 text-[11px] font-semibold">
+                            <img
+                              src={watch('ar_poster_url') || ''}
+                              alt="Póster AR"
+                              className="w-8 h-8 rounded-lg object-cover border border-gray-200 shrink-0"
+                            />
+                            <span className="truncate">{watch('ar_poster_url')?.split('/').pop()}</span>
+                            <button
+                              type="button"
+                              onClick={() => setValue('ar_poster_url', '', { shouldValidate: true })}
+                              className="ml-auto text-gray-400 hover:text-red-500 cursor-pointer text-xs font-bold shrink-0"
+                            >
+                              Quitar
+                            </button>
+                          </div>
+                        )}
+                      </div>
                       {errors.ar_poster_url && <p className="text-accent-red text-xs mt-1">{errors.ar_poster_url.message}</p>}
                     </div>
                   </div>
@@ -822,6 +881,7 @@ const StoreManager = () => {
                   </div>
                 )}
               </div>
+
 
               {/* Especificaciones y Características con Iconos */}
               <div className="space-y-3 pt-3 border-t border-gray-100">
