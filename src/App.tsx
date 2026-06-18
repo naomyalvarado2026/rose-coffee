@@ -35,6 +35,7 @@ import ProductionManager from './pages/admin/ProductionManager';
 import AnalyticsManager from './pages/admin/AnalyticsManager';
 import SettingsManager from './pages/admin/SettingsManager';
 import ProtectedRoute from './components/common/ProtectedRoute';
+import ProjectPresentation from './pages/admin/ProjectPresentation';
 
 
 function App() {
@@ -70,6 +71,7 @@ function App() {
           <Route element={<ProtectedRoute module="dashboard" />}>
             <Route element={<AdminLayout />}>
               <Route path="/admin" element={<PageTransition><DashboardHome /></PageTransition>} />
+              <Route path="/admin/presentacion" element={<PageTransition><ProjectPresentation /></PageTransition>} />
             </Route>
           </Route>
 

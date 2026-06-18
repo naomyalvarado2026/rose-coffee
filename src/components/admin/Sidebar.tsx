@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../store/useAuthStore';
 import { motion, AnimatePresence } from 'framer-motion';
-import { LogOut, X, Globe } from 'lucide-react';
+import { LogOut, X, Globe, Presentation } from 'lucide-react';
 import { usePermissions } from '../../hooks/usePermissions';
 import { ADMIN_MODULES } from '../../config/adminModules';
 import logoRose from '../../assets/logo rose coffee/1 rose coffee.svg';
@@ -112,6 +112,23 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
 
       {/* Sidebar Footer */}
       <div className="p-4 border-t border-white/10 space-y-2">
+        <NavLink 
+          to="/admin/presentacion"
+          onClick={() => {
+            if (isMobile) onClose();
+          }}
+          className={({ isActive }) => 
+            `flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl transition-all duration-200 w-full text-xs font-semibold border cursor-pointer ${
+              isActive 
+                ? 'bg-white/10 border-gold text-white font-extrabold shadow-sm' 
+                : 'text-stone-300 hover:text-white hover:bg-white/5 border-white/5 hover:border-white/10'
+            }`
+          }
+        >
+          <Presentation size={14} className="text-gold" />
+          <span>Presentación Proyecto</span>
+        </NavLink>
+
         <button 
           onClick={() => {
             onClose();
