@@ -11,12 +11,12 @@ interface Benefit {
 }
 
 const BENEFITS: Benefit[] = [
-  { id: 'digestion',   label: 'Mejor digestión',                        lx: 5,   ly: 16,  px: 80,  py: 48,  anchor: 'left'  },
-  { id: 'prebiotics',  label: 'Fuente natural de prebióticos',           lx: 145, ly: 16,  px: 120, py: 48,  anchor: 'right' },
-  { id: 'glycemic',    label: 'Índice glucémico más bajo',               lx: 5,   ly: 62,  px: 71,  py: 69,  anchor: 'left'  },
-  { id: 'nutrients',   label: 'Mayor biodisponibilidad de nutrientes',   lx: 145, ly: 62,  px: 129, py: 69,  anchor: 'right' },
-  { id: 'texture',     label: 'Texturas, sabores y aromas superiores',  lx: 5,   ly: 102, px: 80,  py: 90,  anchor: 'left'  },
-  { id: 'noAdditives', label: 'Sin aditivos ni levaduras industriales', lx: 145, ly: 102, px: 120, py: 90,  anchor: 'right' },
+  { id: 'digestion',   label: 'Mejor digestión',                        lx: 5,   ly: 16,  px: 77,  py: 44,  anchor: 'left'  },
+  { id: 'prebiotics',  label: 'Fuente natural de prebióticos',           lx: 145, ly: 16,  px: 123, py: 44,  anchor: 'right' },
+  { id: 'glycemic',    label: 'Índice glucémico más bajo',               lx: 5,   ly: 62,  px: 66,  py: 69,  anchor: 'left'  },
+  { id: 'nutrients',   label: 'Mayor biodisponibilidad de nutrientes',   lx: 145, ly: 62,  px: 134, py: 69,  anchor: 'right' },
+  { id: 'texture',     label: 'Texturas, sabores y aromas superiores',  lx: 5,   ly: 102, px: 77,  py: 94,  anchor: 'left'  },
+  { id: 'noAdditives', label: 'Sin aditivos ni levaduras industriales', lx: 145, ly: 102, px: 123, py: 94,  anchor: 'right' },
 ];
 
 function curveToPath(x1: number, y1: number, x2: number, y2: number) {
@@ -109,8 +109,8 @@ export default function SourdoughBenefits() {
 
           {BENEFITS.map((b, i) => {
             const delay = i * 0.08 + 0.25;
-            // Line starts at label edge, ends at bread
-            const lineStartX = b.anchor === 'left' ? b.lx + 50 : b.lx;
+            // Line starts at label edge with a gap, ends outside bread
+            const lineStartX = b.anchor === 'left' ? b.lx + 50 + 4.5 : b.lx - 4.5;
             const lineStartY = b.ly + 4; // Vertically center the line with the label
             const isHovered = hoveredId === b.id;
             const isAnyHovered = hoveredId !== null;
