@@ -68,6 +68,11 @@
   html, body {
     @apply font-sans bg-base text-black;
   }
+
+  ::selection {
+    background-color: #021a54 !important; /* Brand Deep Blue */
+    color: #faf2e7 !important; /* Brand Cream Base */
+  }
 }
 
 /* Premium Scrollbars Customization */
