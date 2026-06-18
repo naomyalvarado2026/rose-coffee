@@ -34,20 +34,28 @@ export default function ARShowcase() {
     fetchARProducts();
   }, []);
 
+
   const fetchARProducts = async () => {
     setLoading(true);
     try {
       const { data, error } = await supabase
         .from('products')
-        .select('*')
+        .select('*, product_ar_models(*)')
         .is('deleted_at', null)
-        .not('ar_model_url', 'is', null)
         .order('name', { ascending: true });
 
       if (error) throw error;
 
-      if (data && data.length > 0) {
-        setProducts(data as Product[]);
+      // Filter products that have either direct ar_model_url or a linked glb_url
+      const arProducts = (data || []).filter((product: any) => {
+        const arModel = Array.isArray(product.product_ar_models)
+          ? product.product_ar_models[0]
+          : product.product_ar_models;
+        return !!product.ar_model_url || (arModel && !!arModel.glb_url);
+      });
+
+      if (arProducts.length > 0) {
+        setProducts(arProducts as Product[]);
       } else {
         setProducts(MOCK_AR_PRODUCTS);
       }
@@ -195,31 +203,60 @@ export default function ARShowcase() {
               className="bg-slate-900 border border-slate-800 w-full max-w-4xl h-[80vh] min-h-[500px] rounded-3xl overflow-hidden shadow-2xl relative flex flex-col"
             >
               <div className="flex-1">
-                <ARViewer
-                  arModel={{
-                    id: selectedProduct.id,
-                    product_id: selectedProduct.id,
-                    glb_url: selectedProduct.ar_model_url || '',
-                    ar_scale: 'fixed',
-                    camera_controls: true,
-                    auto_rotate: true,
-                    xr_environment: true,
-                    shadow_intensity: 1.5,
-                    created_at: selectedProduct.created_at,
-                  }}
-                  productName={selectedProduct.name}
-                  onClose={() => setSelectedProduct(null)}
-                  poster={selectedProduct.ar_poster_url || undefined}
-                  hotspots={[
-                    {
-                      id: 'hotspot-price',
-                      position: '0 0.2 0',
-                      normal: '0 1 0',
-                      label: `$${Number(selectedProduct.price).toFixed(2)}`,
-                      type: 'price'
-                    }
-                  ]}
-                />
+                {(() => {
+                  const arModel = Array.isArray(selectedProduct.product_ar_models)
+                    ? selectedProduct.product_ar_models[0]
+                    : selectedProduct.product_ar_models;
+
+                  const modelConfig = arModel
+                    ? {
+                        id: arModel.id,
+                        product_id: selectedProduct.id,
+                        glb_url: arModel.glb_url || selectedProduct.ar_model_url || '',
+                        usdz_url: arModel.usdz_url,
+                        ar_scale: arModel.ar_scale || 'fixed',
+                        camera_controls: arModel.camera_controls ?? true,
+                        auto_rotate: arModel.auto_rotate ?? true,
+                        xr_environment: arModel.xr_environment ?? true,
+                        shadow_intensity: arModel.shadow_intensity !== undefined ? arModel.shadow_intensity : 1.0,
+                        video_url: arModel.video_url,
+                        video_target_material: arModel.video_target_material,
+                        created_at: arModel.created_at || selectedProduct.created_at,
+                      }
+                    : {
+                        id: selectedProduct.id,
+                        product_id: selectedProduct.id,
+                        glb_url: selectedProduct.ar_model_url || '',
+                        ar_scale: 'fixed' as const,
+                        camera_controls: true,
+                        auto_rotate: true,
+                        xr_environment: true,
+                        shadow_intensity: 1.5,
+                        created_at: selectedProduct.created_at,
+                      };
+
+                  const viewerHotspots = (arModel && arModel.hotspots && arModel.hotspots.length > 0)
+                    ? arModel.hotspots
+                    : [
+                        {
+                          id: 'hotspot-price',
+                          position: '0 0.2 0',
+                          normal: '0 1 0',
+                          label: `$${Number(selectedProduct.price).toFixed(2)}`,
+                          type: 'price' as const
+                        }
+                      ];
+
+                  return (
+                    <ARViewer
+                      arModel={modelConfig}
+                      productName={selectedProduct.name}
+                      onClose={() => setSelectedProduct(null)}
+                      poster={selectedProduct.ar_poster_url || undefined}
+                      hotspots={viewerHotspots}
+                    />
+                  );
+                })()}
               </div>
             </motion.div>
           </motion.div>

@@ -174,6 +174,17 @@ export default function AdminARManager() {
         if (error) throw error;
       }
 
+      // Sincronizar con la tabla de productos para mantener compatibilidad con las vistas del frontend
+      const { error: syncError } = await supabase
+        .from('products')
+        .update({
+          ar_model_url: arModel.glb_url,
+          ar_poster_url: arModel.usdz_url || null
+        })
+        .eq('id', arModel.product_id);
+
+      if (syncError) throw syncError;
+
       toast.success('Configuración de Realidad Aumentada guardada con éxito.');
       fetchARModel(arModel.product_id!);
     } catch (err: any) {

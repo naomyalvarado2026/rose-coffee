@@ -56,6 +56,7 @@ export interface Product {
   created_at: string;
   product_variants?: ProductVariant[];
   product_digital_assets?: ProductDigitalAsset | null;
+  product_ar_models?: ProductARModel | ProductARModel[] | null;
 }
 
 export interface Order {
