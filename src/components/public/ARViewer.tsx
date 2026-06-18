@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Loader2, RotateCcw, AlertTriangle, Info, Tag, Maximize } from 'lucide-react';
+import { Loader2, RotateCcw, AlertTriangle, Info, Tag, Maximize, X } from 'lucide-react';
 import type { ProductARModel, ARHotspot } from '../../types';
 
 export interface ARHotspotItem {
@@ -115,8 +115,37 @@ export default function ARViewer({ arModel, productName, onClose, hotspots, post
 
   return (
     <div className="relative w-full h-full min-h-[450px] bg-slate-950 rounded-3xl overflow-hidden shadow-2xl border border-slate-800 flex flex-col items-center justify-center">
-      {/* Top Floating Info */}
-      <div className="absolute top-4 left-4 right-4 z-10 flex justify-between items-center pointer-events-none">
+
+      {/* Loading Overlay */}
+      {loading && (
+        <div className="absolute inset-0 bg-slate-950/90 backdrop-blur-xs flex flex-col items-center justify-center gap-3 z-20 text-slate-400">
+          <Loader2 className="w-8 h-8 text-blue-400 animate-spin" />
+          <span className="text-xs font-bold uppercase tracking-wider">Cargando Modelo 3D...</span>
+          <span className="text-[10px] text-slate-500 mt-1">Puede tardar unos segundos</span>
+        </div>
+      )}
+
+      {/* Error overlay — includes its own close button */}
+      {loadError && !loading && (
+        <div className="absolute inset-0 bg-slate-950/90 backdrop-blur-xs flex flex-col items-center justify-center gap-3 z-20 text-slate-400 p-6 text-center">
+          <AlertTriangle className="w-10 h-10 text-amber-500" />
+          <span className="text-sm font-bold text-slate-300">No se pudo cargar el modelo 3D</span>
+          <span className="text-[11px] text-slate-500 leading-relaxed max-w-xs">
+            El archivo GLB no está disponible, fue bloqueado por CORS, o el formato no es compatible con tu navegador.
+          </span>
+          {onClose && (
+            <button
+              onClick={onClose}
+              className="mt-4 px-5 py-2 bg-slate-800 hover:bg-slate-700 border border-slate-700 rounded-xl text-xs font-bold text-white transition-colors cursor-pointer"
+            >
+              ✕ Cerrar
+            </button>
+          )}
+        </div>
+      )}
+
+      {/* Top Floating Info + Botones — z-30 para estar sobre las overlays */}
+      <div className="absolute top-4 left-4 right-4 z-30 flex justify-between items-center pointer-events-none">
         <div className="bg-slate-900/80 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-slate-800 text-[10px] text-blue-200 font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-sm">
           <Maximize className="w-3.5 h-3.5" />
           AR 3D: {productName}
@@ -133,31 +162,14 @@ export default function ARViewer({ arModel, productName, onClose, hotspots, post
           {onClose && (
             <button
               onClick={onClose}
-              className="px-3 py-1 rounded-full bg-slate-900/80 backdrop-blur-md border border-slate-800 text-xs font-bold text-slate-300 hover:text-white transition-colors cursor-pointer shadow-sm"
+              className="w-8 h-8 rounded-full bg-red-900/80 hover:bg-red-700 backdrop-blur-md border border-red-800 flex items-center justify-center text-red-300 hover:text-white transition-all cursor-pointer shadow-sm"
+              title="Cerrar visor"
             >
-              Cerrar
+              <X className="w-4 h-4" />
             </button>
           )}
         </div>
       </div>
-
-      {/* Loading Overlay */}
-      {loading && (
-        <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-xs flex flex-col items-center justify-center gap-3 z-20 text-slate-400">
-          <Loader2 className="w-8 h-8 text-blue-400 animate-spin" />
-          <span className="text-xs font-bold uppercase tracking-wider">Cargando Modelo 3D...</span>
-          <span className="text-[10px] text-slate-500 mt-1">Puede tardar unos segundos</span>
-        </div>
-      )}
-
-      {/* Error overlay */}
-      {loadError && !loading && (
-        <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-xs flex flex-col items-center justify-center gap-3 z-20 text-slate-400 p-6 text-center">
-          <AlertTriangle className="w-10 h-10 text-amber-500" />
-          <span className="text-sm font-bold text-slate-300">No se pudo cargar el modelo 3D</span>
-          <span className="text-[11px] text-slate-500 leading-relaxed">El archivo GLB no está disponible o el formato no es compatible con tu navegador.</span>
-        </div>
-      )}
 
       {/* Play video overlay if blocked by low power mode */}
       {videoPlayBlocked && (

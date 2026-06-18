@@ -18,8 +18,8 @@ const MOCK_AR_PRODUCTS: Product[] = [
     type: 'physical',
     cover_image_url: 'https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&q=80&w=600',
     features: ['100% fermentación natural', 'Corteza crujiente, miga alveolada'],
-    ar_model_url: 'https://cdn.jsdelivr.net/gh/google/model-viewer/shared-assets/models/Astronaut.glb',
-    ar_poster_url: 'https://cdn.jsdelivr.net/gh/google/model-viewer/shared-assets/models/Astronaut.png',
+    ar_model_url: 'https://modelviewer.dev/shared-assets/models/Astronaut.glb',
+    ar_poster_url: 'https://modelviewer.dev/shared-assets/models/Astronaut.webp',
     created_at: new Date().toISOString(),
   }
 ];
