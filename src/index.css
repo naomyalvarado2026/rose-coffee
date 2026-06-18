@@ -65,6 +65,10 @@
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 100px; /* Offset for fixed sticky navigation header */
+  }
   html, body {
     @apply font-sans bg-base text-black;
   }
