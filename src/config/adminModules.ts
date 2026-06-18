@@ -10,7 +10,8 @@ import {
   FileText,
   Layers,
   LineChart,
-  Settings
+  Settings,
+  Palette
 } from 'lucide-react';
 
 export interface AdminModule {
@@ -84,6 +85,13 @@ export const ADMIN_MODULES: AdminModule[] = [
     name: 'Gestor AR 3D',
     path: '/admin/ar',
     icon: Layers
+  },
+  {
+    id: 'logos',
+    label: 'Gestor de Logos',
+    name: 'Gestor de Logos',
+    path: '/admin/logos',
+    icon: Palette
   },
   {
     id: 'analytics',

@@ -17,9 +17,31 @@ import {
   ChefHat, 
   FileText, 
   ShieldCheck, 
-  ExternalLink 
+  ExternalLink,
+  Globe,
+  Palette,
+  Lock,
+  Code,
+  LineChart,
+  Settings
 } from 'lucide-react';
 import logoRose from '../../assets/logo rose coffee/1 rose coffee.svg';
+
+const GithubIcon = ({ size = 16 }: { size?: number }) => (
+  <svg 
+    width={size} 
+    height={size} 
+    viewBox="0 0 24 24" 
+    fill="none" 
+    stroke="currentColor" 
+    strokeWidth="2" 
+    strokeLinecap="round" 
+    strokeLinejoin="round"
+  >
+    <path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.403 5.403 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4" />
+    <path d="M9 18c-4.51 2-5-2-7-2" />
+  </svg>
+);
 
 export default function ProjectPresentation() {
   // Common Framer Motion scroll options
@@ -38,6 +60,8 @@ export default function ProjectPresentation() {
     },
     viewport: { once: true, margin: '-80px' }
   };
+
+
 
   const cardVariants = {
     hidden: { opacity: 0, y: 30 },
@@ -81,7 +105,7 @@ export default function ProjectPresentation() {
             className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md shadow-inner"
           >
             <Presentation size={15} className="text-gold animate-pulse" />
-            <span className="text-[10px] font-black uppercase tracking-widest text-gold">Pitch Deck & Arquitectura</span>
+            <span className="text-[10px] font-black uppercase tracking-widest text-gold">Presentación del Proyecto</span>
           </motion.div>
           
           <motion.h1 
@@ -102,7 +126,7 @@ export default function ProjectPresentation() {
             transition={{ delay: 0.3, duration: 0.8 }}
             className="text-stone-300 text-lg sm:text-xl font-medium max-w-2xl mx-auto"
           >
-            Un proyecto <span className="text-white font-bold">Phygital</span> y <span className="text-white font-bold">Transmedia</span> desarrollado por <span className="text-gold font-bold">Esteban Nicola</span>.
+            Un proyecto <span className="text-white font-bold">Phygital</span> y <span className="text-white font-bold">Transmedia</span> desarrollado por <span className="text-gold font-bold">Naomy Estefanía Alvarado Parrales</span>.
           </motion.p>
           
           <motion.p 
@@ -351,7 +375,7 @@ export default function ProjectPresentation() {
               <span>Back-Office de Negocios</span>
             </div>
             <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-primary">
-              El Sistema Operativo de Rose Coffee
+              Módulos y Herramientas del Panel Admin
             </h2>
             <div className="h-1 w-20 bg-coffee/30 rounded-full mx-auto" />
           </motion.div>
@@ -366,39 +390,57 @@ export default function ProjectPresentation() {
             {[
               { 
                 icon: Package, 
-                title: 'Gestión de Inventario', 
-                desc: 'Control integral de existencias e insumos con alertas de stock mínimo. CRUD unificado para registrar materias primas y productos de cafetería.',
-                detail: 'Conexión a Supabase (Tablas products e inventory_items).'
+                title: '1. Gestión de Inventario', 
+                desc: 'Permite registrar, actualizar y eliminar existencias. Clasifica ítems entre Insumos/Materias Primas (PostgreSQL) y Productos Físicos de la tienda con control estricto de unidades y alertas de stock bajo.',
+                detail: 'CRUD de Existencias e Insumos'
               },
               { 
                 icon: ClipboardList, 
-                title: 'Tablero Kanban de Pedidos', 
-                desc: 'Organización ágil de pedidos en tiempo real. Los estados cambian fluidamente mediante arrastrar y soltar o actualizaciones inmediatas.',
-                detail: 'Transiciones de estados y pasarela de órdenes.'
+                title: '2. Tablero de Pedidos (Kanban)', 
+                desc: 'Consola para organizar las órdenes de compra. Flujo visual interactivo para arrastrar y cambiar estados de pedidos (Pendiente, Preparando, Enviado, Completado) con actualización inmediata en base de datos.',
+                detail: 'Logística de Órdenes en Tiempo Real'
               },
               { 
                 icon: Users, 
-                title: 'CRM de Clientes (Rose Club)', 
-                desc: 'Gestión de clientes de Rose Coffee. Historial de compras integrados, puntos acumulados y segmentación de promociones exclusivas.',
-                detail: 'Políticas de RLS y autenticación federada.'
+                title: '3. Clientes (Rose Club)', 
+                desc: 'Módulo de CRM para ver los perfiles de los usuarios, historial completo de transacciones, puntos acumulados de fidelidad y control de membresía de beneficios.',
+                detail: 'Administración de Clientes & Puntos'
               },
               { 
                 icon: ChefHat, 
-                title: 'Control de Producción', 
-                desc: 'Supervisión de recetas y lotes de panadería. Permite coordinar los tiempos de fermentación de masa madre y los ciclos de horneado.',
-                detail: 'Integración de tiempos y control técnico.'
+                title: '4. Producción Artesanal', 
+                desc: 'Supervisión de lotes de horneado y control de masas de fermentación natural. Permite asegurar la consistencia y calidad de los panes de masa madre y pastelería.',
+                detail: 'Control Técnico de Panificación'
               },
               { 
                 icon: FileText, 
-                title: 'Editor de Contenido (Bloques)', 
-                desc: 'Personalización de páginas web sin necesidad de escribir código. Sistema visual para reordenar banners, textos y ofertas destacadas.',
-                detail: 'Modularidad React con inyección dinámica.'
+                title: '5. Editor de Contenido (Web)', 
+                desc: 'Permite gestionar de forma visual y modular el contenido dinámico de la app pública. Edición de textos del home, banners promocionales y cards informativas sin tocar código.',
+                detail: 'Constructor Modular por Bloques'
               },
               { 
-                icon: Coffee, 
-                title: 'Catálogo de Logos SVG', 
-                desc: 'Visor dinámico de 28 variaciones de logotipos. Incluye un Editor de Colores SVG que reescribe el código XML en tiempo real para descargas.',
-                detail: 'Importación local mediante import.meta.glob.'
+                icon: Palette, 
+                title: '6. Gestor de Logos SVG', 
+                desc: 'Visualización catalogada de las 28 variaciones del logotipo de Rose Coffee. Incorpora un Editor SVG interactivo que permite modificar colores y degradados para descargas directas en tiempo real.',
+                detail: 'Editor de Logotipos Predefinidos'
+              },
+              { 
+                icon: Layers, 
+                title: '7. Gestor AR 3D', 
+                desc: 'Consola para subir archivos GLB, enlazar texturas y configurar la escala física, rotaciones iniciales y descripciones del Showroom de Realidad Aumentada.',
+                detail: 'Administración de Modelos WebXR'
+              },
+              { 
+                icon: LineChart, 
+                title: '8. Analítica de Ventas', 
+                desc: 'Muestra gráficos históricos de conversión, ingresos totales, balance de pedidos recibidos versus ventas reales y listado de insumos críticos con stock bajo mínimos.',
+                detail: 'Métricas y KPIs Ejecutivos'
+              },
+              { 
+                icon: Settings, 
+                title: '9. Configuración del Sistema', 
+                desc: 'Ajustes globales de la tienda, pasarelas de pago admitidas, costes base de envío a provincias y variables operativas del backend de Supabase.',
+                detail: 'Parámetros del Sistema'
               }
             ].map((module, idx) => (
               <motion.div 
@@ -425,7 +467,205 @@ export default function ProjectPresentation() {
         </div>
       </section>
 
-      {/* ---------------- SECTION 5: SHOWROOM AR 3D ---------------- */}
+      {/* ---------------- SECTION 5: DIAGRAMA DE FLUJO Y COMUNICACIÓN (NUEVA) ---------------- */}
+      <section className="relative min-h-screen flex flex-col justify-center px-4 md:px-8 py-20 bg-primary text-[#faf2e7] overflow-hidden">
+        {/* Glow ambient effects */}
+        <div className="absolute top-1/4 right-1/4 w-[35vw] h-[35vw] bg-gold/5 rounded-full blur-[130px] pointer-events-none" />
+        
+        <div className="max-w-5xl mx-auto w-full space-y-12 relative z-10">
+          
+          <motion.div {...fadeInUp} className="text-center space-y-3">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 text-gold text-[9px] font-bold uppercase tracking-widest border border-white/10">
+              <Code size={10} />
+              <span>Flujo de Datos e Integraciones</span>
+            </div>
+            <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-white">
+              Arquitectura de Comunicaciones
+            </h2>
+            <div className="h-1 w-20 bg-gold/50 rounded-full mx-auto" />
+            <p className="text-xs text-stone-350 max-w-xl mx-auto">
+              Visualización interactiva de cómo fluye el código, los datos y la autenticación entre las distintas plataformas conectadas a Rose Coffee.
+            </p>
+          </motion.div>
+
+          {/* Animated Communications Flow Container */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch pt-4">
+            
+            {/* Left Column: Interactive Cards for integrations */}
+            <motion.div 
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true }}
+              className="lg:col-span-7 space-y-4"
+            >
+              {[
+                {
+                  title: 'Antigravity (IA de Desarrollo)',
+                  desc: 'Orquestador inteligente. Escribe código modular, resuelve errores de compilación estricta y automatiza despliegues git.',
+                  flow: 'Localhost ➔ GitHub Remote',
+                  icon: Cpu,
+                  border: 'border-cyan-500/30 bg-cyan-950/10'
+                },
+                {
+                  title: 'GitHub (Versionamiento & CI/CD)',
+                  desc: 'Repositorio remoto que hospeda el código fuente y automatiza la compilación del bundle Vite para publicarlo en GitHub Pages.',
+                  flow: 'GitHub Actions ➔ GitHub Pages (Público)',
+                  icon: GithubIcon,
+                  border: 'border-slate-500/30 bg-slate-900/20'
+                },
+                {
+                  title: 'Supabase (Base de Datos & Auth RLS)',
+                  desc: 'Motor PostgreSQL relacional en la nube. Gestiona las tablas de inventario, pedidos y usuarios bajo directivas estrictas de Row Level Security.',
+                  flow: 'PostgreSQL Rest API ➔ Frontend Cliente',
+                  icon: Database,
+                  border: 'border-emerald-500/30 bg-emerald-950/10'
+                },
+                {
+                  title: 'Cloudinary (Optimización de Imagenes)',
+                  desc: 'Servidor multimedia que recorta, escala y optimiza imágenes pesadas del catálogo de panes y pastelería en milisegundos mediante CDN.',
+                  flow: 'Cloudinary CDN ➔ Client Browser',
+                  icon: Globe,
+                  border: 'border-amber-500/30 bg-amber-950/10'
+                },
+                {
+                  title: 'Google OAuth API (SSO Autenticación)',
+                  desc: 'Servicio federado de Google que valida la firma digital de Naomy para autorizar su ingreso seguro al panel administrador.',
+                  flow: 'OAuth Credentials ➔ useAuthStore Zustand',
+                  icon: Lock,
+                  border: 'border-purple-500/30 bg-purple-950/10'
+                }
+              ].map((item, idx) => (
+                <motion.div 
+                  key={idx}
+                  variants={cardVariantsDark}
+                  whileHover="hover"
+                  className={`p-4 rounded-2xl border backdrop-blur-md flex gap-4 items-start ${item.border}`}
+                >
+                  <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-gold shrink-0 mt-0.5">
+                    <item.icon size={16} />
+                  </div>
+                  <div className="space-y-1">
+                    <h4 className="font-extrabold text-sm text-white">{item.title}</h4>
+                    <p className="text-stone-300 text-xs leading-relaxed">{item.desc}</p>
+                    <div className="flex items-center gap-1.5 pt-1 text-[9px] font-black uppercase text-gold">
+                      <span>Flujo:</span>
+                      <span className="text-white">{item.flow}</span>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+
+            {/* Right Column: Visual Flow Diagram Animation */}
+            <motion.div 
+              {...fadeInUp}
+              className="lg:col-span-5 bg-slate-950/50 border border-white/10 rounded-3xl p-6 flex flex-col justify-between relative overflow-hidden shadow-2xl backdrop-blur-md"
+            >
+              {/* Pulsing glow background */}
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-gold/10 rounded-full blur-[80px] pointer-events-none" />
+              
+              <div className="space-y-4">
+                <h4 className="text-xs font-black uppercase tracking-widest text-gold text-center">Simulador de Transacciones</h4>
+                
+                {/* Visual grid connecting nodes with animation */}
+                <div className="relative h-80 rounded-2xl border border-white/5 bg-slate-950/80 p-4 flex flex-col justify-between items-center z-10">
+                  
+                  {/* Top Node: Antigravity */}
+                  <div className="flex flex-col items-center">
+                    <div className="px-3 py-1 rounded-lg bg-cyan-500/10 border border-cyan-500/30 text-cyan-400 text-[9px] font-black uppercase tracking-widest flex items-center gap-1.5 animate-pulse">
+                      <Cpu size={10} />
+                      <span>Antigravity AI</span>
+                    </div>
+                  </div>
+
+                  {/* Mid Row: GitHub and Google Auth */}
+                  <div className="w-full flex justify-between px-2">
+                    <div className="px-3 py-1 rounded-lg bg-purple-500/10 border border-purple-500/30 text-purple-400 text-[9px] font-black uppercase tracking-widest flex items-center gap-1.5">
+                      <Lock size={10} />
+                      <span>Google OAuth</span>
+                    </div>
+
+                    <div className="px-3 py-1 rounded-lg bg-slate-500/10 border border-slate-500/30 text-slate-350 text-[9px] font-black uppercase tracking-widest flex items-center gap-1.5">
+                      <GithubIcon size={10} />
+                      <span>GitHub</span>
+                    </div>
+                  </div>
+
+                  {/* Center Node: Client Browser (Vite Page) */}
+                  <div className="relative flex flex-col items-center">
+                    {/* Pulsing indicator */}
+                    <div className="absolute -inset-1 rounded-xl bg-gold/25 blur-[4px] animate-pulse" />
+                    <div className="relative px-4 py-1.5 rounded-xl bg-slate-900 border-2 border-gold text-gold text-[10px] font-black uppercase tracking-widest flex flex-col items-center gap-0.5">
+                      <span>Navegador Web</span>
+                      <span className="text-[8px] text-stone-400 lowercase font-medium">rose-coffee/admin</span>
+                    </div>
+                  </div>
+
+                  {/* Mid Row 2: Supabase and Cloudinary */}
+                  <div className="w-full flex justify-between px-2">
+                    <div className="px-3 py-1 rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-[9px] font-black uppercase tracking-widest flex items-center gap-1.5">
+                      <Database size={10} />
+                      <span>Supabase</span>
+                    </div>
+
+                    <div className="px-3 py-1 rounded-lg bg-amber-500/10 border border-amber-500/30 text-amber-400 text-[9px] font-black uppercase tracking-widest flex items-center gap-1.5">
+                      <Globe size={10} />
+                      <span>Cloudinary</span>
+                    </div>
+                  </div>
+
+                  {/* Connecting Flow Particles */}
+                  {/* Particle Antigravity to GitHub */}
+                  <motion.div 
+                    animate={{ y: [0, 45], x: [0, 90], opacity: [0, 1, 1, 0] }}
+                    transition={{ repeat: Infinity, duration: 3, ease: 'linear' }}
+                    className="absolute top-8 left-1/2 w-1.5 h-1.5 rounded-full bg-cyan-400 shadow-md"
+                  />
+
+                  {/* Particle GitHub to Browser */}
+                  <motion.div 
+                    animate={{ y: [50, 125], x: [100, 0], opacity: [0, 1, 1, 0] }}
+                    transition={{ repeat: Infinity, duration: 4, ease: 'linear', delay: 1 }}
+                    className="absolute top-8 right-8 w-1.5 h-1.5 rounded-full bg-white shadow-md"
+                  />
+
+                  {/* Particle Browser to Supabase */}
+                  <motion.div 
+                    animate={{ y: [130, 220], x: [0, -90], opacity: [0, 1, 1, 0] }}
+                    transition={{ repeat: Infinity, duration: 3.5, ease: 'linear' }}
+                    className="absolute top-1/2 left-1/2 w-1.5 h-1.5 rounded-full bg-gold shadow-md"
+                  />
+
+                  {/* Particle Cloudinary to Browser */}
+                  <motion.div 
+                    animate={{ y: [220, 140], x: [90, 0], opacity: [0, 1, 1, 0] }}
+                    transition={{ repeat: Infinity, duration: 3, ease: 'linear', delay: 0.5 }}
+                    className="absolute top-1/2 right-1/2 w-1.5 h-1.5 rounded-full bg-amber-400 shadow-md"
+                  />
+
+                  {/* Particle Google OAuth to Browser */}
+                  <motion.div 
+                    animate={{ y: [50, 125], x: [-100, 0], opacity: [0, 1, 1, 0] }}
+                    transition={{ repeat: Infinity, duration: 3, ease: 'linear', delay: 1.5 }}
+                    className="absolute top-8 left-8 w-1.5 h-1.5 rounded-full bg-purple-400 shadow-md"
+                  />
+
+                </div>
+              </div>
+
+              <div className="border-t border-white/5 pt-4 text-center mt-4">
+                <p className="text-[10px] text-stone-400">
+                  La comunicación segura por HTTPS y políticas CORS previene fugas de información y accesos no autorizados.
+                </p>
+              </div>
+            </motion.div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ---------------- SECTION 6: SHOWROOM AR 3D ---------------- */}
       <section className="relative min-h-screen flex flex-col justify-center px-4 md:px-8 py-20 bg-primary text-[#faf2e7] overflow-hidden">
         {/* Glowing orbs */}
         <div className="absolute top-1/4 right-1/4 w-[35vw] h-[35vw] bg-coffee/20 rounded-full blur-[140px] pointer-events-none" />
@@ -510,7 +750,7 @@ export default function ProjectPresentation() {
         </div>
       </section>
 
-      {/* ---------------- SECTION 6: ARQUITECTURA TÉCNICA (BENTO BOX) ---------------- */}
+      {/* ---------------- SECTION 7: ARQUITECTURA TÉCNICA (BENTO BOX) ---------------- */}
       <section className="relative min-h-screen flex flex-col justify-center px-4 md:px-8 py-20 bg-[#faf2e7] text-primary overflow-hidden">
         {/* Decorative elements */}
         <div className="absolute top-1/3 right-1/4 w-[30vw] h-[30vw] bg-coffee/5 rounded-full blur-[100px] pointer-events-none" />
@@ -542,7 +782,7 @@ export default function ProjectPresentation() {
                 </div>
                 <h3 className="text-2xl font-black text-primary leading-tight">Front-End Moderno</h3>
                 <p className="text-stone-600 text-xs leading-relaxed">
-                  Construido con <strong className="text-primary">React 19</strong> y compilado con la velocidad extrema de <strong className="text-primary">Vite</strong>. La interfaz visual utiliza <strong className="text-primary">Tailwind CSS v4</strong> con un enfoque CSS-first de tokens nativos, complementado con las animaciones premium y dinámicas de <strong className="text-primary">Framer Motion</strong>.
+                  Construido con <strong className="text-primary">React 19</strong> y empaquetado con la velocidad extrema de <strong className="text-primary">Vite</strong>. La interfaz visual utiliza <strong className="text-primary">Tailwind CSS v4</strong> con un enfoque CSS-first de tokens nativos, complementado con las animaciones premium y dinámicas de <strong className="text-primary">Framer Motion</strong>.
                 </p>
                 <p className="text-stone-600 text-xs leading-relaxed">
                   La gestión de estado se centraliza utilizando <strong className="text-primary">Zustand</strong>, permitiendo modularidad extrema en el flujo del e-commerce y el carrito de compras sin sobrecargas de rendimiento.
