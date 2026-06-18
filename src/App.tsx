@@ -46,7 +46,7 @@ function App() {
     <>
       <Toaster richColors position="top-right" />
       <ConfirmDialog />
-      <BrowserRouter>
+      <BrowserRouter basename={import.meta.env.BASE_URL === '/' ? undefined : import.meta.env.BASE_URL}>
         <ScrollToTop />
         <Routes>
           {/* Public Routes */}

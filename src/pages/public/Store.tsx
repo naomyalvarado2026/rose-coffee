@@ -7,6 +7,7 @@ import OptimizedMedia from '../../components/common/OptimizedMedia';
 import { motion, AnimatePresence } from 'framer-motion';
 import ARViewer from '../../components/public/ARViewer';
 import SEOHead from '../../components/common/SEOHead';
+import coffeeRoastingImg from '/coffee_roasting_process.png';
 
 const MOCK_PRODUCTS: Product[] = [
   {
@@ -194,7 +195,7 @@ const Store = () => {
       <div id="store_hero" className="rounded-3xl p-8 md:p-12 text-white mb-10 shadow-xl relative overflow-hidden bg-primary min-h-[250px] flex items-center">
         <div className="absolute inset-0 z-0">
           <img 
-            src={storeHeroData?.cover_image_url || "/coffee_roasting_process.png"} 
+            src={storeHeroData?.cover_image_url || coffeeRoastingImg} 
             alt="Proceso de Tostado Rose Coffee" 
             className="w-full h-full object-cover opacity-35"
           />

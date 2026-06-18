@@ -19,6 +19,7 @@ import OriginSection from '../../components/public/OriginSection';
 import RoseClubSection from '../../components/public/RoseClubSection';
 import SubscriptionSection from '../../components/public/SubscriptionSection';
 import SEOHead from '../../components/common/SEOHead';
+import heroImgFallback from '/hero_coffee_sourdough.png';
 
 const MOCK_PRODUCTS: Partial<Product>[] = [
   {
@@ -195,7 +196,7 @@ const Home = () => {
           >
             <div className="relative w-full max-w-md aspect-square rounded-[36px] overflow-hidden border border-stone-200 shadow-2xl bg-white/50 backdrop-blur-xs p-3 animate-float">
               <img 
-                src={heroSection?.cover_image_url || '/hero_coffee_sourdough.png'} 
+                src={heroSection?.cover_image_url || heroImgFallback} 
                 alt="Rose Coffee Café y Masa Madre" 
                 className="w-full h-full object-cover rounded-[28px]"
                 loading="eager"
