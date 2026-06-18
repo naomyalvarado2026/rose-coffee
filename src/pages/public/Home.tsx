@@ -152,7 +152,7 @@ const Home = () => {
               {heroSection?.title ? '' : ''}
             </h1>
 
-            <p className="text-stone-600 text-sm md:text-base max-w-xl leading-relaxed font-light tracking-wide">
+            <p className="text-stone-700 text-sm md:text-base max-w-xl leading-relaxed font-normal tracking-wide">
               {heroSection?.subtitle || 'En Rose Coffee cultivamos experiencias únicas. Tostamos granos de especialidad seleccionados de Zaruma y horneamos panes de masa madre de fermentación lenta para brindarte un sabor incomparable.'}
             </p>
 
