@@ -48,10 +48,11 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="relative bg-gradient-to-b from-primary to-[#0d1e4e] text-white overflow-hidden border-t-4 border-gold/75 mt-auto">
-      {/* Decorative background light rays */}
-      <div className="absolute top-0 left-0 w-80 h-80 bg-blue-900/20 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2 pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-96 h-96 bg-gold/5 rounded-full blur-3xl translate-x-1/3 translate-y-1/3 pointer-events-none" />
+    <footer className="relative bg-gradient-to-b from-[#021a54] to-[#010c27] text-white overflow-hidden border-t-4 border-gold/75 mt-auto">
+      {/* Decorative background light rays & breathing ambient orbs */}
+      <div className="absolute top-0 left-0 w-96 h-96 bg-blue-800/20 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2 pointer-events-none animate-pulse" style={{ animationDuration: '8s' }} />
+      <div className="absolute bottom-0 right-0 w-[450px] h-[450px] bg-gold/5 rounded-full blur-[130px] translate-x-1/3 translate-y-1/3 pointer-events-none animate-pulse" style={{ animationDuration: '12s' }} />
+      <div className="absolute top-1/2 left-2/3 w-[300px] h-[300px] bg-coffee/5 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 md:px-8 pt-16 pb-8 relative z-10">
 
@@ -62,7 +63,15 @@ const Footer = () => {
           <div className="space-y-6">
             <Link to="/" className="inline-block group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-lg p-1">
               <div className="flex items-center gap-3">
-                <img src={logoRose} alt="Rose Coffee Logo" className="h-12 w-auto" />
+                <div className="relative">
+                  <img src={logoRose} alt="Rose Coffee Logo" className="h-12 w-auto transition-transform duration-500 group-hover:scale-105 group-hover:rotate-6" />
+                  {/* Subtle steam rising animation */}
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 flex gap-1 pointer-events-none opacity-60">
+                    <div className="w-0.5 h-3 bg-gold/45 rounded-full blur-[0.5px] animate-steam" style={{ animationDelay: '0.2s' }} />
+                    <div className="w-0.5 h-4.5 bg-gold/55 rounded-full blur-[0.5px] animate-steam" />
+                    <div className="w-0.5 h-2.5 bg-gold/30 rounded-full blur-[0.5px] animate-steam" style={{ animationDelay: '0.5s' }} />
+                  </div>
+                </div>
                 <div className="text-left">
                   <span className="font-sans text-2xl font-bold text-white tracking-tight group-hover:text-gold transition-colors block leading-tight">
                     Rose Coffee
@@ -74,7 +83,7 @@ const Footer = () => {
               </div>
             </Link>
 
-            <p className="text-xs text-gray-300 leading-relaxed max-w-sm italic">
+            <p className="text-xs text-gray-350 leading-relaxed max-w-sm italic">
               "La combinación perfecta entre el mejor grano de café de especialidad y la fermentación natural del pan de masa madre."
             </p>
 
@@ -86,7 +95,7 @@ const Footer = () => {
                   href={social.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  whileHover={{ scale: 1.15, rotate: 5 }}
+                  whileHover={{ scale: 1.18, rotate: 6, y: -2 }}
                   whileTap={{ scale: 0.95 }}
                   className={`w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-300 transition-all duration-300 shadow-sm ${social.color}`}
                   title={social.name}

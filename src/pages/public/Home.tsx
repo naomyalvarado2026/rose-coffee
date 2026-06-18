@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom';
 import { 
   ArrowRight, Sparkles, Coffee, ShoppingBag, Layers, Clock, MapPin, Heart, Star, Sparkle
 } from 'lucide-react';
+import FloatingElements from '../../components/public/FloatingElements';
+
 import { supabase } from '../../config/supabase';
 import type { Product } from '../../types';
 import { motion } from 'framer-motion';
@@ -124,6 +126,9 @@ const Home = () => {
       
       {/* HERO SECTION - Split Layout */}
       <section id="hero" className="relative min-h-[85vh] flex items-center justify-center bg-base text-black overflow-hidden py-16 md:py-24">
+        {/* Floating animated ambient coffee elements */}
+        <FloatingElements />
+
         {/* Decorative Background Patterns / Warm Orbs */}
         <div className="absolute inset-0 z-0">
           <div className="absolute top-1/4 left-1/4 w-[350px] h-[350px] rounded-full bg-gold/10 blur-[120px] pointer-events-none" />
@@ -149,10 +154,9 @@ const Home = () => {
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-coffee to-amber-700">
                 {heroSection?.title ? '' : 'Masa Madre'}
               </span>
-              {heroSection?.title ? '' : ''}
             </h1>
 
-            <p className="text-stone-700 text-sm md:text-base max-w-xl leading-relaxed font-normal tracking-wide">
+            <p className="text-stone-850 text-sm md:text-base max-w-xl leading-relaxed font-medium tracking-wide">
               {heroSection?.subtitle || 'En Rose Coffee cultivamos experiencias únicas. Tostamos granos de especialidad seleccionados de Zaruma y horneamos panes de masa madre de fermentación lenta para brindarte un sabor incomparable.'}
             </p>
 
@@ -192,7 +196,7 @@ const Home = () => {
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="lg:col-span-5 relative flex justify-center"
+            className="lg:col-span-5 relative flex justify-center lg:mt-16"
           >
             <div className="relative w-full max-w-md aspect-square rounded-[36px] overflow-hidden border border-stone-200 shadow-2xl bg-white/50 backdrop-blur-xs p-3 animate-float">
               <img 

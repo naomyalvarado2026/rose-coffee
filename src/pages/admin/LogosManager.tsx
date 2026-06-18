@@ -35,6 +35,8 @@ interface LogoData {
   storage_path: string;
   created_at: string;
   ministries: { name: string } | null;
+  isLocal?: boolean;
+  name?: string;
 }
 
 export default function LogosManager() {
@@ -89,7 +91,7 @@ export default function LogosManager() {
     setEditorTab('solid');
     
     try {
-      const publicUrl = getPublicUrl(logo.storage_path);
+      const publicUrl = logo.isLocal ? logo.storage_path : getPublicUrl(logo.storage_path);
       const response = await fetch(publicUrl);
       if (!response.ok) throw new Error('No se pudo descargar el archivo SVG');
       const text = await response.text();
@@ -475,12 +477,38 @@ export default function LogosManager() {
   const fetchLogos = async () => {
     setLoading(true);
     try {
+      // 1. Fetch from database
       const { data, error } = await supabase
         .from('logos')
         .select('*, ministries(name)')
         .order('created_at', { ascending: false });
       if (error) throw error;
-      setLogos(data as LogoData[] || []);
+      const dbLogos = data as LogoData[] || [];
+
+      // 2. Discover local SVGs from local assets folder dynamically
+      const localModules = import.meta.glob('../../assets/logo rose coffee/*.svg', { eager: true, as: 'url' });
+      const localLogosList = Object.entries(localModules).map(([filePath, url]: any, index) => {
+        const filename = filePath.split('/').pop() || '';
+        // Distribute variants and color modes for display diversity
+        const num = parseInt(filename) || index;
+        const variantsList: ('cuadrado' | 'circular' | 'vertical' | 'horizontal')[] = ['cuadrado', 'circular', 'vertical', 'horizontal'];
+        const modesList: ('color' | 'blanco_y_negro' | 'blanco_solido' | 'negro_solido')[] = ['color', 'blanco_y_negro', 'blanco_solido', 'negro_solido'];
+        
+        return {
+          id: `local-${filename}`,
+          ministry_id: null,
+          variant: variantsList[num % 4],
+          color_mode: modesList[num % 4],
+          format: 'svg',
+          storage_path: url, // resolved static URL
+          created_at: new Date(2026, 5, 18).toISOString(),
+          ministries: null,
+          isLocal: true,
+          name: filename.replace('.svg', '').replace(/_/g, ' ')
+        };
+      });
+
+      setLogos([...localLogosList, ...dbLogos]);
     } catch (err: any) {
       console.error('Error fetching logos:', err);
       toast.error('No se pudieron cargar los logos: ' + err.message);
@@ -792,7 +820,7 @@ export default function LogosManager() {
           ) : filteredLogos.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
               {filteredLogos.map((logo) => {
-                const publicUrl = getPublicUrl(logo.storage_path);
+                const publicUrl = logo.isLocal ? logo.storage_path : getPublicUrl(logo.storage_path);
                 const isRenderable = ['png', 'svg', 'webp', 'jpg', 'jpeg'].includes(logo.format.toLowerCase());
                 
                 // Color mode text display mapping
@@ -875,11 +903,18 @@ export default function LogosManager() {
                     <div className="p-4 flex-grow flex flex-col justify-between space-y-2">
                       <div>
                         {/* Title / Ministry Owner */}
-                        <div className="flex items-center gap-1.5 mb-1.5">
-                          <FolderHeart size={14} className="text-gold flex-shrink-0" />
-                          <span className="font-sans font-bold text-gray-800 text-sm truncate">
-                            {logo.ministries?.name || 'Marca Principal'}
-                          </span>
+                        <div className="flex items-center justify-between gap-1.5 mb-1.5">
+                          <div className="flex items-center gap-1.5 truncate">
+                            <FolderHeart size={14} className="text-gold flex-shrink-0" />
+                            <span className="font-sans font-bold text-gray-800 text-sm truncate">
+                              {logo.isLocal ? logo.name : (logo.ministries?.name || 'Marca Principal')}
+                            </span>
+                          </div>
+                          {logo.isLocal && (
+                            <span className="px-1.5 py-0.5 rounded-md text-[8px] font-extrabold uppercase bg-emerald-50 text-emerald-700 border border-emerald-100 shrink-0">
+                              Predefinido
+                            </span>
+                          )}
                         </div>
 
                         {/* Badges Grid */}
@@ -898,19 +933,25 @@ export default function LogosManager() {
 
                       {/* Card Footer Delete Button */}
                       <div className="pt-2 border-t border-gray-50 flex justify-end">
-                        <button
-                          onClick={() => handleDelete(logo)}
-                          disabled={deletingId === logo.id}
-                          className="text-gray-400 hover:text-accent-red p-1.5 rounded-lg hover:bg-red-50 transition-colors flex items-center gap-1 text-xs font-medium cursor-pointer"
-                          title="Eliminar Logo"
-                        >
-                          {deletingId === logo.id ? (
-                            <Loader2 className="animate-spin text-red-500" size={14} />
-                          ) : (
-                            <Trash2 size={14} />
-                          )}
-                          <span>Eliminar</span>
-                        </button>
+                        {!logo.isLocal ? (
+                          <button
+                            onClick={() => handleDelete(logo)}
+                            disabled={deletingId === logo.id}
+                            className="text-gray-400 hover:text-accent-red p-1.5 rounded-lg hover:bg-red-50 transition-colors flex items-center gap-1 text-xs font-medium cursor-pointer"
+                            title="Eliminar Logo"
+                          >
+                            {deletingId === logo.id ? (
+                              <Loader2 className="animate-spin text-red-500" size={14} />
+                            ) : (
+                              <Trash2 size={14} />
+                            )}
+                            <span>Eliminar</span>
+                          </button>
+                        ) : (
+                          <span className="text-[10px] text-gray-400 font-medium select-none py-1.5">
+                            Sólo Lectura
+                          </span>
+                        )}
                       </div>
                     </div>
                   </div>

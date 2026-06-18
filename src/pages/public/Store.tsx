@@ -397,15 +397,22 @@ const Store = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-slate-950/90 flex items-center justify-center p-4 sm:p-6"
+            className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4 sm:p-6"
           >
             <motion.div
-              initial={{ scale: 0.95, y: 15 }}
+              initial={{ scale: 0.93, y: 25 }}
               animate={{ scale: 1, y: 0 }}
-              exit={{ scale: 0.95, y: 15 }}
-              className="bg-slate-900 border border-slate-800 w-full max-w-4xl h-[80vh] min-h-[500px] rounded-3xl overflow-hidden shadow-2xl relative flex flex-col"
+              exit={{ scale: 0.93, y: 25 }}
+              transition={{ type: "spring", damping: 25, stiffness: 180 }}
+              className="bg-slate-900/90 border border-slate-800/80 w-full max-w-4xl h-[80vh] min-h-[500px] rounded-3xl overflow-hidden shadow-[0_0_50px_rgba(107,58,14,0.3)] relative flex flex-col backdrop-blur-xs"
             >
-              <div className="flex-1">
+              {/* Premium Glow Orbs behind the 3D model */}
+              <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+                <div className="absolute top-1/4 left-1/4 w-[250px] h-[250px] rounded-full bg-coffee/15 blur-[100px]" />
+                <div className="absolute bottom-1/4 right-1/4 w-[250px] h-[250px] rounded-full bg-gold/10 blur-[100px]" />
+              </div>
+
+              <div className="flex-1 relative z-10">
                 <ARViewer
                   activeProduct={selectedProduct}
                   products={products.filter(p => arProductIds.has(p.id) || !!p.ar_model_url)}
