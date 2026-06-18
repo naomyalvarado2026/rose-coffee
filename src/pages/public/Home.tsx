@@ -14,12 +14,14 @@ import {
   StaggerContainer, 
   StaggerItem 
 } from '../../components/animations/MotionWrappers';
+import MagneticButton from '../../components/animations/MagneticButton';
+import MarqueeText from '../../components/public/MarqueeText';
+import CoffeeSubscription from '../../components/public/CoffeeSubscription';
 import SourdoughBenefits from '../../components/public/SourdoughBenefits';
 import TestimonialsSection from '../../components/public/TestimonialsSection';
 import CoffeeJourneySection from '../../components/public/CoffeeJourneySection';
 import OriginSection from '../../components/public/OriginSection';
 import RoseClubSection from '../../components/public/RoseClubSection';
-import SubscriptionSection from '../../components/public/SubscriptionSection';
 import SEOHead from '../../components/common/SEOHead';
 import heroImgFallback from '/hero_coffee_sourdough.png';
 
@@ -161,7 +163,7 @@ const Home = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 pt-4 w-full sm:w-auto">
-              <ScaleHover>
+              <MagneticButton>
                 <Link
                   to="/tienda"
                   className="w-full sm:w-auto px-8 py-3.5 bg-coffee hover:bg-coffee-dark text-[#faf2e7] rounded-2xl font-bold shadow-lg shadow-coffee/15 transition-all duration-300 ease-in-out text-xs flex items-center justify-center gap-1.5"
@@ -169,8 +171,8 @@ const Home = () => {
                   <ShoppingBag size={14} />
                   Explorar Tienda
                 </Link>
-              </ScaleHover>
-              <ScaleHover>
+              </MagneticButton>
+              <MagneticButton>
                 <Link
                   to="/ar"
                   className="w-full sm:w-auto px-8 py-3.5 bg-white hover:bg-coffee/5 text-coffee border border-coffee/30 rounded-2xl font-bold transition-all duration-300 ease-in-out text-xs flex items-center justify-center gap-1.5 shadow-2xs"
@@ -178,8 +180,8 @@ const Home = () => {
                   <Layers size={14} className="text-coffee" />
                   Visualizar AR 3D
                 </Link>
-              </ScaleHover>
-              <ScaleHover>
+              </MagneticButton>
+              <MagneticButton>
                 <a
                   href="#rose-club"
                   className="w-full sm:w-auto px-8 py-3.5 bg-white hover:bg-gold/5 text-gold border border-gold/40 rounded-2xl font-bold transition-all duration-300 ease-in-out text-xs flex items-center justify-center gap-1.5 shadow-2xs"
@@ -187,7 +189,7 @@ const Home = () => {
                   <Star size={14} className="fill-gold stroke-none" />
                   Rose Club
                 </a>
-              </ScaleHover>
+              </MagneticButton>
             </div>
           </motion.div>
 
@@ -216,6 +218,9 @@ const Home = () => {
 
         </div>
       </section>
+
+      {/* INFINITE MARQUEE BANNER */}
+      <MarqueeText />
 
       {/* FOUR PILLARS / ATTRIBUTES */}
       <section id="experience" className="max-w-7xl mx-auto px-6 space-y-12">
@@ -443,7 +448,7 @@ const Home = () => {
       <RoseClubSection />
 
       {/* COFFEE CLUB SUBSCRIPTIONS */}
-      <SubscriptionSection />
+      <CoffeeSubscription />
 
       {/* TESTIMONIALS SECTION */}
       <TestimonialsSection />

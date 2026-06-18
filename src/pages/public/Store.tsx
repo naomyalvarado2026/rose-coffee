@@ -8,6 +8,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import ARViewer from '../../components/public/ARViewer';
 import SEOHead from '../../components/common/SEOHead';
 import { fadeInUp, staggerContainer } from '../../utils/animations';
+import CoffeeSubscription from '../../components/public/CoffeeSubscription';
+import MagneticButton from '../../components/animations/MagneticButton';
 import coffeeRoastingImg from '/coffee_roasting_process.png';
 
 const MOCK_PRODUCTS: Product[] = [
@@ -351,13 +353,15 @@ const Store = () => {
                     )}
                   </div>
                   {arProductIds.has(product.id) && (
-                    <button
-                      onClick={(e) => { e.stopPropagation(); handleOpenAR(product); }}
-                      className="absolute bottom-3 right-3 bg-white/90 backdrop-blur-sm border border-gray-100 text-[#021a54] px-2.5 py-1.5 rounded-lg text-[10px] font-bold shadow-xs z-10 flex items-center gap-1 hover:bg-white transition-colors cursor-pointer"
-                    >
-                      <Eye size={12} />
-                      Ver en 3D
-                    </button>
+                    <MagneticButton className="absolute bottom-3 right-3 z-10">
+                      <button
+                        onClick={(e) => { e.stopPropagation(); handleOpenAR(product); }}
+                        className="bg-white/90 backdrop-blur-sm border border-gray-100 text-[#021a54] px-2.5 py-1.5 rounded-lg text-[10px] font-bold shadow-xs flex items-center gap-1 hover:bg-white transition-colors cursor-pointer"
+                      >
+                        <Eye size={12} />
+                        Ver en 3D
+                      </button>
+                    </MagneticButton>
                   )}
                 </div>
 
@@ -379,12 +383,14 @@ const Store = () => {
                       <span className="text-xl font-bold text-slate-800">${Number(product.price).toFixed(2)}</span>
                     </div>
 
-                    <button
-                      onClick={() => navigate(`/producto/${product.id}`)}
-                      className="px-4 py-2 rounded-xl text-xs font-semibold bg-coffee hover:bg-coffee-dark text-white transition-all shadow-sm flex items-center gap-1.5 focus-visible:ring-2 focus-visible:ring-coffee focus-visible:outline-none"
-                    >
-                      Ver Detalles
-                    </button>
+                    <MagneticButton>
+                      <button
+                        onClick={() => navigate(`/producto/${product.id}`)}
+                        className="px-4 py-2 rounded-xl text-xs font-semibold bg-coffee hover:bg-coffee-dark text-white transition-all shadow-sm flex items-center gap-1.5 focus-visible:ring-2 focus-visible:ring-coffee focus-visible:outline-none"
+                      >
+                        Ver Detalles
+                      </button>
+                    </MagneticButton>
                   </div>
                 </div>
               </motion.div>
@@ -397,7 +403,12 @@ const Store = () => {
           <h3 className="text-lg font-sans font-bold text-slate-800">No se encontraron productos</h3>
           <p className="text-slate-500 text-sm mt-1">Prueba con otra palabra clave o categoría.</p>
         </div>
-      )}
+        )}
+      </div>
+
+      {/* COFFEE CLUB SUBSCRIPTIONS */}
+      <div className="pt-12">
+        <CoffeeSubscription />
       </div>
 
       {/* AR Viewer Modal */}
