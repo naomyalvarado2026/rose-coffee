@@ -1,8 +1,37 @@
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { MessageCircle } from 'lucide-react';
+import { supabase } from '../../config/supabase';
 
 export default function WhatsAppFAB() {
-  const whatsappUrl = 'https://wa.me/593980372113?text=Hola%20Rose%2520Coffee,%2520me%2520gustar%25C3%25ADa%2520realizar%2520una%2520consulta%2520sobre%2520sus%252520caf%2525C3%2525A9s%252520y%252520panader%2525C3%2525ADa.';
+  const [phone, setPhone] = useState('593980372113');
+
+  useEffect(() => {
+    const cachedPhone = localStorage.getItem('rose_coffee_business_phone');
+    if (cachedPhone) {
+      setPhone(cachedPhone.replace('+', ''));
+    }
+
+    const loadPhoneFromSupabase = async () => {
+      try {
+        const { data } = await supabase
+          .from('page_contents')
+          .select('*')
+          .eq('id', 'business_settings')
+          .maybeSingle();
+        if (data?.content_blocks?.[0]?.phone) {
+          const rawPhone = data.content_blocks[0].phone.replace('+', '');
+          setPhone(rawPhone);
+          localStorage.setItem('rose_coffee_business_phone', data.content_blocks[0].phone);
+        }
+      } catch (e) {
+        console.warn('Could not sync FAB WhatsApp phone:', e);
+      }
+    };
+    loadPhoneFromSupabase();
+  }, []);
+
+  const whatsappUrl = `https://wa.me/${phone}?text=Hola%20Rose%20Coffee,%20me%20gustar%C3%ADa%20realizar%20una%20consulta%20sobre%20sus%20caf%C3%A9s%20y%20panader%C3%ADa.`;
 
   return (
     <motion.div

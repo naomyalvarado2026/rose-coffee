@@ -9,25 +9,27 @@ interface Section {
 
 export default function StickyNav() {
   const { pathname } = useLocation();
+  // Normalizar la ruta para soportar subcarpetas (como /rose-coffee/ en GitHub Pages)
+  const cleanPath = pathname.replace(/^\/rose-coffee/, '').replace(/\/$/, '') || '/';
   const [activeSection, setActiveSection] = useState('');
   const [hoveredSection, setHoveredSection] = useState<string | null>(null);
 
   // Determinar secciones según la ruta activa
   let SECTIONS: Section[] = [];
-  if (pathname === '/' || pathname === '/inicio') {
+  if (cleanPath === '/' || cleanPath === '/inicio') {
     SECTIONS = [
       { id: 'hero', label: 'Inicio' },
       { id: 'experience', label: 'Experiencia' },
       { id: 'products', label: 'Favoritos' },
       { id: 'location', label: 'Visítanos' },
     ];
-  } else if (pathname === '/tienda') {
+  } else if (cleanPath === '/tienda') {
     SECTIONS = [
       { id: 'store_hero', label: 'Tienda' },
       { id: 'store_filters', label: 'Filtros' },
       { id: 'store_grid', label: 'Productos' },
     ];
-  } else if (pathname === '/nosotros') {
+  } else if (cleanPath === '/nosotros') {
     SECTIONS = [
       { id: 'about_hero', label: 'Quiénes Somos' },
       { id: 'about_vision_mission', label: 'Misión & Visión' },
@@ -35,7 +37,7 @@ export default function StickyNav() {
       { id: 'about_pillars', label: 'Pilares' },
       { id: 'about_pastoral', label: 'El Equipo' },
     ];
-  } else if (pathname === '/contacto') {
+  } else if (cleanPath === '/contacto') {
     SECTIONS = [
       { id: 'contact_hero', label: 'Contacto' },
       { id: 'contact_info', label: 'Información' },
@@ -47,7 +49,7 @@ export default function StickyNav() {
     if (SECTIONS.length > 0) {
       setActiveSection(SECTIONS[0].id);
     }
-  }, [pathname]);
+  }, [cleanPath]);
 
   useEffect(() => {
     if (SECTIONS.length === 0) return;
@@ -83,7 +85,7 @@ export default function StickyNav() {
         }
       });
     };
-  }, [pathname, SECTIONS.length]);
+  }, [cleanPath, SECTIONS.length]);
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -97,7 +99,7 @@ export default function StickyNav() {
   }
 
   return (
-    <div className="fixed right-6 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-4 bg-white/20 backdrop-blur-md px-3 py-5 rounded-full border border-white/30 shadow-2xl">
+    <div className="fixed right-6 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-5 bg-[#faf2e7]/95 backdrop-blur-md px-3.5 py-7 rounded-full border border-gold/20 shadow-lg select-none">
       {SECTIONS.map((section) => {
         const isActive = activeSection === section.id;
         const isHovered = hoveredSection === section.id;
@@ -131,7 +133,7 @@ export default function StickyNav() {
               {isActive && (
                 <motion.div
                   layoutId="activeRing"
-                  className="absolute inset-0 rounded-full border border-coffee bg-coffee/5 shadow-xs"
+                  className="absolute inset-0 rounded-full border-2 border-[#6b3a0e] bg-transparent shadow-xs"
                   transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                 />
               )}
@@ -139,10 +141,10 @@ export default function StickyNav() {
               {/* Inner Circle Dot */}
               <motion.div
                 animate={{
-                  scale: isActive ? 1.2 : isHovered ? 1.4 : 1,
-                  backgroundColor: isActive ? '#6b3a0e' : '#021a54',
+                  scale: isActive ? 1.1 : isHovered ? 1.3 : 1,
+                  backgroundColor: isActive ? '#6b3a0e' : isHovered ? '#c8922a' : '#021a54',
                 }}
-                className={`w-2 h-2 rounded-full transition-transform duration-300`}
+                className={`w-2.5 h-2.5 rounded-full transition-transform duration-300`}
               />
             </div>
           </div>

@@ -156,7 +156,7 @@
 
 /* Custom futuristic cursor */
 @media (pointer: fine) {
-  body, a, button, select, input, textarea, [role="button"], .cursor-pointer {
+  *, *::before, *::after {
     cursor: none !important;
   }
 }

@@ -1,17 +1,70 @@
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import logoRose from '../../assets/logo rose coffee/1 rose coffee.svg';
 import {
   Mail, Phone, MapPin, Clock, Heart, MessageCircle
 } from 'lucide-react';
+import { supabase } from '../../config/supabase';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
+  const [phone, setPhone] = useState('+593980372113');
+  const [facebookUrl, setFacebookUrl] = useState('https://facebook.com');
+  const [instagramUrl, setInstagramUrl] = useState('https://instagram.com');
+  const [tiktokUrl, setTiktokUrl] = useState('https://tiktok.com');
+
+  useEffect(() => {
+    // Fast local recovery
+    const cachedPhone = localStorage.getItem('rose_coffee_business_phone');
+    if (cachedPhone) setPhone(cachedPhone);
+    const cachedFacebook = localStorage.getItem('rose_coffee_facebook_url');
+    if (cachedFacebook) setFacebookUrl(cachedFacebook);
+    const cachedInstagram = localStorage.getItem('rose_coffee_instagram_url');
+    if (cachedInstagram) setInstagramUrl(cachedInstagram);
+    const cachedTiktok = localStorage.getItem('rose_coffee_tiktok_url');
+    if (cachedTiktok) setTiktokUrl(cachedTiktok);
+
+    // Sync settings from Supabase
+    const syncFooterSettings = async () => {
+      try {
+        const { data } = await supabase
+          .from('page_contents')
+          .select('*')
+          .eq('id', 'business_settings')
+          .maybeSingle();
+
+        if (data && data.content_blocks && data.content_blocks[0]) {
+          const cfg = data.content_blocks[0];
+          if (cfg.phone) {
+            setPhone(cfg.phone);
+            localStorage.setItem('rose_coffee_business_phone', cfg.phone);
+          }
+          if (cfg.facebook_url) {
+            setFacebookUrl(cfg.facebook_url);
+            localStorage.setItem('rose_coffee_facebook_url', cfg.facebook_url);
+          }
+          if (cfg.instagram_url) {
+            setInstagramUrl(cfg.instagram_url);
+            localStorage.setItem('rose_coffee_instagram_url', cfg.instagram_url);
+          }
+          if (cfg.tiktok_url) {
+            setTiktokUrl(cfg.tiktok_url);
+            localStorage.setItem('rose_coffee_tiktok_url', cfg.tiktok_url);
+          }
+        }
+      } catch (e) {
+        console.warn('Could not sync Footer settings:', e);
+      }
+    };
+    syncFooterSettings();
+  }, []);
+
   const socialLinks = [
     {
       name: 'Facebook',
-      url: 'https://facebook.com',
+      url: facebookUrl,
       iconRenderer: () => (
         <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
           <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z" />
@@ -21,7 +74,7 @@ const Footer = () => {
     },
     {
       name: 'Instagram',
-      url: 'https://instagram.com',
+      url: instagramUrl,
       iconRenderer: () => (
         <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
           <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
@@ -32,8 +85,18 @@ const Footer = () => {
       color: 'hover:bg-coffee hover:text-white hover:border-coffee'
     },
     {
+      name: 'TikTok',
+      url: tiktokUrl,
+      iconRenderer: () => (
+        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.86-.74-3.94-1.74-.22-.2-.43-.4-.61-.62-.05 1.91-.02 3.83-.04 5.74-.03 1.94-.38 3.93-1.47 5.54-1.39 2.05-3.87 3.23-6.32 3.07-2.8-.18-5.41-2.12-6.08-4.88-.8-3.32 1.05-6.99 4.31-7.79 1.15-.28 2.38-.21 3.5.17v4.14c-.95-.34-2.03-.35-2.93.13-.97.52-1.57 1.6-1.54 2.7.02 1.39 1.18 2.58 2.57 2.54 1.34-.04 2.44-1.14 2.45-2.48.02-4.13.01-8.26.02-12.39z" />
+        </svg>
+      ),
+      color: 'hover:bg-black hover:text-white hover:border-black'
+    },
+    {
       name: 'WhatsApp',
-      url: 'https://wa.me/593980372113',
+      url: `https://wa.me/${phone.replace('+', '')}`,
       iconRenderer: () => <MessageCircle size={16} />,
       color: 'hover:bg-emerald-600 hover:text-white hover:border-emerald-600'
     }
@@ -253,12 +316,12 @@ const Footer = () => {
                   <Phone size={16} className="text-gold shrink-0" />
                 </motion.div>
                 <motion.a 
-                  href="tel:+593980372113" 
+                  href={`tel:${phone}`} 
                   variants={{ hover: { x: 3, color: '#ffffff' } }}
                   transition={{ type: 'spring', stiffness: 300, damping: 15 }}
                   className="transition-colors"
                 >
-                  +593 98 037 2113
+                  {phone}
                 </motion.a>
               </motion.div>
 

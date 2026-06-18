@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 import { staggerContainer, fadeInUp } from '../../utils/animations';
 import SEOHead from '../../components/common/SEOHead';
 import OptimizedMedia from '../../components/common/OptimizedMedia';
+import FloatingElements from '../../components/public/FloatingElements';
 
 const DEFAULT_CONTACT_SECTIONS = [
   { 
@@ -26,7 +27,22 @@ const Contact = () => {
     message: '',
   });
 
+  const [phone, setPhone] = useState('+593 98 765 4321');
+  const [facebookUrl, setFacebookUrl] = useState('https://facebook.com');
+  const [instagramUrl, setInstagramUrl] = useState('https://instagram.com');
+  const [tiktokUrl, setTiktokUrl] = useState('https://tiktok.com');
+
   useEffect(() => {
+    // Fast cache recovery
+    const cachedPhone = localStorage.getItem('rose_coffee_business_phone');
+    if (cachedPhone) setPhone(cachedPhone);
+    const cachedFacebook = localStorage.getItem('rose_coffee_facebook_url');
+    if (cachedFacebook) setFacebookUrl(cachedFacebook);
+    const cachedInstagram = localStorage.getItem('rose_coffee_instagram_url');
+    if (cachedInstagram) setInstagramUrl(cachedInstagram);
+    const cachedTiktok = localStorage.getItem('rose_coffee_tiktok_url');
+    if (cachedTiktok) setTiktokUrl(cachedTiktok);
+
     const fetchDynamicContent = async () => {
       try {
         const { data, error } = await supabase
@@ -43,7 +59,43 @@ const Contact = () => {
         console.error('Error fetching contact page contents:', err);
       }
     };
+
+    const fetchSettings = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('page_contents')
+          .select('*')
+          .eq('id', 'business_settings')
+          .maybeSingle();
+
+        if (error) throw error;
+
+        if (data && data.content_blocks && data.content_blocks[0]) {
+          const cfg = data.content_blocks[0];
+          if (cfg.phone) {
+            setPhone(cfg.phone);
+            localStorage.setItem('rose_coffee_business_phone', cfg.phone);
+          }
+          if (cfg.facebook_url) {
+            setFacebookUrl(cfg.facebook_url);
+            localStorage.setItem('rose_coffee_facebook_url', cfg.facebook_url);
+          }
+          if (cfg.instagram_url) {
+            setInstagramUrl(cfg.instagram_url);
+            localStorage.setItem('rose_coffee_instagram_url', cfg.instagram_url);
+          }
+          if (cfg.tiktok_url) {
+            setTiktokUrl(cfg.tiktok_url);
+            localStorage.setItem('rose_coffee_tiktok_url', cfg.tiktok_url);
+          }
+        }
+      } catch (e) {
+        console.warn('Could not sync contact settings:', e);
+      }
+    };
+
     fetchDynamicContent();
+    fetchSettings();
   }, []);
 
   const [loading, setLoading] = useState(false);
@@ -113,6 +165,9 @@ const Contact = () => {
         keywords="contacto cafe, direccion rose coffee, milagro ecuador, telefono barismo, consultas"
       />
       
+      {/* Floating background elements for premium feel */}
+      <FloatingElements />
+      
       {/* Glow Ambient Orbs */}
       <div className="absolute top-1/4 left-1/4 w-[350px] h-[350px] rounded-full bg-gold/5 blur-[120px] pointer-events-none" />
       <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-coffee/5 blur-[130px] pointer-events-none" />
@@ -162,7 +217,11 @@ const Contact = () => {
             
             <div className="grid grid-cols-1 gap-4">
               {/* Tarjeta Dirección */}
-              <div className="bg-cream rounded-2xl border border-coffee/10 p-6 flex gap-4 shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
+              <motion.div 
+                whileHover={{ y: -6, scale: 1.02, boxShadow: '0 10px 25px -5px rgba(107, 58, 14, 0.12)' }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
+                className="bg-cream rounded-2xl border border-coffee/10 p-6 flex gap-4 shadow-2xs transition-all duration-300"
+              >
                 <div className="w-10 h-10 bg-gold/10 text-gold border border-gold/20 rounded-xl flex items-center justify-center flex-shrink-0">
                   <MapPin size={20} />
                 </div>
@@ -172,23 +231,31 @@ const Contact = () => {
                     E25 y Av. 17 de Septiembre, Milagro, Ecuador.
                   </p>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Tarjeta Atención al Cliente */}
-              <div className="bg-cream rounded-2xl border border-coffee/10 p-6 flex gap-4 shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
+              <motion.div 
+                whileHover={{ y: -6, scale: 1.02, boxShadow: '0 10px 25px -5px rgba(107, 58, 14, 0.12)' }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
+                className="bg-cream rounded-2xl border border-coffee/10 p-6 flex gap-4 shadow-2xs transition-all duration-300"
+              >
                 <div className="w-10 h-10 bg-gold/10 text-gold border border-gold/20 rounded-xl flex items-center justify-center flex-shrink-0">
                   <Phone size={20} />
                 </div>
                 <div>
                   <h4 className="font-sans font-bold text-stone-850 text-sm">Atención al Cliente</h4>
                   <p className="text-xs text-stone-500 mt-1 leading-relaxed font-medium">
-                    +593 98 765 4321 (Barista de turno)
+                    {phone} (Barista de turno)
                   </p>
                 </div>
-              </div>
+              </motion.div>
 
               {/* Tarjeta Correo */}
-              <div className="bg-cream rounded-2xl border border-coffee/10 p-6 flex gap-4 shadow-2xs hover:shadow-md hover:-translate-y-0.5 transition-all duration-300">
+              <motion.div 
+                whileHover={{ y: -6, scale: 1.02, boxShadow: '0 10px 25px -5px rgba(107, 58, 14, 0.12)' }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
+                className="bg-cream rounded-2xl border border-coffee/10 p-6 flex gap-4 shadow-2xs transition-all duration-300"
+              >
                 <div className="w-10 h-10 bg-gold/10 text-gold border border-gold/20 rounded-xl flex items-center justify-center flex-shrink-0">
                   <Mail size={20} />
                 </div>
@@ -198,7 +265,7 @@ const Contact = () => {
                     contacto@rosecoffee.com
                   </p>
                 </div>
-              </div>
+              </motion.div>
             </div>
           </div>
 
@@ -208,7 +275,7 @@ const Contact = () => {
             <div className="flex gap-4">
               <motion.a 
                 whileHover={{ y: -4, scale: 1.05 }}
-                href="https://facebook.com" 
+                href={facebookUrl} 
                 target="_blank" 
                 rel="noreferrer" 
                 className="w-12 h-12 bg-cream text-stone-700 hover:text-primary border border-coffee/10 rounded-2xl flex items-center justify-center shadow-2xs hover:shadow-sm hover:border-coffee/20 transition-all duration-300" 
@@ -221,7 +288,7 @@ const Contact = () => {
 
               <motion.a 
                 whileHover={{ y: -4, scale: 1.05 }}
-                href="https://instagram.com" 
+                href={instagramUrl} 
                 target="_blank" 
                 rel="noreferrer" 
                 className="w-12 h-12 bg-cream text-stone-700 hover:text-accent-red border border-coffee/10 rounded-2xl flex items-center justify-center shadow-2xs hover:shadow-sm hover:border-coffee/20 transition-all duration-300" 
@@ -231,6 +298,19 @@ const Contact = () => {
                   <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
                   <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
                   <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                </svg>
+              </motion.a>
+
+              <motion.a 
+                whileHover={{ y: -4, scale: 1.05 }}
+                href={tiktokUrl} 
+                target="_blank" 
+                rel="noreferrer" 
+                className="w-12 h-12 bg-cream text-stone-700 hover:text-black border border-coffee/10 rounded-2xl flex items-center justify-center shadow-2xs hover:shadow-sm hover:border-coffee/20 transition-all duration-300" 
+                title="TikTok"
+              >
+                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.17-2.86-.74-3.94-1.74-.22-.2-.43-.4-.61-.62-.05 1.91-.02 3.83-.04 5.74-.03 1.94-.38 3.93-1.47 5.54-1.39 2.05-3.87 3.23-6.32 3.07-2.8-.18-5.41-2.12-6.08-4.88-.8-3.32 1.05-6.99 4.31-7.79 1.15-.28 2.38-.21 3.5.17v4.14c-.95-.34-2.03-.35-2.93.13-.97.52-1.57 1.6-1.54 2.7.02 1.39 1.18 2.58 2.57 2.54 1.34-.04 2.44-1.14 2.45-2.48.02-4.13.01-8.26.02-12.39z" />
                 </svg>
               </motion.a>
             </div>

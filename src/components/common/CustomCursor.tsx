@@ -97,14 +97,31 @@ export default function CustomCursor() {
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       if (!target) return;
-      const isClickable = 
-        target.tagName === 'A' || 
-        target.tagName === 'BUTTON' || 
-        target.closest('a') || 
-        target.closest('button') || 
-        target.classList.contains('cursor-pointer') || 
-        target.getAttribute('role') === 'button';
-      setIsHovered(!!isClickable);
+      
+      let isClickable = false;
+      try {
+        const computedStyle = window.getComputedStyle(target);
+        isClickable = 
+          computedStyle.cursor === 'pointer' ||
+          target.tagName === 'A' || 
+          target.tagName === 'BUTTON' || 
+          target.closest('a') !== null || 
+          target.closest('button') !== null || 
+          target.classList.contains('cursor-pointer') || 
+          target.closest('.cursor-pointer') !== null ||
+          target.getAttribute('role') === 'button' ||
+          target.closest('[role="button"]') !== null;
+      } catch (err) {
+        isClickable = 
+          target.tagName === 'A' || 
+          target.tagName === 'BUTTON' || 
+          target.closest('a') !== null || 
+          target.closest('button') !== null || 
+          target.classList.contains('cursor-pointer') || 
+          target.getAttribute('role') === 'button';
+      }
+      
+      setIsHovered(isClickable);
     };
 
     const handleMouseDown = () => setIsClicked(true);
