@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  --color-base: #faf2e7;
+  --color-brand-base: #faf2e7;
   --color-primary: #021a54;
   --color-coffee: #6b3a0e;
   --color-coffee-dark: #4d2607;
@@ -71,7 +71,7 @@
     scroll-padding-top: 100px; /* Offset for fixed sticky navigation header */
   }
   html, body {
-    @apply font-sans bg-base text-black;
+    @apply font-sans bg-brand-base text-black;
   }
 
   ::selection {

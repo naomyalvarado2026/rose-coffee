@@ -9,7 +9,7 @@ import Preloader from '../components/public/Preloader';
 
 const PublicLayout = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-base text-gray-800 font-sans pb-16 md:pb-0">
+    <div className="min-h-screen flex flex-col bg-brand-base text-gray-800 font-sans pb-16 md:pb-0">
       <Preloader />
       <TopBar />
       <Navigation />

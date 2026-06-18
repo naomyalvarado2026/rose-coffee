@@ -158,7 +158,7 @@ const Contact = () => {
   const heroSection = sections.find(s => s.id === 'contact_hero') || DEFAULT_CONTACT_SECTIONS[0];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-8 py-10 space-y-16 bg-base text-black font-sans relative overflow-hidden">
+    <div className="max-w-7xl mx-auto px-4 md:px-8 py-10 space-y-16 bg-brand-base text-black font-sans relative overflow-hidden">
       <SEOHead 
         title="Contacto - Visítanos en Milagro" 
         description="Ponte en contacto con Rose Coffee. Encuentra nuestra dirección, horarios de atención, teléfonos de pedidos y envíanos tus dudas directamente."

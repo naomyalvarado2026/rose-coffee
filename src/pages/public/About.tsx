@@ -7,6 +7,7 @@ import BlockRenderer from '../../components/public/BlockRenderer';
 import { ImageGallerySection } from '../../components/public/ImageGallerySection';
 import OptimizedMedia from '../../components/common/OptimizedMedia';
 import SEOHead from '../../components/common/SEOHead';
+import FloatingElements from '../../components/public/FloatingElements';
 
 const founderEstebanImg = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&auto=format&fit=crop&q=80'; // Portrait of a man
 const founderNaomyImg = 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&auto=format&fit=crop&q=80'; // Portrait of a woman
@@ -52,7 +53,7 @@ const About = () => {
 
   if (loading) {
     return (
-      <div className="min-h-[70vh] flex flex-col justify-center items-center gap-4 bg-base">
+      <div className="min-h-[70vh] flex flex-col justify-center items-center gap-4 bg-brand-base">
         <div className="w-8 h-8 border-4 border-coffee border-t-transparent rounded-full animate-spin mx-auto"></div>
         <p className="text-stone-500 text-xs font-bold uppercase tracking-wider">Cargando sobre nosotros...</p>
       </div>
@@ -60,12 +61,13 @@ const About = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-8 py-10 space-y-16 bg-base text-black font-sans relative overflow-hidden">
+    <div className="max-w-7xl mx-auto px-4 md:px-8 py-10 space-y-16 bg-brand-base text-black font-sans relative overflow-hidden">
       <SEOHead 
         title="Nosotros - Historia & Filosofía" 
         description="Conoce la historia detrás de Rose Coffee, nuestro compromiso con el tueste de café de especialidad y la elaboración artesanal de masa madre."
         keywords="nosotros cafe, historia rose coffee, panaderia artesanal, barismo ecuador"
       />
+      <FloatingElements />
 
       {/* Glow Ambient Orbs */}
       <div className="absolute top-1/4 left-1/4 w-[350px] h-[350px] rounded-full bg-gold/5 blur-[120px] pointer-events-none" />

@@ -11,6 +11,7 @@ import { fadeInUp, staggerContainer } from '../../utils/animations';
 import CoffeeSubscription from '../../components/public/CoffeeSubscription';
 import MagneticButton from '../../components/animations/MagneticButton';
 import coffeeRoastingImg from '/coffee_roasting_process.png';
+import FloatingElements from '../../components/public/FloatingElements';
 
 const MOCK_PRODUCTS: Product[] = [
   {
@@ -200,12 +201,13 @@ const Store = () => {
   const categories = ['Todas', ...Array.from(new Set(products.map((p) => p.category)))];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-8 py-10">
+    <div className="max-w-7xl mx-auto px-4 md:px-8 py-10 relative overflow-hidden bg-brand-base">
       <SEOHead 
         title="Tienda Online - Café & Panadería Masa Madre" 
         description="Explora y compra nuestro café de especialidad ecuatoriano de Loja y Zaruma. Descubre panes de masa madre de fermentación natural y modelos AR 3D interactivos."
         keywords="tienda de cafe, comprar cafe online, pan masa madre ecuador, cafe gourmet, ar 3d cafe"
       />
+      <FloatingElements />
       {/* Header Banner - Redesigned with warm background image & premium gradient overlay */}
       <div id="store_hero" className="rounded-3xl p-8 md:p-12 text-white mb-10 shadow-xl relative overflow-hidden bg-primary min-h-[250px] flex items-center">
         <div className="absolute inset-0 z-0">

@@ -118,7 +118,7 @@ const ProductDetail = () => {
 
   if (loading) {
     return (
-      <div className="min-h-[70vh] flex flex-col justify-center items-center gap-4 bg-base">
+      <div className="min-h-[70vh] flex flex-col justify-center items-center gap-4 bg-brand-base">
         <Loader2 className="animate-spin text-coffee w-10 h-10" />
         <p className="text-stone-500 font-bold uppercase tracking-wider text-xs">Cargando experiencia premium...</p>
       </div>
@@ -127,7 +127,7 @@ const ProductDetail = () => {
 
   if (!product) {
     return (
-      <div className="min-h-[70vh] flex flex-col justify-center items-center gap-4 text-center px-4 bg-base">
+      <div className="min-h-[70vh] flex flex-col justify-center items-center gap-4 text-center px-4 bg-brand-base">
         <AlertTriangle className="text-gold w-16 h-16" />
         <h2 className="text-2xl font-bold text-primary">Producto no encontrado</h2>
         <p className="text-stone-500 max-w-sm text-sm">El producto que buscas no existe o ha sido retirado de nuestra tienda.</p>
@@ -191,7 +191,7 @@ const ProductDetail = () => {
   const displayImage = variantImage || activeImage || baseImage;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-12 bg-base">
+    <div className="max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-12 bg-brand-base">
       <SEOHead 
         title={`${product.name} - Rose Coffee`} 
         description={product.description || `Adquiere ${product.name} en nuestra tienda online premium de café de especialidad y panadería artesanal.`}

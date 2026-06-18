@@ -115,7 +115,7 @@ export default function CoffeeJourneySection({ data }: CoffeeJourneySectionProps
                 </div>
 
                 {/* Central Icon Circle */}
-                <div className="absolute left-0 md:left-1/2 top-1 md:top-auto md:-translate-x-1/2 w-9 h-9 rounded-full bg-base border-2 border-coffee flex items-center justify-center shadow-md z-10">
+                <div className="absolute left-0 md:left-1/2 top-1 md:top-auto md:-translate-x-1/2 w-9 h-9 rounded-full bg-brand-base border-2 border-coffee flex items-center justify-center shadow-md z-10">
                   <div className="w-5 h-5 flex items-center justify-center">
                     {step.icon}
                   </div>

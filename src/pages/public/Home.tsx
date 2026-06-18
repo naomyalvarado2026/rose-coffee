@@ -119,7 +119,7 @@ const Home = () => {
   };
 
   return (
-    <div className="space-y-16 pb-20 text-left bg-base text-black font-sans relative">
+    <div className="space-y-16 pb-20 text-left bg-brand-base text-black font-sans relative">
       <SEOHead 
         title="Café de Especialidad & Masa Madre" 
         description="Rose Coffee en Milagro, Ecuador. Granos seleccionados de Loja y Zaruma tostados al instante y panes de masa madre fermentados por 24 horas."
@@ -127,7 +127,7 @@ const Home = () => {
       />
       
       {/* HERO SECTION - Split Layout */}
-      <section id="hero" className="relative min-h-[85vh] flex items-center justify-center bg-base text-black overflow-hidden py-16 md:py-24">
+      <section id="hero" className="relative min-h-[85vh] flex items-center justify-center bg-brand-base text-black overflow-hidden pt-32 pb-16 md:py-24">
         {/* Floating animated ambient coffee elements */}
         <FloatingElements />
 

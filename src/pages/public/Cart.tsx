@@ -267,7 +267,7 @@ const Cart = () => {
   const total = subtotal + shippingCost;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-8 py-10 bg-base text-black font-sans relative">
+    <div className="max-w-7xl mx-auto px-4 md:px-8 py-10 bg-brand-base text-black font-sans relative">
       <SEOHead 
         title="Carrito de Compras - Rose Coffee" 
         description="Revisa y procesa tu pedido de café de especialidad y panadería artesanal de masa madre."
