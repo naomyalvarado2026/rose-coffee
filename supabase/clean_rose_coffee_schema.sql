@@ -258,6 +258,8 @@ CREATE TABLE IF NOT EXISTS public.inventory_items (
   price numeric(10, 2) DEFAULT 0.00 NOT NULL,
   status text NOT NULL DEFAULT 'buen_estado' CHECK (status IN ('buen_estado', 'reparacion', 'critico')),
   quantity integer NOT NULL DEFAULT 1 CHECK (quantity >= 0),
+  stock_min integer DEFAULT 5,
+  unit text DEFAULT 'unidades',
   description text,
   video_url text,
   created_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL,

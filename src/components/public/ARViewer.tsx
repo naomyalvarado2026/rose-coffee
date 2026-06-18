@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Loader2, RotateCcw, AlertTriangle, Info, Tag, Maximize, X } from 'lucide-react';
+import { Loader2, RotateCcw, AlertTriangle, Info, Tag, Maximize, X, Camera } from 'lucide-react';
 import type { Product, ARHotspot } from '../../types';
 
 export interface ARHotspotItem {
@@ -18,6 +18,24 @@ interface ARViewerProps {
   onClose?: () => void;
 }
 
+/**
+ * ARViewer — WebXR-enabled 3D product viewer with DOM Overlay.
+ *
+ * Key WebXR features:
+ *  - `ar-scale="fixed"` enforces the GLB's metric dimensions (centimeters as authored).
+ *  - `ar-placement="floor"` forces hit-test anchoring to horizontal surfaces (table/floor).
+ *  - `slot="ar-button"` provides a custom, high-visibility button that the browser
+ *     requires for user-gesture-gated camera activation.
+ *  - `slot="ar-ui"` injects a DOM Overlay (product carousel) rendered ON TOP of the
+ *     live camera feed during a WebXR session. This is the native WebXR DOM Overlay API.
+ *
+ * NOTE on platform compatibility:
+ *  - Android (Chrome 79+): Full WebXR DOM Overlay support. The `slot="ar-ui"` carousel
+ *    will be visible and interactive while the camera is open.
+ *  - iOS (Safari / Quick Look): Apple's AR Quick Look does NOT support DOM Overlay.
+ *    The `slot="ar-ui"` content is silently ignored. Users see only the model in AR.
+ *    The `ios-src` (USDZ) attribute provides the best available iOS AR experience.
+ */
 export default function ARViewer({ activeProduct, products, onProductSelect, onClose }: ARViewerProps) {
   const modelViewerRef = useRef<any>(null);
   const [loading, setLoading] = useState(true);
@@ -171,6 +189,11 @@ export default function ARViewer({ activeProduct, products, onProductSelect, onC
     }
   };
 
+  /** Switch model source when user taps a carousel thumbnail */
+  const handleCarouselSelect = (prod: Product) => {
+    onProductSelect?.(prod);
+  };
+
   return (
     <div className="relative w-full h-full min-h-[450px] bg-slate-950 rounded-3xl overflow-hidden shadow-2xl border border-slate-800 flex flex-col items-center justify-center">
 
@@ -245,7 +268,17 @@ export default function ARViewer({ activeProduct, products, onProductSelect, onC
         </div>
       )}
 
-      {/* Main 3D Model-Viewer Canvas */}
+      {/* ================================================================
+          Main <model-viewer> Canvas — WebXR Configuration
+          ================================================================
+          Strict attribute contract:
+            ar                  → enables AR mode
+            ar-modes            → priority: WebXR > Scene Viewer > Quick Look
+            ar-scale="fixed"    → metric scale from GLB (cm as authored)
+            ar-placement="floor"→ hit-test anchors to horizontal surface (mesa/suelo)
+            camera-controls     → orbit/zoom/pan via touch/mouse
+            touch-action="pan-y"→ allows page scroll; AR gestures handled internally
+          ================================================================ */}
       <model-viewer
         ref={modelViewerRef}
         src={modelConfig.glb_url}
@@ -256,7 +289,7 @@ export default function ARViewer({ activeProduct, products, onProductSelect, onC
         ar-modes="webxr scene-viewer quick-look"
         ar-scale="fixed"
         ar-placement="floor"
-        camera-controls={modelConfig.camera_controls}
+        camera-controls
         touch-action="pan-y"
         auto-rotate={modelConfig.auto_rotate}
         xr-environment={modelConfig.xr_environment}
@@ -267,7 +300,52 @@ export default function ARViewer({ activeProduct, products, onProductSelect, onC
         shadow-softness="1"
         style={{ width: '100%', height: '100%', outline: 'none' }}
       >
-        {/* Render hotspots from props or fallback to model's default hotspots */}
+        {/* ──────────────────────────────────────────────────────────────
+            slot="ar-button" — Custom AR Activation Button
+            ──────────────────────────────────────────────────────────────
+            Browsers require a user gesture to start the camera/XR session.
+            This slotted button replaces the default <model-viewer> AR icon
+            with a large, branded, highly visible call-to-action.
+        */}
+        <button
+          slot="ar-button"
+          style={{
+            position: 'absolute',
+            bottom: '16px',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            backgroundColor: '#6b3a0e',
+            color: '#faf2e7',
+            border: '2px solid rgba(250, 242, 231, 0.25)',
+            borderRadius: '16px',
+            padding: '14px 28px',
+            fontSize: '14px',
+            fontWeight: 800,
+            letterSpacing: '0.02em',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            boxShadow: '0 8px 32px rgba(107, 58, 14, 0.45), 0 0 0 1px rgba(250, 242, 231, 0.08)',
+            backdropFilter: 'blur(12px)',
+            zIndex: 40,
+            whiteSpace: 'nowrap',
+            transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+          }}
+          onMouseEnter={(e) => {
+            (e.currentTarget as HTMLButtonElement).style.transform = 'translateX(-50%) scale(1.04)';
+          }}
+          onMouseLeave={(e) => {
+            (e.currentTarget as HTMLButtonElement).style.transform = 'translateX(-50%)';
+          }}
+        >
+          <Camera style={{ width: '20px', height: '20px', flexShrink: 0 }} />
+          Ver en mi mesa (Activar Cámara)
+        </button>
+
+        {/* ──────────────────────────────────────────────────────────────
+            Hotspots — 3D-anchored labels on the model surface
+        */}
         {viewerHotspots?.map((hotspot) => (
           <button
             key={hotspot.id}
@@ -297,48 +375,197 @@ export default function ARViewer({ activeProduct, products, onProductSelect, onC
           </button>
         ))}
 
-        {/* DOM Overlay: In-AR Product Carousel */}
+        {/* ──────────────────────────────────────────────────────────────
+            slot="ar-ui" — WebXR DOM Overlay: In-AR Product Carousel
+            ──────────────────────────────────────────────────────────────
+            This <div> is projected directly onto the live camera feed
+            during an active WebXR immersive-ar session, via the native
+            WebXR DOM Overlay API.
+
+            Platform behavior:
+              ✅ Android (Chrome 79+): Fully visible & interactive over camera.
+              ❌ iOS Quick Look: Silently ignored — Apple does not support
+                 DOM Overlay in their AR Quick Look viewer. iOS users only
+                 see the 3D model without the carousel.
+
+            The carousel lets the user switch between AR-enabled products
+            WITHOUT closing the camera — enabling a "continuous showroom"
+            experience on supported devices.
+        */}
         {products && products.length > 1 && (
-          <div className="absolute bottom-0 left-0 w-full z-50 bg-white/20 backdrop-blur-md border-t border-white/30 p-4 pointer-events-auto select-none">
-            <div className="max-w-3xl mx-auto flex flex-col">
-              <span className="text-[10px] font-bold text-white drop-shadow-xs uppercase tracking-wider block mb-2 px-1 text-center sm:text-left">
-                Showroom Continuo (Productos AR)
-              </span>
-              <div className="flex overflow-x-auto gap-3 pb-1 scrollbar-thin scrollbar-thumb-white/25 scrollbar-track-transparent">
-                {products.map((prod) => {
-                  const isActive = prod.id === activeProduct.id;
-                  return (
-                    <button
-                      key={prod.id}
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        onProductSelect?.(prod);
+          <div
+            slot="ar-ui"
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              width: '100%',
+              padding: '12px 16px 20px',
+              background: 'rgba(255, 255, 255, 0.18)',
+              backdropFilter: 'blur(16px)',
+              WebkitBackdropFilter: 'blur(16px)',
+              borderTop: '1px solid rgba(255, 255, 255, 0.22)',
+              boxSizing: 'border-box',
+            }}
+          >
+            <span
+              style={{
+                display: 'block',
+                fontSize: '9px',
+                fontWeight: 800,
+                color: '#ffffff',
+                textTransform: 'uppercase',
+                letterSpacing: '0.08em',
+                marginBottom: '8px',
+                textAlign: 'center',
+                textShadow: '0 1px 4px rgba(0,0,0,0.5)',
+              }}
+            >
+              Showroom Continuo — Toca para cambiar producto
+            </span>
+            <div
+              style={{
+                display: 'flex',
+                overflowX: 'auto',
+                gap: '10px',
+                paddingBottom: '4px',
+              }}
+            >
+              {products.map((prod) => {
+                const isActive = prod.id === activeProduct.id;
+                const thumbSrc = prod.ar_poster_url
+                  || prod.image_url
+                  || 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&q=80&w=150';
+
+                return (
+                  <button
+                    key={prod.id}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleCarouselSelect(prod);
+                    }}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      gap: '8px',
+                      padding: '8px 14px',
+                      borderRadius: '12px',
+                      border: isActive
+                        ? '2px solid #faf2e7'
+                        : '1px solid rgba(255, 255, 255, 0.15)',
+                      background: isActive
+                        ? 'rgba(107, 58, 14, 0.85)'
+                        : 'rgba(255, 255, 255, 0.12)',
+                      color: '#ffffff',
+                      cursor: 'pointer',
+                      flexShrink: 0,
+                      minWidth: '140px',
+                      textAlign: 'left',
+                      transition: 'all 0.2s ease',
+                      transform: isActive ? 'scale(1.03)' : 'scale(1)',
+                      boxShadow: isActive
+                        ? '0 4px 20px rgba(107, 58, 14, 0.5)'
+                        : '0 2px 8px rgba(0,0,0,0.15)',
+                      outline: 'none',
+                      fontFamily: 'inherit',
+                    }}
+                  >
+                    <img
+                      src={thumbSrc}
+                      alt={prod.name}
+                      style={{
+                        width: '32px',
+                        height: '32px',
+                        borderRadius: '8px',
+                        objectFit: 'cover',
+                        flexShrink: 0,
+                        border: '1px solid rgba(255,255,255,0.2)',
+                        backgroundColor: '#1c1917',
                       }}
-                      className={`flex items-center gap-2.5 px-3.5 py-2 rounded-xl text-left border transition-all duration-300 cursor-pointer shrink-0 min-w-[140px] focus:outline-none ${
-                        isActive
-                          ? 'bg-[#6b3a0e] border-[#faf2e7] text-white shadow-lg scale-102 font-bold'
-                          : 'bg-white/15 border-white/10 text-white/90 hover:bg-white/25 hover:border-white/30'
-                      }`}
-                    >
-                      <img
-                        src={prod.ar_poster_url || prod.image_url || 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&q=80&w=150'}
-                        alt={prod.name}
-                        className="w-8 h-8 rounded-lg object-cover shrink-0 border border-white/20 bg-stone-900"
-                      />
-                      <div className="truncate pr-1">
-                        <p className="text-[11px] truncate leading-tight font-medium">{prod.name}</p>
-                        <span className="text-[8px] opacity-75 font-light tracking-wide uppercase block mt-0.5">
-                          {prod.category}
-                        </span>
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
+                    />
+                    <div style={{ overflow: 'hidden' }}>
+                      <p
+                        style={{
+                          fontSize: '11px',
+                          fontWeight: isActive ? 700 : 500,
+                          lineHeight: '1.2',
+                          margin: 0,
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                        }}
+                      >
+                        {prod.name}
+                      </p>
+                      <span
+                        style={{
+                          fontSize: '8px',
+                          opacity: 0.7,
+                          fontWeight: 300,
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.05em',
+                          display: 'block',
+                          marginTop: '2px',
+                        }}
+                      >
+                        {prod.category} · ${Number(prod.price).toFixed(2)}
+                      </span>
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           </div>
         )}
       </model-viewer>
+
+      {/* ================================================================
+          Non-AR Carousel (visible when viewing the model in the web page,
+          outside of an immersive WebXR session).
+          The slot="ar-ui" carousel above is ONLY rendered during an active
+          AR camera session. This duplicate carousel provides the same
+          switching functionality in the standard 3D preview mode.
+          ================================================================ */}
+      {products && products.length > 1 && (
+        <div className="absolute bottom-0 left-0 w-full z-10 bg-white/15 backdrop-blur-md border-t border-white/20 p-4 pointer-events-auto select-none">
+          <div className="max-w-3xl mx-auto flex flex-col">
+            <span className="text-[10px] font-bold text-white drop-shadow-xs uppercase tracking-wider block mb-2 px-1 text-center sm:text-left">
+              Showroom Continuo (Productos AR)
+            </span>
+            <div className="flex overflow-x-auto gap-3 pb-1 scrollbar-thin scrollbar-thumb-white/25 scrollbar-track-transparent">
+              {products.map((prod) => {
+                const isActive = prod.id === activeProduct.id;
+                return (
+                  <button
+                    key={prod.id}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleCarouselSelect(prod);
+                    }}
+                    className={`flex items-center gap-2.5 px-3.5 py-2 rounded-xl text-left border transition-all duration-300 cursor-pointer shrink-0 min-w-[140px] focus:outline-none ${
+                      isActive
+                        ? 'bg-[#6b3a0e] border-[#faf2e7] text-white shadow-lg scale-102 font-bold'
+                        : 'bg-white/15 border-white/10 text-white/90 hover:bg-white/25 hover:border-white/30'
+                    }`}
+                  >
+                    <img
+                      src={prod.ar_poster_url || prod.image_url || 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&q=80&w=150'}
+                      alt={prod.name}
+                      className="w-8 h-8 rounded-lg object-cover shrink-0 border border-white/20 bg-stone-900"
+                    />
+                    <div className="truncate pr-1">
+                      <p className="text-[11px] truncate leading-tight font-medium">{prod.name}</p>
+                      <span className="text-[8px] opacity-75 font-light tracking-wide uppercase block mt-0.5">
+                        {prod.category}
+                      </span>
+                    </div>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Active Hotspot Context Overlay */}
       <AnimatePresence>
