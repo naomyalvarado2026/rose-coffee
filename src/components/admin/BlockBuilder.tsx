@@ -235,90 +235,111 @@ const BlockBuilder: React.FC<BlockBuilderProps> = ({ blocks, onChange, disabled 
   return (
     <div className="space-y-6">
       {!disabled && (
-        <div className="flex flex-wrap gap-2 p-4 bg-slate-50 border border-slate-200 rounded-2xl">
-          <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block w-full mb-1">
+        <div className="p-4 bg-slate-50 border border-slate-200 rounded-2xl space-y-3">
+          <span className="text-xs font-bold text-slate-400 uppercase tracking-wider block">
             Añadir Bloque de Contenido
           </span>
-          <button
-            type="button"
-            onClick={() => addBlock('text')}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 hover:border-primary hover:text-primary rounded-xl text-xs font-semibold shadow-2xs transition-all cursor-pointer"
-          >
-            <Type size={14} className="text-slate-500" />
-            Texto / Párrafo
-          </button>
-          <button
-            type="button"
-            onClick={() => addBlock('html')}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 hover:border-primary hover:text-primary rounded-xl text-xs font-semibold shadow-2xs transition-all cursor-pointer"
-          >
-            <Code size={14} className="text-slate-500" />
-            Bloque HTML / Código
-          </button>
-          <button
-            type="button"
-            onClick={() => addBlock('image')}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 hover:border-primary hover:text-primary rounded-xl text-xs font-semibold shadow-2xs transition-all cursor-pointer"
-          >
-            <ImageIcon size={14} className="text-slate-500" />
-            Imagen
-          </button>
-          <button
-            type="button"
-            onClick={() => addBlock('columns')}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 hover:border-primary hover:text-primary rounded-xl text-xs font-semibold shadow-2xs transition-all cursor-pointer"
-          >
-            <Columns size={14} className="text-slate-500" />
-            Columnas de Texto
-          </button>
-          <button
-            type="button"
-            onClick={() => addBlock('cta_button')}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 hover:border-primary hover:text-primary rounded-xl text-xs font-semibold shadow-2xs transition-all cursor-pointer"
-          >
-            <ExternalLink size={14} className="text-slate-500" />
-            Botón / Enlace
-          </button>
-          <button
-            type="button"
-            onClick={() => addBlock('form')}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 hover:border-primary hover:text-primary rounded-xl text-xs font-semibold shadow-2xs transition-all cursor-pointer"
-          >
-            <ClipboardList size={14} className="text-slate-500" />
-            Cuestionario / Trivia
-          </button>
-          <button
-            type="button"
-            onClick={() => addBlock('section')}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 hover:border-primary hover:text-primary rounded-xl text-xs font-semibold shadow-2xs transition-all cursor-pointer"
-          >
-            <Heading size={14} className="text-slate-500" />
-            Sección (Título)
-          </button>
-          <button
-            type="button"
-            onClick={() => addBlock('question')}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 hover:border-primary hover:text-primary rounded-xl text-xs font-semibold shadow-2xs transition-all cursor-pointer"
-          >
-            <HelpCircle size={14} className="text-slate-500" />
-            Pregunta Abierta
-          </button>
-          <button
-            type="button"
-            onClick={() => addBlock('multiple_choice')}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 hover:border-primary hover:text-primary rounded-xl text-xs font-semibold shadow-2xs transition-all cursor-pointer"
-          >
-            <CheckSquare size={14} className="text-slate-500" />
-            Opción Múltiple
-          </button>
-          <button
-            type="button"
-            onClick={() => addBlock('true_false')}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 hover:border-primary hover:text-primary rounded-xl text-xs font-semibold shadow-2xs transition-all cursor-pointer"
-          >
-            <CheckCircle2 size={14} className="text-slate-500" />
-            V / F
-          </button>
+          
+          {/* Content Blocks */}
+          <div className="space-y-1.5">
+            <span className="text-[9px] font-bold text-slate-350 uppercase tracking-wider block pl-0.5">Contenido</span>
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={() => addBlock('text')}
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 hover:border-primary hover:text-primary rounded-xl text-xs font-semibold shadow-2xs transition-all cursor-pointer"
+              >
+                <Type size={14} className="text-slate-500" />
+                Texto / Párrafo
+              </button>
+              <button
+                type="button"
+                onClick={() => addBlock('html')}
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 hover:border-primary hover:text-primary rounded-xl text-xs font-semibold shadow-2xs transition-all cursor-pointer"
+              >
+                <Code size={14} className="text-slate-500" />
+                Bloque HTML
+              </button>
+              <button
+                type="button"
+                onClick={() => addBlock('section')}
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 hover:border-primary hover:text-primary rounded-xl text-xs font-semibold shadow-2xs transition-all cursor-pointer"
+              >
+                <Heading size={14} className="text-slate-500" />
+                Sección (Título)
+              </button>
+              <button
+                type="button"
+                onClick={() => addBlock('columns')}
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 hover:border-primary hover:text-primary rounded-xl text-xs font-semibold shadow-2xs transition-all cursor-pointer"
+              >
+                <Columns size={14} className="text-slate-500" />
+                Columnas
+              </button>
+            </div>
+          </div>
+
+          {/* Media & Action Blocks */}
+          <div className="space-y-1.5">
+            <span className="text-[9px] font-bold text-slate-350 uppercase tracking-wider block pl-0.5">Media y Acciones</span>
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={() => addBlock('image')}
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 hover:border-primary hover:text-primary rounded-xl text-xs font-semibold shadow-2xs transition-all cursor-pointer"
+              >
+                <ImageIcon size={14} className="text-slate-500" />
+                Imagen
+              </button>
+              <button
+                type="button"
+                onClick={() => addBlock('cta_button')}
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 hover:border-primary hover:text-primary rounded-xl text-xs font-semibold shadow-2xs transition-all cursor-pointer"
+              >
+                <ExternalLink size={14} className="text-slate-500" />
+                Botón / Enlace
+              </button>
+            </div>
+          </div>
+
+          {/* Interactive / Lesson Blocks */}
+          <div className="space-y-1.5">
+            <span className="text-[9px] font-bold text-slate-350 uppercase tracking-wider block pl-0.5">Interactivo / Evaluación</span>
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={() => addBlock('form')}
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 hover:border-primary hover:text-primary rounded-xl text-xs font-semibold shadow-2xs transition-all cursor-pointer"
+              >
+                <ClipboardList size={14} className="text-slate-500" />
+                Cuestionario / Trivia
+              </button>
+              <button
+                type="button"
+                onClick={() => addBlock('question')}
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 hover:border-primary hover:text-primary rounded-xl text-xs font-semibold shadow-2xs transition-all cursor-pointer"
+              >
+                <HelpCircle size={14} className="text-slate-500" />
+                Pregunta Abierta
+              </button>
+              <button
+                type="button"
+                onClick={() => addBlock('multiple_choice')}
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 hover:border-primary hover:text-primary rounded-xl text-xs font-semibold shadow-2xs transition-all cursor-pointer"
+              >
+                <CheckSquare size={14} className="text-slate-500" />
+                Opción Múltiple
+              </button>
+              <button
+                type="button"
+                onClick={() => addBlock('true_false')}
+                className="flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 hover:border-primary hover:text-primary rounded-xl text-xs font-semibold shadow-2xs transition-all cursor-pointer"
+              >
+                <CheckCircle2 size={14} className="text-slate-500" />
+                V / F
+              </button>
+            </div>
+          </div>
         </div>
       )}
 

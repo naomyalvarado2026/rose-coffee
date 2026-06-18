@@ -22,6 +22,7 @@ import TestimonialsSection from '../../components/public/TestimonialsSection';
 import CoffeeJourneySection from '../../components/public/CoffeeJourneySection';
 import OriginSection from '../../components/public/OriginSection';
 import RoseClubSection from '../../components/public/RoseClubSection';
+import { ImageGallerySection } from '../../components/public/ImageGallerySection';
 import SEOHead from '../../components/common/SEOHead';
 import heroImgFallback from '/hero_coffee_sourdough.png';
 
@@ -59,6 +60,7 @@ const Home = () => {
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
   const [sectionsData, setSectionsData] = useState<Record<string, any>>({});
   const [loading, setLoading] = useState(true);
+  const [businessSettings, setBusinessSettings] = useState<any>(null);
 
   useEffect(() => {
     const fetchHomeData = async () => {
@@ -89,6 +91,17 @@ const Home = () => {
           }, {});
           setSectionsData(mapped);
         }
+
+        // 3. Fetch business settings (hours, phone, address)
+        const { data: settingsData } = await supabase
+          .from('page_contents')
+          .select('*')
+          .eq('id', 'business_settings')
+          .maybeSingle();
+
+        if (settingsData?.content_blocks?.[0]) {
+          setBusinessSettings(settingsData.content_blocks[0]);
+        }
       } catch (err) {
         console.error('Error fetching home data:', err);
         setFeaturedProducts(MOCK_PRODUCTS as Product[]);
@@ -101,6 +114,7 @@ const Home = () => {
 
   const heroSection = sectionsData['home_hero'];
   const welcomeSection = sectionsData['home_welcome'];
+  const gallerySection = sectionsData['home_gallery'];
 
   // Static flavor notes dictionary matching categories/products
   const getProductExtraInfo = (productName: string) => {
@@ -159,7 +173,7 @@ const Home = () => {
             </h1>
 
             <p className="text-stone-900 text-sm md:text-base max-w-xl leading-relaxed font-semibold tracking-wide">
-              En Rose Coffee cultivamos experiencias únicas. Tostamos granos de especialidad seleccionados de Zaruma y horneamos panes de masa madre de fermentación lenta para brindarte un sabor incomparable.
+              {heroSection?.subtitle || 'En Rose Coffee cultivamos experiencias únicas. Tostamos granos de especialidad seleccionados de Zaruma y horneamos panes de masa madre de fermentación lenta para brindarte un sabor incomparable.'}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 pt-4 w-full sm:w-auto">
@@ -237,70 +251,60 @@ const Home = () => {
         </SlideUp>
 
         <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {/* Pillar 1 */}
-          <StaggerItem>
-            <div className="bg-white/60 backdrop-blur-xs p-6 rounded-3xl border border-stone-200/80 shadow-2xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 ease-in-out group flex flex-col justify-between h-full">
-              <div className="space-y-4">
-                <div className="w-11 h-11 bg-coffee/10 text-coffee rounded-2xl flex items-center justify-center font-bold text-lg group-hover:scale-110 transition-transform duration-300">
-                  <Coffee size={20} />
-                </div>
-                <h3 className="font-bold text-base text-primary">Café de Especialidad</h3>
-                <p className="text-stone-500 text-xs leading-relaxed">
-                  Granos seleccionados con puntajes de taza sobresalientes de Zaruma y Loja, tostados localmente para resaltar sus notas de sabor más puras.
-                </p>
-              </div>
-            </div>
-          </StaggerItem>
+          {(() => {
+            const DEFAULT_PILLARS = [
+              { icon: <Coffee size={20} />, title: 'Café de Especialidad', description: 'Granos seleccionados con puntajes de taza sobresalientes de Zaruma y Loja, tostados localmente para resaltar sus notas de sabor más puras.' },
+              { icon: <Sparkle size={20} />, title: 'Masa Madre Natural', description: 'Panes horneados con harinas orgánicas y levadura salvaje nativa. Una fermentación lenta de 24 horas que garantiza una corteza crujiente.' },
+              { icon: <Layers size={20} />, title: 'Realidad Aumentada 3D', description: 'Visualiza el tamaño y el aspecto exacto de nuestros panes y combos de café antes de comprarlos con tecnología AR interactiva.' },
+              { icon: <Heart size={20} />, title: 'Hecho con Amor', description: 'Un emprendimiento fundado bajo la filosofía de honrar las tradiciones de la panadería artesanal y celebrar el buen café hecho en casa.' },
+            ];
+            const ICON_MAP: Record<string, React.ReactNode> = {
+              coffee: <Coffee size={20} />,
+              sparkle: <Sparkle size={20} />,
+              layers: <Layers size={20} />,
+              heart: <Heart size={20} />,
+              star: <Star size={20} />,
+              sparkles: <Sparkles size={20} />,
+            };
 
-          {/* Pillar 2 */}
-          <StaggerItem>
-            <div className="bg-white/60 backdrop-blur-xs p-6 rounded-3xl border border-stone-200/80 shadow-2xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 ease-in-out group flex flex-col justify-between h-full">
-              <div className="space-y-4">
-                <div className="w-11 h-11 bg-coffee/10 text-coffee rounded-2xl flex items-center justify-center font-bold text-lg group-hover:scale-110 transition-transform duration-300">
-                  <Sparkle size={20} />
-                </div>
-                <h3 className="font-bold text-base text-primary">Masa Madre Natural</h3>
-                <p className="text-stone-500 text-xs leading-relaxed">
-                  Panes horneados con harinas orgánicas y levadura salvaje nativa. Una fermentación lenta de 24 horas que garantiza una corteza crujiente.
-                </p>
-              </div>
-            </div>
-          </StaggerItem>
+            // Use dynamic pillars from content_blocks if available
+            const dynamicBlocks = welcomeSection?.content_blocks;
+            const pillars = (dynamicBlocks && Array.isArray(dynamicBlocks) && dynamicBlocks.length > 0)
+              ? dynamicBlocks.map((block: any) => ({
+                  icon: ICON_MAP[block.icon] || <Coffee size={20} />,
+                  title: block.title || block.textContent || 'Sin título',
+                  description: block.description || block.text || '',
+                }))
+              : DEFAULT_PILLARS;
 
-          {/* Pillar 3 */}
-          <StaggerItem>
-            <div className="bg-white/60 backdrop-blur-xs p-6 rounded-3xl border border-stone-200/80 shadow-2xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 ease-in-out group flex flex-col justify-between h-full">
-              <div className="space-y-4">
-                <div className="w-11 h-11 bg-coffee/10 text-coffee rounded-2xl flex items-center justify-center font-bold text-lg group-hover:scale-110 transition-transform duration-300">
-                  <Layers size={20} />
+            return pillars.map((pillar: any, idx: number) => (
+              <StaggerItem key={idx}>
+                <div className="bg-white/60 backdrop-blur-xs p-6 rounded-3xl border border-stone-200/80 shadow-2xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 ease-in-out group flex flex-col justify-between h-full">
+                  <div className="space-y-4">
+                    <div className="w-11 h-11 bg-coffee/10 text-coffee rounded-2xl flex items-center justify-center font-bold text-lg group-hover:scale-110 transition-transform duration-300">
+                      {pillar.icon}
+                    </div>
+                    <h3 className="font-bold text-base text-primary">{pillar.title}</h3>
+                    <p className="text-stone-500 text-xs leading-relaxed">{pillar.description}</p>
+                  </div>
                 </div>
-                <h3 className="font-bold text-base text-primary">Realidad Aumentada 3D</h3>
-                <p className="text-stone-500 text-xs leading-relaxed">
-                  Visualiza el tamaño y el aspecto exacto de nuestros panes y combos de café antes de comprarlos con tecnología AR interactiva.
-                </p>
-              </div>
-            </div>
-          </StaggerItem>
-
-          {/* Pillar 4 */}
-          <StaggerItem>
-            <div className="bg-white/60 backdrop-blur-xs p-6 rounded-3xl border border-stone-200/80 shadow-2xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 ease-in-out group flex flex-col justify-between h-full">
-              <div className="space-y-4">
-                <div className="w-11 h-11 bg-coffee/10 text-coffee rounded-2xl flex items-center justify-center font-bold text-lg group-hover:scale-110 transition-transform duration-300">
-                  <Heart size={20} />
-                </div>
-                <h3 className="font-bold text-base text-primary">Hecho con Amor</h3>
-                <p className="text-stone-500 text-xs leading-relaxed">
-                  Un emprendimiento fundado bajo la filosofía de honrar las tradiciones de la panadería artesanal y celebrar el buen café hecho en casa.
-                </p>
-              </div>
-            </div>
-          </StaggerItem>
+              </StaggerItem>
+            ));
+          })()}
         </StaggerContainer>
       </section>
 
       {/* TIMELINE SECTION - DEL GRANO A TU TAZA */}
       <CoffeeJourneySection data={sectionsData['home_journey']} />
+
+      {/* IMAGE GALLERY SECTION */}
+      {gallerySection && gallerySection.content_blocks && gallerySection.content_blocks.length > 0 && (
+        <ImageGallerySection
+          title={gallerySection.title || 'Nuestros Productos en Imágenes'}
+          subtitle={gallerySection.subtitle || 'Momentos especiales de nuestro proceso artesanal y productos de Rose Coffee.'}
+          slides={gallerySection.content_blocks}
+        />
+      )}
 
       {/* FEATURED PRODUCTS */}
       <section id="products" className="max-w-7xl mx-auto px-6 space-y-12">
@@ -468,15 +472,32 @@ const Home = () => {
               <div className="flex items-start gap-3">
                 <MapPin size={16} className="text-gold shrink-0 mt-0.5" />
                 <address className="not-italic text-white/80">
-                  E25 y Av. 17 de Septiembre<br />
-                  Milagro, Ecuador
+                  {businessSettings?.address || (
+                    <>
+                      E25 y Av. 17 de Septiembre<br />
+                      Milagro, Ecuador
+                    </>
+                  )}
                 </address>
               </div>
               <div className="flex items-start gap-3">
                 <Clock size={16} className="text-gold shrink-0 mt-0.5" />
                 <div>
                   <p className="font-bold text-white text-[10px] uppercase tracking-wider">Horario de Atención</p>
-                  <p className="mt-0.5 text-white/70">Lunes a Sábado: 8:00 AM - 8:00 PM</p>
+                  {(() => {
+                    const hours = businessSettings?.daily_hours;
+                    if (hours && typeof hours === 'object') {
+                      const openDays = Object.entries(hours)
+                        .filter(([, v]: [string, any]) => v.open)
+                        .map(([day, v]: [string, any]) => `${day}: ${v.start} - ${v.end}`);
+                      return openDays.length > 0 ? (
+                        <div className="mt-0.5 text-white/70 space-y-0.5">
+                          {openDays.map((line, i) => <p key={i}>{line}</p>)}
+                        </div>
+                      ) : <p className="mt-0.5 text-white/70">Consultar horarios</p>;
+                    }
+                    return <p className="mt-0.5 text-white/70">Lunes a Sábado: 8:00 AM - 8:00 PM</p>;
+                  })()}
                 </div>
               </div>
             </div>
@@ -490,12 +511,12 @@ const Home = () => {
               <h4 className="font-bold text-sm text-white">Pedido Rápido por WhatsApp</h4>
               <p className="text-xs text-white/60 leading-relaxed">¿Estás en Milagro? Coordina tus entregas directas a domicilio chateando directamente con nuestro barista en tiempo real.</p>
               <a 
-                href="https://wa.me/593980372113" 
+                href={`https://wa.me/${(businessSettings?.phone || '+593980372113').replace(/[^0-9]/g, '')}`}
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 px-6 py-3 bg-emerald-500 hover:bg-emerald-450 text-white rounded-xl text-xs font-bold transition-all duration-300 ease-in-out shadow-md hover:shadow-lg cursor-pointer"
               >
-                Escribir a WhatsApp (+593 98 037 2113)
+                Escribir a WhatsApp ({businessSettings?.phone || '+593 98 037 2113'})
               </a>
             </div>
           </div>

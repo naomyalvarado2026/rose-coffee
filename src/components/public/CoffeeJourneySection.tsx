@@ -45,12 +45,38 @@ interface CoffeeJourneySectionProps {
   data?: {
     title?: string;
     subtitle?: string;
+    content_blocks?: Array<{
+      title?: string;
+      description?: string;
+      textContent?: string;
+      text?: string;
+      icon?: string;
+    }>;
   };
 }
+
+const ICON_MAP: Record<string, React.ReactNode> = {
+  sprout: <Sprout className="w-6 h-6 text-coffee" />,
+  check: <CheckSquare className="w-6 h-6 text-coffee" />,
+  flame: <Flame className="w-6 h-6 text-coffee" />,
+  coffee: <Coffee className="w-6 h-6 text-coffee" />,
+  smile: <Smile className="w-6 h-6 text-coffee" />,
+};
 
 export default function CoffeeJourneySection({ data }: CoffeeJourneySectionProps) {
   const title = data?.title || 'Del Grano a Tu Taza';
   const subtitle = data?.subtitle || 'Un viaje de dedicación y respeto por el origen que define el sabor de cada sorbo.';
+
+  // Use dynamic content_blocks if available, otherwise fall back to static STEPS
+  const dynamicBlocks = data?.content_blocks;
+  const steps: Step[] = (dynamicBlocks && Array.isArray(dynamicBlocks) && dynamicBlocks.length > 0)
+    ? dynamicBlocks.map((block, idx) => ({
+        number: String(idx + 1).padStart(2, '0'),
+        title: block.title || block.textContent || `Paso ${idx + 1}`,
+        description: block.description || block.text || '',
+        icon: ICON_MAP[block.icon || ''] || STEPS[idx % STEPS.length].icon,
+      }))
+    : STEPS;
 
   return (
     <section className="max-w-7xl mx-auto px-6 py-16 space-y-12 relative overflow-hidden">
@@ -81,7 +107,7 @@ export default function CoffeeJourneySection({ data }: CoffeeJourneySectionProps
         <div className="absolute left-4 md:left-1/2 top-4 bottom-4 w-[2px] bg-gradient-to-b from-coffee/20 via-coffee/40 to-coffee/10 md:-translate-x-1/2" />
 
         <div className="space-y-12">
-          {STEPS.map((step, index) => {
+          {steps.map((step, index) => {
             const isEven = index % 2 === 0;
             return (
               <motion.div

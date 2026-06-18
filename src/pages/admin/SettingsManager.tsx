@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Settings, Save, Shield, Phone, CreditCard, Loader2 } from 'lucide-react';
+import { Settings, Save, Shield, Phone, CreditCard, Loader2, MapPin } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import AdminHeader from '../../components/admin/AdminHeader';
 import { toast } from 'sonner';
@@ -7,6 +7,7 @@ import { supabase } from '../../config/supabase';
 
 export default function SettingsManager() {
   const [phone, setPhone] = useState('+593980372113');
+  const [address, setAddress] = useState('E25 y Av. 17 de Septiembre, Milagro, Ecuador.');
   const [facebookUrl, setFacebookUrl] = useState('https://facebook.com');
   const [instagramUrl, setInstagramUrl] = useState('https://instagram.com');
   const [tiktokUrl, setTiktokUrl] = useState('https://tiktok.com');
@@ -32,6 +33,9 @@ export default function SettingsManager() {
         // Fast local recovery on first render
         const cachedPhone = localStorage.getItem('rose_coffee_business_phone');
         if (cachedPhone) setPhone(cachedPhone);
+
+        const cachedAddress = localStorage.getItem('rose_coffee_business_address');
+        if (cachedAddress) setAddress(cachedAddress);
 
         const cachedFacebook = localStorage.getItem('rose_coffee_facebook_url');
         if (cachedFacebook) setFacebookUrl(cachedFacebook);
@@ -72,6 +76,10 @@ export default function SettingsManager() {
             setPhone(cfg.phone);
             localStorage.setItem('rose_coffee_business_phone', cfg.phone);
           }
+          if (cfg.address) {
+            setAddress(cfg.address);
+            localStorage.setItem('rose_coffee_business_address', cfg.address);
+          }
           if (cfg.facebook_url) {
             setFacebookUrl(cfg.facebook_url);
             localStorage.setItem('rose_coffee_facebook_url', cfg.facebook_url);
@@ -107,6 +115,7 @@ export default function SettingsManager() {
     setLoading(true);
     try {
       localStorage.setItem('rose_coffee_business_phone', phone);
+      localStorage.setItem('rose_coffee_business_address', address);
       localStorage.setItem('rose_coffee_facebook_url', facebookUrl);
       localStorage.setItem('rose_coffee_instagram_url', instagramUrl);
       localStorage.setItem('rose_coffee_tiktok_url', tiktokUrl);
@@ -130,6 +139,7 @@ export default function SettingsManager() {
           subtitle: 'Parámetros y Redes',
           content_blocks: [{
             phone,
+            address,
             facebook_url: facebookUrl,
             instagram_url: instagramUrl,
             tiktok_url: tiktokUrl,
@@ -204,6 +214,23 @@ export default function SettingsManager() {
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
                   className="w-full pl-10 pr-4 py-2.5 border border-stone-200 rounded-xl text-xs font-mono font-bold text-stone-850 bg-stone-50/40 focus:bg-white focus:border-coffee focus:ring-2 focus:ring-coffee/20 focus:outline-none transition-all duration-200"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label htmlFor="business_address" className="block text-[10px] font-bold text-stone-500 uppercase tracking-widest mb-1.5">
+                Dirección Física de la Cafetería
+              </label>
+              <div className="relative">
+                <MapPin size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400" />
+                <input
+                  id="business_address"
+                  type="text"
+                  value={address}
+                  onChange={(e) => setAddress(e.target.value)}
+                  className="w-full pl-10 pr-4 py-2.5 border border-stone-200 rounded-xl text-xs text-stone-850 bg-stone-50/40 focus:bg-white focus:border-coffee focus:ring-2 focus:ring-coffee/20 focus:outline-none transition-all duration-200"
+                  placeholder="Ej. E25 y Av. 17 de Septiembre, Milagro, Ecuador."
                 />
               </div>
             </div>

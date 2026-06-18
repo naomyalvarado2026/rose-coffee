@@ -28,6 +28,7 @@ const Contact = () => {
   });
 
   const [phone, setPhone] = useState('+593 98 765 4321');
+  const [address, setAddress] = useState('E25 y Av. 17 de Septiembre, Milagro, Ecuador.');
   const [facebookUrl, setFacebookUrl] = useState('https://facebook.com');
   const [instagramUrl, setInstagramUrl] = useState('https://instagram.com');
   const [tiktokUrl, setTiktokUrl] = useState('https://tiktok.com');
@@ -36,6 +37,8 @@ const Contact = () => {
     // Fast cache recovery
     const cachedPhone = localStorage.getItem('rose_coffee_business_phone');
     if (cachedPhone) setPhone(cachedPhone);
+    const cachedAddress = localStorage.getItem('rose_coffee_business_address');
+    if (cachedAddress) setAddress(cachedAddress);
     const cachedFacebook = localStorage.getItem('rose_coffee_facebook_url');
     if (cachedFacebook) setFacebookUrl(cachedFacebook);
     const cachedInstagram = localStorage.getItem('rose_coffee_instagram_url');
@@ -87,6 +90,10 @@ const Contact = () => {
           if (cfg.tiktok_url) {
             setTiktokUrl(cfg.tiktok_url);
             localStorage.setItem('rose_coffee_tiktok_url', cfg.tiktok_url);
+          }
+          if (cfg.address) {
+            setAddress(cfg.address);
+            localStorage.setItem('rose_coffee_business_address', cfg.address);
           }
         }
       } catch (e) {
@@ -228,7 +235,7 @@ const Contact = () => {
                 <div>
                   <h4 className="font-sans font-bold text-stone-850 text-sm">Dirección</h4>
                   <p className="text-xs text-stone-500 mt-1 leading-relaxed font-medium">
-                    E25 y Av. 17 de Septiembre, Milagro, Ecuador.
+                    {address}
                   </p>
                 </div>
               </motion.div>

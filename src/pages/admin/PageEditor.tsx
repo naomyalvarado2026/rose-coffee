@@ -10,8 +10,9 @@ import MediaUploader from '../../components/common/MediaUploader';
 import { 
   Save, Loader2, RefreshCw, Layout, Eye, 
   ArrowUp, ArrowDown, Trash2, Plus, X, Settings, Info,
-  Image as ImageIcon, Search
+  Image as ImageIcon, Search, Link2, CheckCircle2
 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import MediaSearchModal from '../../components/admin/MediaSearchModal';
 
 interface DBPageSection {
@@ -186,6 +187,27 @@ const SYSTEM_SECTION_OPTIONS = [
   { value: 'system_gallery', label: 'Especial: Galería de Diapositivas' },
   { value: 'system_about_pillars', label: 'Especial: Nuestros Pilares Artesanales' }
 ];
+
+// Connectivity map: which sections are dynamically connected to the frontend
+const CONNECTIVITY_MAP: Record<string, { connected: boolean; hint: string }> = {
+  home_hero: { connected: true, hint: 'Título, subtítulo e imagen se muestran dinámicamente en el Hero del Inicio.' },
+  home_welcome: { connected: true, hint: 'Título, subtítulo y pilares (content_blocks) se renderizan dinámicamente.' },
+  home_journey: { connected: true, hint: 'Título, subtítulo y pasos del timeline se cargan dinámicamente.' },
+  home_origin: { connected: true, hint: 'Título, subtítulo e imagen se muestran dinámicamente en la sección Origen.' },
+  home_gallery: { connected: true, hint: 'Galería de imágenes renderizada como carrusel animado en la página de Inicio.' },
+  home_schedules: { connected: true, hint: 'Los horarios se cargan dinámicamente desde Configuración de Tienda (business_settings).' },
+  home_events: { connected: false, hint: 'Módulo de eventos pendiente de conectar al frontend.' },
+  home_sermons: { connected: false, hint: 'Artículos del blog pendiente de conectar al frontend.' },
+  home_birthdays: { connected: false, hint: 'Clientes destacados pendiente de conectar al frontend.' },
+  home_donations: { connected: false, hint: 'Suscripciones se muestran con datos estáticos por ahora.' },
+  about_hero: { connected: true, hint: 'Título, subtítulo e imagen se muestran en el Hero de Nosotros.' },
+  about_vision_mission: { connected: true, hint: 'Misión y Visión se renderizan dinámicamente.' },
+  about_history: { connected: true, hint: 'Historia se renderiza dinámicamente.' },
+  about_pillars: { connected: true, hint: 'Pilares artesanales se muestran dinámicamente.' },
+  about_pastoral: { connected: true, hint: 'El equipo fundador se muestra dinámicamente.' },
+  store_hero: { connected: true, hint: 'Banner de tienda se renderiza dinámicamente.' },
+  contact_hero: { connected: true, hint: 'Cabecera de contacto se renderiza dinámicamente.' },
+};
 
 const PageEditor = () => {
   const confirm = useConfirmStore((state) => state.confirm);
@@ -565,7 +587,20 @@ const PageEditor = () => {
                       onClick={() => setSelectedSection(sec.id)}
                       className="flex-grow text-left px-2.5 py-1.5 text-xs font-bold flex flex-col gap-0.5 min-w-0"
                     >
-                      <span className="truncate">{sec.name}</span>
+                      <span className="truncate flex items-center gap-1.5">
+                        {sec.name}
+                        {(() => {
+                          const conn = CONNECTIVITY_MAP[sec.id];
+                          if (conn) {
+                            return conn.connected ? (
+                              <span className="inline-block w-2 h-2 bg-emerald-400 rounded-full flex-shrink-0" title="Conectado al frontend" />
+                            ) : (
+                              <span className="inline-block w-2 h-2 bg-amber-400 rounded-full flex-shrink-0" title="No conectado al frontend" />
+                            );
+                          }
+                          return null;
+                        })()}
+                      </span>
                       <span className="text-[9px] font-normal text-slate-400">
                         {isSystemComponent ? 'Módulo Especial' : 'Contenido por Bloques'}
                       </span>
@@ -637,6 +672,34 @@ const PageEditor = () => {
                   Ver Cambios
                 </a>
               </div>
+
+              {/* Connectivity Status Banner */}
+              {(() => {
+                const conn = CONNECTIVITY_MAP[activeSec.id];
+                if (conn) {
+                  return conn.connected ? (
+                    <div className="flex gap-2.5 bg-emerald-50/60 border border-emerald-100 p-3.5 rounded-xl text-xs text-emerald-800 items-center">
+                      <CheckCircle2 className="text-emerald-500 flex-shrink-0" size={16} />
+                      <div>
+                        <span className="font-bold block text-emerald-700">Conectada al Frontend</span>
+                        {conn.hint}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="flex gap-2.5 bg-amber-50/60 border border-amber-100 p-3.5 rounded-xl text-xs text-amber-800 items-center">
+                      <Link2 className="text-amber-500 flex-shrink-0" size={16} />
+                      <div>
+                        <span className="font-bold block text-amber-700">Pendiente de Conexión</span>
+                        {conn.hint}
+                        {(activeSec.id.includes('schedules') || activeSec.id.includes('donations')) && (
+                          <Link to="/admin/configuracion" className="text-primary font-bold underline ml-1 hover:text-blue-900">Ir a Configuración de Tienda →</Link>
+                        )}
+                      </div>
+                    </div>
+                  );
+                }
+                return null;
+              })()}
 
               {/* Parámetros Básicos */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
