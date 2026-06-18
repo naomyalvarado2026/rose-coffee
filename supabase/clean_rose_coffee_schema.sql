@@ -18,6 +18,7 @@ DROP TABLE IF EXISTS public.product_variants CASCADE;
 DROP TABLE IF EXISTS public.ar_target_mappings CASCADE;
 DROP TABLE IF EXISTS public.ar_targets CASCADE;
 DROP TABLE IF EXISTS public.product_ar_models CASCADE;
+DROP TABLE IF EXISTS public.ar_experiences CASCADE;
 DROP TABLE IF EXISTS public.products CASCADE;
 DROP TABLE IF EXISTS public.members CASCADE;
 DROP TABLE IF EXISTS public.events CASCADE;
@@ -106,6 +107,26 @@ CREATE TABLE public.ministries (
 -- ------------------------------------------------------------------------------
 -- 5. TABLAS DEL E-COMMERCE (PRODUCTS, VARIANTS, DIGITAL ASSETS, ORDERS)
 -- ------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS public.ar_experiences (
+  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  name text NOT NULL,
+  type text NOT NULL CHECK (type IN ('MODEL_3D', 'VIDEO_AR', 'MIXED_EXPERIENCE')),
+  category text NOT NULL CHECK (category IN ('PRODUCT', 'VIDEO', 'ANIMATION')),
+  preview_image text,
+  model_url text,
+  video_url text,
+  scale jsonb DEFAULT '{"x": 1, "y": 1, "z": 1}'::jsonb,
+  position jsonb DEFAULT '{"x": 0, "y": 0, "z": 0}'::jsonb,
+  rotation text DEFAULT '0deg 0deg 0deg',
+  animation_settings jsonb DEFAULT '{}'::jsonb,
+  enabled boolean DEFAULT true,
+  product_id uuid, -- FK added after products is created
+  views_count integer DEFAULT 0,
+  interaction_count integer DEFAULT 0,
+  purchase_clicks_count integer DEFAULT 0,
+  created_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
 CREATE TABLE public.products (
   id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
   name text NOT NULL,
@@ -117,9 +138,15 @@ CREATE TABLE public.products (
   type text DEFAULT 'physical' NOT NULL CHECK (type IN ('physical', 'digital')),
   features jsonb DEFAULT '[]'::jsonb,
   cover_image_url text,
+  ar_model_url text,
+  ar_poster_url text,
+  ar_enabled boolean DEFAULT false NOT NULL,
+  ar_experience_id uuid REFERENCES public.ar_experiences(id) ON DELETE SET NULL,
   deleted_at timestamp with time zone DEFAULT NULL,
   created_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL
 );
+
+ALTER TABLE public.ar_experiences ADD CONSTRAINT ar_experiences_product_id_fkey FOREIGN KEY (product_id) REFERENCES public.products(id) ON DELETE SET NULL;
 
 CREATE TABLE public.product_variants (
   id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -303,6 +330,7 @@ ALTER TABLE public.inventory_items ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.product_ar_models ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.ar_targets ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.ar_target_mappings ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.ar_experiences ENABLE ROW LEVEL SECURITY;
 
 -- POLÍTICAS: PROFILES
 CREATE POLICY "Permitir lectura pública de perfiles" ON public.profiles FOR SELECT USING (true);
@@ -462,6 +490,42 @@ CREATE POLICY "Permitir gestión de mapeos AR a administradores y editores" ON p
       WHERE id = auth.uid() AND role = 'editor'
     )
   );
+
+-- POLÍTICAS: AR_EXPERIENCES
+CREATE POLICY "Permitir lectura pública de experiencias AR" ON public.ar_experiences
+  FOR SELECT USING (true);
+CREATE POLICY "Permitir gestión de experiencias AR a administradores y editores" ON public.ar_experiences
+  FOR ALL USING (
+    public.is_admin() OR EXISTS (
+      SELECT 1 FROM public.profiles
+      WHERE id = auth.uid() AND role = 'editor'
+    )
+  );
+
+-- RPC: INCREMENTO DE MÉTRICAS AR
+CREATE OR REPLACE FUNCTION public.increment_ar_metric(experience_id UUID, metric_name TEXT)
+RETURNS VOID
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+BEGIN
+  IF metric_name = 'views' THEN
+    UPDATE public.ar_experiences
+    SET views_count = views_count + 1
+    WHERE id = experience_id;
+  ELSIF metric_name = 'interactions' THEN
+    UPDATE public.ar_experiences
+    SET interaction_count = interaction_count + 1
+    WHERE id = experience_id;
+  ELSIF metric_name = 'purchases' THEN
+    UPDATE public.ar_experiences
+    SET purchase_clicks_count = purchase_clicks_count + 1
+    WHERE id = experience_id;
+  END IF;
+END;
+$$;
+
+GRANT EXECUTE ON FUNCTION public.increment_ar_metric(UUID, TEXT) TO anon, authenticated;
 
 -- ------------------------------------------------------------------------------
 -- 8. CARGAR SEMILLAS INICIALES (SEED DATA)
