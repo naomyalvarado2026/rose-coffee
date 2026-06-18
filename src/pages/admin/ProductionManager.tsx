@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ChefHat, Wheat, Sparkles, RefreshCw, Flame, Clock, ChevronRight, ChevronLeft, Trash2, Archive, Plus, X, Save } from 'lucide-react';
+import { ChefHat, Wheat, Sparkles, RefreshCw, Flame, Clock, ChevronRight, ChevronLeft, Archive, Plus, X, Save } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import AdminHeader from '../../components/admin/AdminHeader';
 import { toast } from 'sonner';

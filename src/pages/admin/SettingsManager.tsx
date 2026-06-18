@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Settings, Save, Shield, Phone, Clock, CreditCard } from 'lucide-react';
+import { Settings, Save, Shield, Phone, CreditCard } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import AdminHeader from '../../components/admin/AdminHeader';
 import { toast } from 'sonner';
