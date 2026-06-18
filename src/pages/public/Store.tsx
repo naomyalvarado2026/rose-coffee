@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../config/supabase';
-import type { Product, ProductARModel } from '../../types';
+import type { Product } from '../../types';
 import { Search, ShoppingBag, Filter, Eye, Maximize2 } from 'lucide-react';
 import OptimizedMedia from '../../components/common/OptimizedMedia';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -82,7 +82,7 @@ const Store = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Todas');
   const [arProductIds, setArProductIds] = useState<Set<string>>(new Set());
-  const [arViewerModel, setArViewerModel] = useState<{ model: ProductARModel; name: string } | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [storeHeroData, setStoreHeroData] = useState<any>(null);
 
   const fetchProducts = async () => {
@@ -154,11 +154,23 @@ const Store = () => {
         .eq('product_id', product.id)
         .maybeSingle();
       if (error) throw error;
-      if (data) {
-        setArViewerModel({ model: data as ProductARModel, name: product.name });
-      }
+      setSelectedProduct({ ...product, product_ar_models: data || null });
     } catch (err) {
       console.error('Error loading AR model:', err);
+    }
+  };
+
+  const handleProductSelect = async (product: Product) => {
+    try {
+      const { data, error } = await supabase
+        .from('product_ar_models')
+        .select('*')
+        .eq('product_id', product.id)
+        .maybeSingle();
+      if (error) throw error;
+      setSelectedProduct({ ...product, product_ar_models: data || null });
+    } catch (err) {
+      console.error('Error switching product:', err);
     }
   };
 
@@ -380,7 +392,7 @@ const Store = () => {
 
       {/* AR Viewer Modal */}
       <AnimatePresence>
-        {arViewerModel && (
+        {selectedProduct && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -395,9 +407,10 @@ const Store = () => {
             >
               <div className="flex-1">
                 <ARViewer
-                  arModel={arViewerModel.model}
-                  productName={arViewerModel.name}
-                  onClose={() => setArViewerModel(null)}
+                  activeProduct={selectedProduct}
+                  products={products.filter(p => arProductIds.has(p.id) || !!p.ar_model_url)}
+                  onProductSelect={handleProductSelect}
+                  onClose={() => setSelectedProduct(null)}
                 />
               </div>
             </motion.div>

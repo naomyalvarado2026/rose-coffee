@@ -528,8 +528,7 @@ const ProductDetail = () => {
             >
               <div className="flex-1">
                 <ARViewer
-                  arModel={arModel}
-                  productName={product.name}
+                  activeProduct={{ ...product, product_ar_models: arModel }}
                   onClose={() => setIsArOpen(false)}
                 />
               </div>

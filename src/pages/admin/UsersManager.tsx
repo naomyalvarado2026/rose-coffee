@@ -20,6 +20,8 @@ import { ADMIN_MODULES } from '../../config/adminModules';
 const ROLES: { id: UserRole; label: string }[] = [
   { id: 'customer', label: 'Cliente (Customer)' },
   { id: 'admin', label: 'Administrador (Admin)' },
+  { id: 'editor', label: 'Editor (Editor)' },
+  { id: 'staff', label: 'Personal de Tienda (Staff)' },
 ];
 
 const UsersManager = () => {

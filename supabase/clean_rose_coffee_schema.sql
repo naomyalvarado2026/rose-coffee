@@ -72,7 +72,7 @@ CREATE TABLE public.profiles (
   email text,
   photo_url text,
   banned boolean DEFAULT false NOT NULL,
-  role text DEFAULT 'customer' NOT NULL CHECK (role IN ('admin', 'customer')),
+  role text DEFAULT 'customer' NOT NULL CHECK (role IN ('admin', 'customer', 'editor', 'staff')),
   permissions_override jsonb DEFAULT NULL,
   created_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL,
   updated_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL
@@ -82,7 +82,7 @@ CREATE TABLE public.profiles (
 -- 3. TABLA DE PERMISOS POR ROL (ROLE_PERMISSIONS)
 -- ------------------------------------------------------------------------------
 CREATE TABLE public.role_permissions (
-  role text PRIMARY KEY CHECK (role IN ('admin', 'customer')),
+  role text PRIMARY KEY CHECK (role IN ('admin', 'customer', 'editor', 'staff')),
   permissions jsonb NOT NULL DEFAULT '{}'::jsonb,
   updated_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL
 );

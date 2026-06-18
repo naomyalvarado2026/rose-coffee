@@ -166,7 +166,7 @@ const StoreManager = () => {
       price: undefined,
       stock: undefined,
       stock_min: 5,
-      category: 'Libros',
+      category: 'Café',
       type: 'physical',
       image_url: '',
       description: '',
@@ -243,7 +243,7 @@ const StoreManager = () => {
       price: undefined,
       stock: undefined,
       stock_min: 5,
-      category: 'Libros',
+      category: 'Café',
       type: 'physical',
       image_url: '',
       description: '',
@@ -727,11 +727,12 @@ const StoreManager = () => {
                     {...register('category')}
                     className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm bg-white focus:ring-2 focus:ring-primary/20 focus:outline-none cursor-pointer"
                   >
-                    <option value="Libros">Libros</option>
-                    <option value="Música">Música</option>
-                    <option value="Ropa">Ropa</option>
-                    <option value="Eventos">Eventos</option>
-                    <option value="Recursos">Recursos</option>
+                    <option value="Café">Café</option>
+                    <option value="Panadería">Panadería</option>
+                    <option value="Bebidas">Bebidas</option>
+                    <option value="Accesorios">Accesorios</option>
+                    <option value="Materia Prima">Materia Prima</option>
+                    <option value="Otros">Otros</option>
                   </select>
                   {errors.category && <p className="text-accent-red text-xs mt-1">{errors.category.message}</p>}
                 </div>
@@ -905,9 +906,9 @@ const StoreManager = () => {
                     <p className="text-xs text-gray-400 italic">No hay especificaciones añadidas. Se autodetectarán iconos por palabras clave o puedes añadirlos manualmente.</p>
                   </div>
                 ) : (
-                  <div className="space-y-2 max-h-80 overflow-y-auto pr-1">
+                  <div className="space-y-2 overflow-visible pr-1">
                     {formFeatures.map((feat, idx) => (
-                      <div key={idx} className="flex flex-col sm:flex-row gap-2 items-center bg-slate-50 p-2 rounded-xl border border-gray-150">
+                      <div key={idx} className="relative flex flex-col sm:flex-row gap-2 items-center bg-slate-50 p-2 rounded-xl border border-gray-150 z-10 hover:z-40 focus-within:z-40">
                         {/* Controles de orden e Input de texto */}
                         <div className="flex items-center gap-1.5 w-full sm:flex-grow">
                           <div className="flex flex-col gap-0.5">
