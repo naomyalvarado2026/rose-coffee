@@ -569,16 +569,26 @@ VALUES (
 )
 ON CONFLICT (product_id) DO NOTHING;
 
--- Asignar el rol 'admin' al superusuario especificado (Esteban)
--- Solo se ejecuta si el usuario ya existe en auth.users (evita FK violation)
+-- Asignar el rol 'admin' a los superusuarios especificados (Esteban y Naomy)
+-- Se ejecuta dinámicamente buscando por ID o por email para evitar FK violations
 DO $$
+DECLARE
+  esteban_id uuid;
+  naomy_id uuid;
 BEGIN
+  -- 1. Promover a Esteban por ID
   IF EXISTS (SELECT 1 FROM auth.users WHERE id = '2e523d97-61c5-45b5-a424-938be3dddd67') THEN
     INSERT INTO public.profiles (id, email, role, first_name, last_name)
     VALUES ('2e523d97-61c5-45b5-a424-938be3dddd67', 'estebanico10@gmail.com', 'admin', 'Esteban', '')
     ON CONFLICT (id) DO UPDATE SET role = 'admin';
-  ELSE
-    RAISE NOTICE 'El usuario admin aún no está en auth.users. Regístrate con estebanico10@gmail.com y luego corre el script de promoción a admin.';
+  END IF;
+
+  -- 2. Promover a Naomy por Email
+  SELECT id INTO naomy_id FROM auth.users WHERE email = 'naomyalvarado.2026@gmail.com';
+  IF naomy_id IS NOT NULL THEN
+    INSERT INTO public.profiles (id, email, role, first_name, last_name)
+    VALUES (naomy_id, 'naomyalvarado.2026@gmail.com', 'admin', 'Naomy', 'Alvarado')
+    ON CONFLICT (id) DO UPDATE SET role = 'admin';
   END IF;
 END $$;
 
