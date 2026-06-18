@@ -22,6 +22,7 @@ interface ARViewerProps {
 export default function ARViewer({ arModel, productName, onClose, hotspots, poster }: ARViewerProps) {
   const modelViewerRef = useRef<any>(null);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
   const [activeHotspot, setActiveHotspot] = useState<ARHotspot | null>(null);
   const [videoPlayBlocked, setVideoPlayBlocked] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -30,7 +31,13 @@ export default function ARViewer({ arModel, productName, onClose, hotspots, post
     const viewer = modelViewerRef.current;
     if (!viewer) return;
 
+    // Safety timeout — if the model takes >15s or CORS blocks it, stop spinning
+    const safetyTimeout = setTimeout(() => {
+      setLoading(false);
+    }, 15000);
+
     const handleLoad = async () => {
+      clearTimeout(safetyTimeout);
       setLoading(false);
 
       // Handle dynamic video textures
@@ -41,7 +48,6 @@ export default function ARViewer({ arModel, productName, onClose, hotspots, post
           );
 
           if (material) {
-            // Create a silent, inline video element
             const video = document.createElement('video');
             video.src = arModel.video_url;
             video.autoplay = true;
@@ -54,13 +60,11 @@ export default function ARViewer({ arModel, productName, onClose, hotspots, post
             document.body.appendChild(video);
             videoRef.current = video;
 
-            // Attempt to play
             video.play().catch((err) => {
               console.warn('Autoplay blocked or low power mode active:', err);
               setVideoPlayBlocked(true);
             });
 
-            // Create video texture and set it on the PBR material
             const texture = await viewer.createVideoTexture(video);
             if (material.pbrMetallicRoughness?.baseColorTexture) {
               material.pbrMetallicRoughness.baseColorTexture.setTexture(texture);
@@ -72,10 +76,19 @@ export default function ARViewer({ arModel, productName, onClose, hotspots, post
       }
     };
 
+    const handleError = () => {
+      clearTimeout(safetyTimeout);
+      setLoading(false);
+      setLoadError(true);
+    };
+
     viewer.addEventListener('load', handleLoad);
+    viewer.addEventListener('error', handleError);
 
     return () => {
+      clearTimeout(safetyTimeout);
       viewer.removeEventListener('load', handleLoad);
+      viewer.removeEventListener('error', handleError);
       if (videoRef.current) {
         videoRef.current.pause();
         videoRef.current.remove();
@@ -131,8 +144,18 @@ export default function ARViewer({ arModel, productName, onClose, hotspots, post
       {/* Loading Overlay */}
       {loading && (
         <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-xs flex flex-col items-center justify-center gap-3 z-20 text-slate-400">
-          <Loader2 className="w-8 h-8 text-primary animate-spin" />
+          <Loader2 className="w-8 h-8 text-blue-400 animate-spin" />
           <span className="text-xs font-bold uppercase tracking-wider">Cargando Modelo 3D...</span>
+          <span className="text-[10px] text-slate-500 mt-1">Puede tardar unos segundos</span>
+        </div>
+      )}
+
+      {/* Error overlay */}
+      {loadError && !loading && (
+        <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-xs flex flex-col items-center justify-center gap-3 z-20 text-slate-400 p-6 text-center">
+          <AlertTriangle className="w-10 h-10 text-amber-500" />
+          <span className="text-sm font-bold text-slate-300">No se pudo cargar el modelo 3D</span>
+          <span className="text-[11px] text-slate-500 leading-relaxed">El archivo GLB no está disponible o el formato no es compatible con tu navegador.</span>
         </div>
       )}
 
@@ -167,8 +190,7 @@ export default function ARViewer({ arModel, productName, onClose, hotspots, post
         auto-rotate={arModel.auto_rotate}
         xr-environment={arModel.xr_environment}
         shadow-intensity={arModel.shadow_intensity?.toString() || '1.0'}
-        loading="lazy"
-        reveal="interaction"
+        loading="eager"
         environment-image="neutral"
         exposure="1"
         shadow-softness="1"

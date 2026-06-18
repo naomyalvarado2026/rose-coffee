@@ -142,16 +142,16 @@ export default function ARShowcase() {
                 {/* Details */}
                 <div className="p-5 flex-1 flex flex-col justify-between">
                   <div>
-                    <h3 className="font-sans font-bold text-base text-[#021a54]">
+                    <h3 className="font-sans font-bold text-base text-stone-900">
                       {product.name}
                     </h3>
-                    <p className="text-xs text-slate-500 mt-1 line-clamp-2">
+                    <p className="text-xs text-stone-500 mt-1 line-clamp-2">
                       {product.description}
                     </p>
                   </div>
 
-                  <div className="flex items-center justify-between mt-5 pt-3 border-t border-slate-50">
-                    <span className="text-base font-bold text-[#6b3a0e]">
+                  <div className="flex items-center justify-between mt-5 pt-3 border-t border-stone-100">
+                    <span className="text-base font-bold text-[#021a54]">
                       ${Number(product.price).toFixed(2)}
                     </span>
                     <div className="flex gap-2">
