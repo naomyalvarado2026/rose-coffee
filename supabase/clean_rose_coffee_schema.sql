@@ -15,6 +15,9 @@ DROP TABLE IF EXISTS public.order_items CASCADE;
 DROP TABLE IF EXISTS public.orders CASCADE;
 DROP TABLE IF EXISTS public.product_digital_assets CASCADE;
 DROP TABLE IF EXISTS public.product_variants CASCADE;
+DROP TABLE IF EXISTS public.ar_target_mappings CASCADE;
+DROP TABLE IF EXISTS public.ar_targets CASCADE;
+DROP TABLE IF EXISTS public.product_ar_models CASCADE;
 DROP TABLE IF EXISTS public.products CASCADE;
 DROP TABLE IF EXISTS public.members CASCADE;
 DROP TABLE IF EXISTS public.events CASCADE;
@@ -210,6 +213,66 @@ CREATE TABLE public.form_responses (
 );
 
 -- ------------------------------------------------------------------------------
+-- 6.5. TABLAS DE INVENTARIO Y REALIDAD AUMENTADA (WEBAR)
+-- ------------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS public.inventory_categories (
+  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  name text NOT NULL UNIQUE,
+  created_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS public.inventory_items (
+  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  name text NOT NULL,
+  category_id uuid REFERENCES public.inventory_categories(id) ON DELETE SET NULL,
+  photo_url text,
+  purchase_date date,
+  product_link text,
+  price numeric(10, 2) DEFAULT 0.00 NOT NULL,
+  status text NOT NULL DEFAULT 'buen_estado' CHECK (status IN ('buen_estado', 'reparacion', 'critico')),
+  quantity integer NOT NULL DEFAULT 1 CHECK (quantity >= 0),
+  description text,
+  video_url text,
+  created_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL,
+  updated_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS public.product_ar_models (
+  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  product_id uuid REFERENCES public.products(id) ON DELETE CASCADE NOT NULL UNIQUE,
+  glb_url text NOT NULL,
+  usdz_url text,
+  ar_scale text DEFAULT 'fixed' CHECK (ar_scale IN ('fixed', 'auto')),
+  shadow_intensity numeric(3,2) DEFAULT 1.0,
+  xr_environment boolean DEFAULT true,
+  auto_rotate boolean DEFAULT true,
+  camera_controls boolean DEFAULT true,
+  hotspots jsonb DEFAULT '[]'::jsonb,
+  video_url text,
+  video_target_material text,
+  created_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS public.ar_targets (
+  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  name text NOT NULL,
+  mind_file_url text NOT NULL,
+  description text,
+  created_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS public.ar_target_mappings (
+  id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
+  target_id uuid REFERENCES public.ar_targets(id) ON DELETE CASCADE NOT NULL,
+  target_index integer NOT NULL,
+  product_id uuid REFERENCES public.products(id) ON DELETE CASCADE,
+  video_url text,
+  video_chromakey boolean DEFAULT false,
+  created_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL,
+  UNIQUE (target_id, target_index)
+);
+
+-- ------------------------------------------------------------------------------
 -- 7. CONFIGURAR ROW LEVEL SECURITY (RLS) PARA TODAS LAS TABLAS
 -- ------------------------------------------------------------------------------
 -- Función helper con SECURITY DEFINER para romper recursión infinita en RLS
@@ -235,6 +298,11 @@ ALTER TABLE public.logos ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.contact_messages ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.page_contents ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.form_responses ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.inventory_categories ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.inventory_items ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.product_ar_models ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.ar_targets ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.ar_target_mappings ENABLE ROW LEVEL SECURITY;
 
 -- POLÍTICAS: PROFILES
 CREATE POLICY "Permitir lectura pública de perfiles" ON public.profiles FOR SELECT USING (true);
@@ -335,6 +403,66 @@ CREATE POLICY "Permitir gestión de respuestas a administradores" ON public.form
   public.is_admin()
 );
 
+-- POLÍTICAS: INVENTORY_CATEGORIES
+CREATE POLICY "Permitir lectura de categorías a usuarios autenticados" ON public.inventory_categories
+  FOR SELECT USING (auth.uid() IS NOT NULL);
+CREATE POLICY "Permitir gestión de categorías a personal autorizado" ON public.inventory_categories
+  FOR ALL USING (
+    public.is_admin() OR EXISTS (
+      SELECT 1 FROM public.profiles
+      WHERE id = auth.uid() AND role IN ('editor', 'staff')
+    )
+  );
+
+-- POLÍTICAS: INVENTORY_ITEMS
+CREATE POLICY "Permitir lectura de inventario a personal autorizado" ON public.inventory_items
+  FOR SELECT USING (
+    auth.uid() IS NOT NULL AND EXISTS (
+      SELECT 1 FROM public.profiles
+      WHERE id = auth.uid() AND role IN ('admin', 'editor', 'staff')
+    )
+  );
+CREATE POLICY "Permitir gestión de inventario a personal autorizado" ON public.inventory_items
+  FOR ALL USING (
+    public.is_admin() OR EXISTS (
+      SELECT 1 FROM public.profiles
+      WHERE id = auth.uid() AND role = 'editor'
+    )
+  );
+
+-- POLÍTICAS: PRODUCT_AR_MODELS
+CREATE POLICY "Permitir lectura pública de modelos AR" ON public.product_ar_models
+  FOR SELECT USING (true);
+CREATE POLICY "Permitir gestión de modelos AR a administradores y editores" ON public.product_ar_models
+  FOR ALL USING (
+    public.is_admin() OR EXISTS (
+      SELECT 1 FROM public.profiles
+      WHERE id = auth.uid() AND role = 'editor'
+    )
+  );
+
+-- POLÍTICAS: AR_TARGETS
+CREATE POLICY "Permitir lectura pública de objetivos AR" ON public.ar_targets
+  FOR SELECT USING (true);
+CREATE POLICY "Permitir gestión de objetivos AR a administradores y editores" ON public.ar_targets
+  FOR ALL USING (
+    public.is_admin() OR EXISTS (
+      SELECT 1 FROM public.profiles
+      WHERE id = auth.uid() AND role = 'editor'
+    )
+  );
+
+-- POLÍTICAS: AR_TARGET_MAPPINGS
+CREATE POLICY "Permitir lectura pública de mapeos AR" ON public.ar_target_mappings
+  FOR SELECT USING (true);
+CREATE POLICY "Permitir gestión de mapeos AR a administradores y editores" ON public.ar_target_mappings
+  FOR ALL USING (
+    public.is_admin() OR EXISTS (
+      SELECT 1 FROM public.profiles
+      WHERE id = auth.uid() AND role = 'editor'
+    )
+  );
+
 -- ------------------------------------------------------------------------------
 -- 8. CARGAR SEMILLAS INICIALES (SEED DATA)
 -- ------------------------------------------------------------------------------
@@ -356,8 +484,36 @@ INSERT INTO public.role_permissions (role, permissions) VALUES
     "ar_manager": {"view": false, "edit": false},
     "logos": {"view": false, "edit": false},
     "users": {"view": false, "edit": false}
+  }'::jsonb),
+  ('editor', '{
+    "dashboard": {"view": true, "edit": false},
+    "pages": {"view": true, "edit": true},
+    "products": {"view": true, "edit": true},
+    "ar_manager": {"view": true, "edit": true},
+    "logos": {"view": true, "edit": false},
+    "users": {"view": false, "edit": false}
+  }'::jsonb),
+  ('staff', '{
+    "dashboard": {"view": true, "edit": false},
+    "pages": {"view": false, "edit": false},
+    "products": {"view": true, "edit": false},
+    "ar_manager": {"view": true, "edit": false},
+    "logos": {"view": false, "edit": false},
+    "users": {"view": false, "edit": false}
   }'::jsonb)
 ON CONFLICT (role) DO UPDATE SET permissions = EXCLUDED.permissions;
+
+-- Insertar categorías iniciales de inventario
+INSERT INTO public.inventory_categories (name) VALUES
+  ('Sonido'),
+  ('Cocina'),
+  ('Multimedia'),
+  ('Herramientas'),
+  ('Utensilios'),
+  ('Mobiliario'),
+  ('Instrumentos'),
+  ('Otros')
+ON CONFLICT (name) DO NOTHING;
 
 -- Sucursal ficticia general (Para evitar errores en logos)
 INSERT INTO public.ministries (id, name, image_url, theme_color)
@@ -433,7 +589,9 @@ INSERT INTO storage.buckets (id, name, public)
 VALUES 
   ('products', 'products', true),
   ('receipts', 'receipts', true),
-  ('logos', 'logos', true)
+  ('logos', 'logos', true),
+  ('product-models', 'product-models', true),
+  ('inventory', 'inventory', true)
 ON CONFLICT (id) DO NOTHING;
 
 -- Eliminar políticas viejas si existen
@@ -446,6 +604,13 @@ DROP POLICY IF EXISTS "Permitir gestión de comprobantes a administradores" ON s
 DROP POLICY IF EXISTS "Permitir lectura pública de logos en storage" ON storage.objects;
 DROP POLICY IF EXISTS "Permitir subir logos a administradores" ON storage.objects;
 DROP POLICY IF EXISTS "Permitir actualizar/eliminar logos a administradores" ON storage.objects;
+DROP POLICY IF EXISTS "Permitir acceso de lectura pública a modelos AR" ON storage.objects;
+DROP POLICY IF EXISTS "Permitir inserción de modelos AR a administradores" ON storage.objects;
+DROP POLICY IF EXISTS "Permitir actualización de modelos AR a administradores" ON storage.objects;
+DROP POLICY IF EXISTS "Permitir eliminación de modelos AR a administradores" ON storage.objects;
+DROP POLICY IF EXISTS "Permitir lectura pública de fotos de inventario en storage" ON storage.objects;
+DROP POLICY IF EXISTS "Permitir subir fotos de inventario a autorizados" ON storage.objects;
+DROP POLICY IF EXISTS "Permitir actualizar/eliminar fotos de inventario a autorizados" ON storage.objects;
 
 -- Crear políticas para "products"
 CREATE POLICY "Cualquiera puede leer imágenes de productos" ON storage.objects
@@ -470,6 +635,34 @@ CREATE POLICY "Permitir subir logos a administradores" ON storage.objects
   FOR INSERT WITH CHECK (bucket_id = 'logos' AND public.is_admin());
 CREATE POLICY "Permitir actualizar/eliminar logos a administradores" ON storage.objects
   FOR ALL USING (bucket_id = 'logos' AND public.is_admin());
+
+-- Crear políticas para "product-models"
+CREATE POLICY "Permitir acceso de lectura pública a modelos AR" ON storage.objects
+  FOR SELECT USING (bucket_id = 'product-models');
+CREATE POLICY "Permitir inserción de modelos AR a administradores" ON storage.objects
+  FOR INSERT WITH CHECK (bucket_id = 'product-models' AND (public.is_admin() OR EXISTS (
+    SELECT 1 FROM public.profiles WHERE id = auth.uid() AND role = 'editor'
+  )));
+CREATE POLICY "Permitir actualización de modelos AR a administradores" ON storage.objects
+  FOR UPDATE USING (bucket_id = 'product-models' AND (public.is_admin() OR EXISTS (
+    SELECT 1 FROM public.profiles WHERE id = auth.uid() AND role = 'editor'
+  )));
+CREATE POLICY "Permitir eliminación de modelos AR a administradores" ON storage.objects
+  FOR DELETE USING (bucket_id = 'product-models' AND (public.is_admin() OR EXISTS (
+    SELECT 1 FROM public.profiles WHERE id = auth.uid() AND role = 'editor'
+  )));
+
+-- Crear políticas para "inventory"
+CREATE POLICY "Permitir lectura pública de fotos de inventario en storage" ON storage.objects
+  FOR SELECT USING (bucket_id = 'inventory');
+CREATE POLICY "Permitir subir fotos de inventario a autorizados" ON storage.objects
+  FOR INSERT WITH CHECK (bucket_id = 'inventory' AND (public.is_admin() OR EXISTS (
+    SELECT 1 FROM public.profiles WHERE id = auth.uid() AND role IN ('editor', 'staff')
+  )));
+CREATE POLICY "Permitir actualizar/eliminar fotos de inventario a autorizados" ON storage.objects
+  FOR ALL USING (bucket_id = 'inventory' AND (public.is_admin() OR EXISTS (
+    SELECT 1 FROM public.profiles WHERE id = auth.uid() AND role IN ('editor', 'staff')
+  )));
 
 -- ------------------------------------------------------------------------------
 -- 10. TRIGGER PARA CREACIÓN AUTOMÁTICA DE PERFIL (AUTH SIGN-UP)
