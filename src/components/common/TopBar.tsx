@@ -83,7 +83,7 @@ const TopBar = () => {
     <div className={`transition-all duration-500 ease-in-out ${
       isTransparent 
         ? 'absolute top-0 left-0 right-0 w-full bg-transparent border-transparent text-primary z-[60]' 
-        : 'bg-white border-b border-gray-100 text-gray-600 relative z-[60]'
+        : 'bg-white/70 backdrop-blur-lg border-b border-white/20 text-gray-600 relative z-[60]'
     } text-sm py-2.5 px-4 md:px-8 flex justify-between items-center`}>
       <div className="flex gap-4">
         <span className={`hidden sm:inline font-medium text-xs transition-colors duration-500 ${

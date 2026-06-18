@@ -7,6 +7,7 @@ import OptimizedMedia from '../../components/common/OptimizedMedia';
 import { motion, AnimatePresence } from 'framer-motion';
 import ARViewer from '../../components/public/ARViewer';
 import SEOHead from '../../components/common/SEOHead';
+import { fadeInUp, staggerContainer } from '../../utils/animations';
 import coffeeRoastingImg from '/coffee_roasting_process.png';
 
 const MOCK_PRODUCTS: Product[] = [
@@ -291,12 +292,21 @@ const Store = () => {
             <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-coffee"></div>
           </div>
         ) : filteredProducts.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <motion.div 
+            variants={staggerContainer}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true, amount: 0.05 }}
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+          >
           {filteredProducts.map((product) => {
             return (
               <motion.div
                 key={product.id}
+                variants={fadeInUp}
                 layoutId={`product-card-${product.id}`}
+                whileHover={{ y: -8, scale: 1.015, boxShadow: '0 20px 25px -5px rgba(2, 26, 84, 0.08)' }}
+                transition={{ duration: 0.3, ease: 'easeOut' }}
                 onClick={() => navigate(`/producto/${product.id}`)}
                 tabIndex={0}
                 role="button"
@@ -307,7 +317,7 @@ const Store = () => {
                     navigate(`/producto/${product.id}`);
                   }
                 }}
-                className="bg-white rounded-2xl border border-gray-150 overflow-hidden shadow-sm hover:shadow-md transition-all flex flex-col group h-full cursor-pointer relative focus-visible:ring-2 focus-visible:ring-coffee focus-visible:outline-none"
+                className="bg-white rounded-2xl border border-gray-150 overflow-hidden shadow-sm flex flex-col group h-full cursor-pointer relative focus-visible:ring-2 focus-visible:ring-coffee focus-visible:outline-none"
               >
                 {/* Contenedor Imagen */}
                 <div className="relative pt-[70%] bg-gray-50 overflow-hidden">
@@ -380,7 +390,7 @@ const Store = () => {
               </motion.div>
             );
           })}
-        </div>
+        </motion.div>
       ) : (
         <div className="text-center py-20 bg-white rounded-2xl border border-dashed border-slate-200">
           <ShoppingBag size={48} className="mx-auto text-slate-400 mb-4" />

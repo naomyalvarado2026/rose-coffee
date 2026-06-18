@@ -44,7 +44,7 @@ const Navigation = () => {
     <nav className={`transition-all duration-500 ease-in-out ${
       isTransparent 
         ? 'absolute top-[38px] sm:top-[40px] left-0 right-0 w-full bg-transparent border-transparent z-50' 
-        : 'bg-white/95 backdrop-blur-md sticky top-0 z-50 shadow-sm border-b border-gray-100/85'
+        : 'bg-white/70 backdrop-blur-lg sticky top-0 z-50 shadow-sm border-b border-white/20'
     }`}>
       <div className="max-w-7xl mx-auto px-4 md:px-8 py-4 flex justify-between items-center">
         <Link 
@@ -147,7 +147,7 @@ const Navigation = () => {
               initial="initial"
               animate="animate"
               exit="exit"
-              className="fixed right-0 top-0 bottom-0 w-4/5 max-w-sm z-50 bg-white/95 backdrop-blur-md border-l border-gray-155 shadow-2xl p-6 flex flex-col justify-between md:hidden overflow-y-auto"
+              className="fixed right-0 top-0 bottom-0 w-4/5 max-w-sm z-50 bg-white/70 backdrop-blur-lg border-l border-white/20 shadow-2xl p-6 flex flex-col justify-between md:hidden overflow-y-auto"
             >
               <div>
                 <div className="flex justify-between items-center mb-10">

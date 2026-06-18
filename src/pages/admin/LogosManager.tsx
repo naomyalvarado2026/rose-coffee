@@ -494,13 +494,16 @@ export default function LogosManager() {
         const variantsList: ('cuadrado' | 'circular' | 'vertical' | 'horizontal')[] = ['cuadrado', 'circular', 'vertical', 'horizontal'];
         const modesList: ('color' | 'blanco_y_negro' | 'blanco_solido' | 'negro_solido')[] = ['color', 'blanco_y_negro', 'blanco_solido', 'negro_solido'];
         
+        // Resolve URL in case it's a module object with a default property
+        const resolvedUrl = typeof url === 'object' && url !== null && 'default' in url ? url.default : url;
+        
         return {
           id: `local-${filename}`,
           ministry_id: null,
           variant: variantsList[num % 4],
           color_mode: modesList[num % 4],
           format: 'svg',
-          storage_path: url, // resolved static URL
+          storage_path: resolvedUrl, // resolved static URL
           created_at: new Date(2026, 5, 18).toISOString(),
           ministries: null,
           isLocal: true,
