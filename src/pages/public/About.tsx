@@ -9,8 +9,9 @@ import OptimizedMedia from '../../components/common/OptimizedMedia';
 import SEOHead from '../../components/common/SEOHead';
 import FloatingElements from '../../components/public/FloatingElements';
 
+import founderNaomyImg from '../../assets/naomy.png';
+
 const founderEstebanImg = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&auto=format&fit=crop&q=80'; // Portrait of a man
-const founderNaomyImg = 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&auto=format&fit=crop&q=80'; // Portrait of a woman
 const teamGroupImg = 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&auto=format&fit=crop&q=80'; // Cafe interior team working
 
 const DEFAULT_ABOUT_SECTIONS = [
@@ -299,53 +300,28 @@ const About = () => {
                         initial="initial"
                         whileInView="animate"
                         viewport={{ once: true, amount: 0.15 }}
-                        className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto"
+                        className="flex justify-center max-w-2xl mx-auto w-full"
                       >
-                        {/* Esteban */}
-                        <motion.div 
-                          variants={fadeInUp}
-                          className="bg-white rounded-[32px] border border-stone-200/80 overflow-hidden shadow-2xs hover:shadow-md transition-all duration-300 flex flex-col sm:flex-row group h-full"
-                        >
-                          <div className="w-full sm:w-48 h-60 bg-stone-50 flex-shrink-0 overflow-hidden">
-                            <OptimizedMedia 
-                              src={founderEstebanImg} 
-                              alt="Esteban - Fundador"
-                              className="w-full h-full object-cover object-center group-hover:scale-103 transition-transform duration-500"
-                            />
-                          </div>
-                          <div className="p-6 flex flex-col justify-between text-left">
-                            <div className="space-y-2">
-                              <span className="inline-flex items-center gap-1.5 bg-gold/15 text-gold border border-gold/30 px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider">
-                                Fundador & Panadero
-                              </span>
-                              <h3 className="font-bold text-lg text-primary font-sans">Esteban Alarcón</h3>
-                              <p className="text-stone-550 text-xs leading-relaxed font-medium">
-                                Ingeniero de software y apasionado de la microbiología del pan. Es el encargado de alimentar nuestra masa madre centenaria y hornear los panes rústicos todos los días.
-                              </p>
-                            </div>
-                          </div>
-                        </motion.div>
-
                         {/* Naomy */}
                         <motion.div 
                           variants={fadeInUp}
-                          className="bg-white rounded-[32px] border border-stone-200/80 overflow-hidden shadow-2xs hover:shadow-md transition-all duration-300 flex flex-col sm:flex-row group h-full"
+                          className="bg-white rounded-[32px] border border-stone-200/80 overflow-hidden shadow-2xs hover:shadow-md transition-all duration-300 flex flex-col sm:flex-row group h-full w-full"
                         >
                           <div className="w-full sm:w-48 h-60 bg-stone-50 flex-shrink-0 overflow-hidden">
                             <OptimizedMedia 
                               src={founderNaomyImg} 
-                              alt="Naomy - Jefa Barista"
+                              alt="Naomy Alvarado - Fundadora"
                               className="w-full h-full object-cover object-center group-hover:scale-103 transition-transform duration-500"
                             />
                           </div>
                           <div className="p-6 flex flex-col justify-between text-left">
                             <div className="space-y-2">
                               <span className="inline-flex items-center gap-1.5 bg-gold/15 text-gold border border-gold/30 px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider">
-                                Co-fundadora & Barista
+                                Fundadora Rose Coffee
                               </span>
                               <h3 className="font-bold text-lg text-primary font-sans">Naomy Alvarado</h3>
                               <p className="text-stone-550 text-xs leading-relaxed font-medium">
-                                Sommelier y experta en barismo. Define los perfiles de tueste y las curvas de extracción de nuestros granos de especialidad para garantizar el sabor óptimo en tu taza.
+                                Estudiante de Multimedia y Producción Audiovisual de la Universidad Unemi. Apasionada por el café y el pan de masa madre.
                               </p>
                             </div>
                           </div>
