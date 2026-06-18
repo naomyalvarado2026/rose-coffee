@@ -158,8 +158,8 @@ const Home = () => {
               </span>
             </h1>
 
-            <p className="text-stone-800 text-sm md:text-base max-w-xl leading-relaxed font-medium tracking-wide">
-              {heroSection?.subtitle || 'En Rose Coffee cultivamos experiencias únicas. Tostamos granos de especialidad seleccionados de Zaruma y horneamos panes de masa madre de fermentación lenta para brindarte un sabor incomparable.'}
+            <p className="text-stone-900 text-sm md:text-base max-w-xl leading-relaxed font-semibold tracking-wide">
+              En Rose Coffee cultivamos experiencias únicas. Tostamos granos de especialidad seleccionados de Zaruma y horneamos panes de masa madre de fermentación lenta para brindarte un sabor incomparable.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3 pt-4 w-full sm:w-auto">
