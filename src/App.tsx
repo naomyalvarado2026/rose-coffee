@@ -36,6 +36,7 @@ import AnalyticsManager from './pages/admin/AnalyticsManager';
 import SettingsManager from './pages/admin/SettingsManager';
 import ProtectedRoute from './components/common/ProtectedRoute';
 import ProjectPresentation from './pages/admin/ProjectPresentation';
+import CustomCursor from './components/common/CustomCursor';
 
 
 function App() {
@@ -47,6 +48,7 @@ function App() {
 
   return (
     <>
+      <CustomCursor />
       <Toaster richColors position="top-right" />
       <ConfirmDialog />
       <BrowserRouter basename={import.meta.env.BASE_URL === '/' ? undefined : import.meta.env.BASE_URL}>
