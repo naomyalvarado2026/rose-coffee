@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   LayoutDashboard,
   ClipboardList,
@@ -11,7 +10,8 @@ import {
   Layers,
   LineChart,
   Settings,
-  Palette
+  Palette,
+  BookOpen
 } from 'lucide-react';
 
 export interface AdminModule {
@@ -78,6 +78,13 @@ export const ADMIN_MODULES: AdminModule[] = [
     name: 'Editor Web',
     path: '/admin/paginas',
     icon: FileText
+  },
+  {
+    id: 'pages',
+    label: 'Gestión de Blogs',
+    name: 'Blogs',
+    path: '/admin/blogs',
+    icon: BookOpen
   },
   {
     id: 'ar_manager',

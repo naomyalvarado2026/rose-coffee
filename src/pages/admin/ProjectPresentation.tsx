@@ -23,7 +23,8 @@ import {
   Lock,
   Code,
   LineChart,
-  Settings
+  Settings,
+  Sparkles
 } from 'lucide-react';
 import logoRose from '../../assets/logo rose coffee/1 rose coffee.svg';
 
@@ -868,6 +869,130 @@ export default function ProjectPresentation() {
             </motion.div>
 
           </div>
+
+        </div>
+      </section>
+
+      {/* ---------------- SECTION 8: MEJORAS RECIENTES Y DESPLIEGUE PRO ---------------- */}
+      <section className="relative min-h-screen flex flex-col justify-center px-4 md:px-8 py-20 bg-gradient-to-b from-[#021a54] to-[#010c27] text-[#faf2e7] overflow-hidden">
+        {/* Glow ambient effects */}
+        <div className="absolute bottom-1/4 left-1/4 -translate-x-1/2 w-[35vw] h-[35vw] bg-gold/5 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-1/4 right-1/4 translate-x-1/2 w-[30vw] h-[30vw] bg-coffee/10 rounded-full blur-[110px] pointer-events-none" />
+        
+        <div className="max-w-5xl mx-auto w-full space-y-12 relative z-10">
+          
+          <motion.div {...fadeInUp} className="text-center space-y-3">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 text-gold text-[9px] font-bold uppercase tracking-widest border border-white/10">
+              <Sparkles size={10} className="text-gold" />
+              <span>Última Actualización</span>
+            </div>
+            <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-white">
+              Mejoras Recientes y Despliegue Producción
+            </h2>
+            <div className="h-1 w-20 bg-gold/50 rounded-full mx-auto" />
+            <p className="text-xs text-stone-350 max-w-xl mx-auto">
+              Detalle técnico de los últimos hitos y optimizaciones completadas en el sitio web de Rose Coffee.
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch pt-4">
+            
+            {/* Left Card: Nosotros, Equipo e Interactividad */}
+            <motion.div 
+              whileHover={{ scale: 1.02 }}
+              className="bg-white/5 border border-white/10 backdrop-blur-md p-6 md:p-8 rounded-3xl flex flex-col justify-between space-y-6"
+            >
+              <div className="space-y-4">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold/15 text-gold text-[9px] font-bold uppercase tracking-wider">
+                  Nosotros & Experiencia Phygital
+                </div>
+                <h3 className="text-xl font-extrabold text-white leading-tight">Identidad y Contenido Artesanal</h3>
+                <p className="text-stone-300 text-xs leading-relaxed">
+                  Rediseño completo de la página <strong>Nosotros</strong> (About.tsx). Se mejoraron las redacciones de la Misión y Visión eliminando comillas innecesarias para mayor limpieza visual.
+                </p>
+                
+                <div className="space-y-3 border-t border-white/5 pt-4">
+                  <h4 className="text-xs font-bold text-white uppercase tracking-wider">Elementos Clave Incorporados:</h4>
+                  <ul className="space-y-2 text-stone-350 text-xs">
+                    <li className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-gold" />
+                      <span><strong>Video de Amasado Integrado:</strong> Reproductor de alta fidelidad con poster dinámico de Naomy Alvarado.</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-gold" />
+                      <span><strong>Galería Transmedia:</strong> Proceso "Del Trigo a la Mesa" (Masa madre de 72h, amasado manual y gatitas reales de la cafetería).</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-gold" />
+                      <span><strong>Retrato Profesional:</strong> Integración del retrato real de Naomy en la sección de fundadores.</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-gold" />
+                      <span><strong>Suscripción Interactiva:</strong> Bug de persistencia solucionado en CoffeeSubscription.tsx para alternar entre planes.</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Right Card: Seguridad Financiera, Animaciones y DevOps */}
+            <motion.div 
+              whileHover={{ scale: 1.02 }}
+              className="bg-white/5 border border-white/10 backdrop-blur-md p-6 md:p-8 rounded-3xl flex flex-col justify-between space-y-6"
+            >
+              <div className="space-y-4">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-[9px] font-bold uppercase tracking-wider">
+                  Seguridad, Estética y DevOps
+                </div>
+                <h3 className="text-xl font-extrabold text-white leading-tight">Seguridad de Pago, Estética y Despliegue</h3>
+                <p className="text-stone-300 text-xs leading-relaxed">
+                  Verificación de la pasarela de pagos para el cumplimiento de normativas de seguridad financiera electrónica y optimización del pie de página.
+                </p>
+                
+                <div className="space-y-3 border-t border-white/5 pt-4">
+                  <h4 className="text-xs font-bold text-white uppercase tracking-wider">Detalles Técnicos e Hitos:</h4>
+                  <ul className="space-y-2 text-stone-350 text-xs">
+                    <li className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                      <span><strong>Seguridad Financiera (PCI-DSS):</strong> Auditoría del flujo de tarjetas. Recomendación de tokenización segura con <strong>Payphone Ecuador</strong> para tarjetas Visa Pichincha.</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                      <span><strong>Canales de Pago Reales Activos:</strong> Compra rápida por WhatsApp y Transferencias Bancarias con carga segura de comprobantes a Supabase Storage.</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                      <span><strong>Oro Líquido en el Footer:</strong> Línea animada superior en Footer.tsx usando keyframes de desplazamiento en index.css de Tailwind v4.</span>
+                    </li>
+                    <li className="flex items-center gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                      <span><strong>Despliegue Automatizado:</strong> Servido con éxito en GitHub Pages (gh-pages) tras compilación del bundle optimizado en Vite.</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </motion.div>
+            
+          </div>
+
+          {/* Quick status bar representing 100% completion */}
+          <motion.div 
+            {...fadeInUp}
+            className="p-6 rounded-3xl bg-slate-950/40 border border-white/5 flex flex-col md:flex-row items-center justify-between gap-4 backdrop-blur-md"
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 rounded-full bg-green-500/20 border border-green-500/40 flex items-center justify-center text-green-400">
+                <ShieldCheck size={18} />
+              </div>
+              <div className="text-left">
+                <p className="text-xs font-extrabold text-white uppercase tracking-wider">Estado del Proyecto: Producción Activo</p>
+                <p className="text-[10px] text-stone-400">Compilación finalizada y despliegue publicado exitosamente.</p>
+              </div>
+            </div>
+            <div className="w-full md:w-48 bg-white/10 h-2.5 rounded-full overflow-hidden relative">
+              <div className="absolute top-0 left-0 h-full w-full bg-green-500 rounded-full" />
+            </div>
+          </motion.div>
 
         </div>
       </section>

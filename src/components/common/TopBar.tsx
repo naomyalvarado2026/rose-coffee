@@ -182,6 +182,7 @@ const TopBar = () => {
                         )}
                         <input
                           id="profilePhotoUpload"
+                          name="profilePhotoUpload"
                           type="file"
                           accept="image/*"
                           className="hidden"

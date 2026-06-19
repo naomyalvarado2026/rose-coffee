@@ -106,6 +106,7 @@ const Footer = () => {
     { name: 'Inicio', path: '/' },
     { name: 'Tienda de Café', path: '/tienda' },
     { name: 'Nosotros', path: '/nosotros' },
+    { name: 'Blog de Especialidad', path: '/blog' },
     { name: 'Visualización AR 3D', path: '/ar' },
     { name: 'Contacto', path: '/contacto' }
   ];
@@ -121,7 +122,10 @@ const Footer = () => {
   };
 
   return (
-    <footer className="relative bg-gradient-to-b from-[#021a54] to-[#010c27] text-white overflow-hidden border-t-4 border-gold/75 mt-auto">
+    <footer className="relative bg-gradient-to-b from-[#021a54] to-[#010c27] text-white overflow-hidden mt-auto">
+      
+      {/* Liquid gold flowing animated line on top of the footer */}
+      <div className="absolute top-0 left-0 right-0 h-[4px] bg-gradient-to-r from-gold/20 via-gold to-gold/20 bg-[length:200%_auto] animate-gold-flow z-20 shadow-[0_0_15px_rgba(200,146,42,0.5)]" />
       
       {/* Decorative background light rays & breathing ambient orbs (smooth slow orbit) */}
       <motion.div 

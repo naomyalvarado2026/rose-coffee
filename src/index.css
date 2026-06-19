@@ -28,6 +28,7 @@
 
   --animate-float: float 4s ease-in-out infinite;
   --animate-steam: steam 2.5s ease-in-out infinite;
+  --animate-gold-flow: gold-flow 6s ease infinite;
 
   @keyframes float {
     0% { transform: translateY(0px); }
@@ -39,6 +40,12 @@
     0% { transform: translateY(0) scale(0.9); opacity: 0.3; }
     50% { transform: translateY(-5px) scale(1.1); opacity: 0.6; }
     100% { transform: translateY(-10px) scale(0.9); opacity: 0; }
+  }
+
+  @keyframes gold-flow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
   }
 }
 

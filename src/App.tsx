@@ -19,12 +19,15 @@ import ARShowcase from './pages/public/ARShowcase';
 import ARMenuScanner from './pages/public/ARMenuScanner';
 import ARShowroom from './pages/public/ARShowroom';
 import ProductDetail from './pages/public/ProductDetail';
+import BlogList from './pages/public/BlogList';
+import BlogDetail from './pages/public/BlogDetail';
 
 import DashboardHome from './pages/admin/DashboardHome';
 import StoreManager from './pages/admin/StoreManager';
 import LogosManager from './pages/admin/LogosManager';
 import UsersManager from './pages/admin/UsersManager';
 import PageEditor from './pages/admin/PageEditor';
+import BlogManager from './pages/admin/BlogManager';
 import AdminARManager from './pages/admin/AdminARManager';
 import ARShowroomManager from './pages/admin/ARShowroomManager';
 import OrdersManager from './pages/admin/OrdersManager';
@@ -63,6 +66,8 @@ function App() {
             <Route path="/cart" element={<PageTransition><Cart /></PageTransition>} />
             <Route path="/nosotros" element={<PageTransition><About /></PageTransition>} />
             <Route path="/contacto" element={<PageTransition><Contact /></PageTransition>} />
+            <Route path="/blog" element={<PageTransition><BlogList /></PageTransition>} />
+            <Route path="/blog/:slug" element={<PageTransition><BlogDetail /></PageTransition>} />
             <Route path="/mis-compras" element={<PageTransition><MyPurchases /></PageTransition>} />
             <Route path="/ar" element={<PageTransition><ARShowcase /></PageTransition>} />
             <Route path="/ar/menu" element={<PageTransition><ARMenuScanner /></PageTransition>} />
@@ -82,6 +87,7 @@ function App() {
             <Route element={<AdminLayout />}>
               <Route path="/admin/paginas" element={<PageTransition><PageEditor /></PageTransition>} />
               <Route path="/admin/marketing" element={<PageTransition><MarketingManager /></PageTransition>} />
+              <Route path="/admin/blogs" element={<PageTransition><BlogManager /></PageTransition>} />
             </Route>
           </Route>
 

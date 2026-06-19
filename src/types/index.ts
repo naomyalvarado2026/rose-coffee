@@ -181,3 +181,55 @@ export interface ARExperience {
   created_at: string;
 }
 
+export type BlogBlockType = 'text' | 'image' | 'question' | 'html' | 'true_false';
+
+export interface TextBlockContent {
+  text: string;
+}
+
+export interface ImageBlockContent {
+  url: string;
+  alt?: string;
+  alignment: 'left' | 'center' | 'right';
+  size: 'small' | 'medium' | 'large' | 'full';
+  caption?: string;
+}
+
+export interface QuestionBlockContent {
+  question: string;
+  options: string[];
+  correctAnswerIndex: number;
+  explanation?: string;
+}
+
+export interface HtmlBlockContent {
+  html: string;
+}
+
+export interface TrueFalseBlockContent {
+  statement: string;
+  isTrue: boolean;
+  explanation?: string;
+}
+
+export interface BlogBlock {
+  id: string;
+  type: BlogBlockType;
+  content: TextBlockContent | ImageBlockContent | QuestionBlockContent | HtmlBlockContent | TrueFalseBlockContent;
+}
+
+export interface Blog {
+  id: string;
+  title: string;
+  subtitle: string | null;
+  slug: string;
+  cover_image_url: string | null;
+  category: string;
+  blocks: BlogBlock[];
+  published: boolean;
+  created_at: string;
+  updated_at: string;
+  author_id?: string | null;
+}
+
+

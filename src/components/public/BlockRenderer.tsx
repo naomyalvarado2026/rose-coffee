@@ -438,10 +438,12 @@ const BlockRenderer: React.FC<BlockRendererProps> = ({ blocks }) => {
                     {!user && (
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div className="space-y-1">
-                          <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+                          <label htmlFor="guestName" className="block text-[10px] font-bold text-gray-400 uppercase tracking-wider">
                             Tu Nombre (Opcional)
                           </label>
                           <input
+                            id="guestName"
+                            name="guestName"
                             type="text"
                             value={guestInfo.name}
                             onChange={(e) => setGuestInfo(prev => ({ ...prev, name: e.target.value }))}
@@ -450,10 +452,12 @@ const BlockRenderer: React.FC<BlockRendererProps> = ({ blocks }) => {
                           />
                         </div>
                         <div className="space-y-1">
-                          <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-wider">
+                          <label htmlFor="guestEmail" className="block text-[10px] font-bold text-gray-400 uppercase tracking-wider">
                             Tu Correo Electrónico (Opcional)
                           </label>
                           <input
+                            id="guestEmail"
+                            name="guestEmail"
                             type="email"
                             value={guestInfo.email}
                             onChange={(e) => setGuestInfo(prev => ({ ...prev, email: e.target.value }))}

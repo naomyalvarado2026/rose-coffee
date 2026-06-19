@@ -36,6 +36,7 @@ const Navigation = () => {
     { name: 'Inicio', path: '/' },
     { name: 'Tienda', path: '/tienda' },
     { name: 'Nosotros', path: '/nosotros' },
+    { name: 'Blog', path: '/blog' },
     { name: 'AR 3D', path: '/ar' },
     { name: 'Contacto', path: '/contacto' },
   ];

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { motion } from 'framer-motion';
 import { toast } from 'sonner';
 import { Check, ShieldCheck, Sparkles } from 'lucide-react';
@@ -12,37 +12,38 @@ interface CoffeeSubscriptionProps {
   };
 }
 
-export default function CoffeeSubscription({ data }: CoffeeSubscriptionProps) {
-  const defaultPlans = [
-    {
-      id: 'quincenal',
-      name: 'Plan Quincenal',
-      price: '$22.00',
-      period: 'quincena',
-      description: 'Recibe 2 bolsas de 400g recién tostadas cada 15 días.',
-      benefits: ['Café 100% fresco garantizado', 'Envío prioritario gratuito', 'Acceso a ediciones limitadas'],
-    },
-    {
-      id: 'mensual',
-      name: 'Plan Mensual',
-      price: '$39.00',
-      period: 'mes',
-      description: 'Recibe 2 bolsas de 400g recién tostadas al mes.',
-      benefits: ['El plan favorito del Rose Club', 'Envío gratuito a domicilio', 'Regalo sorpresa el tercer mes'],
-      popular: true,
-    },
-    {
-      id: 'bimestral',
-      name: 'Plan Bimestral',
-      price: '$36.50',
-      period: '2 meses',
-      description: 'Recibe 2 bolsas de 400g recién tostadas cada 2 meses.',
-      benefits: ['Ideal para consumo moderado', 'Tostado a tu elección', 'Pausa o cancela online'],
-    },
-  ];
+const defaultPlans = [
+  {
+    id: 'quincenal',
+    name: 'Plan Quincenal',
+    price: '$22.00',
+    period: 'quincena',
+    description: 'Recibe 2 bolsas de 400g recién tostadas cada 15 días.',
+    benefits: ['Café 100% fresco garantizado', 'Envío prioritario gratuito', 'Acceso a ediciones limitadas'],
+  },
+  {
+    id: 'mensual',
+    name: 'Plan Mensual',
+    price: '$39.00',
+    period: 'mes',
+    description: 'Recibe 2 bolsas de 400g recién tostadas al mes.',
+    benefits: ['El plan favorito del Rose Club', 'Envío gratuito a domicilio', 'Regalo sorpresa el tercer mes'],
+    popular: true,
+  },
+  {
+    id: 'bimestral',
+    name: 'Plan Bimestral',
+    price: '$36.50',
+    period: '2 meses',
+    description: 'Recibe 2 bolsas de 400g recién tostadas cada 2 meses.',
+    benefits: ['Ideal para consumo moderado', 'Tostado a tu elección', 'Pausa o cancela online'],
+  },
+];
 
-  const dynamicPlans = data?.content_blocks && data.content_blocks.length > 0
-    ? data.content_blocks.map((block: any, idx: number) => ({
+export default function CoffeeSubscription({ data }: CoffeeSubscriptionProps) {
+  const plans = useMemo(() => {
+    if (data?.content_blocks && data.content_blocks.length > 0) {
+      return data.content_blocks.map((block: any, idx: number) => ({
         id: block.id || `plan-${idx}`,
         name: block.title || block.name || `Plan ${idx + 1}`,
         price: block.price || block.subtitle || '$0.00',
@@ -50,10 +51,10 @@ export default function CoffeeSubscription({ data }: CoffeeSubscriptionProps) {
         description: block.description || block.text || '',
         benefits: Array.isArray(block.list) ? block.list : (block.list ? block.list.split(',').map((item: string) => item.trim()) : []),
         popular: !!block.popular || idx === 1
-      }))
-    : null;
-
-  const plans = dynamicPlans || defaultPlans;
+      }));
+    }
+    return defaultPlans;
+  }, [data?.content_blocks]);
 
   const [selectedPlan, setSelectedPlan] = useState<string>('');
 

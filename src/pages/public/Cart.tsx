@@ -125,10 +125,20 @@ const Cart = () => {
     const initialStatus = paymentMethod === 'card' ? 'paid' : 'pending_payment';
 
     try {
+      // Generate UUID on the client side
+      const orderId = typeof window !== 'undefined' && window.crypto && window.crypto.randomUUID
+        ? window.crypto.randomUUID()
+        : 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+            const r = (Math.random() * 16) | 0;
+            const v = c === 'x' ? r : (r & 0x3) | 0x8;
+            return v.toString(16);
+          });
+
       // 1. Insert order
-      const { data: order, error: orderError } = await supabase
+      const { error: orderError } = await supabase
         .from('orders')
         .insert({
+          id: orderId,
           user_id: user?.id || null,
           customer_name: formData.name,
           customer_email: formData.email,
@@ -136,15 +146,13 @@ const Cart = () => {
           status: initialStatus,
           payment_method: paymentMethod,
           payment_voucher_url: paymentMethod === 'transfer' ? voucherUrl : null,
-        })
-        .select()
-        .single();
+        });
 
       if (orderError) throw orderError;
 
       // 2. Insert order items
       const orderItems = items.map((item) => ({
-        order_id: order.id,
+        order_id: orderId,
         product_id: item.product.id.startsWith('mock-') ? null : item.product.id, 
         variant_id: item.variant?.id.startsWith('mock-') ? null : item.variant?.id || null,
         quantity: item.quantity,
@@ -163,7 +171,7 @@ const Cart = () => {
 
       // 3. Clear cart and set success state
       clearCart();
-      setOrderCompleted(order.id);
+      setOrderCompleted(orderId);
     } catch (err: any) {
       console.error('Error procesando pedido:', err);
       // Simular éxito para mocks si es que falla la conexión o BD

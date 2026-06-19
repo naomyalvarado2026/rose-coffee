@@ -141,7 +141,7 @@ const Home = () => {
           title: 'Taller de Arte Latte para Aficionados',
           date: 'Sábado 11 de Julio - 10:00 AM',
           description: 'Domina la emulsión de la leche y crea tus primeros diseños de corazones y tulipanes en casa.',
-          imageUrl: 'https://images.unsplash.com/photo-1570968915860-54d5c301fc9f?w=600&auto=format&fit=crop&q=80'
+          imageUrl: 'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=600&auto=format&fit=crop&q=80'
         }
       ];
 

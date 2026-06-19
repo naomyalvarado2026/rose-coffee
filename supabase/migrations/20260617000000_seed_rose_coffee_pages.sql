@@ -29,22 +29,15 @@ VALUES
   ('about_vision_mission', 'about', 'vision_mission', 'Misión y Visión', 20, 'custom', 'Misión & Visión', 'Nuestros objetivos y compromiso de calidad artesanal.', NULL, '[]'::jsonb),
   ('about_history', 'about', 'history', 'Nuestra Historia', 30, 'custom', 'Nuestra Historia', 'El camino de experimentación y dedicación que dio vida a Rose Coffee.', 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&auto=format&fit=crop&q=80', '[]'::jsonb),
   ('about_pillars', 'about', 'pillars', 'Nuestros Pilares Artesanales', 40, 'system_about_pillars', 'Nuestros Pilares Artesanales', 'Criterios de calidad que respaldan cada uno de nuestros productos.', NULL, '[]'::jsonb),
+  ('about_gallery', 'about', 'gallery', 'Galería de Proceso', 45, 'system_gallery', 'Del Trigo a la Mesa', 'Cada hogaza cuenta una historia de paciencia, fermentación natural y respeto por el oficio.', NULL, '[]'::jsonb),
   ('about_pastoral', 'about', 'pastoral', 'El Equipo', 50, 'custom', 'El Equipo', 'Las manos e ingenio detrás de Rose Coffee.', NULL, '[
-    {
-      "id": "block-esteban",
-      "type": "image",
-      "imageUrl": "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&auto=format&fit=crop&q=80",
-      "imageAlign": "left",
-      "imageCaption": "Esteban Alarcón",
-      "imageText": "Fundador & Panadero. Esteban es el encargado de alimentar nuestra masa madre centenaria y hornear los panes rústicos todos los días."
-    },
     {
       "id": "block-naomy",
       "type": "image",
       "imageUrl": "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&auto=format&fit=crop&q=80",
       "imageAlign": "left",
       "imageCaption": "Naomy Alvarado",
-      "imageText": "Co-fundadora & Barista. Sommelier y experta en barismo. Define los perfiles de tueste y las curvas de extracción de nuestros granos."
+      "imageText": "Co-fundadora y Alma Creativa. Estudiante de Multimedia y Producción Audiovisual de la Universidad Estatal de Milagro (UNEMI). Apasionada por el café de especialidad, la fotografía gastronómica y el arte ancestral del pan de masa madre."
     }
   ]'::jsonb);
 

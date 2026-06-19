@@ -9,16 +9,33 @@ import OptimizedMedia from '../../components/common/OptimizedMedia';
 import SEOHead from '../../components/common/SEOHead';
 import FloatingElements from '../../components/public/FloatingElements';
 
+// Importaciones de fotos locales y video de masa madre
 import founderNaomyImg from '../../assets/naomy.png';
+import harinaMasaMadre from '../../assets/Fotos/Harina de masa madre.jpeg';
+import masaMadreStarter from '../../assets/Fotos/Masa Madre.jpeg';
+import naomyAmasando2 from '../../assets/Fotos/Naomy amasando 2.jpeg';
+import naomyAmasando1 from '../../assets/Fotos/Naomy amasando.jpeg';
+import panCenital from '../../assets/Fotos/Pan de masa madre plano cenital.jpeg';
+import panEntero from '../../assets/Fotos/Pan de masa madre plano entero.jpeg';
+import videoAmasando from '../../assets/Fotos/Video de amasando la masa madre.mp4';
+import gatitaMirando from '../../assets/Fotos/gatita mirando un pan de masa madre.jpeg';
+import gatitaConPan from '../../assets/Fotos/pan de masa madre y una gatita.jpeg';
 
-const founderEstebanImg = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&auto=format&fit=crop&q=80'; // Portrait of a man
-const teamGroupImg = 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=1200&auto=format&fit=crop&q=80'; // Cafe interior team working
+const DEFAULT_GALLERY_SLIDES = [
+  { id: 'slide_starter', url: masaMadreStarter, caption: 'Nuestra Masa Madre: Burbujeante, activa y alimentada a diario con harinas seleccionadas.' },
+  { id: 'slide_kneading', url: naomyAmasando2, caption: 'El Amasado: Desarrollando la estructura del gluten con paciencia, fuerza y técnica.' },
+  { id: 'slide_flour', url: harinaMasaMadre, caption: 'Selección de Harinas: Trigo premium para lograr una fermentación balanceada y saludable.' },
+  { id: 'slide_ready', url: panCenital, caption: 'El Resultado: Hogazas crujientes de miga abierta y un aroma rústico incomparable.' },
+  { id: 'slide_kitty_watching', url: gatitaMirando, caption: 'Curiosidad Felina: Vigilando de cerca que la corteza del pan de masa madre quede perfectamente crujiente.' },
+  { id: 'slide_kitty', url: gatitaConPan, caption: 'El Toque de Hogar: Una gatita curiosa atraída por el aroma irresistible de nuestra masa madre.' }
+];
 
 const DEFAULT_ABOUT_SECTIONS = [
   { id: 'about_hero', section_type: 'custom', name: 'Héroe Principal', title: 'Quiénes Somos', subtitle: 'La historia de pasión por el café de especialidad y la fermentación natural de masa madre en Milagro, Ecuador.', content_blocks: [] },
   { id: 'about_vision_mission', section_type: 'custom', name: 'Misión y Visión', title: 'Misión & Visión', subtitle: 'Nuestros objetivos y compromiso de calidad artesanal.', content_blocks: [] },
   { id: 'about_history', section_type: 'custom', name: 'Nuestra Historia', title: 'Nuestra Historia', subtitle: 'El camino de experimentación y dedicación que dio vida a Rose Coffee.', content_blocks: [] },
   { id: 'about_pillars', section_type: 'system_about_pillars', name: 'Nuestros Pilares Artesanales', title: 'Nuestros Pilares Artesanales', subtitle: 'Criterios de calidad que respaldan cada uno de nuestros productos.' },
+  { id: 'about_gallery', section_type: 'system_gallery', name: 'Galería de Proceso', title: 'Del Trigo a la Mesa', subtitle: 'Cada hogaza cuenta una historia de paciencia, fermentación natural y respeto por el oficio.', content_blocks: DEFAULT_GALLERY_SLIDES },
   { id: 'about_pastoral', section_type: 'custom', name: 'El Equipo', title: 'El Equipo', subtitle: 'Las manos e ingenio detrás de Rose Coffee.', content_blocks: [] }
 ];
 
@@ -89,7 +106,7 @@ const About = () => {
                 >
                   <div className="absolute inset-0 z-0">
                     <img 
-                      src={cover_image_url || "https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=1600&auto=format&fit=crop&q=80"} 
+                      src={cover_image_url || panEntero} 
                       alt="Portada Rose Coffee" 
                       className="w-full h-full object-cover opacity-25"
                     />
@@ -147,7 +164,7 @@ const About = () => {
                           </div>
                           <h2 className="font-bold text-2xl text-primary font-sans">Nuestra Misión</h2>
                           <p className="text-stone-600 text-xs md:text-sm leading-relaxed font-medium">
-                            Tostar artesanalmente granos de especialidad de origen seleccionado y hornear pan de masa madre con fermentación natural lenta para brindar una experiencia gastronómica premium y saludable a nuestra comunidad en Milagro.
+                            Brindar a nuestra comunidad una experiencia gastronómica transformadora y multisensorial que eleve el estándar de la panadería y el café de especialidad. En Rose Coffee elaboramos pan de masa madre mediante fermentación lenta y servimos café de origen seleccionado, utilizando ingredientes premium y rigurosas técnicas artesanales. A través de la innovación tecnológica y nuestro ecosistema phygital, educamos, conectamos y transparentamos nuestro proceso, demostrando que la verdadera calidad es el resultado de la paciencia, el arte y el respeto por el oficio.
                           </p>
                         </div>
                       </motion.div>
@@ -163,7 +180,7 @@ const About = () => {
                           </div>
                           <h2 className="font-bold text-2xl text-primary font-sans">Nuestra Visión</h2>
                           <p className="text-stone-600 text-xs md:text-sm leading-relaxed font-medium">
-                            Ser la marca referente de café de especialidad y panadería artesanal en la región, integrando tecnología interactiva 3D AR, sostenibilidad y comercio justo con los caficultores de nuestro país.
+                            Ser el referente principal y pionero de la panadería artesanal y el café de especialidad en la región, revolucionando la forma en que interactuamos con lo que consumimos. Lideramos la convergencia entre experiencias físicas y digitales (phygital) en la gastronomía, consolidando una comunidad consciente que valora la autenticidad, el bienestar y la tradición, y transformando el simple acto de disfrutar un café y un pan en un estilo de vida de alta calidad.
                           </p>
                         </div>
                       </motion.div>
@@ -195,24 +212,28 @@ const About = () => {
                     >
                       <h2 className="text-2xl md:text-3xl font-extrabold text-primary border-b border-stone-100 pb-4 font-sans">Nuestra Historia</h2>
                       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                        <div className="lg:col-span-7 space-y-4 text-stone-600 text-xs md:text-sm leading-relaxed font-medium">
+                        <div className="lg:col-span-7 space-y-4 text-stone-600 text-xs md:text-sm leading-relaxed font-medium text-justify">
                           <p>
-                            Rose Coffee nació de la búsqueda personal de redescubrir los sabores auténticos y los procesos lentos de la gastronomía tradicional. Lo que comenzó como un pasatiempo de fermentación natural de masa madre en el horno de nuestro hogar, pronto se expandió al maravilloso mundo del café de especialidad.
+                            En un mundo que exige inmediatez y en un mercado dominado por la producción industrial acelerada, Rose Coffee nació como un acto de rebeldía en el corazón de Milagro. Todo comenzó con una premisa simple pero poderosa: las mejores cosas de la vida no se pueden apresurar. Nuestra historia no inició con máquinas complejas, sino con los elementos más puros de la naturaleza: agua, harina, tiempo y granos de café de especialidad cuidadosamente seleccionados.
                           </p>
                           <p>
-                            Al comprender la complejidad y el arte de la catación y el tueste, decidimos tender un puente directo entre los caficultores de las zonas altas de Ecuador y nuestra comunidad en Milagro. De esa forma, cada bolsa de café y cada pan rústico que sale de nuestro taller representa un homenaje al esfuerzo del campo y la precisión de la panadería artesanal.
+                            Al darnos cuenta de que la panadería moderna había perdido su esencia, decidimos volver al origen para trazar el camino del futuro. Rescatamos la técnica milenaria de la masa madre, dedicando hasta 72 horas de fermentación lenta para crear cada hogaza, y la fusionamos con la maestría del barismo contemporáneo.
                           </p>
                           <p>
-                            Hoy, combinamos la calidez del servicio clásico con la innovación digital, permitiendo a nuestros clientes visualizar nuestros combos y panes mediante Realidad Aumentada 3D antes de comprarlos. Una fusión única entre la tradición artesanal y el futuro.
+                            Rose Coffee no es solo una cafetería; es un santuario donde el tiempo se detiene para que el sabor respire. Nacimos para devolverle a nuestra comunidad el verdadero crujido del pan rústico y el aroma honesto de un café con identidad, uniendo la calidez del horno tradicional con la innovación de una experiencia digital inmersiva. Aquí, cada taza y cada rebanada narran una historia de paciencia, técnica y pasión absoluta.
                           </p>
                         </div>
                         <div className="lg:col-span-5">
-                          <div className="rounded-[28px] shadow-xl border border-stone-200 p-2.5 bg-white/80 backdrop-blur-xs">
-                            <OptimizedMedia 
-                              src={cover_image_url || teamGroupImg} 
-                              alt="Equipo Rose Coffee trabajando"
+                          <div className="relative rounded-[28px] shadow-xl border border-stone-200 p-2.5 bg-white/80 backdrop-blur-xs overflow-hidden group">
+                            <video 
+                              src={videoAmasando} 
+                              poster={naomyAmasando1}
+                              controls
                               className="w-full h-72 object-cover rounded-[20px] shadow-inner"
-                            />
+                              preload="metadata"
+                            >
+                              Tu navegador no soporta la reproducción de video.
+                            </video>
                           </div>
                         </div>
                       </div>
@@ -224,9 +245,6 @@ const About = () => {
 
             // 5. PASTORAL / LIDERAZGO
             if (id === 'about_pastoral') {
-              const imageBlocks = content_blocks?.filter((b: any) => b.type === 'image') || [];
-              const hasImageBlocks = imageBlocks.length > 0;
-
               return (
                 <div key={id} id={id}>
                   <section className="space-y-8 text-left">
@@ -248,86 +266,38 @@ const About = () => {
                       )}
                     </motion.div>
 
-                    {hasImageBlocks ? (
+                    <motion.div 
+                      variants={staggerContainer}
+                      initial="initial"
+                      whileInView="animate"
+                      viewport={{ once: true, amount: 0.15 }}
+                      className="flex justify-center max-w-2xl mx-auto w-full"
+                    >
+                      {/* Naomy */}
                       <motion.div 
-                        variants={staggerContainer}
-                        initial="initial"
-                        whileInView="animate"
-                        viewport={{ once: true, amount: 0.15 }}
-                        className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto"
+                        variants={fadeInUp}
+                        className="bg-white rounded-[32px] border border-stone-200/80 overflow-hidden shadow-2xs hover:shadow-md transition-all duration-300 flex flex-col sm:flex-row group h-full w-full"
                       >
-                        {imageBlocks.map((block: any) => {
-                          const textParts = block.imageText ? block.imageText.split('.') : [];
-                          const role = textParts[0]?.trim() || 'Miembro del Equipo';
-                          const bio = textParts.slice(1).join('.').trim() || block.imageText;
-                          return (
-                            <motion.div 
-                              key={block.id}
-                              variants={fadeInUp}
-                              className="bg-white rounded-[32px] border border-stone-200/80 overflow-hidden shadow-2xs hover:shadow-md transition-all duration-300 flex flex-col sm:flex-row group h-full"
-                            >
-                              <div className="w-full sm:w-48 h-60 bg-stone-50 flex-shrink-0 overflow-hidden">
-                                <OptimizedMedia 
-                                  src={block.imageUrl || founderEstebanImg} 
-                                  alt={block.imageCaption || 'Miembro del equipo'}
-                                  className="w-full h-full object-cover object-center group-hover:scale-103 transition-transform duration-500"
-                                />
-                              </div>
-                              <div className="p-6 flex flex-col justify-between text-left">
-                                <div className="space-y-2">
-                                  <span className="inline-flex items-center gap-1.5 bg-gold/15 text-gold border border-gold/30 px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider">
-                                    {role}
-                                  </span>
-                                  <h3 className="font-bold text-lg text-primary font-sans">{block.imageCaption}</h3>
-                                  {bio && (
-                                    <p className="text-stone-550 text-xs leading-relaxed font-medium">
-                                      {bio}
-                                    </p>
-                                  )}
-                                </div>
-                              </div>
-                            </motion.div>
-                          );
-                        })}
-                      </motion.div>
-                    ) : content_blocks && content_blocks.length > 0 ? (
-                      <div className="bg-white rounded-3xl border border-stone-200 p-8 md:p-12 shadow-xs">
-                        <BlockRenderer blocks={content_blocks} />
-                      </div>
-                    ) : (
-                      <motion.div 
-                        variants={staggerContainer}
-                        initial="initial"
-                        whileInView="animate"
-                        viewport={{ once: true, amount: 0.15 }}
-                        className="flex justify-center max-w-2xl mx-auto w-full"
-                      >
-                        {/* Naomy */}
-                        <motion.div 
-                          variants={fadeInUp}
-                          className="bg-white rounded-[32px] border border-stone-200/80 overflow-hidden shadow-2xs hover:shadow-md transition-all duration-300 flex flex-col sm:flex-row group h-full w-full"
-                        >
-                          <div className="w-full sm:w-48 h-60 bg-stone-50 flex-shrink-0 overflow-hidden">
-                            <OptimizedMedia 
-                              src={founderNaomyImg} 
-                              alt="Naomy Alvarado - Fundadora"
-                              className="w-full h-full object-cover object-center group-hover:scale-103 transition-transform duration-500"
-                            />
+                        <div className="w-full sm:w-48 h-60 bg-stone-50 flex-shrink-0 overflow-hidden">
+                          <OptimizedMedia 
+                            src={founderNaomyImg} 
+                            alt="Naomy Alvarado - Fundadora"
+                            className="w-full h-full object-cover object-center group-hover:scale-103 transition-transform duration-500"
+                          />
+                        </div>
+                        <div className="p-6 flex flex-col justify-between text-left">
+                          <div className="space-y-2">
+                            <span className="inline-flex items-center gap-1.5 bg-gold/15 text-gold border border-gold/30 px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider">
+                              Co-fundadora y Alma Creativa
+                            </span>
+                            <h3 className="font-bold text-lg text-primary font-sans">Naomy Alvarado</h3>
+                            <p className="text-stone-550 text-xs leading-relaxed font-medium">
+                              Estudiante de Multimedia y Producción Audiovisual de la Universidad Estatal de Milagro (UNEMI). Apasionada por el café de especialidad, la fotografía gastronómica y el arte ancestral del pan de masa madre.
+                            </p>
                           </div>
-                          <div className="p-6 flex flex-col justify-between text-left">
-                            <div className="space-y-2">
-                              <span className="inline-flex items-center gap-1.5 bg-gold/15 text-gold border border-gold/30 px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider">
-                                Fundadora Rose Coffee
-                              </span>
-                              <h3 className="font-bold text-lg text-primary font-sans">Naomy Alvarado</h3>
-                              <p className="text-stone-550 text-xs leading-relaxed font-medium">
-                                Estudiante de Multimedia y Producción Audiovisual de la Universidad Unemi. Apasionada por el café y el pan de masa madre.
-                              </p>
-                            </div>
-                          </div>
-                        </motion.div>
+                        </div>
                       </motion.div>
-                    )}
+                    </motion.div>
                   </section>
                 </div>
               );

@@ -249,17 +249,39 @@ export const useAuthStore = create<AuthState>((set, get) => ({
         const currentUser = get().user;
 
         if (session?.user) {
-          // On SIGNED_IN, always re-fetch the profile to pick up role/permission changes.
-          // On TOKEN_REFRESHED or USER_UPDATED with the same user, skip the heavy fetch
-          // to prevent component unmounting during normal session maintenance.
           const isSameUser = currentUser && currentUser.id === session.user.id;
-          const isTokenRefresh = event === 'TOKEN_REFRESHED' || event === 'USER_UPDATED';
+          const hasProfile = get().role !== null;
 
-          if (isSameUser && isTokenRefresh) {
+          if (isSameUser && hasProfile) {
+            // Keep the same session and update the user object, but do not set isLoading = true
+            // to prevent the entire UI from unmounting when tabs switch/gain focus.
             set({ user: session.user });
+            
+            // Refresh permissions and role silently in the background
+            fetchOrCreateProfile(session.user)
+              .then((profile) => {
+                if (profile.banned) {
+                  supabase.auth.signOut();
+                  set({ user: null, role: null, userRole: null, firstName: null, lastName: null, permissions: null });
+                  toast.error('Tu cuenta ha sido suspendida por razones de seguridad.');
+                } else {
+                  // Apply changes silently without flashing the loading spinner
+                  set({
+                    role: profile.role as UserRole,
+                    userRole: profile.role as UserRole,
+                    firstName: profile.first_name,
+                    lastName: profile.last_name,
+                    photoUrl: profile.photo_url || session.user.user_metadata?.avatar_url || null,
+                    permissions: profile.resolved_permissions,
+                  });
+                }
+              })
+              .catch((err) => console.error('Silent profile refresh failed:', err));
+            
             return;
           }
 
+          // If different user or first initialization, load with spinner
           set({ user: session.user, isLoading: true });
           try {
             const profile = await fetchOrCreateProfile(session.user);
