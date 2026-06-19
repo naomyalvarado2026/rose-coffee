@@ -251,6 +251,7 @@ const TopBar = () => {
           {/* Icono de Carrito */}
           <Link 
             to="/cart" 
+            aria-label="Carrito de compras"
             className={`transition-colors duration-500 flex items-center gap-1 relative py-1 ${
               isTransparent ? 'text-primary hover:text-coffee' : 'text-gray-700 hover:text-primary'
             }`}

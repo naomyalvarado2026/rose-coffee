@@ -10,6 +10,9 @@ interface SEOHeadProps {
 
 export default function SEOHead({ title, description, keywords, ogImage, ogUrl }: SEOHeadProps) {
   useEffect(() => {
+    // Ensure document lang is always 'es'
+    document.documentElement.setAttribute('lang', 'es');
+
     // 1. Update Title
     document.title = `${title} | Rose Coffee`;
 

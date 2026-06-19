@@ -215,8 +215,9 @@ const Footer = () => {
                   rel="noopener noreferrer"
                   whileHover="hover"
                   whileTap={{ scale: 0.95 }}
-                  className={`relative w-9 h-9 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-300 transition-all duration-300 shadow-sm overflow-hidden ${social.color}`}
+                  className={`relative w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-gray-300 transition-all duration-300 shadow-sm overflow-hidden ${social.color}`}
                   title={social.name}
+                  aria-label={social.name}
                 >
                   <motion.div
                     variants={{
