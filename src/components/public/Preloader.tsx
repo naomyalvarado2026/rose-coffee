@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import logo from '../../assets/logo.svg';
 
 export default function Preloader() {
   const [show, setShow] = useState(true);
@@ -8,59 +7,68 @@ export default function Preloader() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShow(false);
-    }, 2000);
+    }, 2200);
     return () => clearTimeout(timer);
   }, []);
+
+  // Use BASE_URL so the path works both locally (/logo.svg)
+  // and on GitHub Pages (/rose-coffee/logo.svg)
+  const logoSrc = `${import.meta.env.BASE_URL}logo.svg`;
 
   return (
     <AnimatePresence>
       {show && (
         <motion.div
           initial={{ y: 0 }}
-          exit={{ 
+          exit={{
             y: '-100%',
-            transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } 
+            transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] },
           }}
-          className="fixed inset-0 z-[100] bg-brand-base flex flex-col items-center justify-center select-none pointer-events-auto"
+          style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 100,
+            backgroundColor: '#faf2e7',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            userSelect: 'none',
+          }}
         >
-          {/* Logo animation */}
+          {/* Logo — loaded from /public to avoid Vite SVG CSS mangling */}
           <motion.div
             initial={{ opacity: 0, scale: 0.85 }}
-            animate={{ 
-              opacity: 1, 
-              scale: [0.97, 1.03, 0.97],
-            }}
+            animate={{ opacity: 1, scale: [0.97, 1.03, 0.97] }}
             transition={{
               opacity: { duration: 0.5, ease: 'easeOut' },
-              scale: { 
-                repeat: Infinity, 
-                duration: 1.4, 
-                ease: 'easeInOut' 
-              }
+              scale: { repeat: Infinity, duration: 1.4, ease: 'easeInOut' },
             }}
-            className="flex items-center justify-center"
-            style={{ width: '200px', height: '200px' }}
+            style={{ width: 200, height: 200, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
           >
-            <img 
-              src={logo} 
-              alt="Rose Coffee Logo" 
-              style={{ width: '100%', height: '100%', objectFit: 'contain' }} 
+            <img
+              src={logoSrc}
+              alt="Rose Coffee Logo"
+              width={200}
+              height={200}
+              style={{ width: '100%', height: '100%', objectFit: 'contain', display: 'block' }}
             />
           </motion.div>
 
-          {/* Brand text — forced Inter sans-serif */}
+          {/* Brand text — explicit Inter stack, no Tailwind dependency */}
           <motion.span
             initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 0.9, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.4, duration: 0.5 }}
             style={{
-              fontFamily: "'Inter', sans-serif",
+              fontFamily:
+                "'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif",
               fontWeight: 400,
-              fontSize: '18px',
-              letterSpacing: '0.3em',
+              fontSize: '17px',
+              letterSpacing: '0.28em',
               textTransform: 'uppercase',
               color: '#6b3a0e',
-              marginTop: '20px',
+              marginTop: '22px',
             }}
           >
             Rose Coffee
