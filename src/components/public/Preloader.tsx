@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import logo from '../../assets/logo rose coffee/1 rose coffee.svg';
+import logo from '../../assets/logo.svg';
 
 export default function Preloader() {
   const [show, setShow] = useState(true);
