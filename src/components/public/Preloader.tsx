@@ -8,7 +8,7 @@ export default function Preloader() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setShow(false);
-    }, 1800); // Pulse logo for 1.8s, then slide up
+    }, 2000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -25,30 +25,43 @@ export default function Preloader() {
         >
           {/* Logo animation */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
+            initial={{ opacity: 0, scale: 0.85 }}
             animate={{ 
               opacity: 1, 
-              scale: [0.95, 1.05, 0.95],
+              scale: [0.97, 1.03, 0.97],
             }}
             transition={{
               opacity: { duration: 0.5, ease: 'easeOut' },
               scale: { 
                 repeat: Infinity, 
-                duration: 1.2, 
+                duration: 1.4, 
                 ease: 'easeInOut' 
               }
             }}
-            className="w-48 h-48 flex items-center justify-center"
+            className="flex items-center justify-center"
+            style={{ width: '200px', height: '200px' }}
           >
-            <img src={logo} alt="Rose Coffee Logo" className="w-full h-full object-contain" />
+            <img 
+              src={logo} 
+              alt="Rose Coffee Logo" 
+              style={{ width: '100%', height: '100%', objectFit: 'contain' }} 
+            />
           </motion.div>
-          
-          {/* Subtle brand text loader */}
+
+          {/* Brand text — forced Inter sans-serif */}
           <motion.span
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 0.9, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.5 }}
-            className="text-[20px] font-sans text-coffee uppercase tracking-widest mt-4"
+            transition={{ delay: 0.4, duration: 0.5 }}
+            style={{
+              fontFamily: "'Inter', sans-serif",
+              fontWeight: 400,
+              fontSize: '18px',
+              letterSpacing: '0.3em',
+              textTransform: 'uppercase',
+              color: '#6b3a0e',
+              marginTop: '20px',
+            }}
           >
             Rose Coffee
           </motion.span>
