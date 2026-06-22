@@ -2,7 +2,7 @@
 <svg id="Capa_2" data-name="Capa 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 681.54 705.64">
   <defs>
     <style>
-      .cls-1 {
+      .cls-1, .cls-2 {
         fill: #021a54;
       }
 
@@ -10,7 +10,6 @@
         font-family: Now-Bold, Now;
         font-size: 86.42px;
         font-weight: 700;
-        fill: #021a54;
       }
     </style>
   </defs>
