@@ -6,18 +6,9 @@ export default function Preloader() {
   const [show, setShow] = useState(true);
 
   useEffect(() => {
-    // Check if preloader has already run in this session
-    const hasSeen = sessionStorage.getItem('rose_coffee_preloader_seen');
-    if (hasSeen === 'true') {
-      setShow(false);
-      return;
-    }
-
     const timer = setTimeout(() => {
       setShow(false);
-      sessionStorage.setItem('rose_coffee_preloader_seen', 'true');
     }, 1800); // Pulse logo for 1.8s, then slide up
-
     return () => clearTimeout(timer);
   }, []);
 
@@ -55,11 +46,11 @@ export default function Preloader() {
           {/* Subtle brand text loader */}
           <motion.span
             initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 0.7, y: 0 }}
+            animate={{ opacity: 0.9, y: 0 }}
             transition={{ delay: 0.3, duration: 0.5 }}
-            className="text-[10px] font-bold text-coffee uppercase tracking-widest mt-4"
+            className="text-[20px] font-sans text-coffee uppercase tracking-widest mt-4"
           >
-            Cargando Experiencia...
+            Rose Coffee
           </motion.span>
         </motion.div>
       )}
