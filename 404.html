@@ -1,26 +1,86 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Rose Coffee</title>
-  <script type="text/javascript">
-    // Single Page Apps for GitHub Pages
-    // MIT License
-    // https://github.com/rafgraph/spa-github-pages
-    // This script checks if a redirect is present in the query string,
-    // converts it back to the correct path, and replaces the window history state.
-    var pathSegmentsToKeep = 1;
-
-    var l = window.location;
-    l.replace(
-      l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
-      l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
-      l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
-      (l.search ? '&' + l.search.replace(/&/g, '~and~') : '') +
-      l.hash
-    );
-  </script>
-</head>
-<body>
-</body>
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Rose Coffee</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Start Single Page Apps for GitHub Pages -->
+    <script type="text/javascript">
+      (function(l) {
+        if (l.search[1] === '/' ) {
+          var decoded = l.search.slice(1).split('&').map(function(s) {
+            return s.replace(/~and~/g, '&')
+          }).join('?');
+          window.history.replaceState(null, null,
+              l.pathname.slice(0, -1) + decoded + l.hash
+          );
+        }
+      }(window.location));
+    </script>
+    <!-- End Single Page Apps for GitHub Pages -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/4.0.0/model-viewer.min.js"></script>
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Bakery",
+        "name": "Rose Coffee",
+        "image": "/hero_coffee_sourdough.png",
+        "@id": "https://rosecoffee.pages.dev/#rose-coffee",
+        "url": "https://rosecoffee.pages.dev/",
+        "telephone": "+593980372113",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "E25 y Av. 17 de Septiembre",
+          "addressLocality": "Milagro",
+          "addressRegion": "Guayas",
+          "addressCountry": "EC"
+        },
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday"
+            ],
+            "opens": "08:00",
+            "closes": "20:00"
+          }
+        ],
+        "sameAs": [
+          "https://wa.me/593980372113"
+        ]
+      }
+    </script>
+    <script>
+      (function() {
+        try {
+          var localTheme = localStorage.getItem('rose-theme-preference');
+          if (localTheme === 'dark' || (!localTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+    <script type="module" crossorigin src="/assets/index-CBDLwCPU.js"></script>
+    <link rel="modulepreload" crossorigin href="/assets/rolldown-runtime-Cyuzqnbw.js">
+    <link rel="modulepreload" crossorigin href="/assets/commons-_KS4fJYe.js">
+    <link rel="modulepreload" crossorigin href="/assets/react-core-QSiGsmmj.js">
+    <link rel="modulepreload" crossorigin href="/assets/supabase-GsalXfFG.js">
+    <link rel="modulepreload" crossorigin href="/assets/framer-motion-BhaBB0Go.js">
+    <link rel="modulepreload" crossorigin href="/assets/icons-BGySs_MG.js">
+    <link rel="stylesheet" crossorigin href="/assets/index-RhLZiDwF.css">
+  <link rel="manifest" href="/manifest.webmanifest"><script id="vite-plugin-pwa:register-sw" src="/registerSW.js"></script></head>
+  <body class="bg-brand-base dark:bg-stone-900 text-gray-800 dark:text-stone-100 transition-colors duration-300">
+    <div id="root"></div>
+  </body>
 </html>

@@ -1,1 +1,25 @@
-if(!self.define){let s,e={};const l=(l,r)=>(l=new URL(l+".js",r).href,e[l]||new Promise(e=>{if("document"in self){const s=document.createElement("script");s.src=l,s.onload=e,document.head.appendChild(s)}else s=l,importScripts(l),e()}).then(()=>{let s=e[l];if(!s)throw new Error(`Module ${l} didn’t register its module`);return s}));self.define=(r,n)=>{const i=s||("document"in self?document.currentScript.src:"")||location.href;if(e[i])return;let u={};const a=s=>l(s,i),o={module:{uri:i},exports:u,require:a};e[i]=Promise.all(r.map(s=>o[s]||a(s))).then(s=>(n(...s),u))}}define(["./workbox-9c191d2f"],function(s){"use strict";self.skipWaiting(),s.clientsClaim(),s.precacheAndRoute([{url:"registerSW.js",revision:"aea77e96292a3d4b86a7e4866750d071"},{url:"index.html",revision:"685050c3941ee6832f56230794ab70d0"},{url:"404.html",revision:"185bdc6b28ec5ac29ea6ea2f1ebd6ec8"},{url:"webgl-mock/index.html",revision:"33e0be0bc65c21a6686ad51e3feb1b77"},{url:"assets/WordleGame-BkfFvDcN.js",revision:null},{url:"assets/vendor-libs-Ch8VxxDl.js",revision:null},{url:"assets/UsersManager-ByzDfzvs.js",revision:null},{url:"assets/supabase-B8MnmCgQ.js",revision:null},{url:"assets/StoreManager-IZ5JMUaG.js",revision:null},{url:"assets/Store-DrrPv__s.js",revision:null},{url:"assets/Skeletons-CX2WE1Kj.js",revision:null},{url:"assets/SettingsManager-BN-8G7MS.js",revision:null},{url:"assets/SEOHead-D5LaCEwW.js",revision:null},{url:"assets/rolldown-runtime-Cyuzqnbw.js",revision:null},{url:"assets/RichTextEditor-Dy7YT-pr.js",revision:null},{url:"assets/react-core-D5GxDPeQ.js",revision:null},{url:"assets/ProjectPresentation-gy73uDSP.js",revision:null},{url:"assets/productSpecs-D773wiB0.js",revision:null},{url:"assets/ProductionManager-a0CNvsD7.js",revision:null},{url:"assets/ProductDetail-uHNHWBMA.js",revision:null},{url:"assets/PageEditor-BxaZjQI-.js",revision:null},{url:"assets/OrdersManager-sguyqtpR.js",revision:null},{url:"assets/MyPurchases-DTg5cEfM.js",revision:null},{url:"assets/MobileGameController-CWDoh7ZW.js",revision:null},{url:"assets/MiniGames-BGeJFlDA.js",revision:null},{url:"assets/MemoryCafe-C3XRsCIF.js",revision:null},{url:"assets/MediaUploader-Bxl-4M31.js",revision:null},{url:"assets/MarketingManager-C1mSV9F4.js",revision:null},{url:"assets/LuckyWheel-DIxB5wVF.js",revision:null},{url:"assets/LogosManager-zYoRCbLd.js",revision:null},{url:"assets/Login-B36-LuCU.js",revision:null},{url:"assets/LatteArtPuzzle-D0uz6Xzv.js",revision:null},{url:"assets/InventoryManager-X7TSBwT8.js",revision:null},{url:"assets/index-QUwMJNQu.js",revision:null},{url:"assets/index-BQQjZ0Mu.css",revision:null},{url:"assets/ImageGallerySection-BnxCns6a.js",revision:null},{url:"assets/icons-BGySs_MG.js",revision:null},{url:"assets/Home-C3eC0kDH.js",revision:null},{url:"assets/GatitoRunner-BMA5tL-q.js",revision:null},{url:"assets/framer-motion-BhaBB0Go.js",revision:null},{url:"assets/FloatingElements-4AxzWv9m.js",revision:null},{url:"assets/FlappyTaza-6KnDahzS.js",revision:null},{url:"assets/FastBarista-fKVW7a8s.js",revision:null},{url:"assets/Evolution2048-ChKbQdC-.js",revision:null},{url:"assets/DashboardHome-D3nAeEZH.js",revision:null},{url:"assets/CustomersManager-DGH17HTC.js",revision:null},{url:"assets/Contact-D2MgN6cB.js",revision:null},{url:"assets/Confetti-SVYZIp2g.js",revision:null},{url:"assets/commons-_KS4fJYe.js",revision:null},{url:"assets/CoffeeSubscription-BD4PdIHv.js",revision:null},{url:"assets/CoffeeInvaders-CjVjAwLo.js",revision:null},{url:"assets/CoffeeClicker-DJtg5VB_.js",revision:null},{url:"assets/CatchIngredients-_BGJ55D2.js",revision:null},{url:"assets/Cart-BRSojWeN.js",revision:null},{url:"assets/BricksBreaker-cW-Gat9w.js",revision:null},{url:"assets/BlogManager-DVfxAVOz.js",revision:null},{url:"assets/BlogList-WLW3u3l3.js",revision:null},{url:"assets/BlogDetail-BJeZNOZd.js",revision:null},{url:"assets/audioEngine-BbdbLiV3.js",revision:null},{url:"assets/ARViewer-BOkZgeIE.js",revision:null},{url:"assets/ARShowroomManager-CQOgmXKi.js",revision:null},{url:"assets/ARShowroom-CXaJRFM2.js",revision:null},{url:"assets/ARShowcase-BbzDtJiH.js",revision:null},{url:"assets/ARMenuScanner-V5ZAZQXY.js",revision:null},{url:"assets/AnalyticsManager-lpmckvOZ.js",revision:null},{url:"assets/AdminHeader-CrvIC7xY.js",revision:null},{url:"assets/AdminARManager-C0jXbjc6.js",revision:null},{url:"assets/About-D3a3zkRg.js",revision:null},{url:"manifest.webmanifest",revision:"4e279b4b76aff180113a8fbcb039c3ab"}],{}),s.cleanupOutdatedCaches(),s.registerRoute(new s.NavigationRoute(s.createHandlerBoundToURL("index.html")))});
+
+self.addEventListener('install', (e) => {
+  self.skipWaiting();
+});
+self.addEventListener('activate', (e) => {
+  self.registration.unregister()
+    .then(() => self.clients.matchAll())
+    .then((clients) => {
+      clients.forEach((client) => {
+        if (client instanceof WindowClient)
+          client.navigate(client.url);
+      });
+      return Promise.resolve();
+    })
+    .then(() => {
+      self.caches.keys().then((cacheNames) => {
+        Promise.all(
+          cacheNames.map((cacheName) => {
+            return self.caches.delete(cacheName);
+          }),
+        );
+      })
+    });
+});
+    
