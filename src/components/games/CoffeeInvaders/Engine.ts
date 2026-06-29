@@ -48,6 +48,8 @@ export interface Upgrades {
   fireRate: number; // 0 to 5
   moveSpeed: number; // 0 to 5
   extraLives: number; // 0 to 3
+  bulletDamage: number; // 0 to 5
+  shieldDuration: number; // 0 to 5
 }
 
 export class CoffeeInvadersEngine {
@@ -99,7 +101,7 @@ export class CoffeeInvadersEngine {
     canvas: HTMLCanvasElement, 
     onStateChange: (state: GameState) => void,
     onScore: (points: number) => void,
-    upgrades: Upgrades = { fireRate: 0, moveSpeed: 0, extraLives: 0 }
+    upgrades: Upgrades = { fireRate: 0, moveSpeed: 0, extraLives: 0, bulletDamage: 0, shieldDuration: 0 }
   ) {
     this.ctx = canvas.getContext('2d')!;
     this.onStateChange = onStateChange;
@@ -323,7 +325,7 @@ export class CoffeeInvadersEngine {
         height: 12,
         vx: 0,
         vy: -10,
-        hp: 1,
+        hp: 1 + this.upgrades.bulletDamage,
         type: 'bean',
         owner: 'player'
       });
@@ -335,7 +337,7 @@ export class CoffeeInvadersEngine {
         height: 12,
         vx: 0,
         vy: -10,
-        hp: 1,
+        hp: 1 + this.upgrades.bulletDamage,
         type: 'bean',
         owner: 'player'
       });
@@ -346,7 +348,7 @@ export class CoffeeInvadersEngine {
         height: 12,
         vx: 0,
         vy: -10,
-        hp: 1,
+        hp: 1 + this.upgrades.bulletDamage,
         type: 'bean',
         owner: 'player'
       });
@@ -481,7 +483,7 @@ export class CoffeeInvadersEngine {
         p.y + p.height > this.player.y
       ) {
         const typeKey = p.type as 'double' | 'shield' | 'laser';
-        this.activePowerUps[typeKey] = typeKey === 'double' ? 500 : typeKey === 'shield' ? 1000 : 300;
+        this.activePowerUps[typeKey] = typeKey === 'double' ? 500 : typeKey === 'shield' ? 1000 + (this.upgrades.shieldDuration * 200) : 300;
         this.powerups.splice(i, 1);
         this.addFloatingText(this.player.x, this.player.y - 20, p.type.toUpperCase() + '!', '#38bdf8');
         audio.playPowerUp();

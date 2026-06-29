@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, RotateCcw, Pause, Home, Crosshair, Wrench, Zap, Heart } from 'lucide-react';
+import { Play, RotateCcw, Pause, Home, Crosshair, Wrench, Zap, Heart, Shield, Swords } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SEOHead from '../../../components/common/SEOHead';
 import { useGameWallet } from '../../../contexts/GameWalletContext';
@@ -28,6 +28,8 @@ export default function CoffeeInvaders() {
     fireRate: parseInt(localStorage.getItem('ci_fireRate') || '0'),
     moveSpeed: parseInt(localStorage.getItem('ci_moveSpeed') || '0'),
     extraLives: parseInt(localStorage.getItem('ci_extraLives') || '0'),
+    bulletDamage: parseInt(localStorage.getItem('ci_bulletDamage') || '0'),
+    shieldDuration: parseInt(localStorage.getItem('ci_shieldDuration') || '0'),
   });
 
   const [showStore, setShowStore] = useState(false);
@@ -43,8 +45,8 @@ export default function CoffeeInvaders() {
       const container = containerRef.current;
       const canvas = canvasRef.current;
       if (container && canvas) {
-        const maxWidth = Math.min(container.clientWidth, 1000);
-        const maxHeight = window.innerHeight * 0.75;
+        const maxWidth = Math.min(container.clientWidth, 1200);
+        const maxHeight = window.innerHeight * 0.85;
         
         canvas.width = maxWidth;
         canvas.height = maxHeight;
@@ -214,14 +216,14 @@ export default function CoffeeInvaders() {
                       <div className="flex items-center gap-2 text-white font-bold">
                         <Zap className="w-4 h-4 text-yellow-400" /> Cadencia de Fuego
                       </div>
-                      <div className="text-xs text-gray-400">Nvl {upgrades.fireRate}/5</div>
+                      <div className="text-xs text-gray-400">Nvl {upgrades.fireRate}/20</div>
                     </div>
                     <button 
-                      disabled={upgrades.fireRate >= 5 || beans < getCost(upgrades.fireRate)}
-                      onClick={() => buyUpgrade('fireRate', 5)}
+                      disabled={upgrades.fireRate >= 20 || beans < getCost(upgrades.fireRate)}
+                      onClick={() => buyUpgrade('fireRate', 20)}
                       className="w-full py-2 bg-yellow-600/20 hover:bg-yellow-600/40 text-yellow-500 rounded font-bold disabled:opacity-50 transition-colors"
                     >
-                      {upgrades.fireRate >= 5 ? 'MAX' : `Mejorar (${getCost(upgrades.fireRate)} Granos)`}
+                      {upgrades.fireRate >= 20 ? 'MAX' : `Mejorar (${getCost(upgrades.fireRate)} Granos)`}
                     </button>
                   </div>
 
@@ -232,14 +234,48 @@ export default function CoffeeInvaders() {
                         <motion.div animate={{x: [-2, 2, -2]}} transition={{repeat: Infinity, duration: 2}}><Play className="w-4 h-4 text-blue-400" /></motion.div>
                         Velocidad de Movimiento
                       </div>
-                      <div className="text-xs text-gray-400">Nvl {upgrades.moveSpeed}/5</div>
+                      <div className="text-xs text-gray-400">Nvl {upgrades.moveSpeed}/20</div>
                     </div>
                     <button 
-                      disabled={upgrades.moveSpeed >= 5 || beans < getCost(upgrades.moveSpeed)}
-                      onClick={() => buyUpgrade('moveSpeed', 5)}
+                      disabled={upgrades.moveSpeed >= 20 || beans < getCost(upgrades.moveSpeed)}
+                      onClick={() => buyUpgrade('moveSpeed', 20)}
                       className="w-full py-2 bg-blue-600/20 hover:bg-blue-600/40 text-blue-400 rounded font-bold disabled:opacity-50 transition-colors"
                     >
-                      {upgrades.moveSpeed >= 5 ? 'MAX' : `Mejorar (${getCost(upgrades.moveSpeed)} Granos)`}
+                      {upgrades.moveSpeed >= 20 ? 'MAX' : `Mejorar (${getCost(upgrades.moveSpeed)} Granos)`}
+                    </button>
+                  </div>
+
+                  {/* Bullet Damage Upgrade */}
+                  <div className="bg-gray-800 p-4 rounded-xl border border-gray-700">
+                    <div className="flex justify-between items-center mb-2">
+                      <div className="flex items-center gap-2 text-white font-bold">
+                        <Swords className="w-4 h-4 text-orange-500" /> Daño de Proyectil
+                      </div>
+                      <div className="text-xs text-gray-400">Nvl {upgrades.bulletDamage}/10</div>
+                    </div>
+                    <button 
+                      disabled={upgrades.bulletDamage >= 10 || beans < getCost(upgrades.bulletDamage)}
+                      onClick={() => buyUpgrade('bulletDamage', 10)}
+                      className="w-full py-2 bg-orange-600/20 hover:bg-orange-600/40 text-orange-400 rounded font-bold disabled:opacity-50 transition-colors"
+                    >
+                      {upgrades.bulletDamage >= 10 ? 'MAX' : `Mejorar (${getCost(upgrades.bulletDamage)} Granos)`}
+                    </button>
+                  </div>
+
+                  {/* Shield Duration Upgrade */}
+                  <div className="bg-gray-800 p-4 rounded-xl border border-gray-700">
+                    <div className="flex justify-between items-center mb-2">
+                      <div className="flex items-center gap-2 text-white font-bold">
+                        <Shield className="w-4 h-4 text-sky-400" /> Duración de Escudos
+                      </div>
+                      <div className="text-xs text-gray-400">Nvl {upgrades.shieldDuration}/20</div>
+                    </div>
+                    <button 
+                      disabled={upgrades.shieldDuration >= 20 || beans < getCost(upgrades.shieldDuration)}
+                      onClick={() => buyUpgrade('shieldDuration', 20)}
+                      className="w-full py-2 bg-sky-600/20 hover:bg-sky-600/40 text-sky-400 rounded font-bold disabled:opacity-50 transition-colors"
+                    >
+                      {upgrades.shieldDuration >= 20 ? 'MAX' : `Mejorar (${getCost(upgrades.shieldDuration)} Granos)`}
                     </button>
                   </div>
 
@@ -249,14 +285,14 @@ export default function CoffeeInvaders() {
                       <div className="flex items-center gap-2 text-white font-bold">
                         <Heart className="w-4 h-4 text-red-500" /> Vidas Extra Iniciales
                       </div>
-                      <div className="text-xs text-gray-400">Nvl {upgrades.extraLives}/3</div>
+                      <div className="text-xs text-gray-400">Nvl {upgrades.extraLives}/10</div>
                     </div>
                     <button 
-                      disabled={upgrades.extraLives >= 3 || beans < getCost(upgrades.extraLives)}
-                      onClick={() => buyUpgrade('extraLives', 3)}
+                      disabled={upgrades.extraLives >= 10 || beans < getCost(upgrades.extraLives)}
+                      onClick={() => buyUpgrade('extraLives', 10)}
                       className="w-full py-2 bg-red-600/20 hover:bg-red-600/40 text-red-400 rounded font-bold disabled:opacity-50 transition-colors"
                     >
-                      {upgrades.extraLives >= 3 ? 'MAX' : `Mejorar (${getCost(upgrades.extraLives)} Granos)`}
+                      {upgrades.extraLives >= 10 ? 'MAX' : `Mejorar (${getCost(upgrades.extraLives)} Granos)`}
                     </button>
                   </div>
                 </div>
