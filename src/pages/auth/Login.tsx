@@ -115,7 +115,7 @@ const Login = () => {
               setErrorMsg('');
             }}
             className={`flex-1 pb-3 text-sm font-semibold text-center transition-colors cursor-pointer ${
-              !isRegister ? 'text-primary border-b-2 border-primary' : 'text-gray-400 hover:text-gray-600'
+              !isRegister ? 'text-primary border-b-2 border-primary dark:text-blue-400 dark:border-blue-400' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'
             }`}
           >
             Ingresar
@@ -126,7 +126,7 @@ const Login = () => {
               setErrorMsg('');
             }}
             className={`flex-1 pb-3 text-sm font-semibold text-center transition-colors cursor-pointer ${
-              isRegister ? 'text-primary border-b-2 border-primary' : 'text-gray-400 hover:text-gray-600'
+              isRegister ? 'text-primary border-b-2 border-primary dark:text-blue-400 dark:border-blue-400' : 'text-gray-400 hover:text-gray-600 dark:hover:text-gray-300'
             }`}
           >
             Registrarse
@@ -154,24 +154,24 @@ const Login = () => {
                 className="grid grid-cols-2 gap-4"
               >
                 <div>
-                  <label htmlFor="firstName" className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Nombre</label>
+                  <label htmlFor="firstName" className="block text-xs font-semibold text-gray-500 dark:text-stone-400 uppercase tracking-wider mb-1">Nombre</label>
                   <input 
                     id="firstName"
                     autoComplete="given-name"
                     {...register('firstName')}
                     type="text" 
-                    className="w-full px-4 py-2 border border-gray-200 dark:border-stone-700 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none"
+                    className="w-full px-4 py-2 bg-white dark:bg-stone-900 border border-gray-200 dark:border-stone-700 rounded-xl text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-stone-500 focus:ring-2 focus:ring-primary/20 focus:outline-none"
                     placeholder="Ej. Juan"
                   />
                 </div>
                 <div>
-                  <label htmlFor="lastName" className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Apellido</label>
+                  <label htmlFor="lastName" className="block text-xs font-semibold text-gray-500 dark:text-stone-400 uppercase tracking-wider mb-1">Apellido</label>
                   <input 
                     id="lastName"
                     autoComplete="family-name"
                     {...register('lastName')}
                     type="text" 
-                    className="w-full px-4 py-2 border border-gray-200 dark:border-stone-700 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none"
+                    className="w-full px-4 py-2 bg-white dark:bg-stone-900 border border-gray-200 dark:border-stone-700 rounded-xl text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-stone-500 focus:ring-2 focus:ring-primary/20 focus:outline-none"
                     placeholder="Ej. Pérez"
                   />
                 </div>
@@ -180,26 +180,26 @@ const Login = () => {
           </AnimatePresence>
 
           <div>
-            <label htmlFor="email" className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Correo Electrónico</label>
+            <label htmlFor="email" className="block text-xs font-semibold text-gray-500 dark:text-stone-400 uppercase tracking-wider mb-1">Correo Electrónico</label>
             <input 
               id="email"
               autoComplete="email"
               {...register('email')}
               type="email" 
-              className="w-full px-4 py-2 border border-gray-200 dark:border-stone-700 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none"
+              className="w-full px-4 py-2 bg-white dark:bg-stone-900 border border-gray-200 dark:border-stone-700 rounded-xl text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-stone-500 focus:ring-2 focus:ring-primary/20 focus:outline-none"
               placeholder="correo@ejemplo.com"
             />
             {errors.email && <p className="text-accent-red text-xs mt-1">{errors.email.message}</p>}
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-xs font-semibold text-gray-500 uppercase tracking-wider mb-1">Contraseña</label>
+            <label htmlFor="password" className="block text-xs font-semibold text-gray-500 dark:text-stone-400 uppercase tracking-wider mb-1">Contraseña</label>
             <input 
               id="password"
               autoComplete="current-password"
               {...register('password')}
               type="password" 
-              className="w-full px-4 py-2 border border-gray-200 dark:border-stone-700 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none"
+              className="w-full px-4 py-2 bg-white dark:bg-stone-900 border border-gray-200 dark:border-stone-700 rounded-xl text-sm text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-stone-500 focus:ring-2 focus:ring-primary/20 focus:outline-none"
               placeholder="••••••••"
             />
             {errors.password && <p className="text-accent-red text-xs mt-1">{errors.password.message}</p>}
@@ -208,7 +208,7 @@ const Login = () => {
           <button 
             type="submit" 
             disabled={loading}
-            className="w-full bg-primary hover:bg-blue-900 text-white py-3 px-4 rounded-xl font-semibold transition-colors mt-6 disabled:bg-gray-200 disabled:text-gray-400 cursor-pointer shadow-sm"
+            className="w-full bg-primary hover:bg-blue-900 dark:bg-blue-600 dark:hover:bg-blue-500 text-white py-3 px-4 rounded-xl font-semibold transition-colors mt-6 disabled:bg-gray-200 disabled:text-gray-400 cursor-pointer shadow-sm"
           >
             {loading 
               ? (isRegister ? 'Registrando...' : 'Ingresando...') 
@@ -232,7 +232,7 @@ const Login = () => {
           type="button"
           onClick={handleGoogleLogin}
           disabled={loading}
-          className="w-full border border-gray-250 hover:bg-gray-50 text-gray-700 py-3 px-4 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center gap-2.5 cursor-pointer disabled:opacity-50 shadow-xs hover:shadow-sm"
+          className="w-full border border-gray-250 dark:border-stone-600 hover:bg-gray-50 dark:hover:bg-stone-700 text-gray-700 dark:text-stone-300 py-3 px-4 rounded-xl font-semibold transition-all duration-200 flex items-center justify-center gap-2.5 cursor-pointer disabled:opacity-50 shadow-xs hover:shadow-sm"
         >
           <svg className="w-5 h-5 flex-shrink-0" viewBox="0 0 24 24">
             <path
