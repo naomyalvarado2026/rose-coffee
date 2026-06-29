@@ -528,8 +528,12 @@ export class CoffeeInvadersEngine {
     const deltaTime = timestamp - this.lastTime;
     this.lastTime = timestamp;
 
-    this.update(deltaTime);
-    this.draw();
+    try {
+      this.update(deltaTime);
+      this.draw();
+    } catch (e) {
+      console.error('GameLoop error:', e);
+    }
 
     this.animationId = requestAnimationFrame(this.gameLoop);
   };
@@ -737,14 +741,14 @@ export class CoffeeInvadersEngine {
     // Draw background stars
     this.ctx.fillStyle = '#ffffff';
     for (const star of this.bgStars) {
-      this.ctx.globalAlpha = 0.2 + (star.speed / 4);
+      this.ctx.globalAlpha = Math.max(0, Math.min(1, 0.2 + (star.speed / 4)));
       this.ctx.fillRect(star.x, star.y, star.size, star.size);
     }
     this.ctx.globalAlpha = 1;
     
     // Draw particles
     for (const p of this.particles) {
-      this.ctx.globalAlpha = 1 - (p.life / p.maxLife);
+      this.ctx.globalAlpha = Math.max(0, Math.min(1, 1 - (p.life / p.maxLife)));
       this.ctx.fillStyle = p.color;
       this.ctx.fillRect(p.x, p.y, p.size, p.size); // Pixel style particles
     }
@@ -813,7 +817,7 @@ export class CoffeeInvadersEngine {
     this.ctx.font = '16px "Courier New", monospace';
     this.ctx.textAlign = 'center';
     for (const t of this.floatingTexts) {
-       this.ctx.globalAlpha = 1 - (t.life / t.maxLife);
+       this.ctx.globalAlpha = Math.max(0, Math.min(1, 1 - (t.life / t.maxLife)));
        this.ctx.fillStyle = t.color;
        this.ctx.fillText(t.text, t.x, t.y);
     }
