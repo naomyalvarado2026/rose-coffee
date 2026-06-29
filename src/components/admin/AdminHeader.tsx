@@ -8,7 +8,7 @@ interface AdminHeaderProps {
 
 const AdminHeader = ({ title, description, action }: AdminHeaderProps) => {
   return (
-    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-4 border-b border-gray-150 mb-6">
+    <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-4 border-b border-gray-150 dark:border-stone-700 mb-6">
       <div>
         <h1 className="text-2xl md:text-3xl font-sans font-bold text-primary">
           {title}

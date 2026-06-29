@@ -52,7 +52,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
         {isMobile && (
           <button 
             onClick={onClose}
-            className="p-1 rounded hover:bg-white/10 transition-colors cursor-pointer"
+            className="p-1 rounded hover:bg-white dark:bg-stone-800/10 transition-colors cursor-pointer"
             aria-label="Cerrar menú"
           >
             <X size={20} />
@@ -134,7 +134,7 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
             onClose();
             navigate('/');
           }}
-          className="flex items-center justify-center gap-2 text-stone-300 hover:text-white hover:bg-white/5 py-2 px-4 rounded-xl transition-all duration-200 w-full text-xs font-semibold border border-white/5 hover:border-white/10 cursor-pointer"
+          className="flex items-center justify-center gap-2 text-stone-300 hover:text-white hover:bg-white dark:bg-stone-800/5 py-2 px-4 rounded-xl transition-all duration-200 w-full text-xs font-semibold border border-white/5 hover:border-white/10 cursor-pointer"
         >
           <Globe size={14} className="text-gold" />
           <span>Cerrar Panel</span>

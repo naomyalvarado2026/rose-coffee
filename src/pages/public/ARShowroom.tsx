@@ -147,7 +147,7 @@ export default function ARShowroom() {
       </div>
 
       {/* Tabs Filter */}
-      <div className="max-w-md mx-auto mb-10 flex justify-center p-1.5 bg-white/60 backdrop-blur-md rounded-2xl border border-stone-200/50 shadow-sm">
+      <div className="max-w-md mx-auto mb-10 flex justify-center p-1.5 bg-white dark:bg-stone-800/60 backdrop-blur-md rounded-2xl border border-stone-200 dark:border-stone-700/50 shadow-sm">
         {(['ALL', 'PRODUCT', 'VIDEO', 'ANIMATION'] as const).map((tab) => (
           <button
             key={tab}
@@ -172,24 +172,26 @@ export default function ARShowroom() {
           <Loader2 className="w-8 h-8 text-[#021a54] animate-spin" />
         </div>
       ) : filteredExperiences.length === 0 ? (
-        <div className="text-center py-16 bg-white/40 border border-dashed border-stone-300 rounded-3xl p-8 max-w-md mx-auto">
+        <div className="text-center py-16 bg-white dark:bg-stone-800/40 border border-dashed border-stone-300 rounded-3xl p-8 max-w-md mx-auto">
           <Coffee className="w-10 h-10 text-stone-400 mx-auto mb-3" />
           <p className="text-stone-500 font-semibold text-sm">No se encontraron experiencias AR</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          {filteredExperiences.map((exp) => (
+          {filteredExperiences.map((exp, idx) => (
             <motion.div
               key={exp.id}
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
-              className="bg-white/70 backdrop-blur-sm rounded-3xl overflow-hidden border border-stone-200/60 shadow-lg hover:shadow-xl transition-all duration-300 group flex flex-col h-full"
+              className="bg-white dark:bg-stone-800/70 backdrop-blur-sm rounded-3xl overflow-hidden border border-stone-200 dark:border-stone-700/60 shadow-lg hover:shadow-xl transition-all duration-300 group flex flex-col h-full"
             >
               {/* Image Preview & Hover Play */}
               <div className="aspect-video relative overflow-hidden bg-stone-100">
                 <img
                   src={exp.preview_image || 'https://images.unsplash.com/photo-1559056199-641a0ac8b55e?auto=format&fit=crop&q=80&w=400'}
                   alt={exp.name}
+                  loading={idx === 0 ? 'eager' : 'lazy'}
+                  fetchPriority={idx === 0 ? 'high' : 'auto'}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
                 <div className="absolute top-3 left-3 bg-[#021a54]/90 text-[#faf2e7] text-[9px] font-extrabold uppercase px-2.5 py-1 rounded-full tracking-wider shadow-sm">
@@ -202,9 +204,9 @@ export default function ARShowroom() {
               {/* Body info */}
               <div className="p-6 flex-1 flex flex-col justify-between">
                 <div className="space-y-2">
-                  <h3 className="font-bold text-lg text-[#021a54] line-clamp-1 leading-snug">{exp.name}</h3>
+                  <h2 className="font-bold text-lg text-[#021a54] line-clamp-1 leading-snug">{exp.name}</h2>
                   <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-bold text-stone-400 uppercase tracking-wider bg-stone-100/65 px-2 py-0.5 rounded-md">
+                    <span className="text-[10px] font-bold text-stone-600 uppercase tracking-wider bg-stone-100/65 px-2 py-0.5 rounded-md">
                       {exp.category}
                     </span>
                     {exp.views_count !== undefined && (
@@ -269,11 +271,12 @@ export default function ARShowroom() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              className="bg-[#faf2e7] p-8 rounded-3xl max-w-sm w-full relative z-10 text-center shadow-2xl border border-stone-200/50 space-y-6"
+              className="bg-[#faf2e7] p-8 rounded-3xl max-w-sm w-full relative z-10 text-center shadow-2xl border border-stone-200 dark:border-stone-700/50 space-y-6"
             >
               <button
                 onClick={() => setShowQrFor(null)}
-                className="absolute top-4 right-4 text-stone-500 hover:text-stone-800 transition-colors cursor-pointer"
+                className="absolute top-4 right-4 text-stone-500 hover:text-stone-800 dark:hover:text-stone-100 dark:text-stone-200 transition-colors cursor-pointer"
+                aria-label="Cerrar"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -284,7 +287,7 @@ export default function ARShowroom() {
               </div>
 
               {/* QR Image Frame */}
-              <div className="w-48 h-48 bg-white border border-stone-200 rounded-2xl mx-auto flex items-center justify-center shadow-inner overflow-hidden p-2">
+              <div className="w-48 h-48 bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-2xl mx-auto flex items-center justify-center shadow-inner overflow-hidden p-2">
                 <img
                   src={getQRUrl(showQrFor.id)}
                   alt="QR Code"

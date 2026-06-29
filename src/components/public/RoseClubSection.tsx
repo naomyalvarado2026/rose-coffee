@@ -76,7 +76,7 @@ export default function RoseClubSection() {
 
             {/* User points segment */}
             {user ? (
-              <div className="bg-white/5 border border-white/10 p-6 rounded-3xl space-y-4 backdrop-blur-md">
+              <div className="bg-white dark:bg-stone-800/5 border border-white/10 p-6 rounded-3xl space-y-4 backdrop-blur-md">
                 <div className="flex justify-between items-center">
                   <div>
                     <span className="text-[10px] text-stone-400 font-bold uppercase tracking-widest block">Tu Saldo Actual</span>
@@ -95,7 +95,7 @@ export default function RoseClubSection() {
                       <span>Progreso para {nextTier.reward}</span>
                       <span className="font-bold text-gold">{points} / {nextTier.points} pts</span>
                     </div>
-                    <div className="w-full bg-white/10 h-2.5 rounded-full overflow-hidden p-0.5 border border-white/5">
+                    <div className="w-full bg-white dark:bg-stone-800/10 h-2.5 rounded-full overflow-hidden p-0.5 border border-white/5">
                       <div 
                         className="bg-gold h-full rounded-full transition-all duration-700 ease-out" 
                         style={{ width: `${progressPercent}%` }}
@@ -107,7 +107,7 @@ export default function RoseClubSection() {
             ) : (
               <div className="space-y-4 pt-2">
                 <div className="flex gap-4 items-start text-xs text-stone-400">
-                  <div className="p-2 bg-white/5 border border-white/10 rounded-xl text-gold shrink-0">
+                  <div className="p-2 bg-white dark:bg-stone-800/5 border border-white/10 rounded-xl text-gold shrink-0">
                     <Shield size={16} />
                   </div>
                   <div>
@@ -138,7 +138,7 @@ export default function RoseClubSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: idx * 0.08 }}
-                className="bg-white/5 border border-white/10 hover:border-gold/30 p-6 rounded-3xl text-left flex flex-col justify-between space-y-4 hover:bg-white/8 transition-all duration-300 group shadow-xxs"
+                className="bg-white dark:bg-stone-800/5 border border-white/10 hover:border-gold/30 p-6 rounded-3xl text-left flex flex-col justify-between space-y-4 hover:bg-white dark:bg-stone-800/8 transition-all duration-300 group shadow-xxs"
               >
                 <div className="flex justify-between items-start">
                   <span className="text-[10px] font-bold text-gold bg-gold/10 px-2.5 py-1 rounded-md border border-gold/15 group-hover:scale-105 transition-transform">

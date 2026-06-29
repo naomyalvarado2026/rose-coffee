@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { supabase } from '../../config/supabase';
 import { motion } from 'framer-motion';
 import { Search, Calendar, BookOpen, ChevronRight, Sparkles } from 'lucide-react';
+import { BlogCardSkeleton } from '../../components/common/Skeletons';
 import type { Blog } from '../../types';
 
 export default function BlogList() {
@@ -50,7 +51,7 @@ export default function BlogList() {
   });
 
   return (
-    <div className="min-h-screen bg-[#faf2e7]/40 text-stone-850 select-none">
+    <div className="min-h-screen bg-[#faf2e7]/40 dark:bg-stone-900 text-stone-850 dark:text-stone-100 select-none">
       
       {/* Decorative Orbs (Premium Look) */}
       <div className="absolute top-[120px] left-0 w-[400px] h-[400px] bg-coffee/5 rounded-full blur-[110px] pointer-events-none" />
@@ -94,7 +95,7 @@ export default function BlogList() {
 
       {/* Filter and Search Bar Container */}
       <section className="max-w-7xl mx-auto px-4 md:px-8 py-8 -mt-8 relative z-25">
-        <div className="bg-white/90 backdrop-blur-md border border-coffee/10 rounded-2xl p-4 md:p-6 shadow-md flex flex-col md:flex-row gap-4 items-center justify-between">
+        <div className="bg-white dark:bg-stone-800/90 backdrop-blur-md border border-coffee/10 rounded-2xl p-4 md:p-6 shadow-md flex flex-col md:flex-row gap-4 items-center justify-between">
           
           {/* Categorías (Pestañas) */}
           <div className="flex gap-1.5 overflow-x-auto w-full md:w-auto pb-2 md:pb-0 scrollbar-none snap-x">
@@ -105,7 +106,7 @@ export default function BlogList() {
                 className={`px-4.5 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap snap-center cursor-pointer ${
                   selectedCategory === category
                     ? 'bg-coffee text-white shadow-xxs border border-coffee'
-                    : 'bg-stone-50 text-stone-500 hover:bg-stone-100 hover:text-stone-700 border border-stone-200/60'
+                    : 'bg-stone-50 dark:bg-stone-800 text-stone-500 hover:bg-stone-100 hover:text-stone-700 border border-stone-200/60'
                 }`}
               >
                 {category}
@@ -125,7 +126,7 @@ export default function BlogList() {
               placeholder="Buscar artículo..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 bg-stone-50 border border-stone-200 focus:border-gold outline-none rounded-xl text-xs font-medium transition-all"
+              className="w-full pl-10 pr-4 py-2.5 bg-stone-50 dark:bg-stone-800 border border-stone-200 dark:border-stone-700 focus:border-gold outline-none rounded-xl text-xs font-medium transition-all"
             />
           </div>
 
@@ -135,9 +136,10 @@ export default function BlogList() {
       {/* Grid List Section */}
       <section className="max-w-7xl mx-auto px-4 md:px-8 pb-24">
         {loading ? (
-          <div className="py-20 text-center text-stone-550">
-            <div className="animate-spin rounded-full h-9 w-9 border-t-2 border-b-2 border-coffee mx-auto mb-3"></div>
-            <p className="text-xs font-bold uppercase tracking-wider">Cargando la bitácora de Rose Coffee...</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <BlogCardSkeleton key={i} />
+            ))}
           </div>
         ) : filteredBlogs.length > 0 ? (
           <motion.div 
@@ -159,7 +161,7 @@ export default function BlogList() {
                   hidden: { opacity: 0, y: 20 },
                   visible: { opacity: 1, y: 0 }
                 }}
-                className="bg-white border border-coffee/10 rounded-3xl overflow-hidden hover:border-gold/30 hover:-translate-y-1.5 transition-all duration-300 shadow-xxs flex flex-col group h-full"
+                className="bg-white dark:bg-stone-800 border border-coffee/10 rounded-3xl overflow-hidden hover:border-gold/30 hover:-translate-y-1.5 transition-all duration-300 shadow-xxs flex flex-col group h-full"
               >
                 {/* Imagen de Portada */}
                 <Link to={`/blog/${blog.slug}`} className="relative block overflow-hidden aspect-video bg-stone-100 shrink-0">
@@ -188,20 +190,20 @@ export default function BlogList() {
                     <span>{new Date(blog.created_at).toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' })}</span>
                   </div>
 
-                  <h2 className="text-lg font-sans font-extrabold text-primary mb-2 line-clamp-2 leading-snug group-hover:text-coffee transition-colors">
+                  <h2 className="text-lg font-sans font-extrabold text-primary dark:text-stone-100 mb-2 line-clamp-2 leading-snug group-hover:text-coffee dark:text-gold transition-colors">
                     <Link to={`/blog/${blog.slug}`}>
                       {blog.title}
                     </Link>
                   </h2>
 
-                  <p className="text-stone-550 text-xs leading-relaxed line-clamp-3 mb-6 font-medium">
+                  <p className="text-stone-550 dark:text-stone-400 text-xs leading-relaxed line-clamp-3 mb-6 font-medium">
                     {blog.subtitle || 'Entra y descubre toda la información que hemos preparado para ti sobre este tema.'}
                   </p>
 
-                  <div className="mt-auto pt-4 border-t border-stone-50">
+                  <div className="mt-auto pt-4 border-t border-stone-50 dark:border-stone-700">
                     <Link
                       to={`/blog/${blog.slug}`}
-                      className="inline-flex items-center gap-1 text-xs font-black text-coffee hover:text-coffee-dark transition-colors"
+                      className="inline-flex items-center gap-1 text-xs font-black text-coffee dark:text-gold hover:text-coffee dark:text-gold-dark transition-colors"
                     >
                       <span>Leer Artículo</span>
                       <ChevronRight size={14} className="transition-transform group-hover:translate-x-1" />
@@ -212,10 +214,10 @@ export default function BlogList() {
             ))}
           </motion.div>
         ) : (
-          <div className="bg-white border border-coffee/10 rounded-3xl p-16 text-center shadow-xxs max-w-xl mx-auto">
+          <div className="bg-white dark:bg-stone-800 border border-coffee/10 rounded-3xl p-16 text-center shadow-xxs max-w-xl mx-auto">
             <BookOpen className="h-12 w-12 mx-auto text-stone-300 mb-3" />
-            <h3 className="text-base font-bold text-primary uppercase tracking-wider">No se encontraron artículos</h3>
-            <p className="text-xs text-stone-500 mt-1">
+            <h3 className="text-base font-bold text-primary dark:text-stone-300 uppercase tracking-wider">No se encontraron artículos</h3>
+            <p className="text-xs text-stone-500 dark:text-stone-400 mt-1">
               Prueba modificando los filtros de categoría o buscando un término diferente.
             </p>
           </div>

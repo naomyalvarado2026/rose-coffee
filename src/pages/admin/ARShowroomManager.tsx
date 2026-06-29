@@ -213,44 +213,44 @@ export default function ARShowroomManager() {
       {/* Analytics Aggregate Panel */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Metric 1 */}
-        <div className="bg-white p-6 rounded-2xl border border-gray-150 shadow-xs flex items-center gap-4">
+        <div className="bg-white dark:bg-stone-800 p-6 rounded-2xl border border-gray-150 dark:border-stone-700 shadow-xs flex items-center gap-4">
           <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center text-blue-600">
             <Eye className="w-6 h-6" />
           </div>
           <div>
             <span className="text-xs font-semibold text-gray-400 block uppercase tracking-wider">Aperturas Totales</span>
-            <span className="text-2xl font-extrabold text-gray-800">{totalViews}</span>
+            <span className="text-2xl font-extrabold text-gray-800 dark:text-stone-200">{totalViews}</span>
           </div>
         </div>
 
         {/* Metric 2 */}
-        <div className="bg-white p-6 rounded-2xl border border-gray-150 shadow-xs flex items-center gap-4">
+        <div className="bg-white dark:bg-stone-800 p-6 rounded-2xl border border-gray-150 dark:border-stone-700 shadow-xs flex items-center gap-4">
           <div className="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center text-amber-600">
             <MousePointer className="w-6 h-6" />
           </div>
           <div>
             <span className="text-xs font-semibold text-gray-400 block uppercase tracking-wider">Interacciones WebXR</span>
-            <span className="text-2xl font-extrabold text-gray-800">{totalInteractions}</span>
+            <span className="text-2xl font-extrabold text-gray-800 dark:text-stone-200">{totalInteractions}</span>
           </div>
         </div>
 
         {/* Metric 3 */}
-        <div className="bg-white p-6 rounded-2xl border border-gray-150 shadow-xs flex items-center gap-4">
+        <div className="bg-white dark:bg-stone-800 p-6 rounded-2xl border border-gray-150 dark:border-stone-700 shadow-xs flex items-center gap-4">
           <div className="w-12 h-12 bg-emerald-50 rounded-xl flex items-center justify-center text-emerald-600">
             <ShoppingBag className="w-6 h-6" />
           </div>
           <div>
             <span className="text-xs font-semibold text-gray-400 block uppercase tracking-wider">Clics de Compra In-AR</span>
-            <span className="text-2xl font-extrabold text-gray-800">{totalPurchases}</span>
+            <span className="text-2xl font-extrabold text-gray-800 dark:text-stone-200">{totalPurchases}</span>
           </div>
         </div>
       </div>
 
       {/* Editor/Creation Form Overlay */}
       {showForm && (
-        <div className="bg-white p-6 md:p-8 rounded-2xl border border-gray-150 shadow-md">
-          <div className="flex items-center justify-between border-b border-gray-100 pb-4 mb-6">
-            <h2 className="text-lg font-bold text-gray-800 flex items-center gap-2">
+        <div className="bg-white dark:bg-stone-800 p-6 md:p-8 rounded-2xl border border-gray-150 dark:border-stone-700 shadow-md">
+          <div className="flex items-center justify-between border-b border-gray-100 dark:border-stone-700 pb-4 mb-6">
+            <h2 className="text-lg font-bold text-gray-800 dark:text-stone-200 flex items-center gap-2">
               <Settings className="w-5 h-5 text-gray-500" />
               {editingExp ? 'Editar Experiencia AR' : 'Nueva Experiencia AR'}
             </h2>
@@ -273,7 +273,7 @@ export default function ARShowroomManager() {
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none"
+                    className="w-full px-4 py-2 border border-gray-200 dark:border-stone-700 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none"
                     placeholder="Ej. Café Loja Especialidad"
                   />
                 </div>
@@ -284,7 +284,7 @@ export default function ARShowroomManager() {
                     <select
                       value={formData.type}
                       onChange={(e) => setFormData({ ...formData, type: e.target.value as any })}
-                      className="w-full px-4 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none"
+                      className="w-full px-4 py-2 border border-gray-200 dark:border-stone-700 rounded-xl text-sm focus:outline-none"
                     >
                       <option value="MODEL_3D">3D Model Only (GLB)</option>
                       <option value="VIDEO_AR">Holograma Video Only</option>
@@ -296,7 +296,7 @@ export default function ARShowroomManager() {
                     <select
                       value={formData.category}
                       onChange={(e) => setFormData({ ...formData, category: e.target.value as any })}
-                      className="w-full px-4 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none"
+                      className="w-full px-4 py-2 border border-gray-200 dark:border-stone-700 rounded-xl text-sm focus:outline-none"
                     >
                       <option value="PRODUCT">Producto</option>
                       <option value="VIDEO">Video</option>
@@ -310,7 +310,7 @@ export default function ARShowroomManager() {
                   <select
                     value={formData.product_id}
                     onChange={(e) => setFormData({ ...formData, product_id: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none"
+                    className="w-full px-4 py-2 border border-gray-200 dark:border-stone-700 rounded-xl text-sm focus:outline-none"
                   >
                     <option value="">-- No vincular a catálogo (Solo demo) --</option>
                     {products.map((p) => (
@@ -327,7 +327,7 @@ export default function ARShowroomManager() {
                     type="url"
                     value={formData.preview_image}
                     onChange={(e) => setFormData({ ...formData, preview_image: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none"
+                    className="w-full px-4 py-2 border border-gray-200 dark:border-stone-700 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none"
                     placeholder="https://cloudinary.com/portada.jpg"
                   />
                 </div>
@@ -341,7 +341,7 @@ export default function ARShowroomManager() {
                     type="url"
                     value={formData.model_url}
                     onChange={(e) => setFormData({ ...formData, model_url: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none"
+                    className="w-full px-4 py-2 border border-gray-200 dark:border-stone-700 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none"
                     placeholder="https://supabase.co/models/product.glb"
                   />
                 </div>
@@ -352,13 +352,13 @@ export default function ARShowroomManager() {
                     type="url"
                     value={formData.video_url}
                     onChange={(e) => setFormData({ ...formData, video_url: e.target.value })}
-                    className="w-full px-4 py-2 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none"
+                    className="w-full px-4 py-2 border border-gray-200 dark:border-stone-700 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none"
                     placeholder="https://supabase.co/videos/steam_alpha.webm"
                   />
                 </div>
 
                 {/* Vectors Section */}
-                <div className="border border-gray-150 p-4 rounded-2xl bg-stone-50/50 space-y-3">
+                <div className="border border-gray-150 dark:border-stone-700 p-4 rounded-2xl bg-stone-50/50 space-y-3">
                   <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest block">Parámetros Espaciales</span>
                   
                   {/* Scale vector */}
@@ -370,7 +370,7 @@ export default function ARShowroomManager() {
                         step="0.01"
                         value={formData.scale_x}
                         onChange={(e) => setFormData({ ...formData, scale_x: Number(e.target.value) })}
-                        className="w-full px-3 py-1 border border-gray-200 rounded-lg text-xs"
+                        className="w-full px-3 py-1 border border-gray-200 dark:border-stone-700 rounded-lg text-xs"
                       />
                     </div>
                     <div>
@@ -380,7 +380,7 @@ export default function ARShowroomManager() {
                         step="0.01"
                         value={formData.scale_y}
                         onChange={(e) => setFormData({ ...formData, scale_y: Number(e.target.value) })}
-                        className="w-full px-3 py-1 border border-gray-200 rounded-lg text-xs"
+                        className="w-full px-3 py-1 border border-gray-200 dark:border-stone-700 rounded-lg text-xs"
                       />
                     </div>
                     <div>
@@ -390,7 +390,7 @@ export default function ARShowroomManager() {
                         step="0.01"
                         value={formData.scale_z}
                         onChange={(e) => setFormData({ ...formData, scale_z: Number(e.target.value) })}
-                        className="w-full px-3 py-1 border border-gray-200 rounded-lg text-xs"
+                        className="w-full px-3 py-1 border border-gray-200 dark:border-stone-700 rounded-lg text-xs"
                       />
                     </div>
                   </div>
@@ -404,7 +404,7 @@ export default function ARShowroomManager() {
                         step="0.1"
                         value={formData.pos_x}
                         onChange={(e) => setFormData({ ...formData, pos_x: Number(e.target.value) })}
-                        className="w-full px-3 py-1 border border-gray-200 rounded-lg text-xs"
+                        className="w-full px-3 py-1 border border-gray-200 dark:border-stone-700 rounded-lg text-xs"
                       />
                     </div>
                     <div>
@@ -414,7 +414,7 @@ export default function ARShowroomManager() {
                         step="0.1"
                         value={formData.pos_y}
                         onChange={(e) => setFormData({ ...formData, pos_y: Number(e.target.value) })}
-                        className="w-full px-3 py-1 border border-gray-200 rounded-lg text-xs"
+                        className="w-full px-3 py-1 border border-gray-200 dark:border-stone-700 rounded-lg text-xs"
                       />
                     </div>
                     <div>
@@ -424,7 +424,7 @@ export default function ARShowroomManager() {
                         step="0.1"
                         value={formData.pos_z}
                         onChange={(e) => setFormData({ ...formData, pos_z: Number(e.target.value) })}
-                        className="w-full px-3 py-1 border border-gray-200 rounded-lg text-xs"
+                        className="w-full px-3 py-1 border border-gray-200 dark:border-stone-700 rounded-lg text-xs"
                       />
                     </div>
                   </div>
@@ -435,7 +435,7 @@ export default function ARShowroomManager() {
                       type="text"
                       value={formData.rotation}
                       onChange={(e) => setFormData({ ...formData, rotation: e.target.value })}
-                      className="w-full px-3 py-1 border border-gray-200 rounded-lg text-xs"
+                      className="w-full px-3 py-1 border border-gray-200 dark:border-stone-700 rounded-lg text-xs"
                       placeholder="Ej. 0deg 90deg 0deg"
                     />
                   </div>
@@ -455,11 +455,11 @@ export default function ARShowroomManager() {
               </div>
             </div>
 
-            <div className="flex justify-end gap-3 border-t border-gray-100 pt-5 mt-6">
+            <div className="flex justify-end gap-3 border-t border-gray-100 dark:border-stone-700 pt-5 mt-6">
               <button
                 type="button"
                 onClick={() => setShowForm(false)}
-                className="px-5 py-2.5 border border-gray-200 hover:bg-gray-50 text-gray-750 font-semibold text-sm rounded-xl transition-colors cursor-pointer"
+                className="px-5 py-2.5 border border-gray-200 dark:border-stone-700 hover:bg-gray-50 text-gray-750 font-semibold text-sm rounded-xl transition-colors cursor-pointer"
               >
                 Cancelar
               </button>
@@ -475,9 +475,9 @@ export default function ARShowroomManager() {
       )}
 
       {/* Main List Table */}
-      <div className="bg-white rounded-2xl border border-gray-150 overflow-hidden shadow-xs">
-        <div className="px-6 py-4 border-b border-gray-150 flex items-center justify-between bg-stone-50/50">
-          <h2 className="font-bold text-gray-800 text-base flex items-center gap-2">
+      <div className="bg-white dark:bg-stone-800 rounded-2xl border border-gray-150 dark:border-stone-700 overflow-hidden shadow-xs">
+        <div className="px-6 py-4 border-b border-gray-150 dark:border-stone-700 flex items-center justify-between bg-stone-50/50">
+          <h2 className="font-bold text-gray-800 dark:text-stone-200 text-base flex items-center gap-2">
             <BarChart3 className="w-5 h-5 text-gray-500" />
             Catálogo de Experiencias AR & Métricas
           </h2>
@@ -497,7 +497,7 @@ export default function ARShowroomManager() {
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
-                <tr className="bg-stone-50/40 text-[10px] font-bold text-gray-400 uppercase tracking-wider border-b border-gray-100">
+                <tr className="bg-stone-50/40 text-[10px] font-bold text-gray-400 uppercase tracking-wider border-b border-gray-100 dark:border-stone-700">
                   <th className="px-6 py-3">Nombre / Tipo</th>
                   <th className="px-6 py-3">Escala / Posición</th>
                   <th className="px-6 py-3 text-center">👁️ Vistas</th>
@@ -516,7 +516,7 @@ export default function ARShowroomManager() {
                           <img
                             src={exp.preview_image}
                             alt={exp.name}
-                            className="w-10 h-10 rounded-xl object-cover border border-gray-150"
+                            className="w-10 h-10 rounded-xl object-cover border border-gray-150 dark:border-stone-700"
                           />
                         ) : (
                           <div className="w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center text-xs">
@@ -524,7 +524,7 @@ export default function ARShowroomManager() {
                           </div>
                         )}
                         <div>
-                          <p className="font-bold text-gray-800 leading-tight">{exp.name}</p>
+                          <p className="font-bold text-gray-800 dark:text-stone-200 leading-tight">{exp.name}</p>
                           <span className="text-[9px] font-bold text-gray-400 uppercase tracking-wider">
                             {exp.type} • {exp.category}
                           </span>
@@ -560,7 +560,7 @@ export default function ARShowroomManager() {
                         {/* QR Code */}
                         <button
                           onClick={() => setQrModalExp(exp)}
-                          className="p-1.5 rounded-lg border border-gray-200 text-gray-600 hover:text-primary hover:bg-gray-50 cursor-pointer transition-colors"
+                          className="p-1.5 rounded-lg border border-gray-200 dark:border-stone-700 text-gray-600 hover:text-primary hover:bg-gray-50 cursor-pointer transition-colors"
                           title="Generar Código QR"
                         >
                           <QrCode className="w-4 h-4" />
@@ -568,7 +568,7 @@ export default function ARShowroomManager() {
                         {/* Edit */}
                         <button
                           onClick={() => handleOpenEdit(exp)}
-                          className="p-1.5 rounded-lg border border-gray-200 text-gray-600 hover:text-[#6b3a0e] hover:bg-gray-50 cursor-pointer transition-colors"
+                          className="p-1.5 rounded-lg border border-gray-200 dark:border-stone-700 text-gray-600 hover:text-[#6b3a0e] hover:bg-gray-50 cursor-pointer transition-colors"
                           title="Editar"
                         >
                           <Edit2 className="w-4 h-4" />
@@ -576,7 +576,7 @@ export default function ARShowroomManager() {
                         {/* Delete */}
                         <button
                           onClick={() => handleDelete(exp.id)}
-                          className="p-1.5 rounded-lg border border-gray-200 text-gray-400 hover:text-red-650 hover:bg-red-50 cursor-pointer transition-colors"
+                          className="p-1.5 rounded-lg border border-gray-200 dark:border-stone-700 text-gray-400 hover:text-red-650 hover:bg-red-50 cursor-pointer transition-colors"
                           title="Eliminar"
                         >
                           <Trash2 className="w-4 h-4" />
@@ -598,7 +598,7 @@ export default function ARShowroomManager() {
             onClick={() => setQrModalExp(null)}
             className="absolute inset-0 bg-[#021a54]/45 backdrop-blur-xs"
           />
-          <div className="bg-[#faf2e7] p-8 rounded-3xl max-w-sm w-full relative z-10 text-center shadow-2xl border border-stone-200/50 space-y-6">
+          <div className="bg-[#faf2e7] p-8 rounded-3xl max-w-sm w-full relative z-10 text-center shadow-2xl border border-stone-200 dark:border-stone-700/50 space-y-6">
             <button
               onClick={() => setQrModalExp(null)}
               className="absolute top-4 right-4 text-stone-500 hover:text-stone-850 cursor-pointer"
@@ -612,7 +612,7 @@ export default function ARShowroomManager() {
             </div>
 
             {/* QR Render Area */}
-            <div id="qr-code-svg-container" className="w-48 h-48 bg-white border border-stone-200 rounded-2xl mx-auto flex items-center justify-center shadow-md p-3">
+            <div id="qr-code-svg-container" className="w-48 h-48 bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700 rounded-2xl mx-auto flex items-center justify-center shadow-md p-3">
               <QRCodeSVG
                 value={getQRValue(qrModalExp.id)}
                 size={170}

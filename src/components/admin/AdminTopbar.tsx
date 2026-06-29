@@ -3,6 +3,7 @@ import { Search, Bell, Menu, LogOut, Globe, ChevronDown } from 'lucide-react';
 import { useAuthStore } from '../../store/useAuthStore';
 import { useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
+import ThemeToggle from '../common/ThemeToggle';
 
 interface AdminTopbarProps {
   onMenuClick: () => void;
@@ -39,7 +40,7 @@ export default function AdminTopbar({ onMenuClick }: AdminTopbarProps) {
       <div className="flex items-center gap-4">
         <button 
           onClick={onMenuClick}
-          className="md:hidden p-1.5 rounded-xl hover:bg-white/10 transition-colors cursor-pointer"
+          className="md:hidden p-1.5 rounded-xl hover:bg-white dark:bg-stone-800/10 transition-colors cursor-pointer"
           aria-label="Abrir menú de navegación"
         >
           <Menu size={20} />
@@ -52,13 +53,13 @@ export default function AdminTopbar({ onMenuClick }: AdminTopbarProps) {
       {/* Center: Search trigger spotlight button */}
       <button 
         onClick={triggerSearch}
-        className="flex items-center justify-between gap-10 bg-white/10 text-white/70 hover:bg-white/15 px-4 py-2.5 rounded-xl border border-white/5 shadow-2xs hover:shadow-xs transition-all w-64 md:w-80 cursor-pointer text-xs"
+        className="flex items-center justify-between gap-10 bg-white dark:bg-stone-800/10 text-white/70 hover:bg-white dark:bg-stone-800/15 px-4 py-2.5 rounded-xl border border-white/5 shadow-2xs hover:shadow-xs transition-all w-64 md:w-80 cursor-pointer text-xs"
       >
         <div className="flex items-center gap-2">
           <Search size={14} className="text-white/60" />
           <span className="font-medium">Buscar comandos...</span>
         </div>
-        <kbd className="hidden sm:inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[9px] font-bold font-mono bg-white/10 border border-white/10 rounded-md text-white/65 uppercase">
+        <kbd className="hidden sm:inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[9px] font-bold font-mono bg-white dark:bg-stone-800/10 border border-white/10 rounded-md text-white/65 uppercase">
           Ctrl K
         </kbd>
       </button>
@@ -66,11 +67,13 @@ export default function AdminTopbar({ onMenuClick }: AdminTopbarProps) {
       {/* Right: Notifications bell & user profile dropdown */}
       <div className="flex items-center gap-3 md:gap-5">
         
+        <ThemeToggle className="hover:bg-white dark:bg-stone-800/10 text-white border border-white/5" />
+
         {/* Notification Bell */}
         <div className="relative">
           <button 
             onClick={() => setNotificationsOpen(!notificationsOpen)}
-            className="p-2 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 transition-all cursor-pointer relative"
+            className="p-2 rounded-xl bg-white dark:bg-stone-800/5 hover:bg-white dark:bg-stone-800/10 border border-white/5 transition-all cursor-pointer relative"
           >
             <Bell size={18} />
             <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full border border-primary animate-ping" />
@@ -94,11 +97,11 @@ export default function AdminTopbar({ onMenuClick }: AdminTopbarProps) {
                   <h4 className="text-xs font-bold text-white uppercase tracking-wider">Alertas del Sistema</h4>
                 </div>
                 <div className="divide-y divide-white/5 max-h-60 overflow-y-auto text-left custom-scrollbar-dark text-xs">
-                  <div className="p-3 hover:bg-white/5 transition-colors">
+                  <div className="p-3 hover:bg-white dark:bg-stone-800/5 transition-colors">
                     <p className="font-semibold text-white">⚠️ Alerta de Stock Mínimo</p>
                     <p className="text-[10px] text-stone-400 mt-0.5">Croissant de Almendras está bajo el mínimo (3 u.)</p>
                   </div>
-                  <div className="p-3 hover:bg-white/5 transition-colors">
+                  <div className="p-3 hover:bg-white dark:bg-stone-800/5 transition-colors">
                     <p className="font-semibold text-white">🛍️ Nuevo Pedido Entrante</p>
                     <p className="text-[10px] text-stone-400 mt-0.5">Orden #1402 de Ana de Castro en preparación</p>
                   </div>
@@ -112,7 +115,7 @@ export default function AdminTopbar({ onMenuClick }: AdminTopbarProps) {
         <div className="relative">
           <button 
             onClick={() => setProfileOpen(!profileOpen)}
-            className="flex items-center gap-2 cursor-pointer p-1 rounded-xl bg-white/5 hover:bg-white/10 border border-white/5 transition-all text-xs font-bold"
+            className="flex items-center gap-2 cursor-pointer p-1 rounded-xl bg-white dark:bg-stone-800/5 hover:bg-white dark:bg-stone-800/10 border border-white/5 transition-all text-xs font-bold"
           >
             {photoUrl ? (
               <img 
@@ -169,7 +172,7 @@ export default function AdminTopbar({ onMenuClick }: AdminTopbarProps) {
                     setProfileOpen(false);
                     navigate('/');
                   }}
-                  className="flex items-center gap-2.5 px-4 py-2 w-full text-left text-xs font-semibold hover:bg-white/5 hover:text-white transition-colors cursor-pointer"
+                  className="flex items-center gap-2.5 px-4 py-2 w-full text-left text-xs font-semibold hover:bg-white dark:bg-stone-800/5 hover:text-white transition-colors cursor-pointer"
                 >
                   <Globe size={14} className="text-gold" />
                   <span>Cerrar Panel</span>

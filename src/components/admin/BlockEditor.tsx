@@ -116,7 +116,7 @@ const BlockEditor = ({ content, onChange, disabled = false }: Props) => {
   };
 
   return (
-    <div className="space-y-6 border border-gray-200 rounded-2xl p-4 md:p-6 bg-slate-50/50">
+    <div className="space-y-6 border border-gray-200 dark:border-stone-700 rounded-2xl p-4 md:p-6 bg-slate-50/50">
       
       {/* Blocks List */}
       <div className="space-y-4">
@@ -128,10 +128,10 @@ const BlockEditor = ({ content, onChange, disabled = false }: Props) => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95 }}
               transition={{ duration: 0.2 }}
-              className="bg-white border border-gray-200 rounded-xl p-4 shadow-xs hover:border-indigo-200 transition-colors relative space-y-4"
+              className="bg-white dark:bg-stone-800 border border-gray-200 dark:border-stone-700 rounded-xl p-4 shadow-xs hover:border-indigo-200 transition-colors relative space-y-4"
             >
               {/* Block Header Toolbar */}
-              <div className="flex justify-between items-center border-b border-gray-100 pb-2">
+              <div className="flex justify-between items-center border-b border-gray-100 dark:border-stone-700 pb-2">
                 <div className="flex items-center gap-2 text-xs font-bold text-slate-400 uppercase tracking-wider">
                   {block.type === 'text' && <><Type size={14} className="text-blue-500" /> Bloque de Texto</>}
                   {block.type === 'image' && <><ImageIcon size={14} className="text-emerald-500" /> Imagen</>}
@@ -188,7 +188,7 @@ const BlockEditor = ({ content, onChange, disabled = false }: Props) => {
                 {block.type === 'image' && (
                   <div className="space-y-3">
                     {block.image_url ? (
-                      <div className="relative inline-block w-full max-w-sm rounded-lg overflow-hidden border border-gray-200">
+                      <div className="relative inline-block w-full max-w-sm rounded-lg overflow-hidden border border-gray-200 dark:border-stone-700">
                         <img src={block.image_url} alt="" className="w-full h-40 object-cover" />
                         <button
                           type="button"
@@ -245,7 +245,7 @@ const BlockEditor = ({ content, onChange, disabled = false }: Props) => {
                     value={block.title || ''}
                     onChange={(e) => updateBlockValue(block.id, { title: e.target.value })}
                     placeholder="Título de la Sección (Ej: Introducción, Cuestionario)"
-                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm font-bold text-gray-800 focus:border-indigo-400 outline-none"
+                    className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm font-bold text-gray-800 dark:text-stone-200 focus:border-indigo-400 outline-none"
                   />
                 )}
 
@@ -358,7 +358,7 @@ const BlockEditor = ({ content, onChange, disabled = false }: Props) => {
 
       {/* Add Block Toolbar */}
       {!disabled && (
-        <div className="border border-dashed border-gray-300 rounded-xl p-4 bg-white shadow-xs space-y-3">
+        <div className="border border-dashed border-gray-300 rounded-xl p-4 bg-white dark:bg-stone-800 shadow-xs space-y-3">
           <span className="text-xs font-bold text-gray-450 uppercase tracking-wider block text-center">
             Añadir Bloque de Contenido
           </span>
@@ -366,7 +366,7 @@ const BlockEditor = ({ content, onChange, disabled = false }: Props) => {
             <button
               type="button"
               onClick={() => addBlock('text')}
-              className="flex flex-col items-center justify-center p-2.5 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 bg-slate-50 hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-800 transition-all cursor-pointer"
+              className="flex flex-col items-center justify-center p-2.5 border border-slate-200 dark:border-stone-700 rounded-xl text-xs font-semibold text-slate-700 bg-slate-50 hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-800 transition-all cursor-pointer"
             >
               <Type size={16} className="mb-1 text-blue-500" />
               Texto
@@ -374,7 +374,7 @@ const BlockEditor = ({ content, onChange, disabled = false }: Props) => {
             <button
               type="button"
               onClick={() => addBlock('image')}
-              className="flex flex-col items-center justify-center p-2.5 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 bg-slate-50 hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-800 transition-all cursor-pointer"
+              className="flex flex-col items-center justify-center p-2.5 border border-slate-200 dark:border-stone-700 rounded-xl text-xs font-semibold text-slate-700 bg-slate-50 hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-800 transition-all cursor-pointer"
             >
               <ImageIcon size={16} className="mb-1 text-emerald-500" />
               Imagen
@@ -382,7 +382,7 @@ const BlockEditor = ({ content, onChange, disabled = false }: Props) => {
             <button
               type="button"
               onClick={() => addBlock('html')}
-              className="flex flex-col items-center justify-center p-2.5 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 bg-slate-50 hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-800 transition-all cursor-pointer"
+              className="flex flex-col items-center justify-center p-2.5 border border-slate-200 dark:border-stone-700 rounded-xl text-xs font-semibold text-slate-700 bg-slate-50 hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-800 transition-all cursor-pointer"
             >
               <Code size={16} className="mb-1 text-violet-500" />
               Código HTML
@@ -390,7 +390,7 @@ const BlockEditor = ({ content, onChange, disabled = false }: Props) => {
             <button
               type="button"
               onClick={() => addBlock('section')}
-              className="flex flex-col items-center justify-center p-2.5 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 bg-slate-50 hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-800 transition-all cursor-pointer"
+              className="flex flex-col items-center justify-center p-2.5 border border-slate-200 dark:border-stone-700 rounded-xl text-xs font-semibold text-slate-700 bg-slate-50 hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-800 transition-all cursor-pointer"
             >
               <Heading size={16} className="mb-1 text-amber-500" />
               Sección
@@ -398,7 +398,7 @@ const BlockEditor = ({ content, onChange, disabled = false }: Props) => {
             <button
               type="button"
               onClick={() => addBlock('question')}
-              className="flex flex-col items-center justify-center p-2.5 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 bg-slate-50 hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-800 transition-all cursor-pointer"
+              className="flex flex-col items-center justify-center p-2.5 border border-slate-200 dark:border-stone-700 rounded-xl text-xs font-semibold text-slate-700 bg-slate-50 hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-800 transition-all cursor-pointer"
             >
               <HelpCircle size={16} className="mb-1 text-indigo-500" />
               Pregunta
@@ -406,7 +406,7 @@ const BlockEditor = ({ content, onChange, disabled = false }: Props) => {
             <button
               type="button"
               onClick={() => addBlock('multiple_choice')}
-              className="flex flex-col items-center justify-center p-2.5 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 bg-slate-50 hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-800 transition-all cursor-pointer"
+              className="flex flex-col items-center justify-center p-2.5 border border-slate-200 dark:border-stone-700 rounded-xl text-xs font-semibold text-slate-700 bg-slate-50 hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-800 transition-all cursor-pointer"
             >
               <CheckSquare size={16} className="mb-1 text-purple-500" />
               Opción Múlt.
@@ -414,7 +414,7 @@ const BlockEditor = ({ content, onChange, disabled = false }: Props) => {
             <button
               type="button"
               onClick={() => addBlock('true_false')}
-              className="flex flex-col items-center justify-center p-2.5 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 bg-slate-50 hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-800 transition-all cursor-pointer"
+              className="flex flex-col items-center justify-center p-2.5 border border-slate-200 dark:border-stone-700 rounded-xl text-xs font-semibold text-slate-700 bg-slate-50 hover:bg-indigo-50 hover:border-indigo-300 hover:text-indigo-800 transition-all cursor-pointer"
             >
               <CheckCircle2 size={16} className="mb-1 text-red-500" />
               V / F

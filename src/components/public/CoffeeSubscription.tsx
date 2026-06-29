@@ -70,20 +70,20 @@ export default function CoffeeSubscription({ data }: CoffeeSubscriptionProps) {
   };
 
   return (
-    <div id="coffee_subscription" className="max-w-6xl mx-auto bg-[#faf2e7]/60 backdrop-blur-xs rounded-[32px] border border-coffee/10 p-6 md:p-12 shadow-sm relative overflow-hidden text-left space-y-8 select-none">
+    <div id="coffee_subscription" className="max-w-6xl mx-auto bg-[#faf2e7]/60 dark:bg-stone-800/60 backdrop-blur-xs rounded-[32px] border border-coffee/10 dark:border-stone-700 p-6 md:p-12 shadow-sm relative overflow-hidden text-left space-y-8 select-none">
       {/* Background Orbs */}
       <div className="absolute -top-20 -right-20 w-80 h-80 rounded-full bg-gold/5 blur-[100px] pointer-events-none" />
       <div className="absolute -bottom-20 -left-20 w-80 h-80 rounded-full bg-coffee/5 blur-[100px] pointer-events-none" />
 
       <div className="max-w-3xl space-y-3 relative z-10">
-        <span className="inline-flex items-center gap-1.5 bg-coffee/10 text-coffee border border-coffee/15 px-3.5 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider">
+        <span className="inline-flex items-center gap-1.5 bg-coffee/10 text-coffee dark:text-gold border border-coffee/15 px-3.5 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider">
           <Sparkles size={12} />
           Suscripción Rose Coffee
         </span>
-        <h2 className="text-2xl md:text-4xl font-extrabold text-[#021a54] tracking-tight font-sans">
+        <h2 className="text-2xl md:text-4xl font-extrabold text-[#021a54] dark:text-gold tracking-tight font-sans">
           {data?.title || 'Asegura tu café favorito siempre fresco.'}
         </h2>
-        <p className="text-stone-550 text-xs md:text-sm font-medium leading-relaxed">
+        <p className="text-stone-550 dark:text-stone-400 text-xs md:text-sm font-medium leading-relaxed">
           {data?.subtitle || 'Suscríbete a nuestros planes exclusivos y recibe café de especialidad recién tostado directamente en tu puerta. Cancela o modifica tu plan cuando quieras sin cargos adicionales.'}
         </p>
       </div>
@@ -96,21 +96,21 @@ export default function CoffeeSubscription({ data }: CoffeeSubscriptionProps) {
               key={plan.id}
               onClick={() => setSelectedPlan(plan.id as any)}
               whileHover={{ y: -4 }}
-              className={`bg-white rounded-3xl p-6 flex flex-col justify-between cursor-pointer border-2 transition-all relative ${
+              className={`bg-white dark:bg-stone-800 rounded-3xl p-6 flex flex-col justify-between cursor-pointer border-2 transition-all relative ${
                 isSelected 
                   ? 'border-[#6b3a0e] shadow-md' 
                   : 'border-stone-150 hover:border-stone-250 shadow-xxs'
               }`}
             >
               {plan.popular && (
-                <span className="absolute -top-3 left-6 bg-gold text-[#faf2e7] px-3.5 py-1 rounded-full text-[9px] font-black uppercase tracking-widest shadow-2xs">
+                <span className="absolute -top-3 left-6 bg-gold text-[#021a54] px-3.5 py-1 rounded-full text-[9px] font-black uppercase tracking-widest shadow-2xs">
                   Recomendado
                 </span>
               )}
               
               <div className="space-y-4">
                 <div className="flex justify-between items-start">
-                  <h3 className="font-extrabold text-base md:text-lg text-[#021a54]">{plan.name}</h3>
+                  <h3 className="font-extrabold text-base md:text-lg text-[#021a54] dark:text-gold">{plan.name}</h3>
                   <div className={`w-5 h-5 rounded-full border flex items-center justify-center transition-colors ${
                     isSelected ? 'border-[#6b3a0e] bg-[#6b3a0e] text-[#faf2e7]' : 'border-stone-300'
                   }`}>
@@ -119,18 +119,18 @@ export default function CoffeeSubscription({ data }: CoffeeSubscriptionProps) {
                 </div>
 
                 <div className="flex items-baseline gap-1 pt-1">
-                  <span className="text-2xl md:text-3xl font-black text-stone-850">{plan.price}</span>
-                  <span className="text-xs text-stone-400 font-bold uppercase">/ {plan.period}</span>
+                  <span className="text-2xl md:text-3xl font-black text-stone-850 dark:text-stone-100">{plan.price}</span>
+                  <span className="text-xs text-stone-500 font-bold uppercase">/ {plan.period}</span>
                 </div>
 
-                <p className="text-stone-500 text-xs font-medium leading-relaxed">
+                <p className="text-stone-500 dark:text-stone-400 text-xs font-medium leading-relaxed">
                   {plan.description}
                 </p>
 
-                <ul className="space-y-2.5 pt-4 border-t border-stone-100">
+                <ul className="space-y-2.5 pt-4 border-t border-stone-100 dark:border-stone-700">
                   {plan.benefits.map((b: string, i: number) => (
-                    <li key={i} className="flex gap-2 items-center text-stone-600 text-xs font-medium">
-                      <div className="w-4.5 h-4.5 bg-emerald-50 text-emerald-600 border border-emerald-100 rounded-full flex items-center justify-center shrink-0">
+                    <li key={i} className="flex gap-2 items-center text-stone-600 dark:text-stone-300 text-xs font-medium">
+                      <div className="w-4.5 h-4.5 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800/60 rounded-full flex items-center justify-center shrink-0">
                         <Check size={10} strokeWidth={3.5} />
                       </div>
                       <span>{b}</span>
@@ -144,8 +144,8 @@ export default function CoffeeSubscription({ data }: CoffeeSubscriptionProps) {
       </div>
 
       <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pt-6 border-t border-coffee/10 relative z-10">
-        <div className="flex items-center gap-2.5 text-stone-550 text-xs font-bold text-left">
-          <ShieldCheck className="text-coffee shrink-0" size={20} />
+        <div className="flex items-center gap-2.5 text-stone-550 dark:text-stone-400 text-xs font-bold text-left">
+          <ShieldCheck className="text-coffee dark:text-gold shrink-0" size={20} />
           <span>Sin contratos a largo plazo. Cancela cuando quieras.</span>
         </div>
         

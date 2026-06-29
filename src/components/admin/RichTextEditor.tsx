@@ -111,7 +111,7 @@ const RichTextEditor = ({ content, onChange, disabled = false }: Props) => {
   };
 
   return (
-    <div className="border border-gray-300 rounded-lg overflow-hidden bg-white shadow-sm focus-within:border-gold focus-within:ring-1 focus-within:ring-gold transition-all duration-200">
+    <div className="border border-gray-300 rounded-lg overflow-hidden bg-white dark:bg-stone-800 shadow-sm focus-within:border-gold focus-within:ring-1 focus-within:ring-gold transition-all duration-200">
       {/* Estilos embebidos para asegurar que el editor muestre correctamente H1-H4, listas y estilos */}
       <style>{`
         .ProseMirror {
@@ -222,7 +222,7 @@ const RichTextEditor = ({ content, onChange, disabled = false }: Props) => {
         }
       `}</style>
       {!disabled && (
-        <div className="flex flex-wrap gap-1 p-2 border-b bg-gray-50 border-gray-200 items-center justify-between">
+        <div className="flex flex-wrap gap-1 p-2 border-b bg-gray-50 border-gray-200 dark:border-stone-700 items-center justify-between">
           <div className="flex flex-wrap gap-1 items-center">
             {/* Historial */}
             <button
@@ -412,7 +412,7 @@ const RichTextEditor = ({ content, onChange, disabled = false }: Props) => {
           </div>
 
           {/* Grupo de Colores a la derecha */}
-          <div className="flex items-center gap-1 bg-white border border-gray-200 rounded px-1.5 py-0.5 mt-1 sm:mt-0">
+          <div className="flex items-center gap-1 bg-white dark:bg-stone-800 border border-gray-200 dark:border-stone-700 rounded px-1.5 py-0.5 mt-1 sm:mt-0">
             <Palette size={14} className="text-gray-400 mr-1" />
             <div className="flex gap-0.5">
               {PRESET_COLORS.map((color) => (
@@ -451,7 +451,7 @@ const RichTextEditor = ({ content, onChange, disabled = false }: Props) => {
       )}
 
       {/* Editor Content Area */}
-      <div className="p-4 bg-white text-gray-800">
+      <div className="p-4 bg-white dark:bg-stone-800 text-gray-800 dark:text-stone-200">
         <EditorContent editor={editor} />
       </div>
     </div>

@@ -5,7 +5,8 @@ import { useCartStore } from '../../store/useCartStore';
 import type { Product, ProductARModel } from '../../types';
 import { 
   ShoppingBag, Sparkles, Plus, Minus, Eye, Maximize2, 
-  ArrowLeft, ChevronRight, Star, AlertTriangle, Loader2 
+  ArrowLeft, ChevronRight, Star, AlertTriangle, Loader2,
+  X, ChevronLeft
 } from 'lucide-react';
 import OptimizedMedia from '../../components/common/OptimizedMedia';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -24,6 +25,7 @@ const ProductDetail = () => {
   const [arModel, setArModel] = useState<ProductARModel | null>(null);
   const [isArOpen, setIsArOpen] = useState(false);
   const [added, setAdded] = useState(false);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
   // Variant states
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
@@ -105,6 +107,7 @@ const ProductDetail = () => {
       const availableSizes = Array.from(new Set(variants.filter(v => v.size).map(v => v.size)));
       
       if (availableColors.length > 0) {
+        // eslint-disable-next-line
         setSelectedColor(availableColors[0].color_name);
       }
       if (availableSizes.length > 0) {
@@ -118,8 +121,8 @@ const ProductDetail = () => {
 
   if (loading) {
     return (
-      <div className="min-h-[70vh] flex flex-col justify-center items-center gap-4 bg-brand-base">
-        <Loader2 className="animate-spin text-coffee w-10 h-10" />
+      <div className="min-h-[70vh] flex flex-col justify-center items-center gap-4 bg-brand-base dark:bg-stone-900">
+        <Loader2 className="animate-spin text-coffee dark:text-gold w-10 h-10" />
         <p className="text-stone-500 font-bold uppercase tracking-wider text-xs">Cargando experiencia premium...</p>
       </div>
     );
@@ -127,7 +130,7 @@ const ProductDetail = () => {
 
   if (!product) {
     return (
-      <div className="min-h-[70vh] flex flex-col justify-center items-center gap-4 text-center px-4 bg-brand-base">
+      <div className="min-h-[70vh] flex flex-col justify-center items-center gap-4 text-center px-4 bg-brand-base dark:bg-stone-900">
         <AlertTriangle className="text-gold w-16 h-16" />
         <h2 className="text-2xl font-bold text-primary">Producto no encontrado</h2>
         <p className="text-stone-500 max-w-sm text-sm">El producto que buscas no existe o ha sido retirado de nuestra tienda.</p>
@@ -191,7 +194,7 @@ const ProductDetail = () => {
   const displayImage = variantImage || activeImage || baseImage;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-12 bg-brand-base">
+    <div className="max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-12 bg-brand-base dark:bg-stone-900">
       <SEOHead 
         title={`${product.name} - Rose Coffee`} 
         description={product.description || `Adquiere ${product.name} en nuestra tienda online premium de café de especialidad y panadería artesanal.`}
@@ -200,9 +203,9 @@ const ProductDetail = () => {
 
       {/* Breadcrumbs */}
       <div className="flex items-center gap-2 text-xs text-stone-500 mb-6 font-medium">
-        <Link to="/" className="hover:text-coffee transition-colors">Inicio</Link>
+        <Link to="/" className="hover:text-coffee dark:text-gold transition-colors">Inicio</Link>
         <ChevronRight size={12} />
-        <Link to="/tienda" className="hover:text-coffee transition-colors">Tienda</Link>
+        <Link to="/tienda" className="hover:text-coffee dark:text-gold transition-colors">Tienda</Link>
         <ChevronRight size={12} />
         <span className="text-stone-400 capitalize">{product.category}</span>
         <ChevronRight size={12} />
@@ -212,7 +215,7 @@ const ProductDetail = () => {
       {/* Volver a la tienda */}
       <Link
         to="/tienda"
-        className="inline-flex items-center gap-2 text-xs font-bold text-coffee hover:text-coffee-dark mb-8 group transition-colors focus-visible:outline-none"
+        className="inline-flex items-center gap-2 text-xs font-bold text-coffee dark:text-gold hover:text-coffee dark:text-gold-dark mb-8 group transition-colors focus-visible:outline-none"
       >
         <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform" />
         Volver a la Tienda
@@ -223,15 +226,22 @@ const ProductDetail = () => {
         
         {/* Left Column: Media Gallery */}
         <div className="lg:col-span-6 space-y-4">
-          <div className="relative pt-[85%] bg-white rounded-3xl overflow-hidden shadow-md border border-stone-200/50">
-            <OptimizedMedia
-              src={displayImage}
-              alt={product.name}
-              className="absolute inset-0 w-full h-full object-cover"
-            />
+          <div className="relative bg-white dark:bg-stone-800 rounded-3xl overflow-hidden shadow-md border border-stone-200 dark:border-stone-700/50 flex items-center justify-center min-h-[300px] max-h-[600px] group">
+            <button 
+              type="button"
+              onClick={() => setIsLightboxOpen(true)}
+              className="w-full h-full flex items-center justify-center cursor-zoom-in focus-visible:outline-none"
+              aria-label="Ver imagen en pantalla completa"
+            >
+              <OptimizedMedia
+                src={displayImage}
+                alt={product.name}
+                className="w-full h-auto max-h-[600px] object-contain transition-transform duration-300 group-hover:scale-[1.02]"
+              />
+            </button>
             
             {product.type === 'digital' && (
-              <span className="absolute bottom-4 left-4 bg-purple-600 text-white text-[10px] font-bold px-3 py-1.5 rounded-lg shadow-sm z-10">
+              <span className="absolute bottom-4 left-4 bg-purple-600 text-white text-[10px] font-bold px-3 py-1.5 rounded-lg shadow-sm z-10 pointer-events-none">
                 Recurso Digital / Descargable
               </span>
             )}
@@ -271,7 +281,7 @@ const ProductDetail = () => {
           {/* Header Info */}
           <div className="space-y-2">
             <div className="flex items-center justify-between flex-wrap gap-2">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-gold bg-amber-50 px-2.5 py-1 rounded-md border border-amber-200/50">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-gold bg-amber-50 dark:bg-amber-900/50 px-2.5 py-1 rounded-md border border-amber-200/50">
                 {product.category}
               </span>
 
@@ -296,8 +306,8 @@ const ProductDetail = () => {
 
           {/* Technical Specifications */}
           {product.category === 'Café' && (
-            <div className="bg-[#fdf6ee] border border-coffee/15 rounded-3xl p-5 space-y-4">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-coffee flex items-center gap-1.5">
+            <div className="bg-[#fdf6ee] dark:bg-stone-800 border border-coffee/15 rounded-3xl p-5 space-y-4">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-coffee dark:text-gold flex items-center gap-1.5">
                 <Sparkles size={14} className="text-gold fill-gold" />
                 Ficha Técnica Artesanal
               </h4>
@@ -321,10 +331,10 @@ const ProductDetail = () => {
                 <div className="col-span-2">
                   <span className="text-[9px] text-stone-400 block font-bold uppercase mb-1.5">Nivel de Tueste</span>
                   <div className="flex items-center gap-3">
-                    <div className="h-2 flex-1 bg-stone-200 rounded-full overflow-hidden flex">
+                    <div className="h-2 flex-1 bg-stone-200 dark:bg-stone-700 rounded-full overflow-hidden flex">
                       <div className="bg-coffee rounded-full" style={{ width: '65%' }}></div>
                     </div>
-                    <span className="text-[10px] font-bold text-coffee uppercase shrink-0">Medio Artesanal</span>
+                    <span className="text-[10px] font-bold text-coffee dark:text-gold uppercase shrink-0">Medio Artesanal</span>
                   </div>
                 </div>
               </div>
@@ -332,8 +342,8 @@ const ProductDetail = () => {
           )}
 
           {product.category === 'Panadería' && (
-            <div className="bg-[#fdf6ee] border border-coffee/15 rounded-3xl p-5 space-y-4">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-coffee flex items-center gap-1.5">
+            <div className="bg-[#fdf6ee] dark:bg-stone-800 border border-coffee/15 rounded-3xl p-5 space-y-4">
+              <h4 className="text-xs font-bold uppercase tracking-wider text-coffee dark:text-gold flex items-center gap-1.5">
                 <Sparkles size={14} className="text-gold fill-gold" />
                 Detalles del Panadero
               </h4>
@@ -357,7 +367,7 @@ const ProductDetail = () => {
                 <div className="col-span-2">
                   <span className="text-[9px] text-stone-400 block font-bold uppercase mb-1.5">Digestibilidad</span>
                   <div className="flex items-center gap-3">
-                    <div className="h-2 flex-1 bg-stone-200 rounded-full overflow-hidden flex">
+                    <div className="h-2 flex-1 bg-stone-200 dark:bg-stone-700 rounded-full overflow-hidden flex">
                       <div className="bg-emerald-600 rounded-full" style={{ width: '90%' }}></div>
                     </div>
                     <span className="text-[10px] font-bold text-emerald-700 uppercase shrink-0">Máxima Digestión</span>
@@ -379,7 +389,7 @@ const ProductDetail = () => {
                   const iconType = isObject ? (feat as ProductFeature).iconType : undefined;
                   
                   return (
-                    <li key={idx} className="text-xs text-stone-650 flex items-start gap-2.5 font-medium bg-white/40 p-2 rounded-xl border border-stone-200/40">
+                    <li key={idx} className="text-xs text-stone-650 flex items-start gap-2.5 font-medium bg-white dark:bg-stone-800/40 p-2 rounded-xl border border-stone-200 dark:border-stone-700/40">
                       {renderFeatureIcon(icon, iconType, text)}
                       <span className="leading-normal">{text}</span>
                     </li>
@@ -390,7 +400,7 @@ const ProductDetail = () => {
           )}
 
           {/* Configuración de Compra */}
-          <div className="pt-4 border-t border-stone-200/60 space-y-5">
+          <div className="pt-4 border-t border-stone-200 dark:border-stone-700/60 space-y-5">
             {variants.length > 0 && (
               <div className="space-y-4">
                 {/* Grind Option / Color Selection */}
@@ -404,8 +414,8 @@ const ProductDetail = () => {
                           onClick={() => setSelectedColor(col.color_name)}
                           className={`px-3 py-2 rounded-xl text-xs font-bold border transition-all flex items-center gap-1.5 focus-visible:outline-none ${
                             selectedColor === col.color_name
-                              ? 'bg-coffee/10 border-coffee text-coffee shadow-2xs font-bold'
-                              : 'bg-white border-stone-200 text-stone-600 hover:bg-stone-50'
+                              ? 'bg-coffee/10 border-coffee text-coffee dark:text-gold shadow-2xs font-bold'
+                              : 'bg-white dark:bg-stone-800 border-stone-200 dark:border-stone-700 text-stone-600 dark:text-stone-300 hover:bg-stone-50 dark:hover:bg-stone-700'
                           }`}
                         >
                           <span 
@@ -431,7 +441,7 @@ const ProductDetail = () => {
                           className={`px-4 py-2 rounded-xl text-xs font-bold border transition-all focus-visible:outline-none ${
                             selectedSize === size
                               ? 'bg-coffee text-white border-coffee shadow-xs'
-                              : 'bg-white border-stone-200 text-stone-600 hover:bg-stone-50'
+                              : 'bg-white dark:bg-stone-800 border-stone-200 dark:border-stone-700 text-stone-600 dark:text-stone-300 hover:bg-stone-50 dark:hover:bg-stone-700'
                           }`}
                         >
                           {size}
@@ -458,10 +468,10 @@ const ProductDetail = () => {
             </div>
 
             {/* Bottom Actions Bar */}
-            <div className="bg-white/80 backdrop-blur-md border border-stone-250/30 rounded-3xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
+            <div className="bg-white dark:bg-stone-800/80 backdrop-blur-md border border-stone-250/30 rounded-3xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4 shadow-sm">
               <div className="flex flex-col text-left self-start sm:self-center">
                 <span className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">Monto Total</span>
-                <span className="text-3xl font-extrabold text-coffee tracking-tight">
+                <span className="text-3xl font-extrabold text-coffee dark:text-gold tracking-tight">
                   ${(finalPrice * quantity).toFixed(2)}
                 </span>
               </div>
@@ -469,18 +479,18 @@ const ProductDetail = () => {
               <div className="flex items-center gap-3 w-full sm:w-auto">
                 {/* Quantity Controls */}
                 {finalStock > 0 && product.type !== 'digital' && (
-                  <div className="flex items-center border border-stone-200/80 rounded-2xl bg-stone-50 shrink-0">
+                  <div className="flex items-center border border-stone-200 dark:border-stone-700/80 rounded-2xl bg-stone-50 dark:bg-stone-800 shrink-0">
                     <button
                       onClick={() => setQuantity(prev => Math.max(1, prev - 1))}
-                      className="p-3 text-stone-600 hover:text-stone-900 transition-colors focus-visible:outline-none"
+                      className="p-3 text-stone-600 hover:text-stone-900 dark:hover:text-stone-100 dark:text-stone-200 transition-colors focus-visible:outline-none"
                       aria-label="Restar uno"
                     >
                       <Minus size={14} />
                     </button>
-                    <span className="w-8 text-center text-xs font-extrabold text-stone-800">{quantity}</span>
+                    <span className="w-8 text-center text-xs font-extrabold text-stone-800 dark:text-stone-200">{quantity}</span>
                     <button
                       onClick={() => setQuantity(prev => Math.min(finalStock, prev + 1))}
-                      className="p-3 text-stone-600 hover:text-stone-900 transition-colors focus-visible:outline-none"
+                      className="p-3 text-stone-600 hover:text-stone-900 dark:hover:text-stone-100 dark:text-stone-200 transition-colors focus-visible:outline-none"
                       aria-label="Sumar uno"
                     >
                       <Plus size={14} />
@@ -512,7 +522,7 @@ const ProductDetail = () => {
 
             {/* AR Experiencia Info Callout */}
             {arModel && (
-              <div className="bg-blue-50/40 border border-primary/10 rounded-3xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="bg-blue-50/40 dark:bg-blue-900/40 border border-primary/10 rounded-3xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <div className="space-y-1">
                   <h5 className="text-xs font-bold text-primary flex items-center gap-1.5">
                     <Maximize2 size={14} className="text-primary animate-pulse" />
@@ -538,6 +548,71 @@ const ProductDetail = () => {
         </div>
 
       </div>
+
+      {/* Lightbox Modal overlay */}
+      <AnimatePresence>
+        {isLightboxOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 bg-slate-950/95 backdrop-blur-sm flex items-center justify-center"
+          >
+            {/* Close button */}
+            <button
+              onClick={() => setIsLightboxOpen(false)}
+              className="absolute top-4 right-4 sm:top-6 sm:right-6 text-white/70 hover:text-white bg-white dark:bg-stone-800/10 hover:bg-white dark:bg-stone-800/20 p-2 rounded-full transition-colors z-50 focus-visible:outline-none"
+            >
+              <X size={24} />
+            </button>
+
+            {/* Previous button */}
+            {galleryImages.length > 1 && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  const prevIdx = (galleryImages.indexOf(displayImage) - 1 + galleryImages.length) % galleryImages.length;
+                  setActiveImage(galleryImages[prevIdx]);
+                }}
+                className="absolute left-4 sm:left-8 top-1/2 -translate-y-1/2 text-white/70 hover:text-white bg-white dark:bg-stone-800/10 hover:bg-white dark:bg-stone-800/20 p-3 rounded-full transition-colors z-50 focus-visible:outline-none"
+              >
+                <ChevronLeft size={32} />
+              </button>
+            )}
+
+            {/* Next button */}
+            {galleryImages.length > 1 && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  const nextIdx = (galleryImages.indexOf(displayImage) + 1) % galleryImages.length;
+                  setActiveImage(galleryImages[nextIdx]);
+                }}
+                className="absolute right-4 sm:right-8 top-1/2 -translate-y-1/2 text-white/70 hover:text-white bg-white dark:bg-stone-800/10 hover:bg-white dark:bg-stone-800/20 p-3 rounded-full transition-colors z-50 focus-visible:outline-none"
+              >
+                <ChevronRight size={32} />
+              </button>
+            )}
+
+            {/* Image */}
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="w-full h-full flex items-center justify-center p-4 sm:p-12 cursor-zoom-out"
+              onClick={() => setIsLightboxOpen(false)}
+            >
+              <img
+                src={displayImage}
+                alt={product.name}
+                className="max-w-full max-h-full object-contain shadow-2xl drop-shadow-2xl"
+                onClick={(e) => e.stopPropagation()}
+              />
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       {/* AR Modal overlay */}
       <AnimatePresence>

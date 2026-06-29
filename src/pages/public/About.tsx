@@ -10,16 +10,16 @@ import SEOHead from '../../components/common/SEOHead';
 import FloatingElements from '../../components/public/FloatingElements';
 
 // Importaciones de fotos locales y video de masa madre
-import founderNaomyImg from '../../assets/naomy.png';
-import harinaMasaMadre from '../../assets/Fotos/Harina de masa madre.jpeg';
-import masaMadreStarter from '../../assets/Fotos/Masa Madre.jpeg';
-import naomyAmasando2 from '../../assets/Fotos/Naomy amasando 2.jpeg';
-import naomyAmasando1 from '../../assets/Fotos/Naomy amasando.jpeg';
-import panCenital from '../../assets/Fotos/Pan de masa madre plano cenital.jpeg';
-import panEntero from '../../assets/Fotos/Pan de masa madre plano entero.jpeg';
+import founderNaomyImg from '../../assets/naomy.webp';
+import harinaMasaMadre from '../../assets/Fotos/Harina de masa madre.webp';
+import masaMadreStarter from '../../assets/Fotos/Masa Madre.webp';
+import naomyAmasando2 from '../../assets/Fotos/Naomy amasando 2.webp';
+import naomyAmasando1 from '../../assets/Fotos/Naomy amasando.webp';
+import panCenital from '../../assets/Fotos/Pan de masa madre plano cenital.webp';
+import panEntero from '../../assets/Fotos/Pan de masa madre plano entero.webp';
 import videoAmasando from '../../assets/Fotos/Video de amasando la masa madre.mp4';
-import gatitaMirando from '../../assets/Fotos/gatita mirando un pan de masa madre.jpeg';
-import gatitaConPan from '../../assets/Fotos/pan de masa madre y una gatita.jpeg';
+import gatitaMirando from '../../assets/Fotos/gatita mirando un pan de masa madre.webp';
+import gatitaConPan from '../../assets/Fotos/pan de masa madre y una gatita.webp';
 
 const DEFAULT_GALLERY_SLIDES = [
   { id: 'slide_starter', url: masaMadreStarter, caption: 'Nuestra Masa Madre: Burbujeante, activa y alimentada a diario con harinas seleccionadas.' },
@@ -71,7 +71,7 @@ const About = () => {
 
   if (loading) {
     return (
-      <div className="min-h-[70vh] flex flex-col justify-center items-center gap-4 bg-brand-base">
+      <div className="min-h-[70vh] flex flex-col justify-center items-center gap-4 bg-brand-base dark:bg-stone-900">
         <div className="w-8 h-8 border-4 border-coffee border-t-transparent rounded-full animate-spin mx-auto"></div>
         <p className="text-stone-500 text-xs font-bold uppercase tracking-wider">Cargando sobre nosotros...</p>
       </div>
@@ -79,7 +79,7 @@ const About = () => {
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-8 py-10 space-y-16 bg-brand-base text-black font-sans relative overflow-hidden">
+    <div className="max-w-7xl mx-auto px-4 md:px-8 py-10 space-y-16 bg-brand-base dark:bg-stone-900 dark:bg-stone-900 text-black dark:text-stone-100 font-sans relative overflow-hidden">
       <SEOHead 
         title="Nosotros - Historia & Filosofía" 
         description="Conoce la historia detrás de Rose Coffee, nuestro compromiso con el tueste de café de especialidad y la elaboración artesanal de masa madre."
@@ -140,8 +140,8 @@ const About = () => {
               return (
                 <div key={id} id={id}>
                   {content_blocks && content_blocks.length > 0 ? (
-                    <div className="bg-white p-8 md:p-12 rounded-3xl border border-stone-200/80 shadow-xs text-left">
-                      {title && <h2 className="text-2xl md:text-3xl font-extrabold text-primary mb-2 font-sans">{title}</h2>}
+                    <div className="bg-white dark:bg-stone-800 p-8 md:p-12 rounded-3xl border border-stone-200 dark:border-stone-700/80 shadow-xs text-left">
+                      {title && <h2 className="text-2xl md:text-3xl font-extrabold text-primary dark:text-white mb-2 font-sans">{title}</h2>}
                       {subtitle && <p className="text-stone-500 text-sm mb-6">{subtitle}</p>}
                       <BlockRenderer blocks={content_blocks} />
                     </div>
@@ -159,11 +159,11 @@ const About = () => {
                         className="glass-card p-8 md:p-10 rounded-[32px] border border-coffee/10 hover:border-coffee/20 shadow-xs hover:shadow-md hover:scale-[1.01] transition-all duration-300 flex flex-col justify-between text-left group"
                       >
                         <div className="space-y-4">
-                          <div className="w-12 h-12 bg-coffee/10 text-coffee rounded-2xl flex items-center justify-center font-bold border border-coffee/15 shadow-2xs group-hover:scale-105 transition-transform duration-350">
+                          <div className="w-12 h-12 bg-coffee/10 text-coffee dark:text-amber-400 rounded-2xl flex items-center justify-center font-bold border border-coffee/15 shadow-2xs group-hover:scale-105 transition-transform duration-350">
                             <Compass size={22} />
                           </div>
-                          <h2 className="font-bold text-2xl text-primary font-sans">Nuestra Misión</h2>
-                          <p className="text-stone-600 text-xs md:text-sm leading-relaxed font-medium">
+                          <h2 className="font-bold text-2xl text-primary dark:text-gold font-sans">Nuestra Misión</h2>
+                          <p className="text-stone-600 dark:text-stone-300 text-xs md:text-sm leading-relaxed font-medium">
                             Brindar a nuestra comunidad una experiencia gastronómica transformadora y multisensorial que eleve el estándar de la panadería y el café de especialidad. En Rose Coffee elaboramos pan de masa madre mediante fermentación lenta y servimos café de origen seleccionado, utilizando ingredientes premium y rigurosas técnicas artesanales. A través de la innovación tecnológica y nuestro ecosistema phygital, educamos, conectamos y transparentamos nuestro proceso, demostrando que la verdadera calidad es el resultado de la paciencia, el arte y el respeto por el oficio.
                           </p>
                         </div>
@@ -175,11 +175,11 @@ const About = () => {
                         className="glass-card p-8 md:p-10 rounded-[32px] border border-coffee/10 hover:border-coffee/20 shadow-xs hover:shadow-md hover:scale-[1.01] transition-all duration-300 flex flex-col justify-between text-left group"
                       >
                         <div className="space-y-4">
-                          <div className="w-12 h-12 bg-coffee/10 text-coffee rounded-2xl flex items-center justify-center font-bold border border-coffee/15 shadow-2xs group-hover:scale-105 transition-transform duration-350">
+                          <div className="w-12 h-12 bg-coffee/10 text-coffee dark:text-amber-400 rounded-2xl flex items-center justify-center font-bold border border-coffee/15 shadow-2xs group-hover:scale-105 transition-transform duration-350">
                             <Sparkles size={22} />
                           </div>
-                          <h2 className="font-bold text-2xl text-primary font-sans">Nuestra Visión</h2>
-                          <p className="text-stone-600 text-xs md:text-sm leading-relaxed font-medium">
+                          <h2 className="font-bold text-2xl text-primary dark:text-gold font-sans">Nuestra Visión</h2>
+                          <p className="text-stone-600 dark:text-stone-300 text-xs md:text-sm leading-relaxed font-medium">
                             Ser el referente principal y pionero de la panadería artesanal y el café de especialidad en la región, revolucionando la forma en que interactuamos con lo que consumimos. Lideramos la convergencia entre experiencias físicas y digitales (phygital) en la gastronomía, consolidando una comunidad consciente que valora la autenticidad, el bienestar y la tradición, y transformando el simple acto de disfrutar un café y un pan en un estilo de vida de alta calidad.
                           </p>
                         </div>
@@ -195,11 +195,11 @@ const About = () => {
               return (
                 <div key={id} id={id}>
                   {content_blocks && content_blocks.length > 0 ? (
-                    <div className="bg-white rounded-3xl border border-stone-200 p-8 md:p-12 shadow-xs space-y-4 text-left">
-                      <h2 className="text-2xl md:text-3xl font-extrabold text-primary border-b border-stone-100 pb-4 font-sans">
+                    <div className="bg-white dark:bg-stone-800 rounded-3xl border border-stone-200 dark:border-stone-700 p-8 md:p-12 shadow-xs space-y-4 text-left">
+                      <h2 className="text-2xl md:text-3xl font-extrabold text-primary dark:text-white border-b border-stone-100 dark:border-stone-700 pb-4 font-sans">
                         {title || 'Nuestra Historia'}
                       </h2>
-                      {subtitle && <p className="text-stone-500 text-sm">{subtitle}</p>}
+                      {subtitle && <p className="text-stone-500 dark:text-stone-400 text-sm">{subtitle}</p>}
                       <BlockRenderer blocks={content_blocks} />
                     </div>
                   ) : (
@@ -208,9 +208,9 @@ const About = () => {
                       initial="initial"
                       whileInView="animate"
                       viewport={{ once: true, amount: 0.2 }}
-                      className="bg-white rounded-[36px] border border-stone-200 p-8 md:p-12 shadow-xs space-y-6 text-left relative overflow-hidden"
+                      className="bg-white dark:bg-stone-800 rounded-[36px] border border-stone-200 dark:border-stone-700 p-8 md:p-12 shadow-xs space-y-6 text-left relative overflow-hidden"
                     >
-                      <h2 className="text-2xl md:text-3xl font-extrabold text-primary border-b border-stone-100 pb-4 font-sans">Nuestra Historia</h2>
+                      <h2 className="text-2xl md:text-3xl font-extrabold text-primary dark:text-white border-b border-stone-100 dark:border-stone-700 pb-4 font-sans">Nuestra Historia</h2>
                       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                         <div className="lg:col-span-7 space-y-4 text-stone-600 text-xs md:text-sm leading-relaxed font-medium text-justify">
                           <p>
@@ -224,7 +224,7 @@ const About = () => {
                           </p>
                         </div>
                         <div className="lg:col-span-5">
-                          <div className="relative rounded-[28px] shadow-xl border border-stone-200 p-2.5 bg-white/80 backdrop-blur-xs overflow-hidden group">
+                          <div className="relative rounded-[28px] shadow-xl border border-stone-200 dark:border-stone-700 p-2.5 bg-white dark:bg-stone-800/80 backdrop-blur-xs overflow-hidden group">
                             <video 
                               src={videoAmasando} 
                               poster={naomyAmasando1}
@@ -255,12 +255,12 @@ const About = () => {
                       viewport={{ once: true }}
                       className="text-center max-w-xl mx-auto space-y-2"
                     >
-                      <span className="inline-block text-[10px] font-bold text-coffee uppercase tracking-widest border border-coffee/25 bg-coffee/5 px-4 py-1.5 rounded-full mb-2">
+                      <span className="inline-block text-[10px] font-bold text-coffee dark:text-amber-400 uppercase tracking-widest border border-coffee/25 bg-coffee/5 px-4 py-1.5 rounded-full mb-2">
                         Talento Humano
                       </span>
-                      <h2 className="text-2xl md:text-3xl font-extrabold text-primary font-sans">{title || 'El Equipo'}</h2>
+                      <h2 className="text-2xl md:text-3xl font-extrabold text-primary dark:text-gold font-sans">{title || 'El Equipo'}</h2>
                       {subtitle && (
-                        <p className="text-stone-500 text-xs md:text-sm">
+                        <p className="text-stone-500 dark:text-stone-400 text-xs md:text-sm">
                           {subtitle}
                         </p>
                       )}
@@ -276,9 +276,9 @@ const About = () => {
                       {/* Naomy */}
                       <motion.div 
                         variants={fadeInUp}
-                        className="bg-white rounded-[32px] border border-stone-200/80 overflow-hidden shadow-2xs hover:shadow-md transition-all duration-300 flex flex-col sm:flex-row group h-full w-full"
+                        className="bg-white dark:bg-stone-800 rounded-[32px] border border-stone-200 dark:border-stone-700/80 overflow-hidden shadow-2xs hover:shadow-md transition-all duration-300 flex flex-col sm:flex-row group h-full w-full"
                       >
-                        <div className="w-full sm:w-48 h-60 bg-stone-50 flex-shrink-0 overflow-hidden">
+                        <div className="w-full sm:w-48 h-60 bg-stone-50 dark:bg-stone-800 flex-shrink-0 overflow-hidden">
                           <OptimizedMedia 
                             src={founderNaomyImg} 
                             alt="Naomy Alvarado - Fundadora"
@@ -290,8 +290,8 @@ const About = () => {
                             <span className="inline-flex items-center gap-1.5 bg-gold/15 text-gold border border-gold/30 px-3 py-1 rounded-full text-[9px] font-bold uppercase tracking-wider">
                               Co-fundadora y Alma Creativa
                             </span>
-                            <h3 className="font-bold text-lg text-primary font-sans">Naomy Alvarado</h3>
-                            <p className="text-stone-550 text-xs leading-relaxed font-medium">
+                            <h3 className="font-bold text-lg text-primary dark:text-stone-200 font-sans">Naomy Alvarado</h3>
+                            <p className="text-stone-550 dark:text-stone-400 text-xs leading-relaxed font-medium">
                               Estudiante de Multimedia y Producción Audiovisual de la Universidad Estatal de Milagro (UNEMI). Apasionada por el café de especialidad, la fotografía gastronómica y el arte ancestral del pan de masa madre.
                             </p>
                           </div>
@@ -308,11 +308,11 @@ const About = () => {
               <section key={id} id={id} className="max-w-7xl mx-auto px-4 md:px-8 space-y-8 text-left">
                 {(title || subtitle) && (
                   <div className="text-center max-w-2xl mx-auto space-y-3">
-                    {title && <h2 className="text-2xl md:text-3xl font-extrabold text-primary font-sans">{title}</h2>}
+                    {title && <h2 className="text-2xl md:text-3xl font-extrabold text-primary dark:text-gold font-sans">{title}</h2>}
                     {subtitle && <p className="text-stone-500 text-sm md:text-base leading-relaxed">{subtitle}</p>}
                   </div>
                 )}
-                <div className="bg-white p-8 md:p-12 rounded-3xl border border-stone-200 shadow-xs">
+                <div className="bg-white dark:bg-stone-800 p-8 md:p-12 rounded-3xl border border-stone-200 dark:border-stone-700 shadow-xs">
                   <BlockRenderer blocks={content_blocks} />
                 </div>
               </section>
@@ -329,12 +329,12 @@ const About = () => {
                   viewport={{ once: true }}
                   className="text-center max-w-xl mx-auto space-y-2"
                 >
-                  <span className="inline-block text-[10px] font-bold text-coffee uppercase tracking-widest border border-coffee/25 bg-coffee/5 px-4 py-1.5 rounded-full mb-2">
+                  <span className="inline-block text-[10px] font-bold text-coffee dark:text-amber-400 uppercase tracking-widest border border-coffee/25 bg-coffee/5 px-4 py-1.5 rounded-full mb-2">
                     Nuestros Valores
                   </span>
-                  <h2 className="text-2xl md:text-3xl font-extrabold text-primary font-sans">{title || 'Nuestros Pilares Artesanales'}</h2>
+                  <h2 className="text-2xl md:text-3xl font-extrabold text-primary dark:text-gold font-sans">{title || 'Nuestros Pilares Artesanales'}</h2>
                   {subtitle && (
-                    <p className="text-stone-500 text-xs md:text-sm">{subtitle}</p>
+                    <p className="text-stone-500 dark:text-stone-400 text-xs md:text-sm">{subtitle}</p>
                   )}
                 </motion.div>
 
@@ -348,13 +348,13 @@ const About = () => {
                   {/* Pillar 1 */}
                   <motion.div 
                     variants={fadeInUp}
-                    className="bg-white p-6 rounded-3xl border border-stone-200/80 shadow-2xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group h-full"
+                    className="bg-white dark:bg-stone-800 p-6 rounded-3xl border border-stone-200 dark:border-stone-700/80 shadow-2xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group h-full"
                   >
                     <div className="space-y-4">
                       <div className="w-12 h-12 bg-gold/5 text-gold border border-gold/15 rounded-xl flex items-center justify-center font-bold group-hover:scale-105 transition-transform duration-300 shadow-2xs">
                         <Coffee size={22} />
                       </div>
-                      <h3 className="font-bold text-base text-primary font-sans">Café de Especialidad</h3>
+                      <h3 className="font-bold text-base text-primary dark:text-stone-200 font-sans">Café de Especialidad</h3>
                       <p className="text-stone-500 text-xs leading-relaxed font-medium">
                         Granos arábigos cosechados a mano sobre los 1500m, con perfiles de tueste optimizados para notas aromáticas inigualables.
                       </p>
@@ -364,13 +364,13 @@ const About = () => {
                   {/* Pillar 2 */}
                   <motion.div 
                     variants={fadeInUp}
-                    className="bg-white p-6 rounded-3xl border border-stone-200/80 shadow-2xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group h-full"
+                    className="bg-white dark:bg-stone-800 p-6 rounded-3xl border border-stone-200 dark:border-stone-700/80 shadow-2xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group h-full"
                   >
                     <div className="space-y-4">
                       <div className="w-12 h-12 bg-gold/5 text-gold border border-gold/15 rounded-xl flex items-center justify-center font-bold group-hover:scale-105 transition-transform duration-300 shadow-2xs">
                         <Sparkles size={22} />
                       </div>
-                      <h3 className="font-bold text-base text-primary font-sans">Masa Madre Natural</h3>
+                      <h3 className="font-bold text-base text-primary dark:text-stone-200 font-sans">Masa Madre Natural</h3>
                       <p className="text-stone-500 text-xs leading-relaxed font-medium">
                         Fermentación natural biológica de 24 horas. Pan sin químicos, de corteza crujiente y fácil digestibilidad.
                       </p>
@@ -380,13 +380,13 @@ const About = () => {
                   {/* Pillar 3 */}
                   <motion.div 
                     variants={fadeInUp}
-                    className="bg-white p-6 rounded-3xl border border-stone-200/80 shadow-2xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group h-full"
+                    className="bg-white dark:bg-stone-800 p-6 rounded-3xl border border-stone-200 dark:border-stone-700/80 shadow-2xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group h-full"
                   >
                     <div className="space-y-4">
                       <div className="w-12 h-12 bg-gold/5 text-gold border border-gold/15 rounded-xl flex items-center justify-center font-bold group-hover:scale-105 transition-transform duration-300 shadow-2xs">
                         <Layers size={22} />
                       </div>
-                      <h3 className="font-bold text-base text-primary font-sans">Realidad Aumentada 3D</h3>
+                      <h3 className="font-bold text-base text-primary dark:text-stone-200 font-sans">Realidad Aumentada 3D</h3>
                       <p className="text-stone-500 text-xs leading-relaxed font-medium">
                         Visualización interactiva 3D de nuestros combos y panes directo en tu mesa antes de pedirlos con tu celular.
                       </p>
@@ -396,13 +396,13 @@ const About = () => {
                   {/* Pillar 4 */}
                   <motion.div 
                     variants={fadeInUp}
-                    className="bg-white p-6 rounded-3xl border border-stone-200/80 shadow-2xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group h-full"
+                    className="bg-white dark:bg-stone-800 p-6 rounded-3xl border border-stone-200 dark:border-stone-700/80 shadow-2xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between group h-full"
                   >
                     <div className="space-y-4">
                       <div className="w-12 h-12 bg-gold/5 text-gold border border-gold/15 rounded-xl flex items-center justify-center font-bold group-hover:scale-105 transition-transform duration-300 shadow-2xs">
                         <ShieldCheck size={22} />
                       </div>
-                      <h3 className="font-bold text-base text-primary font-sans">Comercio Sostenible</h3>
+                      <h3 className="font-bold text-base text-primary dark:text-stone-200 font-sans">Comercio Sostenible</h3>
                       <p className="text-stone-500 text-xs leading-relaxed font-medium">
                         Trato directo con pequeños productores caficultores de Loja y Zamora, garantizando precios justos e impacto local.
                       </p>

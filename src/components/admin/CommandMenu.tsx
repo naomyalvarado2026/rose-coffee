@@ -116,7 +116,7 @@ export default function CommandMenu() {
                 />
                 <button
                   onClick={() => setOpen(false)}
-                  className="text-stone-400 hover:text-white p-1 rounded-lg text-xs font-semibold font-mono border border-white/10 bg-white/5 cursor-pointer select-none"
+                  className="text-stone-400 hover:text-white p-1 rounded-lg text-xs font-semibold font-mono border border-white/10 bg-white dark:bg-stone-800/5 cursor-pointer select-none"
                 >
                   ESC
                 </button>

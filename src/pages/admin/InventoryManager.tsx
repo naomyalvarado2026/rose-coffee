@@ -384,7 +384,7 @@ export default function InventoryManager() {
               }}
               className="flex items-center gap-1.5 px-3.5 py-2 bg-cream text-stone-700 border border-coffee/10 hover:border-coffee/20 rounded-xl text-xs font-bold transition-all shadow-3xs cursor-pointer"
             >
-              <ArrowUpDown size={14} className="text-coffee" />
+              <ArrowUpDown size={14} className="text-coffee dark:text-gold" />
               Ajustar Stock
             </button>
             <button 
@@ -400,19 +400,19 @@ export default function InventoryManager() {
 
       {/* Overview stats cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-white border border-coffee/10 rounded-2xl p-5 shadow-2xs">
+        <div className="bg-white dark:bg-stone-800 border border-coffee/10 rounded-2xl p-5 shadow-2xs">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center border border-amber-100">
               <Package size={20} />
             </div>
             <div>
               <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Total Items</p>
-              <h4 className="text-xl font-extrabold text-stone-900 mt-0.5">{totalItems} Existencias</h4>
+              <h4 className="text-xl font-extrabold text-stone-900 dark:text-stone-200 mt-0.5">{totalItems} Existencias</h4>
             </div>
           </div>
         </div>
 
-        <div className="bg-white border border-coffee/10 rounded-2xl p-5 shadow-2xs">
+        <div className="bg-white dark:bg-stone-800 border border-coffee/10 rounded-2xl p-5 shadow-2xs">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-red-50 text-red-650 flex items-center justify-center border border-red-100">
               <ShieldAlert size={20} />
@@ -424,23 +424,23 @@ export default function InventoryManager() {
           </div>
         </div>
 
-        <div className="bg-white border border-coffee/10 rounded-2xl p-5 shadow-2xs">
+        <div className="bg-white dark:bg-stone-800 border border-coffee/10 rounded-2xl p-5 shadow-2xs">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center border border-emerald-100">
               <Layers size={20} />
             </div>
             <div>
               <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Valor Estimado</p>
-              <h4 className="text-xl font-extrabold text-stone-900 mt-0.5">${estimatedValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h4>
+              <h4 className="text-xl font-extrabold text-stone-900 dark:text-stone-200 mt-0.5">${estimatedValue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</h4>
             </div>
           </div>
         </div>
       </div>
 
       {/* Inventory Table card */}
-      <div className="bg-white border border-coffee/10 rounded-3xl p-6 shadow-2xs overflow-hidden">
+      <div className="bg-white dark:bg-stone-800 border border-coffee/10 rounded-3xl p-6 shadow-2xs overflow-hidden">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-sm font-extrabold text-stone-900 flex items-center gap-1.5">
+          <h3 className="text-sm font-extrabold text-stone-900 dark:text-stone-200 flex items-center gap-1.5">
             <ArrowUpDown size={14} className="text-gold" />
             Niveles de Existencias
           </h3>
@@ -449,13 +449,13 @@ export default function InventoryManager() {
         <div className="overflow-x-auto">
           {loading && items.length === 0 ? (
             <div className="text-center py-12">
-              <RefreshCw size={24} className="animate-spin text-coffee mx-auto mb-2" />
+              <RefreshCw size={24} className="animate-spin text-coffee dark:text-gold mx-auto mb-2" />
               <p className="text-xs text-stone-400 font-bold uppercase">Cargando inventario...</p>
             </div>
           ) : (
             <table className="w-full text-left border-collapse text-xs">
               <thead>
-                <tr className="border-b border-stone-100 text-stone-400 font-bold uppercase tracking-wider">
+                <tr className="border-b border-stone-100 dark:border-stone-700 text-stone-400 font-bold uppercase tracking-wider">
                   <th className="pb-3 font-semibold">Producto/Insumo</th>
                   <th className="pb-3 font-semibold">Categoría</th>
                   <th className="pb-3 font-semibold">Tipo</th>
@@ -466,14 +466,14 @@ export default function InventoryManager() {
                   <th className="pb-3 font-semibold text-center w-24">Acciones</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-stone-50">
+              <tbody className="divide-y divide-stone-50 dark:divide-stone-700/50">
                 {items.map((item) => {
                   const isCritical = item.stock <= item.stock_min;
                   const isOut = item.stock === 0;
 
                   return (
-                    <tr key={item.id} className="hover:bg-stone-50/50 transition-colors">
-                      <td className="py-4 font-bold text-stone-850 flex flex-col">
+                    <tr key={item.id} className="hover:bg-stone-50/50 dark:hover:bg-stone-700/30 transition-colors">
+                      <td className="py-4 font-bold text-stone-850 dark:text-stone-200 flex flex-col">
                         <span>{item.name}</span>
                         {item.description && (
                           <span className="text-[10px] text-stone-400 font-normal mt-0.5 line-clamp-1">{item.description}</span>
@@ -482,35 +482,35 @@ export default function InventoryManager() {
                       <td className="py-4 text-stone-500 font-medium">{item.category}</td>
                       <td className="py-4">
                         <span className={`inline-block px-1.5 py-0.5 rounded text-[8px] font-bold uppercase tracking-wider ${
-                          item.type === 'product' ? 'bg-amber-50 text-amber-800' : 'bg-blue-50 text-blue-800'
+                          item.type === 'product' ? 'bg-amber-50 dark:bg-amber-900/20 text-amber-800 dark:text-amber-500' : 'bg-blue-50 dark:bg-blue-900/20 text-blue-800 dark:text-white'
                         }`}>
                           {item.type === 'product' ? 'Producto' : 'Insumo'}
                         </span>
                       </td>
-                      <td className="py-4 font-mono font-bold text-stone-800">{item.stock} {item.unit}</td>
+                      <td className="py-4 font-mono font-bold text-stone-800 dark:text-stone-200">{item.stock} {item.unit}</td>
                       <td className="py-4 font-mono text-stone-400">{item.stock_min} {item.unit}</td>
                       <td className="py-4">
                         {isOut ? (
-                          <span className="inline-block px-2 py-0.5 bg-red-100 text-red-700 rounded text-[9px] font-bold uppercase tracking-wider">Agotado</span>
+                          <span className="inline-block px-2 py-0.5 bg-red-100 dark:bg-red-900/20 text-red-700 dark:text-red-400 rounded text-[9px] font-bold uppercase tracking-wider">Agotado</span>
                         ) : isCritical ? (
-                          <span className="inline-block px-2 py-0.5 bg-amber-100 text-amber-700 rounded text-[9px] font-bold uppercase tracking-wider">Stock Bajo</span>
+                          <span className="inline-block px-2 py-0.5 bg-amber-100 dark:bg-amber-900/20 text-amber-700 dark:text-amber-400 rounded text-[9px] font-bold uppercase tracking-wider">Stock Bajo</span>
                         ) : (
-                          <span className="inline-block px-2 py-0.5 bg-emerald-100 text-emerald-700 rounded text-[9px] font-bold uppercase tracking-wider">Disponible</span>
+                          <span className="inline-block px-2 py-0.5 bg-emerald-100 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 rounded text-[9px] font-bold uppercase tracking-wider">Disponible</span>
                         )}
                       </td>
-                      <td className="py-4 text-right font-mono font-bold text-stone-800">${item.price.toFixed(2)}</td>
+                      <td className="py-4 text-right font-mono font-bold text-stone-800 dark:text-stone-200">${item.price.toFixed(2)}</td>
                       <td className="py-4 text-center">
                         <div className="flex justify-center gap-1.5">
                           <button
                             onClick={() => handleOpenEditModal(item)}
-                            className="p-1 rounded-lg text-stone-400 hover:text-coffee hover:bg-stone-100 transition-colors cursor-pointer"
+                            className="p-1 rounded-lg text-stone-400 hover:text-coffee dark:text-gold hover:bg-stone-100 dark:hover:bg-stone-700/50 transition-colors cursor-pointer"
                             title="Editar"
                           >
                             <Edit size={14} />
                           </button>
                           <button
                             onClick={() => handleOpenDeleteModal(item)}
-                            className="p-1 rounded-lg text-stone-400 hover:text-red-650 hover:bg-red-50 transition-colors cursor-pointer"
+                            className="p-1 rounded-lg text-stone-400 hover:text-red-650 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-stone-700/50 transition-colors cursor-pointer"
                             title="Eliminar"
                           >
                             <Trash2 size={14} />
@@ -534,7 +534,7 @@ export default function InventoryManager() {
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white border border-coffee/10 rounded-3xl w-full max-w-md overflow-hidden shadow-2xl p-6 relative text-left"
+              className="bg-white dark:bg-stone-800 border border-coffee/10 rounded-3xl w-full max-w-md overflow-hidden shadow-2xl p-6 relative text-left"
             >
               <button
                 onClick={() => setShowModal(false)}
@@ -543,7 +543,7 @@ export default function InventoryManager() {
                 <X size={18} />
               </button>
 
-              <h3 className="text-sm font-extrabold text-stone-900 flex items-center gap-1.5 mb-1">
+              <h3 className="text-sm font-extrabold text-stone-900 dark:text-stone-200 flex items-center gap-1.5 mb-1">
                 <ArrowUpDown size={16} className="text-gold" />
                 Registrar Ajuste de Inventario
               </h3>
@@ -560,7 +560,7 @@ export default function InventoryManager() {
                     required
                     value={selectedItemId}
                     onChange={(e) => setSelectedItemId(e.target.value)}
-                    className="w-full px-3 py-2 border border-stone-200 rounded-xl text-xs bg-white text-stone-850 font-bold focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee cursor-pointer"
+                    className="w-full px-3 py-2 border border-stone-200 dark:border-stone-700 rounded-xl text-xs bg-white dark:bg-stone-800 text-stone-850 font-bold focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee cursor-pointer"
                   >
                     <option value="" disabled>Selecciona un elemento...</option>
                     {items.map((i) => (
@@ -579,7 +579,7 @@ export default function InventoryManager() {
                     <select
                       value={adjustmentType}
                       onChange={(e) => setAdjustmentType(e.target.value as any)}
-                      className="w-full px-3 py-2 border border-stone-200 rounded-xl text-xs bg-white text-stone-850 font-bold focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee cursor-pointer"
+                      className="w-full px-3 py-2 border border-stone-200 dark:border-stone-700 rounded-xl text-xs bg-white dark:bg-stone-800 text-stone-850 font-bold focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee cursor-pointer"
                     >
                       <option value="Ingreso">Ingreso (+)</option>
                       <option value="Egreso">Egreso (-)</option>
@@ -597,7 +597,7 @@ export default function InventoryManager() {
                       min={1}
                       value={quantity}
                       onChange={(e) => setQuantity(Number(e.target.value))}
-                      className="w-full px-3 py-2 border border-stone-200 rounded-xl text-xs font-mono font-bold text-stone-800 focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee"
+                      className="w-full px-3 py-2 border border-stone-200 dark:border-stone-700 rounded-xl text-xs font-mono font-bold text-stone-800 dark:text-stone-200 focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee"
                     />
                   </div>
                 </div>
@@ -611,7 +611,7 @@ export default function InventoryManager() {
                     required
                     value={reason}
                     onChange={(e) => setReason(e.target.value)}
-                    className="w-full px-3 py-2 border border-stone-200 rounded-xl text-xs font-semibold text-stone-800 focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee"
+                    className="w-full px-3 py-2 border border-stone-200 dark:border-stone-700 rounded-xl text-xs font-semibold text-stone-800 dark:text-stone-200 focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee"
                     placeholder="E.g. Compra de inventario mensual, merma..."
                   />
                 </div>
@@ -651,7 +651,7 @@ export default function InventoryManager() {
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white border border-coffee/10 rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl p-6 relative text-left"
+              className="bg-white dark:bg-stone-800 border border-coffee/10 rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl p-6 relative text-left"
             >
               <button
                 onClick={() => setShowItemModal(false)}
@@ -660,7 +660,7 @@ export default function InventoryManager() {
                 <X size={18} />
               </button>
 
-              <h3 className="text-sm font-extrabold text-stone-900 flex items-center gap-1.5 mb-1">
+              <h3 className="text-sm font-extrabold text-stone-900 dark:text-stone-200 flex items-center gap-1.5 mb-1">
                 {editingItem ? <Edit size={16} className="text-gold" /> : <Plus size={16} className="text-gold" />}
                 {editingItem ? 'Editar Existencia' : 'Añadir Nueva Existencia'}
               </h3>
@@ -713,7 +713,7 @@ export default function InventoryManager() {
                     value={itemName}
                     onChange={(e) => setItemName(e.target.value)}
                     placeholder={itemType === 'insumo' ? 'E.g. Leche Entera, Café Verde' : 'E.g. Capuccino Fresa, Muffin'}
-                    className="w-full px-3 py-2 border border-stone-200 rounded-xl text-xs font-bold text-stone-800 focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee"
+                    className="w-full px-3 py-2 border border-stone-200 dark:border-stone-700 rounded-xl text-xs font-bold text-stone-800 dark:text-stone-200 focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee"
                   />
                 </div>
 
@@ -728,7 +728,7 @@ export default function InventoryManager() {
                         required
                         value={itemCategory}
                         onChange={(e) => setItemCategory(e.target.value)}
-                        className="w-full px-3 py-2 border border-stone-200 rounded-xl text-xs bg-white text-stone-850 font-bold focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee cursor-pointer"
+                        className="w-full px-3 py-2 border border-stone-200 dark:border-stone-700 rounded-xl text-xs bg-white dark:bg-stone-800 text-stone-850 font-bold focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee cursor-pointer"
                       >
                         <option value="" disabled>Selecciona...</option>
                         {categories.map((cat) => (
@@ -740,7 +740,7 @@ export default function InventoryManager() {
                         required
                         value={itemCategory}
                         onChange={(e) => setItemCategory(e.target.value)}
-                        className="w-full px-3 py-2 border border-stone-200 rounded-xl text-xs bg-white text-stone-850 font-bold focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee cursor-pointer"
+                        className="w-full px-3 py-2 border border-stone-200 dark:border-stone-700 rounded-xl text-xs bg-white dark:bg-stone-800 text-stone-850 font-bold focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee cursor-pointer"
                       >
                         {PRODUCT_CATEGORIES.map((cat) => (
                           <option key={cat} value={cat}>{cat}</option>
@@ -760,7 +760,7 @@ export default function InventoryManager() {
                       value={itemUnit}
                       onChange={(e) => setItemUnit(e.target.value)}
                       placeholder="E.g. unidades, kg, litros"
-                      className="w-full px-3 py-2 border border-stone-200 rounded-xl text-xs font-bold text-stone-800 focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee disabled:bg-stone-50 disabled:text-stone-400 disabled:border-stone-150"
+                      className="w-full px-3 py-2 border border-stone-200 dark:border-stone-700 rounded-xl text-xs font-bold text-stone-800 dark:text-stone-200 focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee disabled:bg-stone-50 disabled:text-stone-400 disabled:border-stone-150 dark:border-stone-700"
                     />
                   </div>
                 </div>
@@ -777,7 +777,7 @@ export default function InventoryManager() {
                       min={0}
                       value={itemStock}
                       onChange={(e) => setItemStock(Number(e.target.value))}
-                      className="w-full px-3 py-2 border border-stone-200 rounded-xl text-xs font-mono font-bold text-stone-800 focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee"
+                      className="w-full px-3 py-2 border border-stone-200 dark:border-stone-700 rounded-xl text-xs font-mono font-bold text-stone-800 dark:text-stone-200 focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee"
                     />
                   </div>
 
@@ -791,7 +791,7 @@ export default function InventoryManager() {
                       min={0}
                       value={itemStockMin}
                       onChange={(e) => setItemStockMin(Number(e.target.value))}
-                      className="w-full px-3 py-2 border border-stone-200 rounded-xl text-xs font-mono font-bold text-stone-800 focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee"
+                      className="w-full px-3 py-2 border border-stone-200 dark:border-stone-700 rounded-xl text-xs font-mono font-bold text-stone-800 dark:text-stone-200 focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee"
                     />
                   </div>
 
@@ -806,7 +806,7 @@ export default function InventoryManager() {
                       min={0}
                       value={itemPrice}
                       onChange={(e) => setItemPrice(Number(e.target.value))}
-                      className="w-full px-3 py-2 border border-stone-200 rounded-xl text-xs font-mono font-bold text-stone-800 focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee"
+                      className="w-full px-3 py-2 border border-stone-200 dark:border-stone-700 rounded-xl text-xs font-mono font-bold text-stone-800 dark:text-stone-200 focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee"
                     />
                   </div>
                 </div>
@@ -821,7 +821,7 @@ export default function InventoryManager() {
                     value={itemDescription}
                     onChange={(e) => setItemDescription(e.target.value)}
                     placeholder="Detalles sobre el uso, proveedor o características del item..."
-                    className="w-full px-3 py-2 border border-stone-200 rounded-xl text-xs font-semibold text-stone-850 focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee resize-none"
+                    className="w-full px-3 py-2 border border-stone-200 dark:border-stone-700 rounded-xl text-xs font-semibold text-stone-850 focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee resize-none"
                   />
                 </div>
 
@@ -861,9 +861,9 @@ export default function InventoryManager() {
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white border border-coffee/10 rounded-3xl w-full max-w-sm overflow-hidden shadow-2xl p-6 relative text-left"
+              className="bg-white dark:bg-stone-800 border border-coffee/10 rounded-3xl w-full max-w-sm overflow-hidden shadow-2xl p-6 relative text-left"
             >
-              <h3 className="text-sm font-extrabold text-stone-900 flex items-center gap-1.5 mb-2">
+              <h3 className="text-sm font-extrabold text-stone-900 dark:text-stone-200 flex items-center gap-1.5 mb-2">
                 <Trash2 size={16} className="text-red-650" />
                 ¿Eliminar existencia?
               </h3>

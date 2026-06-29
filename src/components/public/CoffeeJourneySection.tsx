@@ -13,31 +13,31 @@ const STEPS: Step[] = [
     number: '01',
     title: 'Cultivo de Altura',
     description: 'Seleccionamos fincas en climas ecuatoriales ideales a más de 1,500 metros sobre el nivel del mar, asegurando una maduración lenta del grano.',
-    icon: <Sprout className="w-6 h-6 text-coffee" />
+    icon: <Sprout className="w-6 h-6 text-coffee dark:text-gold" />
   },
   {
     number: '02',
     title: 'Selección Rigurosa',
     description: 'Los productores cosechan a mano únicamente las cerezas en su punto óptimo de madurez, realizando una criba flotante para eliminar impurezas.',
-    icon: <CheckSquare className="w-6 h-6 text-coffee" />
+    icon: <CheckSquare className="w-6 h-6 text-coffee dark:text-gold" />
   },
   {
     number: '03',
     title: 'Tostado de Perfil',
     description: 'Tostamos artesanalmente en lotes pequeños en nuestro local de Milagro, desarrollando perfiles únicos que resaltan las notas florales y frutales.',
-    icon: <Flame className="w-6 h-6 text-coffee" />
+    icon: <Flame className="w-6 h-6 text-coffee dark:text-gold" />
   },
   {
     number: '04',
     title: 'Preparación Precisa',
     description: 'Nuestros baristas muelen al instante y controlan minuciosamente la temperatura del agua y ratios de extracción para la taza perfecta.',
-    icon: <Coffee className="w-6 h-6 text-coffee" />
+    icon: <Coffee className="w-6 h-6 text-coffee dark:text-gold" />
   },
   {
     number: '05',
     title: 'Tu Experiencia Rose',
     description: 'Disfrutas de un café extraordinario, lleno de historia, aroma y sabor balanceado, ideal para acompañar con nuestra panadería de masa madre.',
-    icon: <Smile className="w-6 h-6 text-coffee" />
+    icon: <Smile className="w-6 h-6 text-coffee dark:text-gold" />
   }
 ];
 
@@ -56,11 +56,11 @@ interface CoffeeJourneySectionProps {
 }
 
 const ICON_MAP: Record<string, React.ReactNode> = {
-  sprout: <Sprout className="w-6 h-6 text-coffee" />,
-  check: <CheckSquare className="w-6 h-6 text-coffee" />,
-  flame: <Flame className="w-6 h-6 text-coffee" />,
-  coffee: <Coffee className="w-6 h-6 text-coffee" />,
-  smile: <Smile className="w-6 h-6 text-coffee" />,
+  sprout: <Sprout className="w-6 h-6 text-coffee dark:text-gold" />,
+  check: <CheckSquare className="w-6 h-6 text-coffee dark:text-gold" />,
+  flame: <Flame className="w-6 h-6 text-coffee dark:text-gold" />,
+  coffee: <Coffee className="w-6 h-6 text-coffee dark:text-gold" />,
+  smile: <Smile className="w-6 h-6 text-coffee dark:text-gold" />,
 };
 
 export default function CoffeeJourneySection({ data }: CoffeeJourneySectionProps) {
@@ -81,6 +81,7 @@ export default function CoffeeJourneySection({ data }: CoffeeJourneySectionProps
   return (
     <section className="max-w-7xl mx-auto px-6 py-16 space-y-12 relative overflow-hidden">
       {/* Background decoration */}
+      <div className="absolute inset-0 z-0 bg-[url('/productos/roasted_coffee_beans_1782575641834.webp')] bg-cover bg-center bg-fixed opacity-[0.07] pointer-events-none" />
       <div className="absolute right-0 top-1/2 w-80 h-80 bg-coffee/5 blur-[120px] rounded-full pointer-events-none -z-10" />
 
       <motion.div
@@ -90,13 +91,13 @@ export default function CoffeeJourneySection({ data }: CoffeeJourneySectionProps
         transition={{ duration: 0.55 }}
         className="text-center max-w-2xl mx-auto space-y-3"
       >
-        <span className="inline-block text-[10px] font-bold text-coffee uppercase tracking-widest border border-coffee/25 bg-coffee/5 px-4 py-1.5 rounded-full">
+        <span className="inline-block text-[10px] font-bold text-coffee dark:text-gold uppercase tracking-widest border border-coffee/25 bg-coffee/5 px-4 py-1.5 rounded-full">
           Nuestra Filosofía
         </span>
-        <h2 className="text-3xl md:text-4xl font-bold text-primary">
+        <h2 className="text-3xl md:text-4xl font-bold text-primary dark:text-gold">
           {title}
         </h2>
-        <p className="text-stone-500 text-sm md:text-base leading-relaxed font-light">
+        <p className="text-stone-500 dark:text-stone-400 text-sm md:text-base leading-relaxed font-light">
           {subtitle}
         </p>
       </motion.div>
@@ -132,16 +133,16 @@ export default function CoffeeJourneySection({ data }: CoffeeJourneySectionProps
                       <div className="p-2 bg-coffee/10 rounded-xl md:hidden">
                         {step.icon}
                       </div>
-                      <h3 className="font-bold text-base text-primary">{step.title}</h3>
+                      <h3 className="font-bold text-base text-primary dark:text-stone-100">{step.title}</h3>
                     </div>
-                    <p className="text-stone-500 text-xs leading-relaxed">
+                    <p className="text-stone-500 dark:text-stone-400 text-xs leading-relaxed">
                       {step.description}
                     </p>
                   </div>
                 </div>
 
                 {/* Central Icon Circle */}
-                <div className="absolute left-0 md:left-1/2 top-1 md:top-auto md:-translate-x-1/2 w-9 h-9 rounded-full bg-brand-base border-2 border-coffee flex items-center justify-center shadow-md z-10">
+                <div className="absolute left-0 md:left-1/2 top-1 md:top-auto md:-translate-x-1/2 w-9 h-9 rounded-full bg-brand-base dark:bg-stone-900 border-2 border-coffee flex items-center justify-center shadow-md z-10">
                   <div className="w-5 h-5 flex items-center justify-center">
                     {step.icon}
                   </div>

@@ -10,6 +10,9 @@ export interface CartItem {
 
 interface CartState {
   items: CartItem[];
+  isDrawerOpen: boolean;
+  openDrawer: () => void;
+  closeDrawer: () => void;
   addItem: (product: Product, variant?: ProductVariant | null, quantity?: number) => void;
   removeItem: (productId: string, variantId?: string | null) => void;
   updateQuantity: (productId: string, variantId: string | null | undefined, quantity: number) => void;
@@ -22,6 +25,10 @@ export const useCartStore = create<CartState>()(
   persist(
     (set, get) => ({
       items: [],
+      isDrawerOpen: false,
+      
+      openDrawer: () => set({ isDrawerOpen: true }),
+      closeDrawer: () => set({ isDrawerOpen: false }),
       
       addItem: (product, variant = null, quantity = 1) => {
         const currentItems = get().items;

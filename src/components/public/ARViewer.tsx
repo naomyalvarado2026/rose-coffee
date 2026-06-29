@@ -452,41 +452,7 @@ export default function ARViewer({ activeProduct, products, onProductSelect, onC
             This slotted button replaces the default <model-viewer> AR icon
             with a large, branded, highly visible call-to-action.
         */}
-        <button
-          slot="ar-button"
-          style={{
-            position: 'absolute',
-            bottom: '16px',
-            left: '50%',
-            transform: 'translateX(-50%)',
-            backgroundColor: '#6b3a0e',
-            color: '#faf2e7',
-            border: '2px solid rgba(250, 242, 231, 0.25)',
-            borderRadius: '16px',
-            padding: '14px 28px',
-            fontSize: '14px',
-            fontWeight: 800,
-            letterSpacing: '0.02em',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '10px',
-            boxShadow: '0 8px 32px rgba(107, 58, 14, 0.45), 0 0 0 1px rgba(250, 242, 231, 0.08)',
-            backdropFilter: 'blur(12px)',
-            zIndex: 40,
-            whiteSpace: 'nowrap',
-            transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-          }}
-          onMouseEnter={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.transform = 'translateX(-50%) scale(1.04)';
-          }}
-          onMouseLeave={(e) => {
-            (e.currentTarget as HTMLButtonElement).style.transform = 'translateX(-50%)';
-          }}
-        >
-          <Camera style={{ width: '20px', height: '20px', flexShrink: 0 }} />
-          Ver en mi mesa (Activar Cámara)
-        </button>
+        <button slot="ar-button" style={{ display: 'none' }}></button>
 
         {/* ──────────────────────────────────────────────────────────────
             Hotspots — 3D-anchored labels on the model surface
@@ -664,6 +630,34 @@ export default function ARViewer({ activeProduct, products, onProductSelect, onC
         )}
       </model-viewer>
 
+      {/* ──────────────────────────────────────────────────────────────
+          Custom AR Activation Button (Outside model-viewer)
+          ──────────────────────────────────────────────────────────────
+          Placed outside so it is GUARANTEED to be visible even if WebXR
+          support is iffy, allowing users to at least try the fallback.
+      */}
+      <button
+        onClick={() => {
+          if (modelViewerRef.current) {
+            try {
+              modelViewerRef.current.activateAR();
+            } catch (err) {
+              toast.error('No se pudo activar la cámara AR en este dispositivo.');
+            }
+          }
+        }}
+        className="absolute z-40 bg-[#6b3a0e] text-[#faf2e7] border-2 border-[#faf2e7]/25 rounded-2xl px-7 py-3.5 text-sm font-extrabold tracking-wide cursor-pointer flex items-center gap-2.5 shadow-[0_8px_32px_rgba(107,58,14,0.45),0_0_0_1px_rgba(250,242,231,0.08)] backdrop-blur-md transition-all hover:scale-105 active:scale-95"
+        style={{
+          bottom: products && products.length > 1 ? '160px' : '40px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          whiteSpace: 'nowrap',
+        }}
+      >
+        <Camera size={20} />
+        Abrir con Cámara AR
+      </button>
+
       {/* ================================================================
           Non-AR Carousel (visible when viewing the model in the web page,
           outside of an immersive WebXR session).
@@ -672,7 +666,7 @@ export default function ARViewer({ activeProduct, products, onProductSelect, onC
           switching functionality in the standard 3D preview mode.
           ================================================================ */}
       {products && products.length > 1 && (
-        <div className="absolute bottom-0 left-0 w-full z-10 bg-white/15 backdrop-blur-md border-t border-white/20 p-4 pointer-events-auto select-none">
+        <div className="absolute bottom-0 left-0 w-full z-10 bg-white dark:bg-stone-800/15 backdrop-blur-md border-t border-white/20 p-4 pointer-events-auto select-none">
           <div className="max-w-3xl mx-auto flex flex-col">
             <span className="text-[10px] font-bold text-white drop-shadow-xs uppercase tracking-wider block mb-2 px-1 text-center sm:text-left">
               Showroom Continuo (Productos AR)

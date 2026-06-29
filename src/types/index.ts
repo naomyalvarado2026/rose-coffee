@@ -45,7 +45,8 @@ export interface Product {
   stock: number;
   category: string;
   type?: ProductType;
-  features?: any; // JSONB array of features/specs
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  features?: any; // JSONB — parsed as (string | ProductFeature)[] at runtime
   cover_image_url?: string | null;
   deleted_at?: string | null;
   ar_model_url?: string | null;
@@ -91,7 +92,7 @@ export interface FormResponse {
   user_id: string | null;
   member_name: string | null;
   member_email: string | null;
-  answers: Record<string, any>;
+  answers: Record<string, unknown>;
   score: number;
   max_score: number;
   created_at: string;
@@ -172,7 +173,7 @@ export interface ARExperience {
   scale?: { x: number; y: number; z: number } | null;
   position?: { x: number; y: number; z: number } | null;
   rotation?: string | null;
-  animation_settings?: Record<string, any> | null;
+  animation_settings?: Record<string, unknown> | null;
   enabled?: boolean;
   product_id?: string | null;
   views_count?: number;
@@ -232,4 +233,31 @@ export interface Blog {
   author_id?: string | null;
 }
 
+declare module 'react' {
+  interface HTMLAttributes<T> extends AriaAttributes, DOMAttributes<T> {
+    // model-viewer custom element attributes
+    'auto-rotate'?: boolean | string;
+    'camera-controls'?: boolean | string;
+    'disable-zoom'?: boolean | string;
+    'shadow-intensity'?: string;
+    'environment-image'?: string;
+    exposure?: string;
+    'rotation-per-second'?: string;
+  }
+}
 
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace JSX {
+    interface IntrinsicElements {
+      'model-viewer': React.DetailedHTMLProps<
+        React.HTMLAttributes<HTMLElement> & {
+          src?: string;
+          alt?: string;
+          poster?: string;
+        },
+        HTMLElement
+      >;
+    }
+  }
+}

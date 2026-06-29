@@ -10,22 +10,11 @@ import { supabase } from '../../config/supabase';
 const Footer = () => {
   const currentYear = new Date().getFullYear();
 
-  const [phone, setPhone] = useState('+593980372113');
-  const [facebookUrl, setFacebookUrl] = useState('https://facebook.com');
-  const [instagramUrl, setInstagramUrl] = useState('https://instagram.com');
-  const [tiktokUrl, setTiktokUrl] = useState('https://tiktok.com');
+  const [phone, setPhone] = useState(() => localStorage.getItem('rose_coffee_business_phone') || '+593980372113');
+  const [instagramUrl, setInstagramUrl] = useState(() => localStorage.getItem('rose_coffee_instagram_url') || 'https://instagram.com');
+  const [tiktokUrl, setTiktokUrl] = useState(() => localStorage.getItem('rose_coffee_tiktok_url') || 'https://tiktok.com');
 
   useEffect(() => {
-    // Fast local recovery
-    const cachedPhone = localStorage.getItem('rose_coffee_business_phone');
-    if (cachedPhone) setPhone(cachedPhone);
-    const cachedFacebook = localStorage.getItem('rose_coffee_facebook_url');
-    if (cachedFacebook) setFacebookUrl(cachedFacebook);
-    const cachedInstagram = localStorage.getItem('rose_coffee_instagram_url');
-    if (cachedInstagram) setInstagramUrl(cachedInstagram);
-    const cachedTiktok = localStorage.getItem('rose_coffee_tiktok_url');
-    if (cachedTiktok) setTiktokUrl(cachedTiktok);
-
     // Sync settings from Supabase
     const syncFooterSettings = async () => {
       try {
@@ -40,10 +29,6 @@ const Footer = () => {
           if (cfg.phone) {
             setPhone(cfg.phone);
             localStorage.setItem('rose_coffee_business_phone', cfg.phone);
-          }
-          if (cfg.facebook_url) {
-            setFacebookUrl(cfg.facebook_url);
-            localStorage.setItem('rose_coffee_facebook_url', cfg.facebook_url);
           }
           if (cfg.instagram_url) {
             setInstagramUrl(cfg.instagram_url);
@@ -62,16 +47,6 @@ const Footer = () => {
   }, []);
 
   const socialLinks = [
-    {
-      name: 'Facebook',
-      url: facebookUrl,
-      iconRenderer: () => (
-        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-          <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z" />
-        </svg>
-      ),
-      color: 'hover:bg-blue-600 hover:text-white hover:border-blue-600'
-    },
     {
       name: 'Instagram',
       url: instagramUrl,
@@ -122,10 +97,10 @@ const Footer = () => {
   };
 
   return (
-    <footer className="relative bg-gradient-to-b from-[#021a54] to-[#010c27] text-white overflow-hidden mt-auto">
+    <footer className="relative bg-gradient-to-b from-[#0a1128] to-[#030612] text-white overflow-hidden mt-auto">
       
       {/* Liquid gold flowing animated line on top of the footer */}
-      <div className="absolute top-0 left-0 right-0 h-[4px] bg-gradient-to-r from-gold/20 via-gold to-gold/20 bg-[length:200%_auto] animate-gold-flow z-20 shadow-[0_0_15px_rgba(200,146,42,0.5)]" />
+      <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-gold/10 via-gold to-gold/10 bg-[length:200%_auto] animate-gold-flow z-20 shadow-[0_0_15px_rgba(200,146,42,0.3)]" />
       
       {/* Decorative background light rays & breathing ambient orbs (smooth slow orbit) */}
       <motion.div 
@@ -160,6 +135,35 @@ const Footer = () => {
 
       <div className="max-w-7xl mx-auto px-4 md:px-8 pt-16 pb-8 relative z-10">
 
+        {/* Newsletter Section */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          className="mb-16 pb-12 border-b border-white/10 flex flex-col md:flex-row items-center justify-between gap-8"
+        >
+          <div className="text-center md:text-left max-w-md">
+            <h3 className="text-2xl font-bold font-sans text-white mb-2 tracking-tight">Únete a nuestro club</h3>
+            <p className="text-xs text-gray-350 leading-relaxed font-medium">
+              Suscríbete para recibir noticias, ofertas exclusivas, y los mejores secretos sobre nuestro café de especialidad y masa madre.
+            </p>
+          </div>
+          <div className="flex w-full md:w-auto relative max-w-sm shadow-xl">
+            <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" />
+            <input 
+              type="email" 
+              placeholder="Tu correo electrónico" 
+              className="w-full md:w-64 pl-11 pr-4 py-3.5 bg-white dark:bg-stone-800/5 border border-white/10 text-white rounded-l-xl focus:outline-none focus:border-gold/50 focus:bg-white dark:bg-stone-800/10 transition-all text-xs placeholder:text-gray-500" 
+            />
+            <motion.button 
+              whileTap={{ scale: 0.95 }}
+              className="bg-gold hover:bg-gold/90 text-[#030612] px-6 py-3.5 rounded-r-xl font-extrabold text-xs transition-colors whitespace-nowrap shadow-sm shadow-gold/20 flex-shrink-0"
+            >
+              Suscribirse
+            </motion.button>
+          </div>
+        </motion.div>
+
         {/* Main Grid with stagger animation */}
         <motion.div 
           initial="hidden"
@@ -180,7 +184,7 @@ const Footer = () => {
             <Link to="/" className="inline-block group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gold rounded-lg p-1">
               <div className="flex items-center gap-3">
                 <div className="relative">
-                  <img src={logoRose} alt="Rose Coffee Logo" className="h-12 w-auto transition-transform duration-500 group-hover:scale-105 group-hover:rotate-6" />
+                  <img src={logoRose} alt="Rose Coffee Logo" width={46} height={48} className="h-12 w-auto transition-transform duration-500 group-hover:scale-105 group-hover:rotate-6" />
                   
                   {/* Rich multi-trail steam rising animation */}
                   <div className="absolute -top-4.5 left-[42%] -translate-x-1/2 flex gap-1 pointer-events-none opacity-80">
@@ -194,14 +198,14 @@ const Footer = () => {
                   <span className="font-sans text-2xl font-bold text-white tracking-tight group-hover:text-gold transition-colors block leading-tight">
                     Rose Coffee
                   </span>
-                  <span className="text-[9px] uppercase font-bold tracking-widest text-gold/90 block mt-0.5">
+                  <span className="text-[9px] uppercase font-extrabold tracking-widest text-gold/90 block mt-0.5">
                     Café de Especialidad y Masa Madre
                   </span>
                 </div>
               </div>
             </Link>
 
-            <p className="text-xs text-gray-350 leading-relaxed max-w-sm italic">
+            <p className="text-xs text-gray-400 leading-relaxed max-w-sm font-medium">
               "La combinación perfecta entre el mejor grano de café de especialidad y la fermentación natural del pan de masa madre."
             </p>
 
@@ -224,7 +228,7 @@ const Footer = () => {
                       hover: { scale: 1.8, opacity: 0.25 }
                     }}
                     transition={{ type: 'spring', stiffness: 200, damping: 15 }}
-                    className="absolute inset-0 bg-white opacity-0 rounded-xl blur-[2px] pointer-events-none"
+                    className="absolute inset-0 bg-white dark:bg-stone-800 opacity-0 rounded-xl blur-[2px] pointer-events-none"
                   />
                   <motion.div
                     variants={{
@@ -363,23 +367,23 @@ const Footer = () => {
             </h4>
             
             <motion.div 
-              whileHover={{ y: -4, boxShadow: '0 10px 25px -5px rgba(200, 146, 42, 0.15)' }}
+              whileHover={{ y: -4, boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.3)' }}
               transition={{ type: 'spring' as const, stiffness: 200, damping: 18 }}
-              className="space-y-3.5 text-xs text-gray-300 leading-relaxed font-medium bg-white/5 border border-white/10 p-4 rounded-2xl shadow-inner backdrop-blur-md"
+              className="space-y-3.5 text-xs text-gray-300 leading-relaxed font-medium bg-white dark:bg-stone-800/5 border border-white/5 p-5 rounded-2xl shadow-inner backdrop-blur-md"
             >
-              <div className="flex items-start gap-2.5">
-                <Clock size={16} className="text-gold shrink-0 mt-0.5 animate-pulse" />
+              <div className="flex items-start gap-3">
+                <Clock size={16} className="text-gold shrink-0 mt-0.5" />
                 <div>
                   <p className="font-bold text-white text-[11px] uppercase tracking-wider">Tienda Física</p>
-                  <p className="mt-0.5 text-gray-350">Lunes a Sábado: 8:00 AM - 8:00 PM</p>
+                  <p className="mt-0.5 text-gray-400">Lunes a Sábado: 8:00 AM - 8:00 PM</p>
                 </div>
               </div>
               
-              <div className="flex items-start gap-2.5 border-t border-white/10 pt-3">
-                <Clock size={16} className="text-gold shrink-0 mt-0.5 animate-pulse" />
+              <div className="flex items-start gap-3 border-t border-white/10 pt-3.5 mt-3.5">
+                <Clock size={16} className="text-gold shrink-0 mt-0.5" />
                 <div>
-                  <p className="font-bold text-white text-[11px] uppercase tracking-wider">Pedidos Online / Envíos</p>
-                  <p className="mt-0.5 text-gray-350">Entregas todos los días de 9:00 AM - 5:00 PM</p>
+                  <p className="font-bold text-white text-[11px] uppercase tracking-wider">Pedidos Online</p>
+                  <p className="mt-0.5 text-gray-400">Entregas todos los días de 9:00 AM - 5:00 PM</p>
                 </div>
               </div>
             </motion.div>

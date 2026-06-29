@@ -457,23 +457,23 @@ export default function MediaSearchModal({
       <div className="fixed inset-0 bg-black/55 backdrop-blur-xs" onClick={onClose} />
 
       {/* Dialog body */}
-      <div className="relative bg-white rounded-3xl shadow-2xl w-full max-w-3xl border border-gray-150 overflow-hidden flex flex-col max-h-[85vh] animate-scaleIn bg-radial">
+      <div className="relative bg-white dark:bg-stone-800 rounded-3xl shadow-2xl w-full max-w-3xl border border-gray-150 dark:border-stone-700 overflow-hidden flex flex-col max-h-[85vh] animate-scaleIn bg-radial">
         {/* Header */}
-        <div className="flex justify-between items-center px-6 py-4.5 border-b border-gray-100 bg-primary text-white">
+        <div className="flex justify-between items-center px-6 py-4.5 border-b border-gray-100 dark:border-stone-700 bg-primary text-white">
           <div className="flex items-center gap-2">
             <ImageIcon size={18} className="text-gold" />
             <h2 className="text-base font-sans font-bold">{title}</h2>
           </div>
           <button
             onClick={onClose}
-            className="p-1 hover:bg-white/10 rounded-lg transition-colors cursor-pointer text-white"
+            className="p-1 hover:bg-white dark:bg-stone-800/10 rounded-lg transition-colors cursor-pointer text-white"
           >
             <X size={18} />
           </button>
         </div>
 
         {/* Tab navigation */}
-        <div className="flex border-b border-gray-100 bg-gray-50 px-6 gap-3 flex-wrap">
+        <div className="flex border-b border-gray-100 dark:border-stone-700 bg-gray-50 px-6 gap-3 flex-wrap">
           <button
             onClick={() => setActiveTab('link')}
             className={`py-3 px-1 text-xs font-bold uppercase tracking-wider border-b-2 transition-all cursor-pointer flex items-center gap-1.5 ${
@@ -541,7 +541,7 @@ export default function MediaSearchModal({
                   value={pastedUrl}
                   onChange={(e) => setPastedUrl(e.target.value)}
                   placeholder="https://ejemplo.com/imagen.jpg o https://www.youtube.com/watch?v=..."
-                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none"
+                  className="w-full border border-gray-200 dark:border-stone-700 rounded-xl px-4 py-2.5 text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none"
                   autoFocus
                 />
                 <p className="text-[10px] text-gray-450 leading-relaxed font-medium">
@@ -553,7 +553,7 @@ export default function MediaSearchModal({
 
               {/* Analyzer preview */}
               {pastedUrl.trim() && (
-                <div className="bg-gray-50 border border-gray-150 rounded-2xl p-4.5 space-y-4">
+                <div className="bg-gray-50 border border-gray-150 dark:border-stone-700 rounded-2xl p-4.5 space-y-4">
                   <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest block">
                     Previsualización del Recurso
                   </span>
@@ -564,7 +564,7 @@ export default function MediaSearchModal({
                         <YoutubeIcon size={16} />
                         <span>Video de YouTube Detectado</span>
                       </div>
-                      <div className="aspect-video max-w-md bg-black rounded-xl overflow-hidden shadow-sm border border-gray-200">
+                      <div className="aspect-video max-w-md bg-black rounded-xl overflow-hidden shadow-sm border border-gray-200 dark:border-stone-700">
                         <iframe
                           src={`https://www.youtube.com/embed/${youtubeVideoId}`}
                           title="YouTube Player"
@@ -586,7 +586,7 @@ export default function MediaSearchModal({
                         <Video size={16} />
                         <span>Video de Vimeo Detectado</span>
                       </div>
-                      <div className="aspect-video max-w-md bg-black rounded-xl overflow-hidden shadow-sm border border-gray-200">
+                      <div className="aspect-video max-w-md bg-black rounded-xl overflow-hidden shadow-sm border border-gray-200 dark:border-stone-700">
                         <iframe
                           src={`https://player.vimeo.com/video/${vimeoVideoId}`}
                           title="Vimeo Player"
@@ -616,7 +616,7 @@ export default function MediaSearchModal({
                         <span>Imagen Web / Externa</span>
                       </div>
                       {!imagePreviewError ? (
-                        <div className="max-w-xs h-36 rounded-xl overflow-hidden border border-gray-200 bg-white flex items-center justify-center p-1 relative">
+                        <div className="max-w-xs h-36 rounded-xl overflow-hidden border border-gray-200 dark:border-stone-700 bg-white dark:bg-stone-800 flex items-center justify-center p-1 relative">
                           <img
                             src={pastedUrl}
                             alt="Preview"
@@ -660,7 +660,7 @@ export default function MediaSearchModal({
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     placeholder="Buscar imágenes de stock gratis (ej. biblia, consola, camara)..."
-                    className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none bg-gray-50/50"
+                    className="w-full pl-10 pr-4 py-2 border border-gray-200 dark:border-stone-700 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none bg-gray-50/50"
                     onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
                   />
                 </div>
@@ -684,7 +684,7 @@ export default function MediaSearchModal({
                       setSearchQuery(tag);
                       handleSearch(tag);
                     }}
-                    className="px-2.5 py-1 bg-white hover:bg-gray-50 border border-gray-200 rounded-lg text-[10px] font-semibold text-gray-600 transition-colors cursor-pointer"
+                    className="px-2.5 py-1 bg-white dark:bg-stone-800 hover:bg-gray-50 border border-gray-200 dark:border-stone-700 rounded-lg text-[10px] font-semibold text-gray-600 transition-colors cursor-pointer"
                   >
                     {tag}
                   </button>
@@ -733,7 +733,7 @@ export default function MediaSearchModal({
                   {selectedStockImage && (
                     <div className="bg-blue-50/50 border border-primary/20 rounded-2xl p-4 flex flex-col sm:flex-row gap-4 items-center justify-between">
                       <div className="flex items-center gap-3 min-w-0">
-                        <div className="w-14 h-14 rounded-xl border border-gray-200 overflow-hidden bg-white shrink-0">
+                        <div className="w-14 h-14 rounded-xl border border-gray-200 dark:border-stone-700 overflow-hidden bg-white dark:bg-stone-800 shrink-0">
                           <img
                             src={selectedStockImage.thumbnail || selectedStockImage.url}
                             alt=""
@@ -741,7 +741,7 @@ export default function MediaSearchModal({
                           />
                         </div>
                         <div className="min-w-0">
-                          <h4 className="font-bold text-gray-800 text-xs truncate">
+                          <h4 className="font-bold text-gray-800 dark:text-stone-200 text-xs truncate">
                             {selectedStockImage.title || 'Imagen de stock'}
                           </h4>
                           <p className="text-[10px] text-gray-400 truncate font-medium mt-0.5">
@@ -754,7 +754,7 @@ export default function MediaSearchModal({
                           href={selectedStockImage.detail_url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="px-3 py-1.5 bg-white border border-gray-250 rounded-xl text-[10px] font-bold text-gray-650 flex items-center gap-1 transition-colors hover:bg-gray-55"
+                          className="px-3 py-1.5 bg-white dark:bg-stone-800 border border-gray-250 rounded-xl text-[10px] font-bold text-gray-650 flex items-center gap-1 transition-colors hover:bg-gray-55"
                         >
                           <ExternalLink size={10} />
                           Origen
@@ -770,7 +770,7 @@ export default function MediaSearchModal({
                   )}
                 </div>
               ) : (
-                <div className="text-center py-12 bg-gray-50 border border-dashed border-gray-200 rounded-2xl text-gray-400 text-xs">
+                <div className="text-center py-12 bg-gray-50 border border-dashed border-gray-200 dark:border-stone-700 rounded-2xl text-gray-400 text-xs">
                   <ImageIcon size={32} className="mx-auto mb-2 opacity-35" />
                   <p className="font-medium">¿Qué deseas insertar hoy?</p>
                   <p className="text-[10px] text-gray-450 mt-0.5">Introduce un término de búsqueda para consultar millones de recursos gratuitos.</p>
@@ -793,7 +793,7 @@ export default function MediaSearchModal({
                       <div
                         key={item.name}
                         onClick={() => selectPreset(item.url)}
-                        className="group relative aspect-square bg-gray-100 rounded-2xl overflow-hidden border border-gray-150 cursor-pointer shadow-xxs hover:shadow hover:border-primary/40 hover:-translate-y-0.5 transition-all duration-200"
+                        className="group relative aspect-square bg-gray-100 rounded-2xl overflow-hidden border border-gray-150 dark:border-stone-700 cursor-pointer shadow-xxs hover:shadow hover:border-primary/40 hover:-translate-y-0.5 transition-all duration-200"
                       >
                         <img
                           src={item.url}
@@ -819,7 +819,7 @@ export default function MediaSearchModal({
             <div className="space-y-6">
               <div className="flex justify-between items-center bg-emerald-50/50 border border-emerald-100 rounded-2xl p-4.5">
                 <div>
-                  <h4 className="font-sans font-bold text-gray-800 text-sm flex items-center gap-1.5">
+                  <h4 className="font-sans font-bold text-gray-800 dark:text-stone-200 text-sm flex items-center gap-1.5">
                     <Cloud size={16} className="text-emerald-600" />
                     Archivos Digitales de Rose Coffee (Cloudinary)
                   </h4>
@@ -830,7 +830,7 @@ export default function MediaSearchModal({
                 <button
                   onClick={fetchChurchMedia}
                   disabled={loadingChurchMedia}
-                  className="p-1.5 bg-white border border-gray-200 hover:bg-gray-50 disabled:bg-gray-100 text-gray-650 hover:text-emerald-700 rounded-xl transition-colors cursor-pointer flex items-center gap-1 text-[10px] font-bold"
+                  className="p-1.5 bg-white dark:bg-stone-800 border border-gray-200 dark:border-stone-700 hover:bg-gray-50 disabled:bg-gray-100 text-gray-650 hover:text-emerald-700 rounded-xl transition-colors cursor-pointer flex items-center gap-1 text-[10px] font-bold"
                 >
                   <RefreshCw size={12} className={loadingChurchMedia ? 'animate-spin' : ''} />
                   Actualizar
@@ -856,7 +856,7 @@ export default function MediaSearchModal({
                     const items = churchMedia.filter(m => m.category === categoryName);
                     return (
                       <div key={categoryName} className="space-y-3">
-                        <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider pl-1 flex items-center gap-1.5 border-b border-gray-100 pb-1.5">
+                        <h3 className="text-xs font-bold text-gray-400 uppercase tracking-wider pl-1 flex items-center gap-1.5 border-b border-gray-100 dark:border-stone-700 pb-1.5">
                           <Tag size={12} className="text-emerald-600" />
                           {categoryName}
                           <span className="text-[10px] text-gray-400 lowercase font-medium">({items.length} imágenes)</span>
@@ -869,7 +869,7 @@ export default function MediaSearchModal({
                                 onSelect(item.url, { thumbnailUrl: item.url });
                                 onClose();
                               }}
-                              className="group relative aspect-square bg-gray-50 rounded-2xl overflow-hidden border border-gray-150 cursor-pointer shadow-xxs hover:shadow-md hover:border-emerald-500 hover:-translate-y-0.5 transition-all duration-200"
+                              className="group relative aspect-square bg-gray-50 rounded-2xl overflow-hidden border border-gray-150 dark:border-stone-700 cursor-pointer shadow-xxs hover:shadow-md hover:border-emerald-500 hover:-translate-y-0.5 transition-all duration-200"
                               title={item.name}
                             >
                               <img
@@ -891,7 +891,7 @@ export default function MediaSearchModal({
                   })}
                 </div>
               ) : (
-                <div className="text-center py-20 bg-gray-50 border border-dashed border-gray-200 rounded-2xl text-gray-400 text-xs">
+                <div className="text-center py-20 bg-gray-50 border border-dashed border-gray-200 dark:border-stone-700 rounded-2xl text-gray-400 text-xs">
                   <Cloud size={36} className="mx-auto mb-2 opacity-35 text-emerald-500" />
                   <p className="font-semibold">La biblioteca digital está vacía</p>
                   <p className="text-[10px] text-gray-450 mt-0.5">Sube imágenes en los ministerios o inventario para comenzar a guardarlas aquí.</p>
@@ -902,7 +902,7 @@ export default function MediaSearchModal({
         </div>
 
         {/* Footer info banner */}
-        <div className="px-6 py-3 bg-gray-50 border-t border-gray-100 text-[9px] text-gray-450 font-semibold flex justify-between items-center select-none">
+        <div className="px-6 py-3 bg-gray-50 border-t border-gray-100 dark:border-stone-700 text-[9px] text-gray-450 font-semibold flex justify-between items-center select-none">
           <span>Licencia: Imágenes provistas bajo licencias Creative Commons / Libre de regalías (Royalty Free).</span>
           <span className="text-emerald-600">Totalmente Gratis y sin claves API</span>
         </div>

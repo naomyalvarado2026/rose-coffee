@@ -6,10 +6,11 @@ import StickyNav from '../components/public/StickyNav';
 import MobileBottomNav from '../components/common/MobileBottomNav';
 import WhatsAppFAB from '../components/common/WhatsAppFAB';
 import Preloader from '../components/public/Preloader';
+import CartDrawer from '../components/store/CartDrawer';
 
 const PublicLayout = () => {
   return (
-    <div className="min-h-screen flex flex-col bg-brand-base text-gray-800 font-sans pb-16 md:pb-0">
+    <div className="min-h-screen flex flex-col bg-brand-base dark:bg-stone-900 text-gray-800 dark:text-stone-100 transition-colors duration-300 font-sans pb-16 md:pb-0">
       <Preloader />
       <TopBar />
       <Navigation />
@@ -20,6 +21,7 @@ const PublicLayout = () => {
       <WhatsAppFAB />
       <MobileBottomNav />
       <Footer />
+      <CartDrawer />
     </div>
   );
 };

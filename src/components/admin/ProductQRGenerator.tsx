@@ -37,13 +37,13 @@ export default function ProductQRGenerator({ productId, productName }: ProductQR
   };
 
   return (
-    <div className="bg-slate-50 border border-slate-200 rounded-2xl p-4 flex flex-col items-center text-center space-y-3.5 shadow-2xs">
+    <div className="bg-slate-50 border border-slate-200 dark:border-stone-700 rounded-2xl p-4 flex flex-col items-center text-center space-y-3.5 shadow-2xs">
       <div className="flex items-center gap-1.5 text-xs font-bold text-[#021a54] uppercase tracking-wider">
-        <QrCode className="w-4 h-4 text-coffee" />
+        <QrCode className="w-4 h-4 text-coffee dark:text-gold" />
         <span>Código QR de Mesa AR</span>
       </div>
 
-      <div ref={qrRef} className="bg-white p-3.5 rounded-xl border border-slate-150 inline-block shadow-3xs">
+      <div ref={qrRef} className="bg-white dark:bg-stone-800 p-3.5 rounded-xl border border-slate-150 dark:border-stone-700 inline-block shadow-3xs">
         <QRCodeSVG
           value={arUrl}
           size={140}

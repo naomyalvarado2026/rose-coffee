@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { MapPin, ArrowUpRight, Compass, ShieldCheck } from 'lucide-react';
-import originImg from '/coffee_origin_harvest.png';
+import originImg from '/coffee_origin_harvest.webp';
 
 interface OriginSectionProps {
   data?: {
@@ -28,7 +28,7 @@ export default function OriginSection({ data }: OriginSectionProps) {
           className="relative group"
         >
           {/* Main Image Container */}
-          <div className="relative rounded-[32px] overflow-hidden aspect-4/3 shadow-xl border border-stone-200">
+          <div className="relative rounded-[32px] overflow-hidden aspect-4/3 shadow-xl border border-stone-200 dark:border-stone-700">
             <img
               src={imgUrl}
               alt="Cosecha de café en las montañas de Ecuador"
@@ -43,7 +43,7 @@ export default function OriginSection({ data }: OriginSectionProps) {
                 <p className="text-[10px] uppercase font-bold tracking-widest text-gold">100% Ecuatoriano</p>
                 <h3 className="text-xl font-bold font-sans">Origen Loja & Zaruma</h3>
               </div>
-              <div className="bg-white/15 backdrop-blur-md border border-white/25 rounded-full p-2.5">
+              <div className="bg-white dark:bg-stone-800/15 backdrop-blur-md border border-white/25 rounded-full p-2.5">
                 <Compass className="w-5 h-5 text-white" />
               </div>
             </div>
@@ -62,62 +62,62 @@ export default function OriginSection({ data }: OriginSectionProps) {
           className="space-y-8 text-left"
         >
           <div className="space-y-3">
-            <span className="inline-block text-[10px] font-bold text-coffee uppercase tracking-widest border border-coffee/25 bg-coffee/5 px-4 py-1.5 rounded-full">
+            <span className="inline-block text-[10px] font-bold text-coffee dark:text-gold uppercase tracking-widest border border-coffee/25 bg-coffee/5 px-4 py-1.5 rounded-full">
               Nuestro Café Tiene Historia
             </span>
-            <h2 className="text-3xl md:text-4xl font-bold text-primary leading-tight">
+            <h2 className="text-3xl md:text-4xl font-bold text-primary dark:text-gold leading-tight">
               {title}
             </h2>
-            <p className="text-stone-600 text-sm leading-relaxed">
+            <p className="text-stone-600 dark:text-stone-300 text-sm leading-relaxed">
               {subtitle}
             </p>
           </div>
 
           {/* Technical Specs Grid */}
           <div className="grid grid-cols-2 gap-4">
-            <div className="bg-white/60 backdrop-blur-xs p-4 rounded-2xl border border-stone-200/80 flex items-start gap-3">
-              <div className="p-2 bg-coffee/5 rounded-xl text-coffee">
+            <div className="bg-white dark:bg-stone-800/60 backdrop-blur-xs p-4 rounded-2xl border border-stone-200 dark:border-stone-700/80 flex items-start gap-3">
+              <div className="p-2 bg-coffee/5 rounded-xl text-coffee dark:text-gold">
                 <MapPin className="w-4 h-4" />
               </div>
               <div>
                 <h4 className="text-[10px] uppercase font-bold text-stone-400 tracking-wider">Región</h4>
-                <p className="text-xs font-bold text-primary mt-0.5">Zaruma & Loja, Ecuador</p>
+                <p className="text-xs font-bold text-primary dark:text-stone-200 mt-0.5">Zaruma & Loja, Ecuador</p>
               </div>
             </div>
 
-            <div className="bg-white/60 backdrop-blur-xs p-4 rounded-2xl border border-stone-200/80 flex items-start gap-3">
-              <div className="p-2 bg-coffee/5 rounded-xl text-coffee">
+            <div className="bg-white dark:bg-stone-800/60 backdrop-blur-xs p-4 rounded-2xl border border-stone-200 dark:border-stone-700/80 flex items-start gap-3">
+              <div className="p-2 bg-coffee/5 rounded-xl text-coffee dark:text-gold">
                 <ArrowUpRight className="w-4 h-4" />
               </div>
               <div>
                 <h4 className="text-[10px] uppercase font-bold text-stone-400 tracking-wider">Altura</h4>
-                <p className="text-xs font-bold text-primary mt-0.5">1,650 - 1,800 msnm</p>
+                <p className="text-xs font-bold text-primary dark:text-stone-200 mt-0.5">1,650 - 1,800 msnm</p>
               </div>
             </div>
 
-            <div className="bg-white/60 backdrop-blur-xs p-4 rounded-2xl border border-stone-200/80 flex items-start gap-3">
-              <div className="p-2 bg-coffee/5 rounded-xl text-coffee">
+            <div className="bg-white dark:bg-stone-800/60 backdrop-blur-xs p-4 rounded-2xl border border-stone-200 dark:border-stone-700/80 flex items-start gap-3">
+              <div className="p-2 bg-coffee/5 rounded-xl text-coffee dark:text-gold">
                 <Compass className="w-4 h-4" />
               </div>
               <div>
                 <h4 className="text-[10px] uppercase font-bold text-stone-400 tracking-wider">Variedades</h4>
-                <p className="text-xs font-bold text-primary mt-0.5">Bourbon Cidra, Typica</p>
+                <p className="text-xs font-bold text-primary dark:text-stone-200 mt-0.5">Bourbon Cidra, Typica</p>
               </div>
             </div>
 
-            <div className="bg-white/60 backdrop-blur-xs p-4 rounded-2xl border border-stone-200/80 flex items-start gap-3">
-              <div className="p-2 bg-coffee/5 rounded-xl text-coffee">
+            <div className="bg-white dark:bg-stone-800/60 backdrop-blur-xs p-4 rounded-2xl border border-stone-200 dark:border-stone-700/80 flex items-start gap-3">
+              <div className="p-2 bg-coffee/5 rounded-xl text-coffee dark:text-gold">
                 <ShieldCheck className="w-4 h-4" />
               </div>
               <div>
                 <h4 className="text-[10px] uppercase font-bold text-stone-400 tracking-wider">Proceso</h4>
-                <p className="text-xs font-bold text-primary mt-0.5">Lavado & Honey Artesanal</p>
+                <p className="text-xs font-bold text-primary dark:text-stone-200 mt-0.5">Lavado & Honey Artesanal</p>
               </div>
             </div>
           </div>
 
           <div className="pt-2">
-            <p className="text-stone-500 text-xs italic leading-relaxed border-l-2 border-gold pl-4">
+            <p className="text-stone-500 dark:text-stone-400 text-xs italic leading-relaxed border-l-2 border-gold pl-4">
               "El tueste medio resalta una acidez cítrica brillante con notas persistentes a chocolate, caramelo y avellanas."
             </p>
           </div>

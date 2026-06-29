@@ -1,62 +1,123 @@
-import { useEffect } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useAuthStore } from './store/useAuthStore';
 import { Toaster } from 'sonner';
+import { motion, AnimatePresence } from 'framer-motion';
 import ScrollToTop from './components/common/ScrollToTop';
 import ConfirmDialog from './components/common/ConfirmDialog';
 import { PageTransition } from './components/animations/MotionWrappers';
 
 import PublicLayout from './layouts/PublicLayout';
 import AdminLayout from './layouts/AdminLayout';
-import Home from './pages/public/Home';
-import Login from './pages/auth/Login';
-import Store from './pages/public/Store';
-import Cart from './pages/public/Cart';
-import About from './pages/public/About';
-import Contact from './pages/public/Contact';
-import MyPurchases from './pages/public/MyPurchases';
-import ARShowcase from './pages/public/ARShowcase';
-import ARMenuScanner from './pages/public/ARMenuScanner';
-import ARShowroom from './pages/public/ARShowroom';
-import ProductDetail from './pages/public/ProductDetail';
-import BlogList from './pages/public/BlogList';
-import BlogDetail from './pages/public/BlogDetail';
+const Home = React.lazy(() => import('./pages/public/Home'));
+const Login = React.lazy(() => import('./pages/auth/Login'));
+const Store = React.lazy(() => import('./pages/public/Store'));
+const Cart = React.lazy(() => import('./pages/public/Cart'));
+const About = React.lazy(() => import('./pages/public/About'));
+const Contact = React.lazy(() => import('./pages/public/Contact'));
+const MyPurchases = React.lazy(() => import('./pages/public/MyPurchases'));
+const ARShowcase = React.lazy(() => import('./pages/public/ARShowcase'));
+const ARMenuScanner = React.lazy(() => import('./pages/public/ARMenuScanner'));
+const ARShowroom = React.lazy(() => import('./pages/public/ARShowroom'));
+const ProductDetail = React.lazy(() => import('./pages/public/ProductDetail'));
+const BlogList = React.lazy(() => import('./pages/public/BlogList'));
+const BlogDetail = React.lazy(() => import('./pages/public/BlogDetail'));
+const MiniGames = React.lazy(() => import('./pages/public/MiniGames'));
+const MemoryCafe = React.lazy(() => import('./pages/public/games/MemoryCafe'));
+const CoffeeClicker = React.lazy(() => import('./pages/public/games/CoffeeClicker'));
+const GatitoRunner = React.lazy(() => import('./pages/public/games/GatitoRunner'));
+const LatteArtPuzzle = React.lazy(() => import('./pages/public/games/LatteArtPuzzle'));
+const CoffeeInvaders = React.lazy(() => import('./pages/public/games/CoffeeInvaders'));
+const Evolution2048 = React.lazy(() => import('./pages/public/games/Evolution2048'));
+const WordleGame = React.lazy(() => import('./pages/public/games/WordleGame'));
+const FlappyTaza = React.lazy(() => import('./pages/public/games/FlappyTaza'));
+const FastBarista = React.lazy(() => import('./pages/public/games/FastBarista'));
+const LuckyWheel = React.lazy(() => import('./pages/public/games/LuckyWheel'));
+const CatchIngredients = React.lazy(() => import('./pages/public/games/CatchIngredients'));
+const BricksBreaker = React.lazy(() => import('./pages/public/games/BricksBreaker'));
+import { GameWalletProvider } from './contexts/GameWalletContext';
 
-import DashboardHome from './pages/admin/DashboardHome';
-import StoreManager from './pages/admin/StoreManager';
-import LogosManager from './pages/admin/LogosManager';
-import UsersManager from './pages/admin/UsersManager';
-import PageEditor from './pages/admin/PageEditor';
-import BlogManager from './pages/admin/BlogManager';
-import AdminARManager from './pages/admin/AdminARManager';
-import ARShowroomManager from './pages/admin/ARShowroomManager';
-import OrdersManager from './pages/admin/OrdersManager';
-import CustomersManager from './pages/admin/CustomersManager';
-import InventoryManager from './pages/admin/InventoryManager';
-import MarketingManager from './pages/admin/MarketingManager';
-import ProductionManager from './pages/admin/ProductionManager';
-import AnalyticsManager from './pages/admin/AnalyticsManager';
-import SettingsManager from './pages/admin/SettingsManager';
+const DashboardHome = React.lazy(() => import('./pages/admin/DashboardHome'));
+const StoreManager = React.lazy(() => import('./pages/admin/StoreManager'));
+const LogosManager = React.lazy(() => import('./pages/admin/LogosManager'));
+const UsersManager = React.lazy(() => import('./pages/admin/UsersManager'));
+const PageEditor = React.lazy(() => import('./pages/admin/PageEditor'));
+const BlogManager = React.lazy(() => import('./pages/admin/BlogManager'));
+const AdminARManager = React.lazy(() => import('./pages/admin/AdminARManager'));
+const ARShowroomManager = React.lazy(() => import('./pages/admin/ARShowroomManager'));
+const OrdersManager = React.lazy(() => import('./pages/admin/OrdersManager'));
+const CustomersManager = React.lazy(() => import('./pages/admin/CustomersManager'));
+const InventoryManager = React.lazy(() => import('./pages/admin/InventoryManager'));
+const MarketingManager = React.lazy(() => import('./pages/admin/MarketingManager'));
+const ProductionManager = React.lazy(() => import('./pages/admin/ProductionManager'));
+const AnalyticsManager = React.lazy(() => import('./pages/admin/AnalyticsManager'));
+const SettingsManager = React.lazy(() => import('./pages/admin/SettingsManager'));
 import ProtectedRoute from './components/common/ProtectedRoute';
-import ProjectPresentation from './pages/admin/ProjectPresentation';
+const ProjectPresentation = React.lazy(() => import('./pages/admin/ProjectPresentation'));
 import CustomCursor from './components/common/CustomCursor';
 
 
 function App() {
+  const [isAppLoading, setIsAppLoading] = useState(true);
+
   useEffect(() => {
     useAuthStore.getState().initializeAuth();
+    // Simular carga inicial para mostrar la animación
+    const timer = setTimeout(() => {
+      setIsAppLoading(false);
+    }, 2500);
+    return () => clearTimeout(timer);
   }, []);
-
-
 
   return (
     <>
+      <AnimatePresence>
+        {isAppLoading && (
+          <motion.div 
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8, ease: "easeInOut" }}
+            className="fixed inset-0 z-[9999] bg-[#faf2e7] flex flex-col items-center justify-center pointer-events-none"
+          >
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.85 }}
+              animate={{ opacity: 1, scale: [0.97, 1.03, 0.97] }}
+              transition={{
+                opacity: { duration: 0.5, ease: "easeOut" },
+                scale: { repeat: Infinity, duration: 1.4, ease: "easeInOut" }
+              }}
+              className="w-64 h-64 flex items-center justify-center opacity-90 drop-shadow-lg"
+            >
+              <img 
+                src={`${import.meta.env.BASE_URL}logo.svg`}
+                alt="Rose Coffee Logo" 
+                className="w-full h-full object-contain"
+              />
+            </motion.div>
+            <motion.h2 
+              initial={{ opacity: 0, y: 15, filter: "blur(4px)" }}
+              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+              transition={{ delay: 0.8, duration: 1 }}
+              className="mt-6 font-sans text-3xl text-coffee dark:text-gold font-extrabold tracking-[0.2em] uppercase"
+            >
+              Rose Coffee
+            </motion.h2>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <CustomCursor />
       <Toaster richColors position="top-right" />
       <ConfirmDialog />
-      <BrowserRouter basename={import.meta.env.BASE_URL === '/' ? undefined : import.meta.env.BASE_URL}>
-        <ScrollToTop />
-        <Routes>
+      <GameWalletProvider>
+        <BrowserRouter basename={import.meta.env.BASE_URL === '/' ? undefined : import.meta.env.BASE_URL}>
+          <ScrollToTop />
+          <Suspense fallback={
+            <div className="flex items-center justify-center min-h-screen bg-stone-50 dark:bg-stone-900">
+              <div className="w-12 h-12 border-4 border-rose-600 border-t-transparent rounded-full animate-spin"></div>
+            </div>
+          }>
+            <Routes>
           {/* Public Routes */}
           <Route element={<PublicLayout />}>
             <Route path="/" element={<PageTransition><Home /></PageTransition>} />
@@ -68,6 +129,21 @@ function App() {
             <Route path="/contacto" element={<PageTransition><Contact /></PageTransition>} />
             <Route path="/blog" element={<PageTransition><BlogList /></PageTransition>} />
             <Route path="/blog/:slug" element={<PageTransition><BlogDetail /></PageTransition>} />
+            <Route path="/juegos" element={<PageTransition><MiniGames /></PageTransition>} />
+            <Route path="/juegos/gatito-runner" element={<PageTransition><GatitoRunner /></PageTransition>} />
+            <Route path="/juegos/latte-art-puzzle" element={<PageTransition><LatteArtPuzzle /></PageTransition>} />
+            <Route path="/juegos/coffee-invaders" element={<PageTransition><CoffeeInvaders /></PageTransition>} />
+            <Route path="/juegos/memory-cafe" element={<PageTransition><MemoryCafe /></PageTransition>} />
+            <Route path="/juegos/coffee-clicker" element={<PageTransition><CoffeeClicker /></PageTransition>} />
+            <Route path="/juegos/clicker" element={<PageTransition><CoffeeClicker /></PageTransition>} />
+            <Route path="/juegos/evolution-2048" element={<PageTransition><Evolution2048 /></PageTransition>} />
+            <Route path="/juegos/palabra-del-dia" element={<PageTransition><WordleGame /></PageTransition>} />
+            <Route path="/juegos/flappy-taza" element={<PageTransition><FlappyTaza /></PageTransition>} />
+            <Route path="/juegos/barista-veloz" element={<PageTransition><FastBarista /></PageTransition>} />
+            <Route path="/juegos/ruleta" element={<PageTransition><LuckyWheel /></PageTransition>} />
+            <Route path="/juegos/atrapa-ingredientes" element={<PageTransition><CatchIngredients /></PageTransition>} />
+            <Route path="/juegos/bricks-breaker" element={<PageTransition><BricksBreaker /></PageTransition>} />
+
             <Route path="/mis-compras" element={<PageTransition><MyPurchases /></PageTransition>} />
             <Route path="/ar" element={<PageTransition><ARShowcase /></PageTransition>} />
             <Route path="/ar/menu" element={<PageTransition><ARMenuScanner /></PageTransition>} />
@@ -138,7 +214,9 @@ function App() {
             </Route>
           </Route>
         </Routes>
+        </Suspense>
       </BrowserRouter>
+      </GameWalletProvider>
     </>
   );
 }

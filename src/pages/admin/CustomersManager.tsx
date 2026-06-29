@@ -91,7 +91,7 @@ export default function CustomersManager() {
         <button
           type="button"
           onClick={fetchCustomerData}
-          className="p-2.5 border border-slate-200 rounded-xl hover:bg-slate-55 text-slate-500 hover:text-slate-700 transition-colors cursor-pointer bg-white"
+          className="p-2.5 border border-slate-200 dark:border-stone-700 rounded-xl hover:bg-slate-55 text-slate-500 hover:text-slate-700 transition-colors cursor-pointer bg-white dark:bg-stone-800"
           title="Recargar Clientes"
         >
           <RefreshCw size={18} className={loading ? 'animate-spin' : ''} />
@@ -105,7 +105,7 @@ export default function CustomersManager() {
           placeholder="Buscar por cliente o email..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="w-full pl-10 pr-4 py-2 border border-slate-200 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none"
+          className="w-full pl-10 pr-4 py-2 border border-slate-200 dark:border-stone-700 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none"
         />
         <Search className="absolute left-3 top-2.5 text-slate-400" size={16} />
       </div>
@@ -117,11 +117,11 @@ export default function CustomersManager() {
           <span className="text-xs font-bold text-slate-450 uppercase tracking-wider">Cargando clientes...</span>
         </div>
       ) : (
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-2xs overflow-hidden">
+        <div className="bg-white dark:bg-stone-800 rounded-2xl border border-slate-200 dark:border-stone-700 shadow-2xs overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs border-collapse">
               <thead>
-                <tr className="bg-slate-50 text-slate-500 font-bold uppercase tracking-wider border-b border-slate-200">
+                <tr className="bg-slate-50 text-slate-500 font-bold uppercase tracking-wider border-b border-slate-200 dark:border-stone-700">
                   <th className="p-4">Cliente</th>
                   <th className="p-4">Email</th>
                   <th className="p-4 text-center">Frecuencia</th>
@@ -146,11 +146,11 @@ export default function CustomersManager() {
                     return (
                       <tr key={c.email} className="hover:bg-slate-50/50 transition-colors">
                         <td className="p-4 flex items-center gap-2">
-                          <div className="w-8 h-8 rounded-full bg-coffee/10 text-coffee flex items-center justify-center font-bold text-xs">
+                          <div className="w-8 h-8 rounded-full bg-coffee/10 text-coffee dark:text-gold flex items-center justify-center font-bold text-xs">
                             {c.name[0]}
                           </div>
                           <div>
-                            <span className="text-slate-800 font-bold block">{c.name}</span>
+                            <span className="text-slate-800 dark:text-stone-200 font-bold block">{c.name}</span>
                           </div>
                         </td>
                         <td className="p-4 text-slate-500 font-normal">{c.email}</td>
@@ -159,7 +159,7 @@ export default function CustomersManager() {
                             {c.orderCount} {c.orderCount === 1 ? 'Pedido' : 'Pedidos'}
                           </span>
                         </td>
-                        <td className="p-4 text-right text-coffee font-extrabold">
+                        <td className="p-4 text-right text-coffee dark:text-gold font-extrabold">
                           ${c.totalSpent.toFixed(2)}
                         </td>
                         <td className="p-4 text-right text-slate-500 font-normal">
@@ -168,7 +168,7 @@ export default function CustomersManager() {
                         <td className="p-4 text-center">
                           <button
                             onClick={() => setSelectedCustomer(c)}
-                            className="text-[10px] font-black uppercase text-primary hover:text-blue-900 px-3 py-1.5 border border-slate-200 rounded-lg bg-white hover:bg-slate-50 shadow-xxs transition-colors cursor-pointer"
+                            className="text-[10px] font-black uppercase text-primary hover:text-blue-900 px-3 py-1.5 border border-slate-200 dark:border-stone-700 rounded-lg bg-white dark:bg-stone-800 hover:bg-slate-50 shadow-xxs transition-colors cursor-pointer"
                           >
                             Historial
                           </button>
@@ -188,14 +188,14 @@ export default function CustomersManager() {
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           <div className="fixed inset-0 bg-black/45 backdrop-blur-xs" onClick={() => setSelectedCustomer(null)} />
           
-          <div className="bg-white rounded-2xl shadow-2xl border border-slate-200 w-full max-w-2xl overflow-hidden relative z-10 max-h-[85vh] flex flex-col">
-            <div className="p-5 border-b border-slate-100 flex justify-between items-center bg-slate-50">
+          <div className="bg-white dark:bg-stone-800 rounded-2xl shadow-2xl border border-slate-200 dark:border-stone-700 w-full max-w-2xl overflow-hidden relative z-10 max-h-[85vh] flex flex-col">
+            <div className="p-5 border-b border-slate-100 dark:border-stone-700 flex justify-between items-center bg-slate-50">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-coffee/10 text-coffee flex items-center justify-center font-bold text-sm">
+                <div className="w-10 h-10 rounded-full bg-coffee/10 text-coffee dark:text-gold flex items-center justify-center font-bold text-sm">
                   {selectedCustomer.name[0]}
                 </div>
                 <div className="text-left">
-                  <h3 className="font-bold text-slate-800 text-sm leading-tight">{selectedCustomer.name}</h3>
+                  <h3 className="font-bold text-slate-800 dark:text-stone-200 text-sm leading-tight">{selectedCustomer.name}</h3>
                   <p className="text-[10px] text-slate-400 mt-0.5 font-normal">{selectedCustomer.email}</p>
                 </div>
               </div>
@@ -219,18 +219,18 @@ export default function CustomersManager() {
                   return (
                     <div 
                       key={order.id}
-                      className="border border-slate-200 rounded-xl p-4 space-y-2 hover:border-slate-300 transition-colors bg-stone-50/30"
+                      className="border border-slate-200 dark:border-stone-700 rounded-xl p-4 space-y-2 hover:border-slate-300 transition-colors bg-stone-50/30"
                     >
                       <div className="flex justify-between items-center text-xs">
                         <div>
-                          <span className="font-mono font-bold text-coffee">#{order.id.slice(0, 8).toUpperCase()}</span>
+                          <span className="font-mono font-bold text-coffee dark:text-gold">#{order.id.slice(0, 8).toUpperCase()}</span>
                           <span className="text-slate-400 text-[10px] ml-2 font-normal">{oDate}</span>
                         </div>
-                        <span className="font-extrabold text-slate-800">${Number(order.total).toFixed(2)}</span>
+                        <span className="font-extrabold text-slate-800 dark:text-stone-200">${Number(order.total).toFixed(2)}</span>
                       </div>
 
                       {/* Items */}
-                      <div className="bg-white rounded-lg p-2.5 border border-slate-100 text-[10px] text-slate-650 font-medium space-y-1">
+                      <div className="bg-white dark:bg-stone-800 rounded-lg p-2.5 border border-slate-100 dark:border-stone-700 text-[10px] text-slate-650 font-medium space-y-1">
                         {order.order_items?.map((item) => (
                           <div key={item.id} className="flex justify-between">
                             <span>{item.quantity}x {item.products?.name || 'Producto'}</span>

@@ -150,7 +150,7 @@ const BlockRenderer: React.FC<BlockRendererProps> = ({ blocks }) => {
             return (
               <div 
                 key={key} 
-                className="prose max-w-none text-gray-650 leading-relaxed text-sm md:text-base space-y-4"
+                className="prose max-w-none text-gray-650 dark:text-stone-300 leading-relaxed text-sm md:text-base space-y-4"
                 dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(rawText) }}
               />
             );
@@ -178,7 +178,7 @@ const BlockRenderer: React.FC<BlockRendererProps> = ({ blocks }) => {
             if (isCenter) {
               return (
                 <div key={key} className="space-y-2 text-center my-6">
-                  <div className="rounded-2xl overflow-hidden border border-gray-150 shadow-sm max-h-[500px] bg-slate-50">
+                  <div className="rounded-2xl overflow-hidden border border-gray-150 dark:border-stone-700 shadow-sm max-h-[500px] bg-slate-50">
                     <OptimizedMedia 
                       src={imageUrl} 
                       alt={caption} 
@@ -231,7 +231,7 @@ const BlockRenderer: React.FC<BlockRendererProps> = ({ blocks }) => {
                 {cols.map((colText, idx) => (
                   <div 
                     key={idx} 
-                    className="bg-slate-50/50 p-6 rounded-2xl border border-gray-100 shadow-2xs hover:shadow-xs transition-shadow prose max-w-none text-gray-650 leading-relaxed text-xs md:text-sm"
+                    className="bg-slate-50/50 dark:bg-stone-800/50 p-6 rounded-2xl border border-gray-100 dark:border-stone-700 shadow-2xs hover:shadow-xs transition-shadow prose max-w-none text-gray-650 dark:text-stone-300 leading-relaxed text-xs md:text-sm"
                     dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(colText) }}
                   />
                 ))}
@@ -282,13 +282,13 @@ const BlockRenderer: React.FC<BlockRendererProps> = ({ blocks }) => {
             return (
               <div 
                 key={key} 
-                className="bg-white border border-gray-150 rounded-2xl p-6 md:p-8 shadow-xs my-6 space-y-6"
+                className="bg-white dark:bg-stone-800 border border-gray-150 dark:border-stone-700 rounded-2xl p-6 md:p-8 shadow-xs my-6 space-y-6"
               >
                 {/* Header */}
-                <div className="border-b border-gray-100 pb-4 flex justify-between items-center">
+                <div className="border-b border-gray-100 dark:border-stone-700 pb-4 flex justify-between items-center">
                   <div className="flex items-center gap-2">
                     <ClipboardList className="text-gold" size={20} />
-                    <h3 className="font-sans font-bold text-gray-800 text-base md:text-lg">
+                    <h3 className="font-sans font-bold text-gray-800 dark:text-stone-200 text-base md:text-lg">
                       {block.formTitle || 'Cuestionario de Aprendizaje'}
                     </h3>
                   </div>
@@ -336,7 +336,7 @@ const BlockRenderer: React.FC<BlockRendererProps> = ({ blocks }) => {
                         className={`p-4 border rounded-xl space-y-3 transition-colors ${highlightClass}`}
                       >
                         <div className="flex justify-between items-start gap-3">
-                          <span className="font-semibold text-xs md:text-sm text-gray-850">
+                          <span className="font-semibold text-xs md:text-sm text-gray-850 dark:text-stone-200">
                             {qIdx + 1}. {q.questionText}
                           </span>
 
@@ -358,7 +358,7 @@ const BlockRenderer: React.FC<BlockRendererProps> = ({ blocks }) => {
                               value={userVal || ''}
                               onChange={(e) => handleInputChange(blockId, q.id, e.target.value)}
                               rows={3}
-                              className="w-full px-3 py-2 border border-gray-200 rounded-xl text-xs md:text-sm focus:outline-none focus:ring-2 focus:ring-primary/10 disabled:bg-gray-50 disabled:text-gray-500"
+                              className="w-full px-3 py-2 border border-gray-200 dark:border-stone-700 rounded-xl text-xs md:text-sm focus:outline-none focus:ring-2 focus:ring-primary/10 disabled:bg-gray-50 disabled:text-gray-500 dark:bg-stone-800 dark:text-stone-200 dark:disabled:bg-stone-900"
                               placeholder="Escribe tu respuesta aquí..."
                             />
                           )}
@@ -433,7 +433,7 @@ const BlockRenderer: React.FC<BlockRendererProps> = ({ blocks }) => {
 
                 {/* Guest Profile and Submit Container */}
                 {!isSubmitted && (
-                  <div className="border-t border-gray-100 pt-6 space-y-4">
+                  <div className="border-t border-gray-100 dark:border-stone-700 pt-6 space-y-4">
                     {/* Guest Name & Email input if user is not authenticated */}
                     {!user && (
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -447,7 +447,7 @@ const BlockRenderer: React.FC<BlockRendererProps> = ({ blocks }) => {
                             type="text"
                             value={guestInfo.name}
                             onChange={(e) => setGuestInfo(prev => ({ ...prev, name: e.target.value }))}
-                            className="w-full px-3.5 py-2 border border-gray-200 rounded-xl text-xs md:text-sm focus:outline-none focus:ring-2 focus:ring-primary/10"
+                            className="w-full px-3.5 py-2 border border-gray-200 dark:border-stone-700 rounded-xl text-xs md:text-sm focus:outline-none focus:ring-2 focus:ring-primary/10 dark:bg-stone-800 dark:text-stone-200"
                             placeholder="Ej. Juan Pérez"
                           />
                         </div>
@@ -461,7 +461,7 @@ const BlockRenderer: React.FC<BlockRendererProps> = ({ blocks }) => {
                             type="email"
                             value={guestInfo.email}
                             onChange={(e) => setGuestInfo(prev => ({ ...prev, email: e.target.value }))}
-                            className="w-full px-3.5 py-2 border border-gray-200 rounded-xl text-xs md:text-sm focus:outline-none focus:ring-2 focus:ring-primary/10"
+                            className="w-full px-3.5 py-2 border border-gray-200 dark:border-stone-700 rounded-xl text-xs md:text-sm focus:outline-none focus:ring-2 focus:ring-primary/10 dark:bg-stone-800 dark:text-stone-200"
                             placeholder="correo@ejemplo.com"
                           />
                         </div>

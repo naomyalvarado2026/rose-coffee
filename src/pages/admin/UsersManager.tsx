@@ -310,7 +310,7 @@ const UsersManager = () => {
   return (
     <div className="space-y-6 animate-fadeIn">
       {/* Title */}
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-4 border-b border-gray-150">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 pb-4 border-b border-gray-150 dark:border-stone-700">
         <div>
           <h1 className="text-2xl font-sans font-bold text-primary flex items-center gap-2">
             <Shield className="text-gold" />
@@ -323,7 +323,7 @@ const UsersManager = () => {
       </div>
 
       {/* Tabs */}
-      <div className="flex border-b border-gray-200">
+      <div className="flex border-b border-gray-200 dark:border-stone-700">
         <button
           onClick={() => setActiveTab('users')}
           className={`px-5 py-2.5 font-medium text-sm border-b-2 transition-colors cursor-pointer ${
@@ -349,7 +349,7 @@ const UsersManager = () => {
       {activeTab === 'users' ? (
         <>
           {/* Search Bar */}
-          <div className="flex items-center gap-3 max-w-md bg-white rounded-xl border border-gray-200 px-3.5 py-2 shadow-xs">
+          <div className="flex items-center gap-3 max-w-md bg-white dark:bg-stone-800 rounded-xl border border-gray-200 dark:border-stone-700 px-3.5 py-2 shadow-xs">
             <Search className="text-gray-400" size={18} />
             <input 
               type="text" 
@@ -361,11 +361,11 @@ const UsersManager = () => {
           </div>
 
           {/* Users Table */}
-          <div className="bg-white rounded-2xl border border-gray-150 overflow-hidden shadow-xs">
+          <div className="bg-white dark:bg-stone-800 rounded-2xl border border-gray-150 dark:border-stone-700 overflow-hidden shadow-xs">
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse text-sm">
                 <thead>
-                  <tr className="bg-gray-50 border-b border-gray-150 text-gray-500 font-semibold text-xs uppercase tracking-wider">
+                  <tr className="bg-gray-50 border-b border-gray-150 dark:border-stone-700 text-gray-500 font-semibold text-xs uppercase tracking-wider">
                     <th className="px-6 py-4">Usuario</th>
                     <th className="px-6 py-4">Correo Electrónico</th>
                     <th className="px-6 py-4 text-center">Rol Asignado</th>
@@ -393,7 +393,7 @@ const UsersManager = () => {
                   ) : (
                     filteredProfiles.map((profile) => (
                       <tr key={profile.id} className={`hover:bg-gray-50/50 transition-colors ${profile.banned ? 'bg-red-50/25' : ''}`}>
-                        <td className="px-6 py-4.5 font-semibold text-gray-800">
+                        <td className="px-6 py-4.5 font-semibold text-gray-800 dark:text-stone-200">
                           <div className="flex items-center gap-2">
                             <span>
                               {profile.first_name || profile.last_name 
@@ -416,7 +416,7 @@ const UsersManager = () => {
                             value={profile.role}
                             disabled={profile.role === 'admin'}
                             onChange={(e) => handleRoleChange(profile.id, e.target.value as UserRole)}
-                            className="px-3 py-1.5 border border-gray-200 rounded-xl text-xs font-semibold bg-white focus:ring-2 focus:ring-primary/20 focus:outline-none capitalize shadow-xs cursor-pointer inline-block disabled:opacity-50 disabled:cursor-not-allowed"
+                            className="px-3 py-1.5 border border-gray-200 dark:border-stone-700 rounded-xl text-xs font-semibold bg-white dark:bg-stone-800 focus:ring-2 focus:ring-primary/20 focus:outline-none capitalize shadow-xs cursor-pointer inline-block disabled:opacity-50 disabled:cursor-not-allowed"
                           >
                             {ROLES.map((r) => (
                               <option key={r.id} value={r.id}>{r.label}</option>
@@ -477,7 +477,7 @@ const UsersManager = () => {
         </>
       ) : (
         /* ROLE PERMISSIONS TAB */
-        <div className="bg-white rounded-2xl border border-gray-150 p-6 shadow-xs space-y-6">
+        <div className="bg-white dark:bg-stone-800 rounded-2xl border border-gray-150 dark:border-stone-700 p-6 shadow-xs space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="space-y-1">
               <h2 className="text-base font-sans font-bold text-primary">Permisos modular por Roles</h2>
@@ -489,7 +489,7 @@ const UsersManager = () => {
               <select
                 value={selectedRole}
                 onChange={(e) => setSelectedRole(e.target.value as UserRole)}
-                className="px-3 py-2 border border-gray-200 rounded-xl text-xs font-semibold bg-white focus:outline-none focus:ring-2 focus:ring-primary/20 cursor-pointer shadow-xs"
+                className="px-3 py-2 border border-gray-200 dark:border-stone-700 rounded-xl text-xs font-semibold bg-white dark:bg-stone-800 focus:outline-none focus:ring-2 focus:ring-primary/20 cursor-pointer shadow-xs"
               >
                 {ROLES.filter(r => r.id !== 'admin').map((r) => (
                   <option key={r.id} value={r.id}>{r.label}</option>
@@ -504,10 +504,10 @@ const UsersManager = () => {
               <span className="text-xs font-medium">Cargando matriz de permisos...</span>
             </div>
           ) : (
-            <div className="border border-gray-150 rounded-xl overflow-hidden shadow-xs">
+            <div className="border border-gray-150 dark:border-stone-700 rounded-xl overflow-hidden shadow-xs">
               <table className="w-full text-left border-collapse text-sm">
                 <thead>
-                  <tr className="bg-gray-50 border-b border-gray-150 text-gray-500 font-semibold text-xs uppercase tracking-wider">
+                  <tr className="bg-gray-50 border-b border-gray-150 dark:border-stone-700 text-gray-500 font-semibold text-xs uppercase tracking-wider">
                     <th className="px-6 py-3.5">Módulo Administrativo</th>
                     <th className="px-6 py-3.5 text-center w-36">Ver (view)</th>
                     <th className="px-6 py-3.5 text-center w-36">Editar/Crear (edit)</th>
@@ -519,7 +519,7 @@ const UsersManager = () => {
                     return (
                       <tr key={mod.id} className="hover:bg-gray-50/50 transition-colors">
                         <td className="px-6 py-3.5">
-                          <span className="font-semibold text-gray-800 text-xs sm:text-sm">{mod.label}</span>
+                          <span className="font-semibold text-gray-800 dark:text-stone-200 text-xs sm:text-sm">{mod.label}</span>
                           <span className="text-[10px] text-gray-400 block font-mono mt-0.5">Clave: {mod.id}</span>
                         </td>
                         <td className="px-6 py-3.5 text-center">
@@ -547,8 +547,8 @@ const UsersManager = () => {
             </div>
           )}
 
-          <div className="flex items-center justify-between border-t border-gray-100 pt-4">
-            <span className="text-xs text-gray-400 font-medium flex items-center gap-1.5 bg-gray-50 p-2.5 rounded-lg border border-gray-100 max-w-lg">
+          <div className="flex items-center justify-between border-t border-gray-100 dark:border-stone-700 pt-4">
+            <span className="text-xs text-gray-400 font-medium flex items-center gap-1.5 bg-gray-50 p-2.5 rounded-lg border border-gray-100 dark:border-stone-700 max-w-lg">
               <Info size={16} className="text-primary flex-shrink-0" />
               Al activar "Editar", se otorgará automáticamente el permiso "Ver". Al desactivar "Ver", se revocará "Editar".
             </span>
@@ -567,12 +567,12 @@ const UsersManager = () => {
       {/* USER OVERRIDE DIALOG / MODAL */}
       {selectedUser && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-xs animate-fadeIn">
-          <div className="bg-white w-full max-w-2xl rounded-2xl border border-gray-200 shadow-2xl overflow-hidden flex flex-col max-h-[85vh] animate-scaleIn">
+          <div className="bg-white dark:bg-stone-800 w-full max-w-2xl rounded-2xl border border-gray-200 dark:border-stone-700 shadow-2xl overflow-hidden flex flex-col max-h-[85vh] animate-scaleIn">
             
             {/* Modal Header */}
-            <div className="p-5 border-b border-gray-150 flex items-center justify-between bg-primary text-white">
+            <div className="p-5 border-b border-gray-150 dark:border-stone-700 flex items-center justify-between bg-primary text-white">
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-white/10 rounded-lg">
+                <div className="p-2 bg-white dark:bg-stone-800/10 rounded-lg">
                   <User size={18} />
                 </div>
                 <div>
@@ -584,7 +584,7 @@ const UsersManager = () => {
               </div>
               <button 
                 onClick={() => setSelectedUser(null)}
-                className="p-1 hover:bg-white/10 rounded-lg transition-colors cursor-pointer"
+                className="p-1 hover:bg-white dark:bg-stone-800/10 rounded-lg transition-colors cursor-pointer"
               >
                 <X size={20} />
               </button>
@@ -593,9 +593,9 @@ const UsersManager = () => {
             {/* Modal Body */}
             <div className="p-6 overflow-y-auto space-y-6">
               {/* Toggle override */}
-              <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-150">
+              <div className="flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-150 dark:border-stone-700">
                 <div className="space-y-0.5">
-                  <span className="text-xs sm:text-sm font-bold text-gray-800">Personalizar permisos de este usuario</span>
+                  <span className="text-xs sm:text-sm font-bold text-gray-800 dark:text-stone-200">Personalizar permisos de este usuario</span>
                   <p className="text-[10px] text-gray-400">Si se desactiva, el usuario usará los permisos por defecto de su rol ({selectedUser.role}).</p>
                 </div>
                 <input
@@ -608,10 +608,10 @@ const UsersManager = () => {
 
               {/* Matrix view if override is enabled */}
               {useOverride && (
-                <div className="border border-gray-150 rounded-xl overflow-hidden">
+                <div className="border border-gray-150 dark:border-stone-700 rounded-xl overflow-hidden">
                   <table className="w-full text-left border-collapse text-xs sm:text-sm">
                     <thead>
-                      <tr className="bg-gray-50 border-b border-gray-150 text-gray-500 font-semibold text-[10px] sm:text-xs uppercase tracking-wider">
+                      <tr className="bg-gray-50 border-b border-gray-150 dark:border-stone-700 text-gray-500 font-semibold text-[10px] sm:text-xs uppercase tracking-wider">
                         <th className="px-4 py-2.5">Módulo</th>
                         <th className="px-4 py-2.5 text-center w-28">Ver (view)</th>
                         <th className="px-4 py-2.5 text-center w-28">Editar (edit)</th>
@@ -652,10 +652,10 @@ const UsersManager = () => {
             </div>
 
             {/* Modal Footer */}
-            <div className="p-5 bg-gray-50 border-t border-gray-150 flex justify-end gap-3">
+            <div className="p-5 bg-gray-50 border-t border-gray-150 dark:border-stone-700 flex justify-end gap-3">
               <button
                 onClick={() => setSelectedUser(null)}
-                className="px-4 py-2 hover:bg-gray-100 border border-gray-200 rounded-xl text-xs font-semibold text-gray-500 cursor-pointer"
+                className="px-4 py-2 hover:bg-gray-100 border border-gray-200 dark:border-stone-700 rounded-xl text-xs font-semibold text-gray-500 cursor-pointer"
               >
                 Cancelar
               </button>

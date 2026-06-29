@@ -160,7 +160,8 @@ export default function MixedARViewer({
           // Find material target:
           // For MIXED_EXPERIENCE, we look for 'video_target_material' in settings or defaults.
           // For VIDEO_AR, we typically map to any available material in the screen/quad model.
-          const targetMatName = exp.animation_settings?.video_target_material || 'Screen';
+          const animSettings: any = exp.animation_settings || {};
+          const targetMatName = String(animSettings.video_target_material || 'Screen');
           let material = viewer.model?.materials.find(
             (m: any) => m.name.toLowerCase() === targetMatName.toLowerCase()
           );
@@ -447,8 +448,44 @@ export default function MixedARViewer({
         style={{ width: '100%', height: '100%', outline: 'none' }}
         className="model-viewer-canvas"
       >
+        {/* Custom AR Button */}
+        <button
+          slot="ar-button"
+          style={{
+            position: 'absolute',
+            bottom: experiences.length > 1 ? (activeExp?.product_id ? '220px' : '150px') : (activeExp?.product_id ? '100px' : '32px'),
+            left: '50%',
+            transform: 'translateX(-50%)',
+            backgroundColor: '#6b3a0e',
+            color: '#faf2e7',
+            border: '2px solid rgba(250, 242, 231, 0.25)',
+            borderRadius: '16px',
+            padding: '14px 28px',
+            fontSize: '14px',
+            fontWeight: 800,
+            letterSpacing: '0.02em',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '10px',
+            boxShadow: '0 8px 32px rgba(107, 58, 14, 0.45), 0 0 0 1px rgba(250, 242, 231, 0.08)',
+            backdropFilter: 'blur(12px)',
+            zIndex: 40,
+            whiteSpace: 'nowrap',
+            transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+          }}
+          onMouseEnter={(e) => {
+            (e.currentTarget as HTMLButtonElement).style.transform = 'translateX(-50%) scale(1.04)';
+          }}
+          onMouseLeave={(e) => {
+            (e.currentTarget as HTMLButtonElement).style.transform = 'translateX(-50%)';
+          }}
+        >
+          <Camera size={18} />
+          Abrir en AR
+        </button>
         {/* Interactive Hotspots from Animation Settings */}
-        {activeExp.animation_settings?.hotspots?.map((hotspot: any) => (
+        {(activeExp.animation_settings as any)?.hotspots?.map((hotspot: any) => (
           <button
             key={hotspot.id}
             slot={hotspot.id}

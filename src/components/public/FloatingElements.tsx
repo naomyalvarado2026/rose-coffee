@@ -45,7 +45,7 @@ export default function FloatingElements() {
       height={size} 
       viewBox="0 0 24 24" 
       fill="currentColor" 
-      className="text-coffee/65 dark:text-coffee/40"
+      className="text-coffee dark:text-gold/65 dark:text-gold/40"
     >
       <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 16.93c-3.95-.49-7-3.85-7-7.93 0-.64.08-1.25.22-1.84 1.84.44 3.65 1.57 5.16 3.09 1.52 1.51 2.65 3.32 3.09 5.16-.59.14-1.2.22-1.84.22zm7.78-7.78c-1.51-1.52-3.32-2.65-5.16-3.09.59-.14 1.2-.22 1.84-.22 3.95.49 7 3.85 7 7.93 0 .64-.08 1.25-.22 1.84-1.84-.44-3.65-1.57-5.16-3.09z" />
     </svg>
@@ -101,7 +101,7 @@ export default function FloatingElements() {
           {item.type === 'coffee' && (
             <Coffee 
               size={item.size} 
-              className="text-coffee/60 dark:text-coffee/35" 
+              className="text-coffee dark:text-gold/60 dark:text-gold/35" 
             />
           )}
           {item.type === 'sparkle' && (

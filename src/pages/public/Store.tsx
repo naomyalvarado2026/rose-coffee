@@ -1,17 +1,20 @@
+/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unused-vars */
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { supabase } from '../../config/supabase';
-import type { Product } from '../../types';
-import { Search, ShoppingBag, Filter, Eye, Maximize2 } from 'lucide-react';
+import type { Product, ProductARModel } from '../../types';
+import { Search, ShoppingBag, Filter, Eye, Maximize2, Plus } from 'lucide-react';
 import OptimizedMedia from '../../components/common/OptimizedMedia';
+import { useCartStore } from '../../store/useCartStore';
 import { motion, AnimatePresence } from 'framer-motion';
 import ARViewer from '../../components/public/ARViewer';
 import SEOHead from '../../components/common/SEOHead';
-import { fadeInUp, staggerContainer } from '../../utils/animations';
+
 import CoffeeSubscription from '../../components/public/CoffeeSubscription';
 import MagneticButton from '../../components/animations/MagneticButton';
-import coffeeRoastingImg from '/coffee_roasting_process.png';
+import coffeeRoastingImg from '/coffee_roasting_process.webp';
 import FloatingElements from '../../components/public/FloatingElements';
+import ProductQuickView from '../../components/store/ProductQuickView';
+import { ProductCardSkeleton } from '../../components/common/Skeletons';
 
 const MOCK_PRODUCTS: Product[] = [
   {
@@ -80,13 +83,13 @@ const MOCK_PRODUCTS: Product[] = [
 ];
 
 const Store = () => {
-  const navigate = useNavigate();
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('Todas');
   const [arProductIds, setArProductIds] = useState<Set<string>>(new Set());
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [quickViewIndex, setQuickViewIndex] = useState<number | null>(null);
   const [storeHeroData, setStoreHeroData] = useState<any>(null);
 
   const fetchProducts = async () => {
@@ -95,6 +98,7 @@ const Store = () => {
       const { data, error } = await supabase
         .from('products')
         .select('*, product_variants(*)')
+        .is('deleted_at', null)
         .order('name', { ascending: true });
 
       if (error) throw error;
@@ -127,15 +131,6 @@ const Store = () => {
     }
   };
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      fetchProducts();
-      fetchARProductIds();
-      fetchStoreHero();
-    }, 0);
-    return () => clearTimeout(timer);
-  }, []);
-
   const fetchARProductIds = async () => {
     try {
       const { data, error } = await supabase
@@ -149,6 +144,17 @@ const Store = () => {
       // silently fail — AR is optional
     }
   };
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      fetchProducts();
+      fetchARProductIds();
+      fetchStoreHero();
+    }, 0);
+    return () => clearTimeout(timer);
+  }, []);
+
+
 
   const handleOpenAR = async (product: Product) => {
     try {
@@ -184,7 +190,9 @@ const Store = () => {
   const filteredProducts = products.filter((product) => {
     const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
                           (product.description?.toLowerCase().includes(searchQuery.toLowerCase()) ?? false);
-    const matchesCategory = selectedCategory === 'Todas' || product.category === selectedCategory;
+    
+    const prodCategory = product.category || 'Otros';
+    const matchesCategory = selectedCategory === 'Todas' || prodCategory.toLowerCase() === selectedCategory.toLowerCase();
     
     let matchesSpecial = true;
     if (specialFilter === 'best_sellers') {
@@ -198,10 +206,15 @@ const Store = () => {
     return matchesSearch && matchesCategory && matchesSpecial;
   });
 
-  const categories = ['Todas', ...Array.from(new Set(products.map((p) => p.category)))];
+  const normalizedCategories = Array.from(new Set(products.map((p) => {
+    const cat = p.category || 'Otros';
+    return cat.charAt(0).toUpperCase() + cat.slice(1).toLowerCase();
+  })));
+  
+  const categories = ['Todas', ...normalizedCategories];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-8 py-10 relative overflow-hidden bg-brand-base">
+    <div className="max-w-7xl mx-auto px-4 md:px-8 py-10 relative overflow-hidden">
       <SEOHead 
         title="Tienda Online - Café & Panadería Masa Madre" 
         description="Explora y compra nuestro café de especialidad ecuatoriano de Loja y Zaruma. Descubre panes de masa madre de fermentación natural y modelos AR 3D interactivos."
@@ -214,6 +227,7 @@ const Store = () => {
           <img 
             src={storeHeroData?.cover_image_url || coffeeRoastingImg} 
             alt="Proceso de Tostado Rose Coffee" 
+            fetchPriority="high"
             className="w-full h-full object-cover opacity-35"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-primary via-primary/90 to-transparent"></div>
@@ -241,7 +255,7 @@ const Store = () => {
             placeholder="Buscar café, panadería, e-books..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coffee focus-visible:border-coffee transition-all text-sm bg-white"
+            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-gray-200 dark:border-stone-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coffee focus-visible:border-coffee transition-all text-sm bg-white dark:bg-stone-800"
           />
           <Search className="absolute left-3.5 top-3 text-slate-500" size={18} />
         </div>
@@ -256,7 +270,7 @@ const Store = () => {
                 className={`px-4 py-2 rounded-xl text-sm font-medium transition-all whitespace-nowrap flex items-center gap-1.5 focus-visible:ring-2 focus-visible:ring-coffee focus-visible:outline-none ${
                   selectedCategory === category
                     ? 'bg-coffee text-white shadow-sm'
-                    : 'bg-white border border-gray-150 text-slate-700 hover:bg-gray-50'
+                    : 'bg-white dark:bg-stone-800 border border-gray-150 dark:border-stone-700 text-slate-700 dark:text-stone-300 hover:bg-gray-50 dark:hover:bg-stone-700'
                 }`}
               >
                 {category === 'Todas' && <Filter size={14} />}
@@ -268,7 +282,7 @@ const Store = () => {
       </div>
 
       {/* Filtros Especiales */}
-      <div className="flex gap-2 overflow-x-auto w-full pb-2 scrollbar-none border-b border-gray-150/40 mb-8 justify-start">
+      <div className="flex gap-2 overflow-x-auto w-full pb-2 scrollbar-none border-b border-gray-150 dark:border-stone-700/40 mb-8 justify-start">
         {[
           { id: 'all', label: 'Todos los productos' },
           { id: 'best_sellers', label: '🔥 Más Vendidos' },
@@ -280,8 +294,8 @@ const Store = () => {
             onClick={() => setSpecialFilter(filt.id as any)}
             className={`px-4 py-2 rounded-full text-xs font-bold transition-all whitespace-nowrap border cursor-pointer focus-visible:ring-2 focus-visible:ring-coffee focus-visible:outline-none ${
               specialFilter === filt.id
-                ? 'bg-coffee/10 border-coffee text-coffee shadow-2xs'
-                : 'bg-white border-gray-150 text-slate-500 hover:text-slate-700 hover:bg-slate-50'
+                ? 'bg-coffee/10 border-coffee text-coffee dark:text-gold shadow-2xs'
+                : 'bg-white dark:bg-stone-800 border-gray-150 dark:border-stone-700 text-slate-500 dark:text-stone-400 hover:text-slate-700 dark:hover:text-stone-200 hover:bg-slate-50 dark:hover:bg-stone-700'
             }`}
           >
             {filt.label}
@@ -292,39 +306,32 @@ const Store = () => {
       {/* Grid de Productos */}
       <div id="store_grid">
         {loading ? (
-          <div className="flex justify-center items-center py-20">
-            <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-coffee"></div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {Array.from({ length: 8 }).map((_, i) => (
+              <ProductCardSkeleton key={i} />
+            ))}
           </div>
         ) : filteredProducts.length > 0 ? (
-          <motion.div 
-            variants={staggerContainer}
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true, amount: 0.05 }}
+            <motion.div 
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+            layout
           >
+            <AnimatePresence mode="popLayout">
           {filteredProducts.map((product) => {
             return (
               <motion.div
                 key={product.id}
-                variants={fadeInUp}
-                layoutId={`product-card-${product.id}`}
+                layout
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
                 whileHover={{ y: -8, scale: 1.015, boxShadow: '0 20px 25px -5px rgba(2, 26, 84, 0.08)' }}
                 transition={{ duration: 0.3, ease: 'easeOut' }}
-                onClick={() => navigate(`/producto/${product.id}`)}
-                tabIndex={0}
-                role="button"
-                aria-label={`Ver opciones de ${product.name}`}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    navigate(`/producto/${product.id}`);
-                  }
-                }}
-                className="bg-white rounded-2xl border border-gray-150 overflow-hidden shadow-sm flex flex-col group h-full cursor-pointer relative focus-visible:ring-2 focus-visible:ring-coffee focus-visible:outline-none"
+                onClick={() => setQuickViewIndex(filteredProducts.indexOf(product))}
+                className="bg-white dark:bg-stone-800 rounded-2xl border border-gray-150 dark:border-stone-700 overflow-hidden shadow-sm flex flex-col group h-full cursor-pointer relative focus-visible:ring-2 focus-visible:ring-coffee focus-visible:outline-none"
               >
                 {/* Contenedor Imagen */}
-                <div className="relative pt-[70%] bg-gray-50 overflow-hidden">
+                <div className="relative pt-[70%] bg-gray-50 dark:bg-stone-800/50 overflow-hidden">
                   <motion.div 
                     layoutId={`product-image-${product.id}`}
                     className="absolute inset-0 w-full h-full"
@@ -338,9 +345,9 @@ const Store = () => {
                   <div className="absolute top-3 left-3 flex flex-col gap-1.5">
                     <motion.span 
                       layoutId={`product-category-${product.id}`}
-                      className="bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded-lg text-xs font-semibold text-coffee border border-gray-100 shadow-2xs z-10"
+                      className="bg-white dark:bg-stone-800/90 backdrop-blur-sm px-2.5 py-1 rounded-lg text-xs font-semibold text-coffee dark:text-gold border border-gray-100 dark:border-stone-700 shadow-2xs z-10 capitalize"
                     >
-                      {product.category}
+                      {product.category || 'Otros'}
                     </motion.span>
                     {product.type === 'digital' && (
                       <span className="bg-purple-600/90 backdrop-blur-sm px-2.5 py-1 rounded-lg text-xs font-bold text-white shadow-2xs z-10">
@@ -356,53 +363,75 @@ const Store = () => {
                   </div>
                   {arProductIds.has(product.id) && (
                     <MagneticButton className="absolute bottom-3 right-3 z-10">
-                      <button
-                        onClick={(e) => { e.stopPropagation(); handleOpenAR(product); }}
-                        className="bg-white/90 backdrop-blur-sm border border-gray-100 text-[#021a54] px-2.5 py-1.5 rounded-lg text-[10px] font-bold shadow-xs flex items-center gap-1 hover:bg-white transition-colors cursor-pointer"
+                      <motion.button
+                        whileTap={{ scale: 0.95 }}
+                        onClick={(e: any) => { e.stopPropagation(); handleOpenAR(product); }}
+                        className="bg-white dark:bg-stone-800/90 backdrop-blur-sm border border-gray-100 dark:border-stone-700 text-[#021a54] px-2.5 py-1.5 rounded-lg text-[10px] font-bold shadow-xs flex items-center gap-1 hover:bg-white dark:bg-stone-800 transition-colors cursor-pointer"
                       >
                         <Eye size={12} />
                         Ver en 3D
-                      </button>
+                      </motion.button>
                     </MagneticButton>
                   )}
                 </div>
 
                 {/* Contenido */}
                 <div className="p-5 flex flex-col flex-grow">
-                  <motion.h3 
+                  <motion.h2 
                     layoutId={`product-title-${product.id}`}
-                    className="font-sans font-bold text-lg text-slate-800 mb-2 line-clamp-1"
+                    className="font-sans font-bold text-lg text-slate-800 dark:text-stone-200 mb-2 line-clamp-1 hover:text-coffee dark:text-gold transition-colors"
                   >
                     {product.name}
-                  </motion.h3>
-                  <p className="text-slate-600 text-xs line-clamp-2 leading-relaxed mb-4 flex-grow font-medium">
+                  </motion.h2>
+                  <p className="text-slate-600 text-xs line-clamp-2 leading-relaxed mb-4 flex-grow font-medium mt-2">
                     {product.description}
                   </p>
 
-                  <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-100" onClick={(e) => e.stopPropagation()}>
+                  <div className="flex items-center justify-between mt-auto pt-4 border-t border-gray-100 dark:border-stone-700" onClick={(e) => e.stopPropagation()}>
                     <div>
                       <span className="text-xs text-slate-600 block font-bold">Desde</span>
-                      <span className="text-xl font-bold text-slate-800">${Number(product.price).toFixed(2)}</span>
+                      <span className="text-xl font-bold text-slate-800 dark:text-stone-200">${Number(product.price).toFixed(2)}</span>
                     </div>
 
                     <MagneticButton>
-                      <button
-                        onClick={() => navigate(`/producto/${product.id}`)}
-                        className="px-4 py-2 rounded-xl text-xs font-semibold bg-coffee hover:bg-coffee-dark text-white transition-all shadow-sm flex items-center gap-1.5 focus-visible:ring-2 focus-visible:ring-coffee focus-visible:outline-none"
+                      <motion.button
+                        whileTap={{ scale: 0.95 }}
+                        onClick={(e: any) => {
+                          e.stopPropagation();
+                          const hasVariants = product.product_variants && product.product_variants.length > 0;
+                          if (hasVariants) {
+                            setQuickViewIndex(filteredProducts.indexOf(product));
+                          } else {
+                            useCartStore.getState().addItem(product);
+                            useCartStore.getState().openDrawer();
+                          }
+                        }}
+                        className="px-4 py-2 rounded-xl text-xs font-semibold bg-coffee hover:bg-coffee-dark text-white transition-all shadow-sm flex items-center gap-1.5 focus-visible:ring-2 focus-visible:ring-coffee focus-visible:outline-none cursor-pointer"
                       >
-                        Ver Detalles
-                      </button>
+                        {product.product_variants && product.product_variants.length > 0 ? (
+                          <>
+                            <ShoppingBag size={14} />
+                            Opciones
+                          </>
+                        ) : (
+                          <>
+                            <Plus size={14} />
+                            Agregar
+                          </>
+                        )}
+                      </motion.button>
                     </MagneticButton>
                   </div>
                 </div>
               </motion.div>
             );
           })}
+          </AnimatePresence>
         </motion.div>
       ) : (
-        <div className="text-center py-20 bg-white rounded-2xl border border-dashed border-slate-200">
+        <div className="text-center py-20 bg-white dark:bg-stone-800 rounded-2xl border border-dashed border-slate-200 dark:border-stone-700">
           <ShoppingBag size={48} className="mx-auto text-slate-400 mb-4" />
-          <h3 className="text-lg font-sans font-bold text-slate-800">No se encontraron productos</h3>
+          <h3 className="text-lg font-sans font-bold text-slate-800 dark:text-stone-200">No se encontraron productos</h3>
           <p className="text-slate-500 text-sm mt-1">Prueba con otra palabra clave o categoría.</p>
         </div>
         )}
@@ -413,6 +442,20 @@ const Store = () => {
         <CoffeeSubscription />
       </div>
 
+      {/* Quick View Modal */}
+      <AnimatePresence>
+        {quickViewIndex !== null && (
+          <ProductQuickView
+            product={filteredProducts[quickViewIndex]}
+            onClose={() => setQuickViewIndex(null)}
+            onNext={quickViewIndex < filteredProducts.length - 1 ? () => setQuickViewIndex(quickViewIndex + 1) : undefined}
+            onPrev={quickViewIndex > 0 ? () => setQuickViewIndex(quickViewIndex - 1) : undefined}
+            arModel={filteredProducts[quickViewIndex]?.product_ar_models as unknown as ProductARModel || undefined}
+            onOpenAR={() => handleOpenAR(filteredProducts[quickViewIndex])}
+          />
+        )}
+      </AnimatePresence>
+
       {/* AR Viewer Modal */}
       <AnimatePresence>
         {selectedProduct && (
@@ -420,7 +463,7 @@ const Store = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4 sm:p-6"
+            className="fixed inset-0 z-[80] bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4 sm:p-6"
           >
             <motion.div
               initial={{ scale: 0.93, y: 25 }}

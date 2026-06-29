@@ -8,6 +8,7 @@ import type { Product } from '../../types';
 import FloatingElements from '../../components/public/FloatingElements';
 import { fadeInUp, staggerContainer } from '../../utils/animations';
 import SEOHead from '../../components/common/SEOHead';
+import ARVideoGallery from '../../components/public/ARVideoGallery';
 
 const MOCK_AR_PRODUCTS: Product[] = [
   {
@@ -91,14 +92,14 @@ export default function ARShowcase() {
 
   if (loading) {
     return (
-      <div className="flex min-h-[70vh] items-center justify-center bg-brand-base">
-        <Loader2 className="w-8 h-8 text-primary animate-spin" />
+      <div className="flex min-h-[70vh] items-center justify-center bg-brand-base dark:bg-stone-900">
+        <Loader2 className="w-8 h-8 text-primary dark:text-white animate-spin" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-brand-base py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+    <div className="min-h-screen bg-brand-base dark:bg-stone-900 py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
       <SEOHead 
         title="Visualizador Menú 3D Realidad Aumentada - Rose Coffee" 
         description="Interactúa con nuestros panes artesanales de masa madre y combos de café en Realidad Aumentada (AR) 3D antes de comprarlos."
@@ -117,22 +118,22 @@ export default function ARShowcase() {
 
       {/* Header section */}
       <div className="max-w-5xl mx-auto text-center mb-16 space-y-4 relative z-10">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/5 text-primary border border-primary/10 text-xs font-bold uppercase tracking-wider backdrop-blur-xs select-none">
-          <Sparkles className="w-4 h-4 text-coffee animate-pulse" />
+        <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/5 dark:bg-primary/20 text-primary dark:text-white border border-primary/10 text-xs font-bold uppercase tracking-wider backdrop-blur-xs select-none">
+          <Sparkles className="w-4 h-4 text-coffee dark:text-amber-400 animate-pulse" />
           Experiencia Espacial WebAR
         </div>
-        <h1 className="text-4xl md:text-5xl font-extrabold text-primary font-sans tracking-tight">
+        <h1 className="text-4xl md:text-5xl font-extrabold text-primary dark:text-white font-sans tracking-tight">
           Menú Interactivo 3D
         </h1>
-        <p className="max-w-xl mx-auto text-coffee-dark/85 text-sm font-semibold leading-relaxed">
+        <p className="max-w-xl mx-auto text-coffee dark:text-gold-dark/85 dark:text-amber-200 text-sm font-semibold leading-relaxed">
           Explora nuestros panes artesanales y cafés de especialidad en Realidad Aumentada en tiempo real. Apunta con tu dispositivo e interactúa con el menú.
         </p>
       </div>
 
       <div className="max-w-5xl mx-auto relative z-10">
         {products.length === 0 ? (
-          <div className="text-center py-16 bg-white/70 backdrop-blur-xs border border-coffee/10 rounded-3xl shadow-xs max-w-lg mx-auto">
-            <Coffee className="w-12 h-12 text-coffee opacity-40 mx-auto mb-3" />
+          <div className="text-center py-16 bg-white dark:bg-stone-800/70 backdrop-blur-xs border border-coffee/10 rounded-3xl shadow-xs max-w-lg mx-auto">
+            <Coffee className="w-12 h-12 text-coffee dark:text-amber-400 opacity-40 mx-auto mb-3" />
             <h3 className="font-bold text-slate-700">El Menú 3D se está preparando</h3>
             <p className="text-xs text-slate-500 mt-1">
               Pronto podrás disfrutar del visor interactivo 3D.
@@ -160,10 +161,10 @@ export default function ARShowcase() {
                 }}
                 transition={{ type: "spring", stiffness: 260, damping: 20 }}
                 onClick={() => setSelectedProduct(product)}
-                className="bg-white/80 backdrop-blur-xs rounded-[32px] border border-coffee/10 overflow-hidden shadow-sm flex flex-col justify-between group transition-colors duration-350 hover:border-coffee/20 cursor-pointer relative"
+                className="bg-white dark:bg-stone-800/80 backdrop-blur-xs rounded-[32px] border border-coffee/10 overflow-hidden shadow-sm flex flex-col justify-between group transition-colors duration-350 hover:border-coffee/20 cursor-pointer relative"
               >
                 {/* Product Render/Image area */}
-                <div className="aspect-square relative bg-stone-50 overflow-hidden border-b border-stone-100">
+                <div className="aspect-square relative bg-stone-50 dark:bg-stone-800/50 overflow-hidden border-b border-stone-100 dark:border-stone-700">
                   {product.cover_image_url || product.image_url ? (
                     <img
                       src={product.cover_image_url || product.image_url || ''}
@@ -184,7 +185,7 @@ export default function ARShowcase() {
 
                   {/* 3D Active Badge */}
                   <div className="absolute top-4 right-4 bg-emerald-500/90 text-white text-[9px] font-extrabold px-3 py-1 rounded-full shadow-md z-10 flex items-center gap-1.5">
-                    <div className="w-1.5 h-1.5 rounded-full bg-white animate-ping" />
+                    <div className="w-1.5 h-1.5 rounded-full bg-white dark:bg-stone-800 animate-ping" />
                     <span>3D ACTIVO</span>
                   </div>
                 </div>
@@ -192,7 +193,7 @@ export default function ARShowcase() {
                 {/* Details */}
                 <div className="p-6 flex-1 flex flex-col justify-between">
                   <div className="space-y-2">
-                    <h3 className="font-sans font-extrabold text-lg text-primary group-hover:text-coffee transition-colors duration-200">
+                    <h3 className="font-sans font-extrabold text-lg text-primary dark:text-stone-200 group-hover:text-coffee dark:text-gold transition-colors duration-200">
                       {product.name}
                     </h3>
                     <p className="text-xs text-stone-500 leading-relaxed font-medium line-clamp-2">
@@ -200,15 +201,15 @@ export default function ARShowcase() {
                     </p>
                   </div>
 
-                  <div className="flex items-center justify-between mt-6 pt-4 border-t border-stone-100">
-                    <span className="text-xl font-black text-coffee-dark tracking-tight">
+                  <div className="flex items-center justify-between mt-6 pt-4 border-t border-stone-100 dark:border-stone-700">
+                    <span className="text-xl font-black text-coffee dark:text-gold-dark dark:text-amber-500 tracking-tight">
                       ${Number(product.price).toFixed(2)}
                     </span>
                     <div className="flex gap-2.5">
                       {/* QR Button for desktop users */}
                       <button
                         onClick={(e) => { e.stopPropagation(); setShowQrFor(product); }}
-                        className="w-9 h-9 rounded-xl border border-coffee/20 flex items-center justify-center text-[#021a54] hover:bg-coffee/5 transition-all cursor-pointer shadow-2xs hover:border-coffee/40 active:scale-95"
+                        className="w-9 h-9 rounded-xl border border-coffee/20 flex items-center justify-center text-[#021a54] dark:text-stone-300 hover:bg-coffee/5 transition-all cursor-pointer shadow-2xs hover:border-coffee/40 active:scale-95"
                         title="Código QR para Escanear"
                       >
                         <QrCode className="w-4.5 h-4.5" />
@@ -227,6 +228,11 @@ export default function ARShowcase() {
             ))}
           </motion.div>
         )}
+      </div>
+
+      {/* AR Video Gallery */}
+      <div className="relative z-10 border-t border-coffee/10 mt-20 bg-gradient-to-b from-brand-base dark:from-stone-900 to-[#faf2e7] dark:to-stone-950">
+        <ARVideoGallery />
       </div>
 
       {/* Model Viewer Modal Popup */}
@@ -285,7 +291,7 @@ export default function ARShowcase() {
               >
                 <X className="w-5 h-5" />
               </button>
-              <div className="bg-white p-3 rounded-2xl inline-block shadow-2xs border border-slate-100">
+              <div className="bg-white dark:bg-stone-800 p-3 rounded-2xl inline-block shadow-2xs border border-slate-100 dark:border-stone-700">
                 <img
                   src={getQRUrl(showQrFor.id)}
                   alt="QR Code"

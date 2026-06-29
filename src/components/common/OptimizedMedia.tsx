@@ -95,10 +95,25 @@ export default function OptimizedMedia({
 }: OptimizedMediaProps) {
   if (!src) return null;
 
-  const type = detectResourceType(src, resourceType);
+  let finalSrc = src;
+  // Fix local URLs for github pages or base url
+  if (finalSrc.startsWith('/') && !finalSrc.startsWith(import.meta.env.BASE_URL)) {
+    // If import.meta.env.BASE_URL is '/rose-coffee/', and finalSrc is '/products/img.webp'
+    // we want to remove the leading slash from finalSrc or safely join them.
+    const base = import.meta.env.BASE_URL;
+    finalSrc = `${base}${finalSrc.slice(1)}`;
+  } else if (finalSrc.startsWith('/rose-coffee/') && import.meta.env.BASE_URL !== '/rose-coffee/') {
+    finalSrc = finalSrc.replace('/rose-coffee/', import.meta.env.BASE_URL);
+  }
+  // If it's a local file and ends in .png, .jpg, or .jpeg, we know we converted them to .webp
+  if ((finalSrc.startsWith('/products/') || finalSrc.startsWith('/productos/')) && /\.(png|jpe?g)$/i.test(finalSrc)) {
+    finalSrc = finalSrc.replace(/\.(png|jpe?g)$/i, '.webp');
+  }
+
+  const type = detectResourceType(finalSrc, resourceType);
   const optimisedSrc = type === 'image' || type === 'video'
-    ? optimiseCloudinaryUrl(src, width)
-    : src;
+    ? optimiseCloudinaryUrl(finalSrc, width)
+    : finalSrc;
 
   if (type === 'image') {
     return (

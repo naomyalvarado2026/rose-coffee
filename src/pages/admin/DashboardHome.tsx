@@ -9,6 +9,7 @@ import {
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Area, Bar, ComposedChart
 } from 'recharts';
 import { ChartSkeleton } from '../../components/common/Skeletons';
+import SEOHead from '../../components/common/SEOHead';
 
 // Custom tooltip for Cruce Ventas vs Pedidos
 const CustomTooltip = ({ active, payload, label }: any) => {
@@ -322,6 +323,10 @@ export default function DashboardHome() {
 
   return (
     <div className="space-y-6 text-left animate-fadeIn font-sans">
+      <SEOHead 
+        title="Consola de Administración - Rose Coffee" 
+        description="Consola de administración y operaciones de Rose Coffee. Gestión de catálogo, inventario, marketing y analítica." 
+      />
       
       {/* Welcome Hero Banner */}
       <div className="bg-gradient-to-br from-[#021a54] via-[#021a54]/95 to-primary/80 rounded-3xl p-6 md:p-8 text-white shadow-xl relative overflow-hidden flex flex-col justify-center border border-white/5">
@@ -345,17 +350,17 @@ export default function DashboardHome() {
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         
         {/* Ventas Hoy */}
-        <div className="bg-white rounded-2xl border border-coffee/10 p-5 shadow-2xs hover:-translate-y-0.5 hover:shadow-xs transition-all duration-300 flex items-center gap-4">
+        <div className="bg-white dark:bg-stone-800 rounded-2xl border border-coffee/10 p-5 shadow-2xs hover:-translate-y-0.5 hover:shadow-xs transition-all duration-300 flex items-center gap-4">
           <div className="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-100 flex items-center justify-center shrink-0">
             <DollarSign size={20} />
           </div>
           <div className="min-w-0">
-            <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider block">Ventas de Hoy</span>
+            <span className="text-[10px] text-stone-600 font-bold uppercase tracking-wider block">Ventas de Hoy</span>
             {loading ? (
               <div className="h-5 w-16 bg-stone-100 animate-pulse rounded mt-1"></div>
             ) : (
               <div className="truncate">
-                <span className="text-xl font-extrabold text-stone-900 tracking-tight">${stats.todaySales.toFixed(2)}</span>
+                <span className="text-xl font-extrabold text-stone-900 dark:text-stone-200 tracking-tight">${stats.todaySales.toFixed(2)}</span>
                 <span className={`text-[9px] font-bold flex items-center gap-0.5 mt-0.5 ${stats.pctChangeToday >= 0 ? 'text-emerald-600' : 'text-rose-600'}`}>
                   {stats.pctChangeToday >= 0 ? <ArrowUpRight size={10} /> : <ArrowDownRight size={10} />}
                   {stats.pctChangeToday.toFixed(1)}% vs. ayer
@@ -366,56 +371,56 @@ export default function DashboardHome() {
         </div>
 
         {/* Pedidos Pendientes */}
-        <div className="bg-white rounded-2xl border border-coffee/10 p-5 shadow-2xs hover:-translate-y-0.5 hover:shadow-xs transition-all duration-300 flex items-center gap-4">
+        <div className="bg-white dark:bg-stone-800 rounded-2xl border border-coffee/10 p-5 shadow-2xs hover:-translate-y-0.5 hover:shadow-xs transition-all duration-300 flex items-center gap-4">
           <div className="w-11 h-11 rounded-xl bg-blue-50/80 text-blue-600 border border-blue-100 flex items-center justify-center shrink-0">
             <ShoppingCart size={20} />
           </div>
           <div className="min-w-0">
-            <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider block">Pendientes</span>
+            <span className="text-[10px] text-stone-600 font-bold uppercase tracking-wider block">Pendientes</span>
             {loading ? (
               <div className="h-5 w-16 bg-stone-100 animate-pulse rounded mt-1"></div>
             ) : (
               <div>
-                <span className="text-xl font-extrabold text-stone-900 tracking-tight">{stats.pendingOrdersCount}</span>
-                <span className="text-[9px] text-gray-400 block font-semibold mt-0.5">Pedidos activos</span>
+                <span className="text-xl font-extrabold text-stone-900 dark:text-stone-200 tracking-tight">{stats.pendingOrdersCount}</span>
+                <span className="text-[9px] text-stone-500 block font-semibold mt-0.5">Pedidos activos</span>
               </div>
             )}
           </div>
         </div>
 
         {/* Clientes Nuevos */}
-        <div className="bg-white rounded-2xl border border-coffee/10 p-5 shadow-2xs hover:-translate-y-0.5 hover:shadow-xs transition-all duration-300 flex items-center gap-4">
+        <div className="bg-white dark:bg-stone-800 rounded-2xl border border-coffee/10 p-5 shadow-2xs hover:-translate-y-0.5 hover:shadow-xs transition-all duration-300 flex items-center gap-4">
           <div className="w-11 h-11 rounded-xl bg-purple-50 text-purple-650 border border-purple-100 flex items-center justify-center shrink-0">
             <UserPlus size={20} />
           </div>
           <div className="min-w-0">
-            <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider block">Clientes Nuevos</span>
+            <span className="text-[10px] text-stone-600 font-bold uppercase tracking-wider block">Clientes Nuevos</span>
             {loading ? (
               <div className="h-5 w-16 bg-stone-100 animate-pulse rounded mt-1"></div>
             ) : (
               <div>
-                <span className="text-xl font-extrabold text-stone-900 tracking-tight">+{stats.newCustomersCount}</span>
-                <span className="text-[9px] text-gray-400 block font-semibold mt-0.5">Últimos 7 días</span>
+                <span className="text-xl font-extrabold text-stone-900 dark:text-stone-200 tracking-tight">+{stats.newCustomersCount}</span>
+                <span className="text-[9px] text-stone-500 block font-semibold mt-0.5">Últimos 7 días</span>
               </div>
             )}
           </div>
         </div>
 
         {/* Alertas de Stock */}
-        <div className="bg-white rounded-2xl border border-coffee/10 p-5 shadow-2xs hover:-translate-y-0.5 hover:shadow-xs transition-all duration-300 flex items-center gap-4">
+        <div className="bg-white dark:bg-stone-800 rounded-2xl border border-coffee/10 p-5 shadow-2xs hover:-translate-y-0.5 hover:shadow-xs transition-all duration-300 flex items-center gap-4">
           <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 border ${
             stats.lowStockCount > 0 ? 'bg-amber-50 text-amber-600 border-amber-100 animate-pulse' : 'bg-stone-50 text-stone-500 border-stone-200/50'
           }`}>
             <Store size={20} />
           </div>
           <div className="min-w-0">
-            <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider block">Stock Crítico</span>
+            <span className="text-[10px] text-stone-600 font-bold uppercase tracking-wider block">Stock Crítico</span>
             {loading ? (
               <div className="h-5 w-16 bg-stone-100 animate-pulse rounded mt-1"></div>
             ) : (
               <div>
                 <span className={`text-xl font-extrabold tracking-tight ${stats.lowStockCount > 0 ? 'text-amber-600' : 'text-stone-900'}`}>{stats.lowStockCount}</span>
-                <span className="text-[9px] text-gray-400 block font-semibold mt-0.5 truncate" title={`Top: ${stats.topProduct}`}>
+                <span className="text-[9px] text-stone-500 block font-semibold mt-0.5 truncate" title={`Top: ${stats.topProduct}`}>
                   Bajo el mínimo
                 </span>
               </div>
@@ -429,23 +434,23 @@ export default function DashboardHome() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         {/* Sales vs Orders composed chart (Left 2 cols) */}
-        <div className="lg:col-span-2 bg-white border border-coffee/10 rounded-3xl p-6 shadow-2xs flex flex-col justify-between">
+        <div className="lg:col-span-2 bg-white dark:bg-stone-800 border border-coffee/10 rounded-3xl p-6 shadow-2xs flex flex-col justify-between">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
-            <h3 className="font-sans font-extrabold text-sm text-stone-950 flex items-center gap-1.5">
+            <h2 className="font-sans font-extrabold text-sm text-stone-950 dark:text-stone-100 flex items-center gap-1.5">
               <Layers size={15} className="text-gold" />
               Cruce: Ventas ($) vs. Pedidos Recibidos
-            </h3>
+            </h2>
             
             {/* Filter tabs */}
-            <div className="flex bg-stone-100 border border-stone-200/50 p-1 rounded-xl gap-1 text-[10px] font-bold select-none self-start sm:self-auto">
+            <div className="flex bg-stone-100 dark:bg-stone-700/50 border border-stone-200 dark:border-stone-600/50 p-1 rounded-xl gap-1 text-[10px] font-bold select-none self-start sm:self-auto">
               {(['today', 'week', 'month', 'year'] as const).map(filterKey => (
                 <button
                   key={filterKey}
                   onClick={() => setTimeFilter(filterKey)}
                   className={`px-3 py-1.5 rounded-lg capitalize cursor-pointer transition-all ${
                     timeFilter === filterKey 
-                      ? 'bg-white text-stone-900 shadow-2xs font-extrabold' 
-                      : 'text-stone-500 hover:text-stone-700'
+                      ? 'bg-white dark:bg-stone-600 text-stone-900 dark:text-white shadow-2xs font-extrabold' 
+                      : 'text-stone-600 dark:text-stone-400 hover:text-stone-700 dark:hover:text-stone-200'
                   }`}
                 >
                   {filterKey === 'today' ? 'Hoy' : filterKey === 'week' ? 'Semana' : filterKey === 'month' ? 'Mes' : 'Año'}
@@ -497,12 +502,12 @@ export default function DashboardHome() {
         </div>
 
         {/* Timeline activity Feed (Right 1 col) */}
-        <div className="bg-white border border-coffee/10 rounded-3xl p-6 shadow-2xs flex flex-col justify-between">
+        <div className="bg-white dark:bg-stone-800 border border-coffee/10 rounded-3xl p-6 shadow-2xs flex flex-col justify-between">
           <div className="space-y-4">
-            <h3 className="font-sans font-extrabold text-stone-950 text-sm border-b border-stone-100 pb-3 flex items-center gap-2">
+            <h2 className="font-sans font-extrabold text-stone-950 dark:text-stone-100 text-sm border-b border-stone-100 dark:border-stone-700 pb-3 flex items-center gap-2">
               <Clock size={15} className="text-gold" />
               Actividad Reciente
-            </h3>
+            </h2>
             
             <div className="space-y-4 max-h-[300px] overflow-y-auto custom-scrollbar-dark pr-1">
               {loading ? (
@@ -534,12 +539,12 @@ export default function DashboardHome() {
                       </div>
                       <div className="flex-1 min-w-0">
                         <div className="flex justify-between items-baseline gap-2">
-                          <p className={`text-[11px] font-bold truncate ${isStockAlert ? 'text-amber-700' : 'text-stone-850'}`}>
+                          <p className={`text-[11px] font-bold truncate ${isStockAlert ? 'text-amber-700 dark:text-amber-500' : 'text-stone-850 dark:text-stone-200'}`}>
                             {evt.title}
                           </p>
-                          <span className="text-[9px] text-stone-400 shrink-0 font-mono font-medium">{evt.time}</span>
+                          <span className="text-[9px] text-stone-550 dark:text-stone-400 shrink-0 font-mono font-medium">{evt.time}</span>
                         </div>
-                        <p className="text-[10px] text-stone-500 mt-0.5 leading-relaxed font-medium">
+                        <p className="text-[10px] text-stone-500 dark:text-stone-400 mt-0.5 leading-relaxed font-medium">
                           {evt.description}
                         </p>
                       </div>
@@ -550,10 +555,10 @@ export default function DashboardHome() {
             </div>
           </div>
 
-          <div className="pt-4 mt-4 border-t border-stone-100">
+          <div className="pt-4 mt-4 border-t border-stone-100 dark:border-stone-700">
             <Link 
               to="/admin/pedidos"
-              className="text-[10px] font-bold text-coffee hover:text-coffee-dark hover:underline flex items-center justify-center gap-1 uppercase tracking-wider"
+              className="text-[10px] font-bold text-coffee dark:text-gold hover:text-coffee dark:text-gold-dark hover:underline flex items-center justify-center gap-1 uppercase tracking-wider"
             >
               Ver todos los pedidos
             </Link>

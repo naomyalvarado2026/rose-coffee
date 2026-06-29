@@ -228,7 +228,7 @@ export default function AdminARManager() {
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Sidebar: Products list */}
-        <div className="lg:col-span-4 bg-white rounded-2xl border border-slate-150 p-4 shadow-sm max-h-[750px] overflow-y-auto">
+        <div className="lg:col-span-4 bg-white dark:bg-stone-800 rounded-2xl border border-slate-150 dark:border-stone-700 p-4 shadow-sm max-h-[750px] overflow-y-auto">
           <h3 className="text-sm font-bold text-slate-500 uppercase tracking-wider mb-3 px-2 flex items-center gap-1.5">
             <Package className="w-4 h-4 text-primary" />
             Productos del Menú
@@ -248,10 +248,10 @@ export default function AdminARManager() {
                   <img
                     src={product.image_url}
                     alt={product.name}
-                    className="w-8 h-8 rounded-lg object-cover bg-slate-50 border border-slate-100 shrink-0"
+                    className="w-8 h-8 rounded-lg object-cover bg-slate-50 border border-slate-100 dark:border-stone-700 shrink-0"
                   />
                 ) : (
-                  <div className="w-8 h-8 rounded-lg bg-slate-50 border border-dashed border-slate-200 flex items-center justify-center shrink-0">
+                  <div className="w-8 h-8 rounded-lg bg-slate-50 border border-dashed border-slate-200 dark:border-stone-700 flex items-center justify-center shrink-0">
                     <Package className="w-4 h-4 text-slate-400" />
                   </div>
                 )}
@@ -273,8 +273,8 @@ export default function AdminARManager() {
               {/* Left Column: Form & Properties */}
               <div className="space-y-6">
                 {/* Upload Files */}
-                <div className="bg-white rounded-2xl border border-slate-150 p-5 shadow-sm space-y-4">
-                  <h4 className="font-bold text-slate-700 text-sm flex items-center gap-1.5 border-b border-slate-100 pb-2">
+                <div className="bg-white dark:bg-stone-800 rounded-2xl border border-slate-150 dark:border-stone-700 p-5 shadow-sm space-y-4">
+                  <h4 className="font-bold text-slate-700 text-sm flex items-center gap-1.5 border-b border-slate-100 dark:border-stone-700 pb-2">
                     <Sparkles className="w-4 h-4 text-primary" />
                     Archivos 3D (Blender GLB / USDZ)
                   </h4>
@@ -303,8 +303,8 @@ export default function AdminARManager() {
                 </div>
 
                 {/* Configuration Parameters */}
-                <div className="bg-white rounded-2xl border border-slate-150 p-5 shadow-sm space-y-4">
-                  <h4 className="font-bold text-slate-700 text-sm flex items-center gap-1.5 border-b border-slate-100 pb-2">
+                <div className="bg-white dark:bg-stone-800 rounded-2xl border border-slate-150 dark:border-stone-700 p-5 shadow-sm space-y-4">
+                  <h4 className="font-bold text-slate-700 text-sm flex items-center gap-1.5 border-b border-slate-100 dark:border-stone-700 pb-2">
                     <Sliders className="w-4 h-4 text-primary" />
                     Propiedades de Visualización
                   </h4>
@@ -315,7 +315,7 @@ export default function AdminARManager() {
                         <select
                           value={arModel.ar_scale}
                           onChange={(e) => setArModel({ ...arModel, ar_scale: e.target.value as any })}
-                          className="w-full px-3 py-2 border border-slate-200 rounded-lg text-xs bg-white focus:outline-none"
+                          className="w-full px-3 py-2 border border-slate-200 dark:border-stone-700 rounded-lg text-xs bg-white dark:bg-stone-800 focus:outline-none"
                         >
                           <option value="fixed">Fixed (Mantener escala real)</option>
                           <option value="auto">Auto (Permitir redimensionar)</option>
@@ -336,7 +336,7 @@ export default function AdminARManager() {
                     </div>
 
                     <div className="grid grid-cols-3 gap-2 pt-2">
-                      <label className="flex items-center gap-2 border border-slate-100 p-2.5 rounded-lg hover:bg-slate-50 cursor-pointer">
+                      <label className="flex items-center gap-2 border border-slate-100 dark:border-stone-700 p-2.5 rounded-lg hover:bg-slate-50 cursor-pointer">
                         <input
                           type="checkbox"
                           checked={arModel.auto_rotate ?? true}
@@ -345,7 +345,7 @@ export default function AdminARManager() {
                         />
                         <span>Auto Rotar</span>
                       </label>
-                      <label className="flex items-center gap-2 border border-slate-100 p-2.5 rounded-lg hover:bg-slate-50 cursor-pointer">
+                      <label className="flex items-center gap-2 border border-slate-100 dark:border-stone-700 p-2.5 rounded-lg hover:bg-slate-50 cursor-pointer">
                         <input
                           type="checkbox"
                           checked={arModel.camera_controls ?? true}
@@ -354,7 +354,7 @@ export default function AdminARManager() {
                         />
                         <span>Controles</span>
                       </label>
-                      <label className="flex items-center gap-2 border border-slate-100 p-2.5 rounded-lg hover:bg-slate-50 cursor-pointer">
+                      <label className="flex items-center gap-2 border border-slate-100 dark:border-stone-700 p-2.5 rounded-lg hover:bg-slate-50 cursor-pointer">
                         <input
                           type="checkbox"
                           checked={arModel.xr_environment ?? true}
@@ -368,8 +368,8 @@ export default function AdminARManager() {
                 </div>
 
                 {/* Video Mapping config */}
-                <div className="bg-white rounded-2xl border border-slate-150 p-5 shadow-sm space-y-4">
-                  <h4 className="font-bold text-slate-700 text-sm flex items-center gap-1.5 border-b border-slate-100 pb-2">
+                <div className="bg-white dark:bg-stone-800 rounded-2xl border border-slate-150 dark:border-stone-700 p-5 shadow-sm space-y-4">
+                  <h4 className="font-bold text-slate-700 text-sm flex items-center gap-1.5 border-b border-slate-100 dark:border-stone-700 pb-2">
                     <Play className="w-4 h-4 text-primary" />
                     Texturas de Video Dinámicas
                   </h4>
@@ -380,7 +380,7 @@ export default function AdminARManager() {
                         type="url"
                         value={arModel.video_url || ''}
                         onChange={(e) => setArModel({ ...arModel, video_url: e.target.value })}
-                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none"
+                        className="w-full px-3 py-2 border border-slate-200 dark:border-stone-700 rounded-lg focus:outline-none"
                         placeholder="https://ejemplo.com/vapor.mp4"
                       />
                     </div>
@@ -390,7 +390,7 @@ export default function AdminARManager() {
                         type="text"
                         value={arModel.video_target_material || ''}
                         onChange={(e) => setArModel({ ...arModel, video_target_material: e.target.value })}
-                        className="w-full px-3 py-2 border border-slate-200 rounded-lg focus:outline-none"
+                        className="w-full px-3 py-2 border border-slate-200 dark:border-stone-700 rounded-lg focus:outline-none"
                         placeholder="Ej. LiquidMaterial"
                       />
                     </div>
@@ -501,8 +501,8 @@ export default function AdminARManager() {
                 </div>
 
                 {/* Hotspots List */}
-                <div className="bg-white rounded-2xl border border-slate-150 p-5 shadow-sm space-y-3">
-                  <h4 className="font-bold text-slate-700 text-sm flex items-center gap-1.5 border-b border-slate-100 pb-2">
+                <div className="bg-white dark:bg-stone-800 rounded-2xl border border-slate-150 dark:border-stone-700 p-5 shadow-sm space-y-3">
+                  <h4 className="font-bold text-slate-700 text-sm flex items-center gap-1.5 border-b border-slate-100 dark:border-stone-700 pb-2">
                     <Tag className="w-4 h-4 text-primary" />
                     Puntos de Información ({arModel.hotspots?.length || 0})
                   </h4>
@@ -517,7 +517,7 @@ export default function AdminARManager() {
                       arModel.hotspots.map((hotspot) => (
                         <div
                           key={hotspot.id}
-                          className="flex items-center justify-between p-2.5 rounded-lg border border-slate-100 hover:bg-slate-50/50 text-xs transition-colors"
+                          className="flex items-center justify-between p-2.5 rounded-lg border border-slate-100 dark:border-stone-700 hover:bg-slate-50/50 text-xs transition-colors"
                         >
                           <div className="flex items-center gap-2 text-slate-700 font-semibold truncate">
                             <span
@@ -545,7 +545,7 @@ export default function AdminARManager() {
               </div>
             </div>
           ) : (
-            <div className="bg-white rounded-2xl border border-slate-150 p-12 text-center shadow-sm">
+            <div className="bg-white dark:bg-stone-800 rounded-2xl border border-slate-150 dark:border-stone-700 p-12 text-center shadow-sm">
               <Sparkles className="w-10 h-10 text-slate-300 mx-auto mb-3" />
               <p className="text-slate-500 text-sm font-semibold">Selecciona un producto para configurar.</p>
             </div>

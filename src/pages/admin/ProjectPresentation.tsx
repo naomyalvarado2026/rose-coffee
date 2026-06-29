@@ -103,7 +103,7 @@ export default function ProjectPresentation() {
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ type: 'spring', stiffness: 100, damping: 18 }}
-            className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white/5 border border-white/10 backdrop-blur-md shadow-inner"
+            className="inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-white dark:bg-stone-800/5 border border-white/10 backdrop-blur-md shadow-inner"
           >
             <Presentation size={15} className="text-gold animate-pulse" />
             <span className="text-[10px] font-black uppercase tracking-widest text-gold">Presentación del Proyecto</span>
@@ -152,7 +152,7 @@ export default function ProjectPresentation() {
             </div>
             
             <div className="absolute w-20 h-20 rounded-full border border-dashed border-white/10 flex items-center justify-center animate-spin [animation-duration:12s] [animation-direction:reverse]">
-              <div className="absolute top-1/2 right-0 translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-white" />
+              <div className="absolute top-1/2 right-0 translate-x-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-white dark:bg-stone-800" />
             </div>
 
             <div className="absolute flex flex-col items-center animate-float">
@@ -163,13 +163,13 @@ export default function ProjectPresentation() {
         </div>
         
         {/* Scroll down indicator */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 opacity-60">
-          <span className="text-[8px] font-black uppercase tracking-widest text-stone-400">Deslizar para Explorar</span>
-          <div className="w-1.5 h-6 rounded-full bg-white/10 relative overflow-hidden">
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-80">
+          <span className="text-[9px] font-black uppercase tracking-widest text-stone-400 animate-pulse">Explorar Proyecto</span>
+          <div className="w-5 h-8 rounded-full border-2 border-white/20 flex items-start justify-center p-1 relative overflow-hidden backdrop-blur-sm">
             <motion.div 
-              animate={{ y: [0, 16, 0] }}
-              transition={{ repeat: Infinity, duration: 1.8, ease: 'easeInOut' }}
-              className="absolute top-0 left-0 w-full h-2 rounded-full bg-gold"
+              animate={{ y: [0, 12, 0], opacity: [0.5, 1, 0.5] }}
+              transition={{ repeat: Infinity, duration: 2, ease: 'easeInOut' }}
+              className="w-1.5 h-1.5 rounded-full bg-gold"
             />
           </div>
         </div>
@@ -183,7 +183,7 @@ export default function ProjectPresentation() {
         <div className="max-w-5xl mx-auto w-full space-y-12 relative z-10">
           
           <motion.div {...fadeInUp} className="text-center space-y-3">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-coffee/5 text-coffee text-[9px] font-bold uppercase tracking-widest">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-coffee/5 text-coffee dark:text-gold text-[9px] font-bold uppercase tracking-widest">
               <Heart size={10} className="fill-coffee" />
               <span>Personalidad de Marca</span>
             </div>
@@ -198,7 +198,7 @@ export default function ProjectPresentation() {
             {/* Logo description */}
             <motion.div 
               {...fadeInUp} 
-              className="lg:col-span-7 space-y-6 bg-white/50 border border-stone-200/50 backdrop-blur-md rounded-3xl p-6 md:p-8 shadow-xl"
+              className="lg:col-span-7 space-y-6 bg-white dark:bg-stone-800/50 border border-stone-200 dark:border-stone-700/50 backdrop-blur-md rounded-3xl p-6 md:p-8 shadow-xl"
             >
               <div className="flex items-center gap-3">
                 <img src={logoRose} alt="Logo" className="h-12 w-auto animate-float" />
@@ -209,10 +209,10 @@ export default function ProjectPresentation() {
               </div>
               
               <p className="text-stone-700 text-sm leading-relaxed">
-                El imagotipo de <strong className="text-coffee">Rose Coffee</strong> representa la unión entre la alta panadería y el respeto por los animales. El protagonista es un gato sosteniendo una hogaza de pan, transmitiendo cercanía, calidez y un proceso 100% hecho a mano.
+                El imagotipo de <strong className="text-coffee dark:text-gold">Rose Coffee</strong> representa la unión entre la alta panadería y el respeto por los animales. El protagonista es un gato sosteniendo una hogaza de pan, transmitiendo cercanía, calidez y un proceso 100% hecho a mano.
               </p>
 
-              <div className="border-t border-stone-200/60 pt-4 space-y-3">
+              <div className="border-t border-stone-200 dark:border-stone-700/60 pt-4 space-y-3">
                 <h4 className="font-extrabold text-xs text-primary uppercase tracking-widest">Puntos Clave del Diseño:</h4>
                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-stone-600">
                   <li className="flex items-center gap-2">
@@ -253,7 +253,7 @@ export default function ProjectPresentation() {
                     visible: { opacity: 1, scale: 1 }
                   }}
                   whileHover={{ scale: 1.03 }}
-                  className="bg-white border border-stone-200/50 p-3 rounded-2xl shadow-md space-y-3 flex flex-col justify-between"
+                  className="bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700/50 p-3 rounded-2xl shadow-md space-y-3 flex flex-col justify-between"
                 >
                   <div className={`h-16 w-full rounded-xl ${color.bg} flex items-center justify-center`}>
                     <span className={`text-[10px] font-black tracking-wider uppercase ${color.text}`}>{color.hex}</span>
@@ -278,7 +278,7 @@ export default function ProjectPresentation() {
         <div className="max-w-5xl mx-auto w-full space-y-12 relative z-10">
           
           <motion.div {...fadeInUp} className="text-center space-y-3">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 text-gold text-[9px] font-bold uppercase tracking-widest border border-white/10">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-stone-800/5 text-gold text-[9px] font-bold uppercase tracking-widest border border-white/10">
               <Cpu size={10} className="text-gold" />
               <span>Cliente Final (B2C)</span>
             </div>
@@ -337,7 +337,7 @@ export default function ProjectPresentation() {
                 key={idx}
                 variants={cardVariantsDark}
                 whileHover="hover"
-                className="bg-white/5 border border-white/10 backdrop-blur-md p-6 rounded-3xl flex flex-col justify-between space-y-6"
+                className="bg-white dark:bg-stone-800/5 border border-white/10 backdrop-blur-md p-6 rounded-3xl flex flex-col justify-between space-y-6"
               >
                 <div className="space-y-4">
                   <div className="w-10 h-10 rounded-xl bg-gold/15 border border-gold/30 flex items-center justify-center text-gold">
@@ -371,7 +371,7 @@ export default function ProjectPresentation() {
         <div className="max-w-5xl mx-auto w-full space-y-12 relative z-10">
           
           <motion.div {...fadeInUp} className="text-center space-y-3">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-coffee/5 text-coffee text-[9px] font-bold uppercase tracking-widest">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-coffee/5 text-coffee dark:text-gold text-[9px] font-bold uppercase tracking-widest">
               <ShieldCheck size={10} />
               <span>Back-Office de Negocios</span>
             </div>
@@ -448,17 +448,17 @@ export default function ProjectPresentation() {
                 key={idx}
                 variants={cardVariants}
                 whileHover="hover"
-                className="bg-white border border-stone-200/60 p-6 rounded-3xl shadow-sm flex flex-col justify-between gap-6"
+                className="bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700/60 p-6 rounded-3xl shadow-sm flex flex-col justify-between gap-6"
               >
                 <div className="space-y-4">
-                  <div className="w-10 h-10 rounded-xl bg-coffee/5 border border-coffee/15 flex items-center justify-center text-coffee">
+                  <div className="w-10 h-10 rounded-xl bg-coffee/5 border border-coffee/15 flex items-center justify-center text-coffee dark:text-gold">
                     <module.icon size={20} />
                   </div>
                   <h3 className="font-extrabold text-base text-primary">{module.title}</h3>
                   <p className="text-stone-600 text-xs leading-relaxed">{module.desc}</p>
                 </div>
                 
-                <div className="border-t border-stone-100 pt-3 flex items-center justify-between">
+                <div className="border-t border-stone-100 dark:border-stone-700 pt-3 flex items-center justify-between">
                   <span className="text-[9px] font-black uppercase tracking-wider text-gold">{module.detail}</span>
                 </div>
               </motion.div>
@@ -476,7 +476,7 @@ export default function ProjectPresentation() {
         <div className="max-w-5xl mx-auto w-full space-y-12 relative z-10">
           
           <motion.div {...fadeInUp} className="text-center space-y-3">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 text-gold text-[9px] font-bold uppercase tracking-widest border border-white/10">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-stone-800/5 text-gold text-[9px] font-bold uppercase tracking-widest border border-white/10">
               <Code size={10} />
               <span>Flujo de Datos e Integraciones</span>
             </div>
@@ -543,7 +543,7 @@ export default function ProjectPresentation() {
                   whileHover="hover"
                   className={`p-4 rounded-2xl border backdrop-blur-md flex gap-4 items-start ${item.border}`}
                 >
-                  <div className="w-8 h-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-gold shrink-0 mt-0.5">
+                  <div className="w-8 h-8 rounded-lg bg-white dark:bg-stone-800/5 border border-white/10 flex items-center justify-center text-gold shrink-0 mt-0.5">
                     <item.icon size={16} />
                   </div>
                   <div className="space-y-1">
@@ -628,7 +628,7 @@ export default function ProjectPresentation() {
                   <motion.div 
                     animate={{ y: [50, 125], x: [100, 0], opacity: [0, 1, 1, 0] }}
                     transition={{ repeat: Infinity, duration: 4, ease: 'linear', delay: 1 }}
-                    className="absolute top-8 right-8 w-1.5 h-1.5 rounded-full bg-white shadow-md"
+                    className="absolute top-8 right-8 w-1.5 h-1.5 rounded-full bg-white dark:bg-stone-800 shadow-md"
                   />
 
                   {/* Particle Browser to Supabase */}
@@ -674,7 +674,7 @@ export default function ProjectPresentation() {
         <div className="max-w-5xl mx-auto w-full space-y-12 relative z-10">
           
           <motion.div {...fadeInUp} className="text-center space-y-3">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 text-gold text-[9px] font-bold uppercase tracking-widest border border-white/10">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-stone-800/5 text-gold text-[9px] font-bold uppercase tracking-widest border border-white/10">
               <Layers size={10} />
               <span>Computación Espacial</span>
             </div>
@@ -730,11 +730,25 @@ export default function ProjectPresentation() {
               <div className="h-64 border-2 border-dashed border-gold/30 rounded-2xl flex flex-col items-center justify-center relative overflow-hidden bg-slate-950/60 mt-4">
                 {/* 3D mesh lines representation */}
                 <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(200,146,42,0.1),transparent)]" />
+                
+                {/* Simulated 3D Model Floating */}
+                <motion.div
+                  animate={{ y: [-10, 10, -10], rotateY: [0, 360] }}
+                  transition={{ 
+                    y: { repeat: Infinity, duration: 4, ease: "easeInOut" },
+                    rotateY: { repeat: Infinity, duration: 15, ease: "linear" } 
+                  }}
+                  className="relative z-10 flex flex-col items-center justify-center transform-style-3d"
+                >
+                  <Coffee size={50} className="text-gold drop-shadow-[0_0_15px_rgba(200,146,42,0.6)]" />
+                  <div className="absolute w-24 h-4 bg-black/40 blur-md rounded-full -bottom-6" />
+                </motion.div>
+                
+                {/* Orbiting Rings */}
                 <div className="absolute w-36 h-36 border border-gold/20 rounded-full animate-spin [animation-duration:15s]" />
                 <div className="absolute w-44 h-24 border border-dashed border-gold/15 rounded-full rotate-45 animate-spin [animation-duration:10s]" />
                 
-                <Coffee size={40} className="text-gold animate-float relative z-10" />
-                <span className="text-[10px] font-extrabold text-stone-300 mt-4 tracking-widest uppercase relative z-10">Malla 3D: Taza Café</span>
+                <span className="text-[10px] font-extrabold text-stone-300 mt-8 tracking-widest uppercase relative z-10 bg-black/50 px-2 py-1 rounded backdrop-blur-sm border border-white/10">Malla 3D: Taza Café</span>
                 
                 {/* Scanning reticle */}
                 <div className="absolute w-full h-0.5 bg-gold/50 shadow-lg shadow-gold/50 top-1/2 left-0 -translate-y-1/2 animate-pulse" />
@@ -759,7 +773,7 @@ export default function ProjectPresentation() {
         <div className="max-w-5xl mx-auto w-full space-y-12 relative z-10">
           
           <motion.div {...fadeInUp} className="text-center space-y-3">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-coffee/5 text-coffee text-[9px] font-bold uppercase tracking-widest">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-coffee/5 text-coffee dark:text-gold text-[9px] font-bold uppercase tracking-widest">
               <Database size={10} />
               <span>Infraestructura e Ingeniería</span>
             </div>
@@ -775,7 +789,7 @@ export default function ProjectPresentation() {
             {/* Bento Block 1: Frontend (Large, spans 2 cols, 2 rows) */}
             <motion.div 
               whileHover={{ scale: 1.02 }}
-              className="md:col-span-2 md:row-span-2 bg-white border border-stone-200/60 p-6 md:p-8 rounded-3xl shadow-sm flex flex-col justify-between space-y-6"
+              className="md:col-span-2 md:row-span-2 bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700/60 p-6 md:p-8 rounded-3xl shadow-sm flex flex-col justify-between space-y-6"
             >
               <div className="space-y-4">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-[9px] font-bold uppercase tracking-wider">
@@ -792,7 +806,7 @@ export default function ProjectPresentation() {
 
               <div className="flex flex-wrap gap-2 pt-2">
                 {['React 19', 'Vite', 'Tailwind 4', 'Framer Motion', 'Zustand'].map((tech) => (
-                  <span key={tech} className="bg-stone-100 text-stone-700 text-[10px] font-bold px-3 py-1 rounded-lg border border-stone-200">
+                  <span key={tech} className="bg-stone-100 text-stone-700 text-[10px] font-bold px-3 py-1 rounded-lg border border-stone-200 dark:border-stone-700">
                     {tech}
                   </span>
                 ))}
@@ -802,7 +816,7 @@ export default function ProjectPresentation() {
             {/* Bento Block 2: Backend (Spans 1 col) */}
             <motion.div 
               whileHover={{ scale: 1.02 }}
-              className="bg-white border border-stone-200/60 p-6 rounded-3xl shadow-sm flex flex-col justify-between space-y-4"
+              className="bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700/60 p-6 rounded-3xl shadow-sm flex flex-col justify-between space-y-4"
             >
               <div className="space-y-3">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[9px] font-bold uppercase tracking-wider">
@@ -825,7 +839,7 @@ export default function ProjectPresentation() {
             {/* Bento Block 3: Storage (Spans 1 col) */}
             <motion.div 
               whileHover={{ scale: 1.02 }}
-              className="bg-white border border-stone-200/60 p-6 rounded-3xl shadow-sm flex flex-col justify-between space-y-4"
+              className="bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700/60 p-6 rounded-3xl shadow-sm flex flex-col justify-between space-y-4"
             >
               <div className="space-y-3">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-[9px] font-bold uppercase tracking-wider">
@@ -848,7 +862,7 @@ export default function ProjectPresentation() {
             {/* Bento Block 4: Computación Espacial / AR (Large, spans 2 cols) */}
             <motion.div 
               whileHover={{ scale: 1.02 }}
-              className="md:col-span-2 bg-white border border-stone-200/60 p-6 md:p-8 rounded-3xl shadow-sm flex flex-col justify-between space-y-4"
+              className="md:col-span-2 bg-white dark:bg-stone-800 border border-stone-200 dark:border-stone-700/60 p-6 md:p-8 rounded-3xl shadow-sm flex flex-col justify-between space-y-4"
             >
               <div className="space-y-3">
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-100 text-purple-800 text-[9px] font-bold uppercase tracking-wider">
@@ -882,7 +896,7 @@ export default function ProjectPresentation() {
         <div className="max-w-5xl mx-auto w-full space-y-12 relative z-10">
           
           <motion.div {...fadeInUp} className="text-center space-y-3">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/5 text-gold text-[9px] font-bold uppercase tracking-widest border border-white/10">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-stone-800/5 text-gold text-[9px] font-bold uppercase tracking-widest border border-white/10">
               <Sparkles size={10} className="text-gold" />
               <span>Última Actualización</span>
             </div>
@@ -897,76 +911,74 @@ export default function ProjectPresentation() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-stretch pt-4">
             
-            {/* Left Card: Nosotros, Equipo e Interactividad */}
+            {/* Left Card: Expansión del Catálogo y UI */}
             <motion.div 
               whileHover={{ scale: 1.02 }}
-              className="bg-white/5 border border-white/10 backdrop-blur-md p-6 md:p-8 rounded-3xl flex flex-col justify-between space-y-6"
+              className="bg-white dark:bg-stone-800/5 border border-white/10 backdrop-blur-md p-6 md:p-8 rounded-3xl flex flex-col justify-between space-y-6 shadow-2xl relative overflow-hidden group"
             >
-              <div className="space-y-4">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold/15 text-gold text-[9px] font-bold uppercase tracking-wider">
-                  Nosotros & Experiencia Phygital
+              <div className="absolute inset-0 bg-gradient-to-br from-gold/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="space-y-4 relative z-10">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold/15 text-gold text-[9px] font-bold uppercase tracking-wider shadow-[0_0_10px_rgba(200,146,42,0.2)]">
+                  Catálogo Inteligente & Diseño AI
                 </div>
-                <h3 className="text-xl font-extrabold text-white leading-tight">Identidad y Contenido Artesanal</h3>
+                <h3 className="text-xl font-extrabold text-white leading-tight">Expansión de Productos e IA</h3>
                 <p className="text-stone-300 text-xs leading-relaxed">
-                  Rediseño completo de la página <strong>Nosotros</strong> (About.tsx). Se mejoraron las redacciones de la Misión y Visión eliminando comillas innecesarias para mayor limpieza visual.
+                  Implementación de un sistema de seed en el admin panel para generar productos demo instantáneos, enriqueciendo la tienda con accesorios y postres acompañados de fotografías de alta gama generadas por inteligencia artificial.
                 </p>
                 
                 <div className="space-y-3 border-t border-white/5 pt-4">
-                  <h4 className="text-xs font-bold text-white uppercase tracking-wider">Elementos Clave Incorporados:</h4>
+                  <h4 className="text-xs font-bold text-white uppercase tracking-wider">Hitos de la Tienda:</h4>
                   <ul className="space-y-2 text-stone-350 text-xs">
-                    <li className="flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-gold" />
-                      <span><strong>Video de Amasado Integrado:</strong> Reproductor de alta fidelidad con poster dinámico de Naomy Alvarado.</span>
+                    <li className="flex items-start gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0 mt-1.5 shadow-[0_0_5px_rgba(200,146,42,0.5)]" />
+                      <span><strong>Fotografía de Estudio AI:</strong> Generación e integración de imágenes realistas para nuevos productos (Taza de Cerámica, Prensa Francesa, Tiramisú, Café Blend).</span>
                     </li>
-                    <li className="flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-gold" />
-                      <span><strong>Galería Transmedia:</strong> Proceso "Del Trigo a la Mesa" (Masa madre de 72h, amasado manual y gatitas reales de la cafetería).</span>
+                    <li className="flex items-start gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0 mt-1.5 shadow-[0_0_5px_rgba(200,146,42,0.5)]" />
+                      <span><strong>Filtros Normalizados:</strong> Refactorización de la lógica de Store.tsx para normalizar el capital case y eliminar filtros de categorías duplicadas.</span>
                     </li>
-                    <li className="flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-gold" />
-                      <span><strong>Retrato Profesional:</strong> Integración del retrato real de Naomy en la sección de fundadores.</span>
+                    <li className="flex items-start gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0 mt-1.5 shadow-[0_0_5px_rgba(200,146,42,0.5)]" />
+                      <span><strong>Videos de Realidad Aumentada:</strong> Implementación responsiva en formato 9:16 de videos demostrativos de AR con controles táctiles e interacción.</span>
                     </li>
-                    <li className="flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-gold" />
-                      <span><strong>Suscripción Interactiva:</strong> Bug de persistencia solucionado en CoffeeSubscription.tsx para alternar entre planes.</span>
+                    <li className="flex items-start gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-gold shrink-0 mt-1.5 shadow-[0_0_5px_rgba(200,146,42,0.5)]" />
+                      <span><strong>Gestión de Membresías:</strong> Capacidad de ocultar o mostrar membresías desde el Panel Administrativo para modular la oferta.</span>
                     </li>
                   </ul>
                 </div>
               </div>
             </motion.div>
 
-            {/* Right Card: Seguridad Financiera, Animaciones y DevOps */}
+            {/* Right Card: Interfaz, Rendimiento y Despliegue */}
             <motion.div 
               whileHover={{ scale: 1.02 }}
-              className="bg-white/5 border border-white/10 backdrop-blur-md p-6 md:p-8 rounded-3xl flex flex-col justify-between space-y-6"
+              className="bg-white dark:bg-stone-800/5 border border-white/10 backdrop-blur-md p-6 md:p-8 rounded-3xl flex flex-col justify-between space-y-6 shadow-2xl relative overflow-hidden group"
             >
-              <div className="space-y-4">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-[9px] font-bold uppercase tracking-wider">
-                  Seguridad, Estética y DevOps
+              <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <div className="space-y-4 relative z-10">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-[9px] font-bold uppercase tracking-wider shadow-[0_0_10px_rgba(16,185,129,0.2)]">
+                  UX/UI, Seguridad y DevOps
                 </div>
-                <h3 className="text-xl font-extrabold text-white leading-tight">Seguridad de Pago, Estética y Despliegue</h3>
+                <h3 className="text-xl font-extrabold text-white leading-tight">Optimización Visual y Despliegue</h3>
                 <p className="text-stone-300 text-xs leading-relaxed">
-                  Verificación de la pasarela de pagos para el cumplimiento de normativas de seguridad financiera electrónica y optimización del pie de página.
+                  Mejoras sistémicas en la presentación de los productos, pulido de la experiencia de usuario (UX) en la navegación, y flujos automatizados de despliegue a producción.
                 </p>
                 
                 <div className="space-y-3 border-t border-white/5 pt-4">
-                  <h4 className="text-xs font-bold text-white uppercase tracking-wider">Detalles Técnicos e Hitos:</h4>
+                  <h4 className="text-xs font-bold text-white uppercase tracking-wider">Detalles de Optimización:</h4>
                   <ul className="space-y-2 text-stone-350 text-xs">
-                    <li className="flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                      <span><strong>Seguridad Financiera (PCI-DSS):</strong> Auditoría del flujo de tarjetas. Recomendación de tokenización segura con <strong>Payphone Ecuador</strong> para tarjetas Visa Pichincha.</span>
+                    <li className="flex items-start gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0 mt-1.5 shadow-[0_0_5px_rgba(16,185,129,0.5)]" />
+                      <span><strong>Diseño Phygital & Animaciones:</strong> Mejoras dinámicas de visualización, como líneas animadas doradas y efectos parallax, elevando la percepción premium.</span>
                     </li>
-                    <li className="flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                      <span><strong>Canales de Pago Reales Activos:</strong> Compra rápida por WhatsApp y Transferencias Bancarias con carga segura de comprobantes a Supabase Storage.</span>
+                    <li className="flex items-start gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0 mt-1.5 shadow-[0_0_5px_rgba(16,185,129,0.5)]" />
+                      <span><strong>Seguridad Financiera:</strong> Preparación PCI-DSS para pasarelas y soporte multicanal de pago (WhatsApp, Transferencias con carga en Storage).</span>
                     </li>
-                    <li className="flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                      <span><strong>Oro Líquido en el Footer:</strong> Línea animada superior en Footer.tsx usando keyframes de desplazamiento en index.css de Tailwind v4.</span>
-                    </li>
-                    <li className="flex items-center gap-2">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                      <span><strong>Despliegue Automatizado:</strong> Servido con éxito en GitHub Pages (gh-pages) tras compilación del bundle optimizado en Vite.</span>
+                    <li className="flex items-start gap-2">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0 mt-1.5 shadow-[0_0_5px_rgba(16,185,129,0.5)]" />
+                      <span><strong>Automatización CI/CD:</strong> Despliegue en vivo en <code>gh-pages</code> integrado, con control estricto de Vite base URL para ruteos y Service Workers (PWA).</span>
                     </li>
                   </ul>
                 </div>
@@ -975,22 +987,64 @@ export default function ProjectPresentation() {
             
           </div>
 
+          {/* New Full Width Banner: Visión a Futuro */}
+          <motion.div 
+            {...fadeInUp}
+            className="w-full bg-gradient-to-r from-coffee/80 to-primary/90 p-8 md:p-10 rounded-3xl border border-gold/20 shadow-[0_10px_40px_rgba(107,58,14,0.3)] relative overflow-hidden mt-8"
+          >
+            {/* Background pattern */}
+            <div className="absolute inset-0 opacity-[0.05] bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] mix-blend-overlay" />
+            
+            <div className="relative z-10 flex flex-col md:flex-row gap-6 items-center justify-between">
+              <div className="space-y-3 md:w-2/3">
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gold/20 text-gold text-[9px] font-bold uppercase tracking-wider backdrop-blur-sm border border-gold/30">
+                  <Sparkles size={10} /> Escalamiento & Futuro
+                </div>
+                <h3 className="text-2xl sm:text-3xl font-black text-white leading-tight">Preparados para el Siguiente Nivel</h3>
+                <p className="text-stone-300 text-sm">
+                  La arquitectura headless y modular de Rose Coffee asegura una escalabilidad masiva. El ecosistema está preparado para integrar modelos de Machine Learning (Recomendaciones de Café) y métricas avanzadas de retención, solidificando a Rose Coffee no solo como una cafetería, sino como un caso de éxito en la era de la IA y el comercio electrónico experiencial.
+                </p>
+              </div>
+              
+              <div className="md:w-1/3 flex justify-center w-full">
+                 {/* Rotating Badge */}
+                 <div className="relative w-32 h-32 flex items-center justify-center">
+                   <svg className="absolute inset-0 w-full h-full animate-[spin_10s_linear_infinite]" viewBox="0 0 100 100">
+                     <path id="textPath" d="M 50, 50 m -35, 0 a 35,35 0 1,1 70,0 a 35,35 0 1,1 -70,0" fill="none" />
+                     <text className="text-[10px] font-black uppercase tracking-[0.2em] fill-gold">
+                       <textPath href="#textPath" startOffset="0%">• innovacion • tecnologia • diseño •</textPath>
+                     </text>
+                   </svg>
+                   <div className="w-16 h-16 rounded-full bg-white dark:bg-stone-800/5 border border-gold/30 flex items-center justify-center backdrop-blur-md shadow-[0_0_20px_rgba(200,146,42,0.4)]">
+                      <Coffee size={24} className="text-gold" />
+                   </div>
+                 </div>
+              </div>
+            </div>
+          </motion.div>
+
           {/* Quick status bar representing 100% completion */}
           <motion.div 
             {...fadeInUp}
-            className="p-6 rounded-3xl bg-slate-950/40 border border-white/5 flex flex-col md:flex-row items-center justify-between gap-4 backdrop-blur-md"
+            className="p-6 rounded-3xl bg-slate-950/60 border border-white/5 flex flex-col md:flex-row items-center justify-between gap-4 backdrop-blur-xl mt-8 shadow-inner"
           >
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-green-500/20 border border-green-500/40 flex items-center justify-center text-green-400">
-                <ShieldCheck size={18} />
+              <div className="w-10 h-10 rounded-full bg-green-500/20 border border-green-500/40 flex items-center justify-center text-green-400 shadow-[0_0_15px_rgba(16,185,129,0.3)]">
+                <ShieldCheck size={20} />
               </div>
               <div className="text-left">
                 <p className="text-xs font-extrabold text-white uppercase tracking-wider">Estado del Proyecto: Producción Activo</p>
-                <p className="text-[10px] text-stone-400">Compilación finalizada y despliegue publicado exitosamente.</p>
+                <p className="text-[10px] text-stone-400">Compilación finalizada y despliegue publicado exitosamente (Vite + GH-Pages).</p>
               </div>
             </div>
-            <div className="w-full md:w-48 bg-white/10 h-2.5 rounded-full overflow-hidden relative">
-              <div className="absolute top-0 left-0 h-full w-full bg-green-500 rounded-full" />
+            <div className="w-full md:w-64 bg-white dark:bg-stone-800/10 h-2.5 rounded-full overflow-hidden relative shadow-inner">
+              <motion.div 
+                initial={{ width: 0 }}
+                whileInView={{ width: '100%' }}
+                transition={{ duration: 1.5, ease: "easeOut" }}
+                className="absolute top-0 left-0 h-full bg-gradient-to-r from-green-500 to-emerald-400 rounded-full" 
+              />
+              <div className="absolute top-0 right-0 h-full w-full bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.2)_50%,transparent_75%)] bg-[length:1rem_1rem] animate-[shimmer_1s_linear_infinite]" />
             </div>
           </motion.div>
 

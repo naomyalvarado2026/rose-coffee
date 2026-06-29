@@ -8,7 +8,6 @@ import { supabase } from '../../config/supabase';
 export default function SettingsManager() {
   const [phone, setPhone] = useState('+593980372113');
   const [address, setAddress] = useState('E25 y Av. 17 de Septiembre, Milagro, Ecuador.');
-  const [facebookUrl, setFacebookUrl] = useState('https://facebook.com');
   const [instagramUrl, setInstagramUrl] = useState('https://instagram.com');
   const [tiktokUrl, setTiktokUrl] = useState('https://tiktok.com');
   const [whatsappOrders, setWhatsappOrders] = useState(true);
@@ -36,9 +35,6 @@ export default function SettingsManager() {
 
         const cachedAddress = localStorage.getItem('rose_coffee_business_address');
         if (cachedAddress) setAddress(cachedAddress);
-
-        const cachedFacebook = localStorage.getItem('rose_coffee_facebook_url');
-        if (cachedFacebook) setFacebookUrl(cachedFacebook);
 
         const cachedInstagram = localStorage.getItem('rose_coffee_instagram_url');
         if (cachedInstagram) setInstagramUrl(cachedInstagram);
@@ -80,10 +76,6 @@ export default function SettingsManager() {
             setAddress(cfg.address);
             localStorage.setItem('rose_coffee_business_address', cfg.address);
           }
-          if (cfg.facebook_url) {
-            setFacebookUrl(cfg.facebook_url);
-            localStorage.setItem('rose_coffee_facebook_url', cfg.facebook_url);
-          }
           if (cfg.instagram_url) {
             setInstagramUrl(cfg.instagram_url);
             localStorage.setItem('rose_coffee_instagram_url', cfg.instagram_url);
@@ -116,7 +108,6 @@ export default function SettingsManager() {
     try {
       localStorage.setItem('rose_coffee_business_phone', phone);
       localStorage.setItem('rose_coffee_business_address', address);
-      localStorage.setItem('rose_coffee_facebook_url', facebookUrl);
       localStorage.setItem('rose_coffee_instagram_url', instagramUrl);
       localStorage.setItem('rose_coffee_tiktok_url', tiktokUrl);
       localStorage.setItem('rose_coffee_whatsapp_orders', String(whatsappOrders));
@@ -140,7 +131,6 @@ export default function SettingsManager() {
           content_blocks: [{
             phone,
             address,
-            facebook_url: facebookUrl,
             instagram_url: instagramUrl,
             tiktok_url: tiktokUrl,
             whatsapp_orders: whatsappOrders,
@@ -176,7 +166,7 @@ export default function SettingsManager() {
   if (loadingSettings) {
     return (
       <div className="min-h-[50vh] flex flex-col justify-center items-center gap-3">
-        <Loader2 className="animate-spin text-coffee" size={30} />
+        <Loader2 className="animate-spin text-coffee dark:text-gold" size={30} />
         <span className="text-[10px] font-bold text-stone-550 uppercase tracking-widest">Cargando configuración operativa...</span>
       </div>
     );
@@ -192,9 +182,9 @@ export default function SettingsManager() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
         
         {/* Left Col - Business Profile Form */}
-        <div className="lg:col-span-2 bg-white border border-coffee/10 rounded-3xl p-6 md:p-8 shadow-2xs space-y-6">
-          <div className="space-y-1 border-b border-stone-100 pb-3">
-            <h3 className="text-sm font-extrabold text-stone-900 flex items-center gap-1.5">
+        <div className="lg:col-span-2 bg-white dark:bg-stone-800 border border-coffee/10 rounded-3xl p-6 md:p-8 shadow-2xs space-y-6">
+          <div className="space-y-1 border-b border-stone-100 dark:border-stone-700 pb-3">
+            <h3 className="text-sm font-extrabold text-stone-900 dark:text-stone-200 flex items-center gap-1.5">
               <Settings size={16} className="text-gold" />
               Parámetros Operativos
             </h3>
@@ -213,7 +203,7 @@ export default function SettingsManager() {
                   type="text"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 border border-stone-200 rounded-xl text-xs font-mono font-bold text-stone-850 bg-stone-50/40 focus:bg-white focus:border-coffee focus:ring-2 focus:ring-coffee/20 focus:outline-none transition-all duration-200"
+                  className="w-full pl-10 pr-4 py-2.5 border border-stone-200 dark:border-stone-700 rounded-xl text-xs font-mono font-bold text-stone-850 bg-stone-50/40 focus:bg-white dark:bg-stone-800 focus:border-coffee focus:ring-2 focus:ring-coffee/20 focus:outline-none transition-all duration-200"
                 />
               </div>
             </div>
@@ -229,7 +219,7 @@ export default function SettingsManager() {
                   type="text"
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
-                  className="w-full pl-10 pr-4 py-2.5 border border-stone-200 rounded-xl text-xs text-stone-850 bg-stone-50/40 focus:bg-white focus:border-coffee focus:ring-2 focus:ring-coffee/20 focus:outline-none transition-all duration-200"
+                  className="w-full pl-10 pr-4 py-2.5 border border-stone-200 dark:border-stone-700 rounded-xl text-xs text-stone-850 bg-stone-50/40 focus:bg-white dark:bg-stone-800 focus:border-coffee focus:ring-2 focus:ring-coffee/20 focus:outline-none transition-all duration-200"
                   placeholder="Ej. E25 y Av. 17 de Septiembre, Milagro, Ecuador."
                 />
               </div>
@@ -237,26 +227,6 @@ export default function SettingsManager() {
 
             {/* Social Media Links Inputs */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <label htmlFor="facebook_url" className="block text-[10px] font-bold text-stone-500 uppercase tracking-widest mb-1.5">
-                  Facebook URL
-                </label>
-                <div className="relative">
-                  <div className="absolute left-3.5 top-1/2 -translate-y-1/2 text-stone-400">
-                    <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z" />
-                    </svg>
-                  </div>
-                  <input
-                    id="facebook_url"
-                    type="url"
-                    value={facebookUrl}
-                    onChange={(e) => setFacebookUrl(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2.5 border border-stone-200 rounded-xl text-xs text-stone-800 bg-stone-50/40 focus:bg-white focus:border-coffee focus:ring-2 focus:ring-coffee/20 focus:outline-none transition-all duration-200"
-                  />
-                </div>
-              </div>
-
               <div>
                 <label htmlFor="instagram_url" className="block text-[10px] font-bold text-stone-500 uppercase tracking-widest mb-1.5">
                   Instagram URL
@@ -274,7 +244,7 @@ export default function SettingsManager() {
                     type="url"
                     value={instagramUrl}
                     onChange={(e) => setInstagramUrl(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2.5 border border-stone-200 rounded-xl text-xs text-stone-800 bg-stone-50/40 focus:bg-white focus:border-coffee focus:ring-2 focus:ring-coffee/20 focus:outline-none transition-all duration-200"
+                    className="w-full pl-10 pr-4 py-2.5 border border-stone-200 dark:border-stone-700 rounded-xl text-xs text-stone-800 dark:text-stone-200 bg-stone-50/40 focus:bg-white dark:bg-stone-800 focus:border-coffee focus:ring-2 focus:ring-coffee/20 focus:outline-none transition-all duration-200"
                   />
                 </div>
               </div>
@@ -294,7 +264,7 @@ export default function SettingsManager() {
                     type="url"
                     value={tiktokUrl}
                     onChange={(e) => setTiktokUrl(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2.5 border border-stone-200 rounded-xl text-xs text-stone-800 bg-stone-50/40 focus:bg-white focus:border-coffee focus:ring-2 focus:ring-coffee/20 focus:outline-none transition-all duration-200"
+                    className="w-full pl-10 pr-4 py-2.5 border border-stone-200 dark:border-stone-700 rounded-xl text-xs text-stone-800 dark:text-stone-200 bg-stone-50/40 focus:bg-white dark:bg-stone-800 focus:border-coffee focus:ring-2 focus:ring-coffee/20 focus:outline-none transition-all duration-200"
                   />
                 </div>
               </div>
@@ -305,11 +275,11 @@ export default function SettingsManager() {
               <label className="block text-[10px] font-bold text-stone-500 uppercase tracking-widest mb-1">
                 Horario de Atención Detallado
               </label>
-              <div className="bg-stone-50/50 border border-stone-150 rounded-2xl p-4 space-y-3">
+              <div className="bg-stone-50/50 border border-stone-150 dark:border-stone-700 rounded-2xl p-4 space-y-3">
                 {Object.keys(dailyHours).map((day) => {
                   const sched = dailyHours[day];
                   return (
-                    <div key={day} className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2.5 border-b border-stone-100 last:border-b-0 last:pb-0">
+                    <div key={day} className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-2.5 border-b border-stone-100 dark:border-stone-700 last:border-b-0 last:pb-0">
                       <div className="flex items-center gap-3">
                         <button
                           type="button"
@@ -322,7 +292,7 @@ export default function SettingsManager() {
                             sched.open ? 'left-4.75' : 'left-0.75'
                           }`} />
                         </button>
-                        <span className="text-xs font-bold text-stone-800 w-24">{day}</span>
+                        <span className="text-xs font-bold text-stone-800 dark:text-stone-200 w-24">{day}</span>
                       </div>
 
                       {sched.open ? (
@@ -331,14 +301,14 @@ export default function SettingsManager() {
                             type="time"
                             value={sched.start}
                             onChange={(e) => handleTimeChange(day, 'start', e.target.value)}
-                            className="px-2 py-1.5 border border-stone-200 rounded-lg text-xs font-mono font-bold text-stone-850 bg-white focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee"
+                            className="px-2 py-1.5 border border-stone-200 dark:border-stone-700 rounded-lg text-xs font-mono font-bold text-stone-850 bg-white dark:bg-stone-800 focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee"
                           />
                           <span className="text-[10px] font-bold text-stone-400 uppercase">a</span>
                           <input
                             type="time"
                             value={sched.end}
                             onChange={(e) => handleTimeChange(day, 'end', e.target.value)}
-                            className="px-2 py-1.5 border border-stone-200 rounded-lg text-xs font-mono font-bold text-stone-850 bg-white focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee"
+                            className="px-2 py-1.5 border border-stone-200 dark:border-stone-700 rounded-lg text-xs font-mono font-bold text-stone-850 bg-white dark:bg-stone-800 focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee"
                           />
                         </div>
                       ) : (
@@ -352,9 +322,9 @@ export default function SettingsManager() {
               </div>
             </div>
 
-            <div className="flex items-center justify-between p-3.5 bg-stone-50 border border-stone-150 rounded-2xl">
+            <div className="flex items-center justify-between p-3.5 bg-stone-50 border border-stone-150 dark:border-stone-700 rounded-2xl">
               <div className="space-y-0.5 text-left">
-                <span className="text-xs font-bold text-stone-800 block">Pedidos directos por WhatsApp</span>
+                <span className="text-xs font-bold text-stone-800 dark:text-stone-200 block">Pedidos directos por WhatsApp</span>
                 <span className="text-[10px] text-stone-400 font-medium">Habilita el envío rápido de carritos a la línea telefónica.</span>
               </div>
               <button 
@@ -378,8 +348,8 @@ export default function SettingsManager() {
 
         {/* Right Col - Security and user mappings */}
         <div className="space-y-6">
-          <div className="bg-white border border-coffee/10 rounded-3xl p-6 shadow-2xs space-y-4 text-left">
-            <div className="flex items-center gap-1.5 text-stone-900 font-extrabold text-sm border-b border-stone-50 pb-2">
+          <div className="bg-white dark:bg-stone-800 border border-coffee/10 rounded-3xl p-6 shadow-2xs space-y-4 text-left">
+            <div className="flex items-center gap-1.5 text-stone-900 dark:text-stone-200 font-extrabold text-sm border-b border-stone-50 pb-2">
               <Shield size={16} className="text-gold" />
               Seguridad y Roles
             </div>
@@ -394,8 +364,8 @@ export default function SettingsManager() {
             </Link>
           </div>
 
-          <div className="bg-white border border-coffee/10 rounded-3xl p-6 shadow-2xs space-y-4 text-left">
-            <div className="flex items-center gap-1.5 text-stone-900 font-extrabold text-sm border-b border-stone-50 pb-2">
+          <div className="bg-white dark:bg-stone-800 border border-coffee/10 rounded-3xl p-6 shadow-2xs space-y-4 text-left">
+            <div className="flex items-center gap-1.5 text-stone-900 dark:text-stone-200 font-extrabold text-sm border-b border-stone-50 pb-2">
               <CreditCard size={16} className="text-gold" />
               Métodos de Pago Activos
             </div>

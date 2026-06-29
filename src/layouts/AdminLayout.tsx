@@ -8,7 +8,7 @@ const AdminLayout = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <div className="flex min-h-screen bg-brand-base relative overflow-hidden font-sans">
+    <div className="flex min-h-screen bg-brand-base dark:bg-stone-950 text-gray-800 dark:text-stone-200 transition-colors duration-300 relative overflow-hidden font-sans">
       {/* Sidebar overlay for mobile when open */}
       {isSidebarOpen && (
         <div 

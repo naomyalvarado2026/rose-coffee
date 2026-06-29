@@ -62,20 +62,20 @@ export default function SubscriptionSection() {
       <div className="space-y-12">
         {/* Header Title */}
         <div className="text-center max-w-2xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 bg-coffee/5 text-coffee border border-coffee/20 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest">
-            <Calendar size={12} className="text-coffee animate-pulse" />
+          <div className="inline-flex items-center gap-2 bg-coffee/5 text-coffee dark:text-gold border border-coffee/20 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest">
+            <Calendar size={12} className="text-coffee dark:text-gold animate-pulse" />
             <span>Suscripciones Mensuales</span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-primary">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-primary dark:text-gold">
             Café de Especialidad en Piloto Automático
           </h2>
-          <p className="text-stone-500 text-sm md:text-base leading-relaxed font-light">
+          <p className="text-stone-500 dark:text-stone-400 text-sm md:text-base leading-relaxed font-light">
             Recibe granos recién tostados directamente en tu puerta. Olvídate de quedarte sin café y disfruta de descuentos exclusivos en panadería de masa madre.
           </p>
 
           {/* Toggle Billing Frequency */}
           <div className="flex items-center justify-center pt-2">
-            <div className="bg-stone-100 p-1.5 rounded-2xl border border-stone-250 flex gap-1">
+            <div className="bg-stone-100 dark:bg-stone-800 p-1.5 rounded-2xl border border-stone-250 dark:border-stone-700 flex gap-1">
               <button
                 type="button"
                 onClick={() => setBillingCycle('monthly')}
@@ -115,7 +115,7 @@ export default function SubscriptionSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className={`bg-white rounded-[32px] border p-8 flex flex-col justify-between relative shadow-2xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 ${
+                className={`bg-white dark:bg-stone-800 rounded-[32px] border p-8 flex flex-col justify-between relative shadow-2xs hover:shadow-md hover:-translate-y-1 transition-all duration-300 ${
                   plan.popular 
                     ? 'border-coffee border-2 shadow-sm' 
                     : 'border-stone-200'
@@ -132,20 +132,20 @@ export default function SubscriptionSection() {
                 <div className="space-y-6">
                   {/* Plan Header */}
                   <div className="space-y-2">
-                    <h3 className="font-bold text-lg text-primary">{plan.name}</h3>
-                    <p className="text-stone-500 text-xs leading-relaxed font-light">{plan.description}</p>
+                    <h3 className="font-bold text-lg text-primary dark:text-gold">{plan.name}</h3>
+                    <p className="text-stone-500 dark:text-stone-400 text-xs leading-relaxed font-light">{plan.description}</p>
                   </div>
 
                   {/* Price */}
-                  <div className="flex items-baseline gap-1 py-2 border-y border-stone-100">
-                    <span className="text-3xl font-black text-primary font-sans">${price.toFixed(2)}</span>
-                    <span className="text-stone-400 text-xs font-medium uppercase">/ {cycleText}</span>
+                  <div className="flex items-baseline gap-1 py-2 border-y border-stone-100 dark:border-stone-700">
+                    <span className="text-3xl font-black text-primary dark:text-gold font-sans">${price.toFixed(2)}</span>
+                    <span className="text-stone-400 dark:text-stone-500 text-xs font-medium uppercase">/ {cycleText}</span>
                   </div>
 
                   {/* Benefits List */}
                   <ul className="space-y-3">
                     {plan.benefits.map((benefit, bIdx) => (
-                      <li key={bIdx} className="flex gap-2.5 items-start text-xs text-stone-600 font-medium">
+                      <li key={bIdx} className="flex gap-2.5 items-start text-xs text-stone-600 dark:text-stone-300 font-medium">
                         <Check size={14} className="text-emerald-500 shrink-0 mt-0.5" />
                         <span>{benefit}</span>
                       </li>
@@ -167,7 +167,7 @@ export default function SubscriptionSection() {
                     <MessageCircle size={15} />
                     Suscribirme por WhatsApp
                   </button>
-                  <p className="text-[10px] text-stone-400 text-center mt-2.5 font-medium flex items-center justify-center gap-1">
+                  <p className="text-[10px] text-stone-400 dark:text-stone-500 text-center mt-2.5 font-medium flex items-center justify-center gap-1">
                     <CreditCard size={11} />
                     Soporta transferencia y efectivo local
                   </p>

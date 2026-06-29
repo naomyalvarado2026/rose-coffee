@@ -128,7 +128,7 @@ export default function ARUploader({
       </div>
 
       {currentUrl && (
-        <div className="mt-2.5 flex items-center justify-between p-2.5 rounded-lg border border-slate-100 bg-slate-50/50 text-xs">
+        <div className="mt-2.5 flex items-center justify-between p-2.5 rounded-lg border border-slate-100 dark:border-stone-700 bg-slate-50/50 text-xs">
           <div className="flex items-center gap-2 text-slate-600 font-medium truncate">
             <File className="w-4 h-4 text-primary shrink-0" />
             <span className="truncate">{currentUrl.split('/').pop()}</span>

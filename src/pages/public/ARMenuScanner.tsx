@@ -243,7 +243,7 @@ export default function ARMenuScanner() {
           </div>
 
           {targets.length === 0 ? (
-            <div className="text-center py-16 bg-white border border-slate-150 rounded-3xl shadow-xs max-w-lg mx-auto">
+            <div className="text-center py-16 bg-white dark:bg-stone-800 border border-slate-150 dark:border-stone-700 rounded-3xl shadow-xs max-w-lg mx-auto">
               <Coffee className="w-12 h-12 text-[#6b3a0e] opacity-40 mx-auto mb-3" />
               <h3 className="font-bold text-slate-700">Los marcadores se están configurando</h3>
               <p className="text-xs text-slate-500 mt-1">
@@ -253,7 +253,7 @@ export default function ARMenuScanner() {
           ) : (
             <div className="space-y-6">
               {/* Target selector */}
-              <div className="bg-white rounded-2xl border border-slate-100 p-5 shadow-xs">
+              <div className="bg-white dark:bg-stone-800 rounded-2xl border border-slate-100 dark:border-stone-700 p-5 shadow-xs">
                 <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Selecciona el Marcador</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {targets.map((target) => (

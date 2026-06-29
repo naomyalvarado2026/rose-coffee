@@ -31,11 +31,11 @@ export default function AnalyticsManager() {
 
       {/* Analytics stats cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="bg-white border border-coffee/10 rounded-2xl p-5 shadow-2xs">
+        <div className="bg-white dark:bg-stone-800 border border-coffee/10 rounded-2xl p-5 shadow-2xs">
           <div className="flex justify-between items-start">
             <div className="space-y-2">
               <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider block">Tasa de Conversión</span>
-              <h4 className="text-2xl font-extrabold text-stone-900 tracking-tight">4.2%</h4>
+              <h4 className="text-2xl font-extrabold text-stone-900 dark:text-stone-200 tracking-tight">4.2%</h4>
               <span className="text-[9px] text-emerald-600 font-bold flex items-center gap-0.5">
                 <ArrowUpRight size={10} /> +0.8% vs. semana pasada
               </span>
@@ -46,11 +46,11 @@ export default function AnalyticsManager() {
           </div>
         </div>
 
-        <div className="bg-white border border-coffee/10 rounded-2xl p-5 shadow-2xs">
+        <div className="bg-white dark:bg-stone-800 border border-coffee/10 rounded-2xl p-5 shadow-2xs">
           <div className="flex justify-between items-start">
             <div className="space-y-2">
               <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider block">Carritos Abandonados</span>
-              <h4 className="text-2xl font-extrabold text-stone-900 tracking-tight">35.4%</h4>
+              <h4 className="text-2xl font-extrabold text-stone-900 dark:text-stone-200 tracking-tight">35.4%</h4>
               <span className="text-[9px] text-emerald-600 font-bold flex items-center gap-0.5">
                 <ArrowUpRight size={10} /> -2.1% reducción de abandono
               </span>
@@ -61,11 +61,11 @@ export default function AnalyticsManager() {
           </div>
         </div>
 
-        <div className="bg-white border border-coffee/10 rounded-2xl p-5 shadow-2xs">
+        <div className="bg-white dark:bg-stone-800 border border-coffee/10 rounded-2xl p-5 shadow-2xs">
           <div className="flex justify-between items-start">
             <div className="space-y-2">
               <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider block">Clientes Recurrentes</span>
-              <h4 className="text-2xl font-extrabold text-stone-900 tracking-tight">62.8%</h4>
+              <h4 className="text-2xl font-extrabold text-stone-900 dark:text-stone-200 tracking-tight">62.8%</h4>
               <span className="text-[9px] text-emerald-600 font-bold flex items-center gap-0.5">
                 <ArrowUpRight size={10} /> +1.5% tasa de retorno
               </span>
@@ -78,8 +78,8 @@ export default function AnalyticsManager() {
       </div>
 
       {/* Conversion Chart */}
-      <div className="bg-white border border-coffee/10 rounded-3xl p-6 shadow-2xs">
-        <h3 className="text-sm font-extrabold text-stone-900 flex items-center gap-1.5 mb-6">
+      <div className="bg-white dark:bg-stone-800 border border-coffee/10 rounded-3xl p-6 shadow-2xs">
+        <h3 className="text-sm font-extrabold text-stone-900 dark:text-stone-200 flex items-center gap-1.5 mb-6">
           <BarChart2 size={16} className="text-gold" />
           Conversión: Carritos Creados vs. Compras Pagadas
         </h3>

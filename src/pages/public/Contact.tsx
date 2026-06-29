@@ -29,7 +29,6 @@ const Contact = () => {
 
   const [phone, setPhone] = useState('+593 98 765 4321');
   const [address, setAddress] = useState('E25 y Av. 17 de Septiembre, Milagro, Ecuador.');
-  const [facebookUrl, setFacebookUrl] = useState('https://facebook.com');
   const [instagramUrl, setInstagramUrl] = useState('https://instagram.com');
   const [tiktokUrl, setTiktokUrl] = useState('https://tiktok.com');
 
@@ -39,8 +38,6 @@ const Contact = () => {
     if (cachedPhone) setPhone(cachedPhone);
     const cachedAddress = localStorage.getItem('rose_coffee_business_address');
     if (cachedAddress) setAddress(cachedAddress);
-    const cachedFacebook = localStorage.getItem('rose_coffee_facebook_url');
-    if (cachedFacebook) setFacebookUrl(cachedFacebook);
     const cachedInstagram = localStorage.getItem('rose_coffee_instagram_url');
     if (cachedInstagram) setInstagramUrl(cachedInstagram);
     const cachedTiktok = localStorage.getItem('rose_coffee_tiktok_url');
@@ -78,10 +75,6 @@ const Contact = () => {
           if (cfg.phone) {
             setPhone(cfg.phone);
             localStorage.setItem('rose_coffee_business_phone', cfg.phone);
-          }
-          if (cfg.facebook_url) {
-            setFacebookUrl(cfg.facebook_url);
-            localStorage.setItem('rose_coffee_facebook_url', cfg.facebook_url);
           }
           if (cfg.instagram_url) {
             setInstagramUrl(cfg.instagram_url);
@@ -165,7 +158,7 @@ const Contact = () => {
   const heroSection = sections.find(s => s.id === 'contact_hero') || DEFAULT_CONTACT_SECTIONS[0];
 
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-8 py-10 space-y-16 bg-brand-base text-black font-sans relative overflow-hidden">
+    <div className="max-w-7xl mx-auto px-4 md:px-8 py-10 space-y-16 bg-brand-base dark:bg-stone-900 text-black dark:text-stone-100 font-sans relative overflow-hidden">
       <SEOHead 
         title="Contacto - Visítanos en Milagro" 
         description="Ponte en contacto con Rose Coffee. Encuentra nuestra dirección, horarios de atención, teléfonos de pedidos y envíanos tus dudas directamente."
@@ -218,7 +211,7 @@ const Contact = () => {
         {/* Columna Izquierda: Información de Contacto */}
         <motion.div variants={fadeInUp} className="space-y-6 flex flex-col justify-between text-left">
           <div className="space-y-6">
-            <h2 className="text-2xl font-extrabold text-primary pb-3 border-b border-stone-200/60 font-sans">
+            <h2 className="text-2xl font-extrabold text-primary dark:text-gold pb-3 border-b border-stone-200 dark:border-stone-700/60 font-sans">
               Información de Contacto
             </h2>
             
@@ -227,14 +220,14 @@ const Contact = () => {
               <motion.div 
                 whileHover={{ y: -6, scale: 1.02, boxShadow: '0 10px 25px -5px rgba(107, 58, 14, 0.12)' }}
                 transition={{ duration: 0.3, ease: 'easeOut' }}
-                className="bg-cream rounded-2xl border border-coffee/10 p-6 flex gap-4 shadow-2xs transition-all duration-300"
+                className="bg-cream dark:bg-stone-800 rounded-2xl border border-coffee/10 dark:border-stone-700 p-6 flex gap-4 shadow-2xs transition-all duration-300"
               >
                 <div className="w-10 h-10 bg-gold/10 text-gold border border-gold/20 rounded-xl flex items-center justify-center flex-shrink-0">
                   <MapPin size={20} />
                 </div>
                 <div>
-                  <h4 className="font-sans font-bold text-stone-850 text-sm">Dirección</h4>
-                  <p className="text-xs text-stone-500 mt-1 leading-relaxed font-medium">
+                  <h4 className="font-sans font-bold text-stone-850 dark:text-stone-100 text-sm">Dirección</h4>
+                  <p className="text-xs text-stone-500 dark:text-stone-400 mt-1 leading-relaxed font-medium">
                     {address}
                   </p>
                 </div>
@@ -244,14 +237,14 @@ const Contact = () => {
               <motion.div 
                 whileHover={{ y: -6, scale: 1.02, boxShadow: '0 10px 25px -5px rgba(107, 58, 14, 0.12)' }}
                 transition={{ duration: 0.3, ease: 'easeOut' }}
-                className="bg-cream rounded-2xl border border-coffee/10 p-6 flex gap-4 shadow-2xs transition-all duration-300"
+                className="bg-cream dark:bg-stone-800 rounded-2xl border border-coffee/10 dark:border-stone-700 p-6 flex gap-4 shadow-2xs transition-all duration-300"
               >
                 <div className="w-10 h-10 bg-gold/10 text-gold border border-gold/20 rounded-xl flex items-center justify-center flex-shrink-0">
                   <Phone size={20} />
                 </div>
                 <div>
-                  <h4 className="font-sans font-bold text-stone-850 text-sm">Atención al Cliente</h4>
-                  <p className="text-xs text-stone-500 mt-1 leading-relaxed font-medium">
+                  <h4 className="font-sans font-bold text-stone-850 dark:text-stone-100 text-sm">Atención al Cliente</h4>
+                  <p className="text-xs text-stone-500 dark:text-stone-400 mt-1 leading-relaxed font-medium">
                     {phone} (Barista de turno)
                   </p>
                 </div>
@@ -261,14 +254,14 @@ const Contact = () => {
               <motion.div 
                 whileHover={{ y: -6, scale: 1.02, boxShadow: '0 10px 25px -5px rgba(107, 58, 14, 0.12)' }}
                 transition={{ duration: 0.3, ease: 'easeOut' }}
-                className="bg-cream rounded-2xl border border-coffee/10 p-6 flex gap-4 shadow-2xs transition-all duration-300"
+                className="bg-cream dark:bg-stone-800 rounded-2xl border border-coffee/10 dark:border-stone-700 p-6 flex gap-4 shadow-2xs transition-all duration-300"
               >
                 <div className="w-10 h-10 bg-gold/10 text-gold border border-gold/20 rounded-xl flex items-center justify-center flex-shrink-0">
                   <Mail size={20} />
                 </div>
                 <div>
-                  <h4 className="font-sans font-bold text-stone-850 text-sm">Correo Electrónico</h4>
-                  <p className="text-xs text-stone-500 mt-1 leading-relaxed font-medium">
+                  <h4 className="font-sans font-bold text-stone-850 dark:text-stone-100 text-sm">Correo Electrónico</h4>
+                  <p className="text-xs text-stone-500 dark:text-stone-400 mt-1 leading-relaxed font-medium">
                     contacto@rosecoffee.com
                   </p>
                 </div>
@@ -277,28 +270,16 @@ const Contact = () => {
           </div>
 
           {/* Redes Sociales */}
-          <div className="pt-6 border-t border-stone-200/80 space-y-4">
+          <div className="pt-6 border-t border-stone-200 dark:border-stone-700/80 space-y-4">
             <span className="text-[10px] font-bold text-stone-400 uppercase tracking-widest block">Nuestras Redes Sociales</span>
             <div className="flex gap-4">
-              <motion.a 
-                whileHover={{ y: -4, scale: 1.05 }}
-                href={facebookUrl} 
-                target="_blank" 
-                rel="noreferrer" 
-                className="w-12 h-12 bg-cream text-stone-700 hover:text-primary border border-coffee/10 rounded-2xl flex items-center justify-center shadow-2xs hover:shadow-sm hover:border-coffee/20 transition-all duration-300" 
-                title="Facebook"
-              >
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c4.56-.93 8-4.96 8-9.75z" />
-                </svg>
-              </motion.a>
 
               <motion.a 
                 whileHover={{ y: -4, scale: 1.05 }}
                 href={instagramUrl} 
                 target="_blank" 
                 rel="noreferrer" 
-                className="w-12 h-12 bg-cream text-stone-700 hover:text-accent-red border border-coffee/10 rounded-2xl flex items-center justify-center shadow-2xs hover:shadow-sm hover:border-coffee/20 transition-all duration-300" 
+                className="w-12 h-12 bg-cream dark:bg-stone-800 text-stone-700 dark:text-stone-300 hover:text-accent-red border border-coffee/10 dark:border-stone-700 rounded-2xl flex items-center justify-center shadow-2xs hover:shadow-sm hover:border-coffee/20 transition-all duration-300" 
                 title="Instagram"
               >
                 <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
@@ -313,7 +294,7 @@ const Contact = () => {
                 href={tiktokUrl} 
                 target="_blank" 
                 rel="noreferrer" 
-                className="w-12 h-12 bg-cream text-stone-700 hover:text-black border border-coffee/10 rounded-2xl flex items-center justify-center shadow-2xs hover:shadow-sm hover:border-coffee/20 transition-all duration-300" 
+                className="w-12 h-12 bg-cream dark:bg-stone-800 text-stone-700 dark:text-stone-300 hover:text-black dark:hover:text-white border border-coffee/10 dark:border-stone-700 rounded-2xl flex items-center justify-center shadow-2xs hover:shadow-sm hover:border-coffee/20 transition-all duration-300" 
                 title="TikTok"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -327,7 +308,7 @@ const Contact = () => {
         {/* Columna Derecha: Mapa de Ubicación */}
         <motion.div 
           variants={fadeInUp}
-          className="bg-cream rounded-[32px] border border-coffee/10 p-3 shadow-md hover:shadow-lg transition-shadow duration-300 h-full min-h-[400px] flex flex-col"
+          className="bg-cream dark:bg-stone-800 rounded-[32px] border border-coffee/10 dark:border-stone-700 p-3 shadow-md hover:shadow-lg transition-shadow duration-300 h-full min-h-[400px] flex flex-col"
         >
           <div className="flex-1 rounded-2xl overflow-hidden shadow-inner border border-coffee/5 relative h-full">
             <iframe 
@@ -352,15 +333,15 @@ const Contact = () => {
         viewport={{ once: true }}
         className="max-w-3xl mx-auto relative z-10"
       >
-        <div className="bg-emerald-50/80 backdrop-blur-xs border border-emerald-100 rounded-[32px] p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xs hover:shadow-xs transition-all duration-300">
+        <div className="bg-emerald-50/80 dark:bg-emerald-900/30 backdrop-blur-xs border border-emerald-100 dark:border-emerald-800/60 rounded-[32px] p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xs hover:shadow-xs transition-all duration-300">
           <div className="space-y-2 text-left w-full md:w-auto">
-            <span className="inline-flex items-center gap-1 bg-emerald-100 text-emerald-800 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider select-none">
+            <span className="inline-flex items-center gap-1 bg-emerald-100 dark:bg-emerald-800/50 text-emerald-800 dark:text-emerald-300 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider select-none">
               Pedido Rápido
             </span>
-            <h3 className="text-xl font-extrabold text-emerald-950 font-sans">
+            <h3 className="text-xl font-extrabold text-emerald-950 dark:text-emerald-100 font-sans">
               ¿Deseas realizar un pedido al instante?
             </h3>
-            <p className="text-emerald-700 text-xs md:text-sm max-w-xl font-medium leading-relaxed font-sans">
+            <p className="text-emerald-700 dark:text-emerald-400 text-xs md:text-sm max-w-xl font-medium leading-relaxed font-sans">
               Escríbenos directamente por WhatsApp para coordinar tus envíos en Milagro o para resolver tus consultas con atención inmediata.
             </p>
           </div>
@@ -389,11 +370,11 @@ const Contact = () => {
       >
         {success ? (
           <div className="glass-card border border-coffee/10 p-8 rounded-[32px] text-center space-y-4 shadow-md py-16">
-            <div className="w-16 h-16 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center mx-auto border border-emerald-100 shadow-2xs">
+            <div className="w-16 h-16 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 rounded-full flex items-center justify-center mx-auto border border-emerald-100 dark:border-emerald-800 shadow-2xs">
               <CheckCircle2 size={36} />
             </div>
-            <h3 className="font-sans font-extrabold text-2xl text-stone-900">¡Mensaje Enviado!</h3>
-            <p className="text-stone-600 text-xs md:text-sm max-w-md mx-auto leading-relaxed font-medium">
+            <h3 className="font-sans font-extrabold text-2xl text-stone-900 dark:text-stone-200">¡Mensaje Enviado!</h3>
+            <p className="text-stone-600 dark:text-stone-400 text-xs md:text-sm max-w-md mx-auto leading-relaxed font-medium">
               Gracias por escribirnos. Tu mensaje ha sido enviado a la administración de Rose Coffee. Te responderemos al correo proporcionado lo antes posible.
             </p>
             <button
@@ -406,10 +387,10 @@ const Contact = () => {
         ) : (
           <form onSubmit={handleSubmit} className="glass-card rounded-[32px] border border-coffee/10 p-6 md:p-10 space-y-6 shadow-md text-left">
             <div className="space-y-1">
-              <h3 className="text-2xl font-extrabold text-stone-900 font-sans">
+              <h3 className="text-2xl font-extrabold text-stone-900 dark:text-stone-200 font-sans">
                 Escríbenos tu Mensaje
               </h3>
-              <p className="text-xs text-stone-500 font-medium">¿Tienes dudas o necesitas información? Déjanos tu mensaje en el buzón.</p>
+              <p className="text-xs text-stone-500 dark:text-stone-400 font-medium">¿Tienes dudas o necesitas información? Déjanos tu mensaje en el buzón.</p>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -423,7 +404,7 @@ const Contact = () => {
                   autoComplete="name"
                   value={formData.name}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-stone-200 rounded-xl text-sm bg-stone-50/40 text-stone-850 placeholder-stone-400 focus:bg-white focus:border-coffee focus:ring-2 focus:ring-coffee/20 focus:outline-none transition-all duration-200"
+                  className="w-full px-4 py-3 border border-stone-200 dark:border-stone-700 rounded-xl text-sm bg-stone-50/40 dark:bg-stone-800/70 text-stone-850 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-500 focus:bg-white dark:focus:bg-stone-800 focus:border-coffee focus:ring-2 focus:ring-coffee/20 focus:outline-none transition-all duration-200"
                   placeholder="Ej. Ana de Castro"
                 />
               </div>
@@ -437,7 +418,7 @@ const Contact = () => {
                   autoComplete="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 border border-stone-200 rounded-xl text-sm bg-stone-50/40 text-stone-850 placeholder-stone-400 focus:bg-white focus:border-coffee focus:ring-2 focus:ring-coffee/20 focus:outline-none transition-all duration-200"
+                  className="w-full px-4 py-3 border border-stone-200 dark:border-stone-700 rounded-xl text-sm bg-stone-50/40 dark:bg-stone-800/70 text-stone-850 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-500 focus:bg-white dark:focus:bg-stone-800 focus:border-coffee focus:ring-2 focus:ring-coffee/20 focus:outline-none transition-all duration-200"
                   placeholder="Ej. ana@correo.com"
                 />
               </div>
@@ -450,7 +431,7 @@ const Contact = () => {
                 name="subject"
                 value={formData.subject}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 border border-stone-200 rounded-xl text-sm bg-stone-50/40 text-stone-850 focus:bg-white focus:border-coffee focus:ring-2 focus:ring-coffee/20 focus:outline-none transition-all duration-200"
+                className="w-full px-4 py-3 border border-stone-200 dark:border-stone-700 rounded-xl text-sm bg-stone-50/40 dark:bg-stone-800/70 text-stone-850 dark:text-stone-100 focus:bg-white dark:focus:bg-stone-800 focus:border-coffee focus:ring-2 focus:ring-coffee/20 focus:outline-none transition-all duration-200"
               >
                 <option value="Consulta General">Consulta General</option>
                 <option value="Tienda / Pedidos">Pregunta sobre Tienda / Pedidos</option>
@@ -468,13 +449,13 @@ const Contact = () => {
                 rows={5}
                 value={formData.message}
                 onChange={handleInputChange}
-                className="w-full px-4 py-3 border border-stone-200 rounded-xl text-sm bg-stone-50/40 text-stone-850 placeholder-stone-400 focus:bg-white focus:border-coffee focus:ring-2 focus:ring-coffee/20 focus:outline-none transition-all duration-200 resize-none"
+                className="w-full px-4 py-3 border border-stone-200 dark:border-stone-700 rounded-xl text-sm bg-stone-50/40 dark:bg-stone-800/70 text-stone-850 dark:text-stone-100 placeholder-stone-400 dark:placeholder-stone-500 focus:bg-white dark:focus:bg-stone-800 focus:border-coffee focus:ring-2 focus:ring-coffee/20 focus:outline-none transition-all duration-200 resize-none"
                 placeholder="Escribe aquí tu consulta, sugerencia o mensaje..."
               />
             </div>
 
             {error && (
-              <div className="bg-red-50 text-accent-red p-3.5 rounded-xl text-xs flex items-center gap-2 border border-red-100 font-medium">
+              <div className="bg-red-50 dark:bg-red-900/30 text-accent-red dark:text-red-400 p-3.5 rounded-xl text-xs flex items-center gap-2 border border-red-100 dark:border-red-800/60 font-medium">
                 <AlertCircle size={14} className="flex-shrink-0" />
                 <span>{error}</span>
               </div>

@@ -171,8 +171,8 @@ export default function MarketingManager() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         {/* Loyalty Program config card */}
-        <div className="bg-white border border-coffee/10 rounded-3xl p-6 shadow-2xs space-y-4 h-fit">
-          <div className="flex items-center gap-2 text-stone-900 font-extrabold text-sm border-b border-stone-50 pb-2">
+        <div className="bg-white dark:bg-stone-800 border border-coffee/10 rounded-3xl p-6 shadow-2xs space-y-4 h-fit">
+          <div className="flex items-center gap-2 text-stone-900 dark:text-stone-200 font-extrabold text-sm border-b border-stone-50 pb-2">
             <Sparkles size={16} className="text-gold" />
             Configuración del Rose Club
           </div>
@@ -192,7 +192,7 @@ export default function MarketingManager() {
                   type="number" 
                   value={pointRatio} 
                   onChange={(e) => setPointRatio(Number(e.target.value))}
-                  className="w-20 px-3 py-1.5 border border-stone-200 rounded-xl text-xs font-mono font-bold text-stone-800 bg-stone-50/50 focus:bg-white focus:border-coffee focus:ring-2 focus:ring-coffee/20 focus:outline-none"
+                  className="w-20 px-3 py-1.5 border border-stone-200 dark:border-stone-700 rounded-xl text-xs font-mono font-bold text-stone-800 dark:text-stone-200 bg-stone-50/50 focus:bg-white dark:bg-stone-800 focus:border-coffee focus:ring-2 focus:ring-coffee/20 focus:outline-none"
                 />
                 <span className="text-xs font-bold text-gold">Pétalos</span>
               </div>
@@ -208,10 +208,10 @@ export default function MarketingManager() {
         </div>
 
         {/* Coupon status overview */}
-        <div className="lg:col-span-2 bg-white border border-coffee/10 rounded-3xl p-6 shadow-2xs flex flex-col justify-between">
+        <div className="lg:col-span-2 bg-white dark:bg-stone-800 border border-coffee/10 rounded-3xl p-6 shadow-2xs flex flex-col justify-between">
           <div>
             <div className="flex justify-between items-center mb-4">
-              <h3 className="text-sm font-extrabold text-stone-900 flex items-center gap-1.5">
+              <h3 className="text-sm font-extrabold text-stone-900 dark:text-stone-200 flex items-center gap-1.5">
                 <Tag size={16} className="text-gold" />
                 Cupones de Descuento
               </h3>
@@ -220,7 +220,7 @@ export default function MarketingManager() {
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse text-xs">
                 <thead>
-                  <tr className="border-b border-stone-100 text-stone-400 font-bold uppercase tracking-wider">
+                  <tr className="border-b border-stone-100 dark:border-stone-700 text-stone-400 font-bold uppercase tracking-wider">
                     <th className="pb-3 font-semibold">Código</th>
                     <th className="pb-3 font-semibold">Descuento</th>
                     <th className="pb-3 font-semibold">Tipo</th>
@@ -241,7 +241,7 @@ export default function MarketingManager() {
                     coupons.map((coupon) => (
                       <tr key={coupon.id} className="hover:bg-stone-50/50 transition-colors">
                         <td className="py-3.5 font-mono font-bold text-stone-850">{coupon.code}</td>
-                        <td className="py-3.5 text-stone-800 font-bold">{coupon.discount}</td>
+                        <td className="py-3.5 text-stone-800 dark:text-stone-200 font-bold">{coupon.discount}</td>
                         <td className="py-3.5 text-stone-500 font-medium">{coupon.type}</td>
                         <td className="py-3.5 text-stone-400 font-mono font-medium">{coupon.usage}</td>
                         <td className="py-3.5 text-stone-400 font-medium">
@@ -266,7 +266,7 @@ export default function MarketingManager() {
                         <td className="py-3.5 text-right flex justify-end gap-1.5">
                           <button
                             onClick={() => openEditModal(coupon)}
-                            className="p-1 text-stone-500 hover:text-coffee hover:bg-stone-100 rounded-lg transition-colors cursor-pointer"
+                            className="p-1 text-stone-500 hover:text-coffee dark:text-gold hover:bg-stone-100 rounded-lg transition-colors cursor-pointer"
                             title="Editar cupón"
                           >
                             <Edit2 size={13} />
@@ -298,7 +298,7 @@ export default function MarketingManager() {
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white border border-coffee/10 rounded-3xl w-full max-w-md overflow-hidden shadow-2xl p-6 relative text-left"
+              className="bg-white dark:bg-stone-800 border border-coffee/10 rounded-3xl w-full max-w-md overflow-hidden shadow-2xl p-6 relative text-left"
             >
               <button
                 onClick={() => setShowModal(false)}
@@ -307,7 +307,7 @@ export default function MarketingManager() {
                 <X size={18} />
               </button>
 
-              <h3 className="text-sm font-extrabold text-stone-900 flex items-center gap-1.5 mb-1">
+              <h3 className="text-sm font-extrabold text-stone-900 dark:text-stone-200 flex items-center gap-1.5 mb-1">
                 <Tag size={16} className="text-gold" />
                 {editingCoupon ? 'Editar Cupón de Descuento' : 'Crear Nuevo Cupón'}
               </h3>
@@ -325,7 +325,7 @@ export default function MarketingManager() {
                     required
                     value={code}
                     onChange={(e) => setCode(e.target.value)}
-                    className="w-full px-3 py-2 border border-stone-200 rounded-xl text-xs font-mono font-bold text-stone-850 focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee"
+                    className="w-full px-3 py-2 border border-stone-200 dark:border-stone-700 rounded-xl text-xs font-mono font-bold text-stone-850 focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee"
                     placeholder="E.g. DESCUENTOPRO"
                   />
                 </div>
@@ -338,7 +338,7 @@ export default function MarketingManager() {
                     <select
                       value={type}
                       onChange={(e) => setType(e.target.value as any)}
-                      className="w-full px-3 py-2 border border-stone-200 rounded-xl text-xs bg-white text-stone-800 font-semibold focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee cursor-pointer"
+                      className="w-full px-3 py-2 border border-stone-200 dark:border-stone-700 rounded-xl text-xs bg-white dark:bg-stone-800 text-stone-800 dark:text-stone-200 font-semibold focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee cursor-pointer"
                     >
                       <option value="Porcentaje">Porcentaje (%)</option>
                       <option value="Fijo">Fijo ($ USD)</option>
@@ -354,7 +354,7 @@ export default function MarketingManager() {
                       required
                       value={discount.replace(/[\$%]/g, '')}
                       onChange={(e) => setDiscount(e.target.value)}
-                      className="w-full px-3 py-2 border border-stone-200 rounded-xl text-xs font-bold text-stone-850 focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee"
+                      className="w-full px-3 py-2 border border-stone-200 dark:border-stone-700 rounded-xl text-xs font-bold text-stone-850 focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee"
                       placeholder={type === 'Porcentaje' ? '15' : '5.00'}
                     />
                   </div>
@@ -369,12 +369,12 @@ export default function MarketingManager() {
                     required
                     value={expires}
                     onChange={(e) => setExpires(e.target.value)}
-                    className="w-full px-3 py-2 border border-stone-200 rounded-xl text-xs text-stone-800 font-medium focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee"
+                    className="w-full px-3 py-2 border border-stone-200 dark:border-stone-700 rounded-xl text-xs text-stone-800 dark:text-stone-200 font-medium focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee"
                   />
                 </div>
 
-                <div className="flex items-center justify-between p-3 bg-stone-50 border border-stone-150 rounded-2xl">
-                  <span className="text-xs font-bold text-stone-800">Cupón Activo</span>
+                <div className="flex items-center justify-between p-3 bg-stone-50 border border-stone-150 dark:border-stone-700 rounded-2xl">
+                  <span className="text-xs font-bold text-stone-800 dark:text-stone-200">Cupón Activo</span>
                   <button 
                     type="button"
                     onClick={() => setActive(!active)}

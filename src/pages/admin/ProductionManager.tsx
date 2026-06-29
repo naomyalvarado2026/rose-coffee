@@ -187,8 +187,8 @@ export default function ProductionManager() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 items-stretch">
         
         {/* Stage 1: Amasado */}
-        <div className="bg-stone-50 border border-stone-200/60 rounded-3xl p-4 flex flex-col gap-3 min-h-[400px]">
-          <div className="flex items-center gap-1.5 text-xs font-bold text-stone-750 border-b border-stone-200 pb-2 mb-1">
+        <div className="bg-stone-50 border border-stone-200 dark:border-stone-700/60 rounded-3xl p-4 flex flex-col gap-3 min-h-[400px]">
+          <div className="flex items-center gap-1.5 text-xs font-bold text-stone-750 border-b border-stone-200 dark:border-stone-700 pb-2 mb-1">
             <Wheat size={14} className="text-amber-600" />
             Amasado
           </div>
@@ -197,7 +197,7 @@ export default function ProductionManager() {
               <p className="text-[10px] text-stone-400 italic text-center py-6">Sin lotes en amasado</p>
             ) : (
               batches.filter(b => b.stage === 'amasado').map(b => (
-                <div key={b.id} className="bg-white border border-coffee/5 p-4 rounded-2xl shadow-3xs hover:shadow-2xs transition-shadow">
+                <div key={b.id} className="bg-white dark:bg-stone-800 border border-coffee/5 p-4 rounded-2xl shadow-3xs hover:shadow-2xs transition-shadow">
                   <h5 className="font-sans font-bold text-stone-850 text-xs">{b.name}</h5>
                   <p className="text-[10px] text-stone-400 mt-1 font-medium">Harina: {b.flour}</p>
                   
@@ -211,7 +211,7 @@ export default function ProductionManager() {
                   <div className="flex justify-end gap-1.5 mt-3 pt-2 border-t border-stone-50">
                     <button
                       onClick={() => handleNextStage(b.id)}
-                      className="p-1 text-coffee hover:bg-stone-100 rounded-lg transition-colors cursor-pointer"
+                      className="p-1 text-coffee dark:text-gold hover:bg-stone-100 rounded-lg transition-colors cursor-pointer"
                       title="Mover a Fermentación"
                     >
                       <ChevronRight size={14} />
@@ -224,8 +224,8 @@ export default function ProductionManager() {
         </div>
 
         {/* Stage 2: Fermentación (24h) */}
-        <div className="bg-stone-50 border border-stone-200/60 rounded-3xl p-4 flex flex-col gap-3 min-h-[400px]">
-          <div className="flex items-center gap-1.5 text-xs font-bold text-stone-750 border-b border-stone-200 pb-2 mb-1">
+        <div className="bg-stone-50 border border-stone-200 dark:border-stone-700/60 rounded-3xl p-4 flex flex-col gap-3 min-h-[400px]">
+          <div className="flex items-center gap-1.5 text-xs font-bold text-stone-750 border-b border-stone-200 dark:border-stone-700 pb-2 mb-1">
             <Sparkles size={14} className="text-gold" />
             Fermentación (24h)
           </div>
@@ -234,7 +234,7 @@ export default function ProductionManager() {
               <p className="text-[10px] text-stone-400 italic text-center py-6">Sin lotes en fermentación</p>
             ) : (
               batches.filter(b => b.stage === 'fermentacion').map(b => (
-                <div key={b.id} className="bg-white border border-coffee/5 p-4 rounded-2xl shadow-3xs hover:shadow-2xs transition-shadow">
+                <div key={b.id} className="bg-white dark:bg-stone-800 border border-coffee/5 p-4 rounded-2xl shadow-3xs hover:shadow-2xs transition-shadow">
                   <h5 className="font-sans font-bold text-stone-850 text-xs">{b.name}</h5>
                   <p className="text-[10px] text-stone-400 mt-1 font-medium">Harina: {b.flour}</p>
                   
@@ -255,7 +255,7 @@ export default function ProductionManager() {
                     </button>
                     <button
                       onClick={() => handleNextStage(b.id)}
-                      className="p-1 text-coffee hover:bg-stone-100 rounded-lg transition-colors cursor-pointer"
+                      className="p-1 text-coffee dark:text-gold hover:bg-stone-100 rounded-lg transition-colors cursor-pointer"
                       title="Mover a Horneado"
                     >
                       <ChevronRight size={14} />
@@ -268,8 +268,8 @@ export default function ProductionManager() {
         </div>
 
         {/* Stage 3: Horneado */}
-        <div className="bg-stone-50 border border-stone-200/60 rounded-3xl p-4 flex flex-col gap-3 min-h-[400px]">
-          <div className="flex items-center gap-1.5 text-xs font-bold text-stone-750 border-b border-stone-200 pb-2 mb-1">
+        <div className="bg-stone-50 border border-stone-200 dark:border-stone-700/60 rounded-3xl p-4 flex flex-col gap-3 min-h-[400px]">
+          <div className="flex items-center gap-1.5 text-xs font-bold text-stone-750 border-b border-stone-200 dark:border-stone-700 pb-2 mb-1">
             <Flame size={14} className="text-red-500" />
             Horneado
           </div>
@@ -278,7 +278,7 @@ export default function ProductionManager() {
               <p className="text-[10px] text-stone-400 italic text-center py-6">Sin lotes en horneado</p>
             ) : (
               batches.filter(b => b.stage === 'horneado').map(b => (
-                <div key={b.id} className="bg-white border border-coffee/5 p-4 rounded-2xl shadow-3xs hover:shadow-2xs transition-shadow">
+                <div key={b.id} className="bg-white dark:bg-stone-800 border border-coffee/5 p-4 rounded-2xl shadow-3xs hover:shadow-2xs transition-shadow">
                   <h5 className="font-sans font-bold text-stone-850 text-xs">{b.name}</h5>
                   <p className="text-[10px] text-stone-400 mt-1 font-medium">Harina: {b.flour}</p>
                   
@@ -299,7 +299,7 @@ export default function ProductionManager() {
                     </button>
                     <button
                       onClick={() => handleNextStage(b.id)}
-                      className="p-1 text-coffee hover:bg-stone-100 rounded-lg transition-colors cursor-pointer"
+                      className="p-1 text-coffee dark:text-gold hover:bg-stone-100 rounded-lg transition-colors cursor-pointer"
                       title="Mover a Vitrina"
                     >
                       <ChevronRight size={14} />
@@ -312,8 +312,8 @@ export default function ProductionManager() {
         </div>
 
         {/* Stage 4: Listo / Vitrina */}
-        <div className="bg-stone-50 border border-stone-200/60 rounded-3xl p-4 flex flex-col gap-3 min-h-[400px]">
-          <div className="flex items-center gap-1.5 text-xs font-bold text-stone-750 border-b border-stone-200 pb-2 mb-1">
+        <div className="bg-stone-50 border border-stone-200 dark:border-stone-700/60 rounded-3xl p-4 flex flex-col gap-3 min-h-[400px]">
+          <div className="flex items-center gap-1.5 text-xs font-bold text-stone-750 border-b border-stone-200 dark:border-stone-700 pb-2 mb-1">
             <ChefHat size={14} className="text-emerald-600" />
             Listo para Vitrina
           </div>
@@ -322,7 +322,7 @@ export default function ProductionManager() {
               <p className="text-[10px] text-stone-400 italic text-center py-6">Sin lotes listos</p>
             ) : (
               batches.filter(b => b.stage === 'listo').map(b => (
-                <div key={b.id} className="bg-white border border-coffee/5 p-4 rounded-2xl shadow-3xs hover:shadow-2xs transition-shadow">
+                <div key={b.id} className="bg-white dark:bg-stone-800 border border-coffee/5 p-4 rounded-2xl shadow-3xs hover:shadow-2xs transition-shadow">
                   <h5 className="font-sans font-bold text-stone-850 text-xs">{b.name}</h5>
                   <p className="text-[10px] text-stone-400 mt-1 font-medium">Harina: {b.flour}</p>
                   
@@ -364,7 +364,7 @@ export default function ProductionManager() {
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="bg-white border border-coffee/10 rounded-3xl w-full max-w-md overflow-hidden shadow-2xl p-6 relative text-left"
+              className="bg-white dark:bg-stone-800 border border-coffee/10 rounded-3xl w-full max-w-md overflow-hidden shadow-2xl p-6 relative text-left"
             >
               <button
                 onClick={() => setShowModal(false)}
@@ -373,7 +373,7 @@ export default function ProductionManager() {
                 <X size={18} />
               </button>
 
-              <h3 className="text-sm font-extrabold text-stone-900 flex items-center gap-1.5 mb-1">
+              <h3 className="text-sm font-extrabold text-stone-900 dark:text-stone-200 flex items-center gap-1.5 mb-1">
                 <ChefHat size={16} className="text-gold" />
                 Agregar Nuevo Lote de Producción
               </h3>
@@ -391,7 +391,7 @@ export default function ProductionManager() {
                     required
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="w-full px-3 py-2 border border-stone-200 rounded-xl text-xs font-bold text-stone-850 focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee"
+                    className="w-full px-3 py-2 border border-stone-200 dark:border-stone-700 rounded-xl text-xs font-bold text-stone-850 focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee"
                     placeholder="E.g. Lote Sourdough Rústico #107"
                   />
                 </div>
@@ -405,7 +405,7 @@ export default function ProductionManager() {
                     required
                     value={flour}
                     onChange={(e) => setFlour(e.target.value)}
-                    className="w-full px-3 py-2 border border-stone-200 rounded-xl text-xs font-semibold text-stone-800 focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee"
+                    className="w-full px-3 py-2 border border-stone-200 dark:border-stone-700 rounded-xl text-xs font-semibold text-stone-800 dark:text-stone-200 focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee"
                     placeholder="E.g. Integral + Espelta Orgánica"
                   />
                 </div>
@@ -421,7 +421,7 @@ export default function ProductionManager() {
                       min={1}
                       value={quantity}
                       onChange={(e) => setQuantity(Number(e.target.value))}
-                      className="w-full px-3 py-2 border border-stone-200 rounded-xl text-xs font-mono font-bold text-stone-800 focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee"
+                      className="w-full px-3 py-2 border border-stone-200 dark:border-stone-700 rounded-xl text-xs font-mono font-bold text-stone-800 dark:text-stone-200 focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee"
                     />
                   </div>
 
@@ -432,7 +432,7 @@ export default function ProductionManager() {
                     <select
                       value={stage}
                       onChange={(e) => setStage(e.target.value as any)}
-                      className="w-full px-3 py-2 border border-stone-200 rounded-xl text-xs bg-white text-stone-850 font-bold focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee cursor-pointer"
+                      className="w-full px-3 py-2 border border-stone-200 dark:border-stone-700 rounded-xl text-xs bg-white dark:bg-stone-800 text-stone-850 font-bold focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee cursor-pointer"
                     >
                       <option value="amasado">Amasado</option>
                       <option value="fermentacion">Fermentación</option>
@@ -450,7 +450,7 @@ export default function ProductionManager() {
                     type="text"
                     value={timeElapsed}
                     onChange={(e) => setTimeElapsed(e.target.value)}
-                    className="w-full px-3 py-2 border border-stone-200 rounded-xl text-xs font-medium text-stone-800 focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee"
+                    className="w-full px-3 py-2 border border-stone-200 dark:border-stone-700 rounded-xl text-xs font-medium text-stone-800 dark:text-stone-200 focus:outline-none focus:ring-2 focus:ring-coffee/20 focus:border-coffee"
                     placeholder={stage === 'amasado' ? '15m' : stage === 'fermentacion' ? '0h / 24h' : '0m / 20m'}
                   />
                 </div>

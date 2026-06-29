@@ -1,6 +1,6 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
-import breadImg from '../../assets/sourdough_bread.png';
+import breadImg from '../../assets/sourdough_bread.webp';
 
 interface Benefit {
   id: string;
@@ -41,10 +41,10 @@ export default function SourdoughBenefits() {
         transition={{ duration: 0.55 }}
         className="text-center mb-8 space-y-3"
       >
-        <span className="inline-block text-[10px] font-bold text-coffee uppercase tracking-widest border border-coffee/25 bg-coffee/5 px-4 py-1.5 rounded-full">
+        <span className="inline-block text-[10px] font-bold text-coffee dark:text-gold uppercase tracking-widest border border-coffee/25 bg-coffee/5 px-4 py-1.5 rounded-full">
           Pan de Masa Madre
         </span>
-        <h2 className="text-3xl md:text-4xl font-bold text-primary">
+        <h2 className="text-3xl md:text-4xl font-bold text-primary dark:text-white">
           ¿Por qué elegir la masa madre?
         </h2>
         <p className="text-stone-500 text-sm max-w-lg mx-auto leading-relaxed">
@@ -133,10 +133,10 @@ export default function SourdoughBenefits() {
                 {/* Animated SVG path - Background glow on hover */}
                 <motion.path
                   d={curveToPath(lineStartX, lineStartY, b.px, b.py)}
-                  stroke="#c8922a"
                   strokeWidth="1.8"
                   strokeLinecap="round"
                   fill="none"
+                  className="stroke-amber-500"
                   initial={{ pathLength: 0, opacity: 0 }}
                   animate={
                     isHovered 
@@ -149,7 +149,7 @@ export default function SourdoughBenefits() {
                 {/* Animated SVG path - Main line */}
                 <motion.path
                   d={curveToPath(lineStartX, lineStartY, b.px, b.py)}
-                  stroke={isHovered ? '#c8922a' : '#a07850'}
+                  className={isHovered ? 'stroke-coffee dark:stroke-amber-400' : 'stroke-primary dark:stroke-gray-300'}
                   strokeWidth={isHovered ? '0.75' : '0.45'}
                   strokeLinecap="round"
                   fill="none"
@@ -174,7 +174,7 @@ export default function SourdoughBenefits() {
                   cx={lineStartX}
                   cy={lineStartY}
                   r={isHovered ? 1.4 : 0.8}
-                  fill={isHovered ? '#c8922a' : '#a07850'}
+                  className={isHovered ? 'fill-coffee dark:fill-amber-400' : 'fill-primary dark:fill-gray-300'}
                   initial={{ opacity: 0, scale: 0 }}
                   animate={
                     inView
@@ -192,7 +192,7 @@ export default function SourdoughBenefits() {
                   cx={b.px}
                   cy={b.py}
                   r={isHovered ? 2.6 : 1.8}
-                  stroke={isHovered ? '#c8922a' : '#6b3a0e'}
+                  className={isHovered ? 'stroke-coffee dark:stroke-amber-400' : 'stroke-primary dark:stroke-gray-300'}
                   strokeWidth="0.25"
                   fill="none"
                   initial={{ opacity: 0, scale: 0.5 }}
@@ -217,7 +217,7 @@ export default function SourdoughBenefits() {
                   cx={b.px}
                   cy={b.py}
                   r={isHovered ? 1.5 : 1.1}
-                  fill={isHovered ? '#c8922a' : '#6b3a0e'}
+                  className={isHovered ? 'fill-coffee dark:fill-amber-400' : 'fill-primary dark:fill-gray-300'}
                   initial={{ opacity: 0, scale: 0 }}
                   animate={
                     inView
@@ -255,11 +255,11 @@ export default function SourdoughBenefits() {
                       damping: 17,
                       delay: isAnyHovered ? 0 : delay - 0.05
                     }}
+                    className={isHovered ? 'text-coffee dark:text-amber-400' : 'text-primary dark:text-gray-300'}
                     style={{
                       fontSize: '4.8px',
                       fontFamily: 'Inter, sans-serif',
                       fontWeight: isHovered ? '700' : '600',
-                      color: isHovered ? '#6b3a0e' : '#021a54', // Golden/Coffee brown on hover, deep blue normally
                       lineHeight: '1.4',
                       textAlign: b.anchor === 'left' ? 'right' : 'left', // Align text towards the central image
                       whiteSpace: 'normal',

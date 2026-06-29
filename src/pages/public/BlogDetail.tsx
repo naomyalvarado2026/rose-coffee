@@ -80,7 +80,7 @@ export default function BlogDetail() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#faf2e7]/40 flex flex-col items-center justify-center p-6 text-stone-550">
+      <div className="min-h-screen bg-[#faf2e7]/40 dark:bg-stone-900 flex flex-col items-center justify-center p-6 text-stone-550">
         <div className="animate-spin rounded-full h-9 w-9 border-t-2 border-b-2 border-coffee mb-3"></div>
         <p className="text-xs font-bold uppercase tracking-wider">Cargando artículo...</p>
       </div>
@@ -92,7 +92,7 @@ export default function BlogDetail() {
   }
 
   return (
-    <div className="min-h-screen bg-[#faf2e7]/40 pb-24 text-stone-850">
+    <div className="min-h-screen bg-[#faf2e7]/40 dark:bg-stone-900 pb-24 text-stone-850 dark:text-stone-100">
       
       {/* Estilos locales para renderizado seguro de texto HTML en blogs */}
       <style>{`
@@ -207,7 +207,7 @@ export default function BlogDetail() {
             
             <button
               onClick={handleShare}
-              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg font-bold transition-all cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white dark:bg-stone-800/5 hover:bg-white dark:bg-stone-800/10 border border-white/10 rounded-lg font-bold transition-all cursor-pointer"
             >
               {copied ? <Check size={14} className="text-gold animate-bounce" /> : <Share2 size={14} />}
               <span>{copied ? 'Copiado' : 'Compartir'}</span>
@@ -218,11 +218,11 @@ export default function BlogDetail() {
 
       {/* Main content body */}
       <section className="max-w-4xl mx-auto px-4 md:px-8 mt-12 relative z-10">
-        <div className="bg-white rounded-3xl border border-coffee/10 p-6 md:p-10 shadow-xxs space-y-10">
+        <div className="bg-white dark:bg-stone-800 rounded-3xl border border-coffee/10 p-6 md:p-10 shadow-xxs space-y-10">
           
           {/* Cover Image in Detail Page */}
           {blog.cover_image_url && (
-            <div className="rounded-2xl overflow-hidden aspect-video shadow-sm border border-stone-100 max-h-[420px]">
+            <div className="rounded-2xl overflow-hidden aspect-video shadow-sm border border-stone-100 dark:border-stone-700 max-h-[420px]">
               <img
                 src={blog.cover_image_url}
                 alt={blog.title}
@@ -268,11 +268,11 @@ export default function BlogDetail() {
                           <img
                             src={imgData.url}
                             alt={imgData.alt || blog.title}
-                            className="rounded-2xl w-full border border-stone-100 shadow-sm"
+                            className="rounded-2xl w-full border border-stone-100 dark:border-stone-700 shadow-sm"
                           />
                         )}
                         {imgData.caption && (
-                          <p className="text-center text-xs text-stone-400 mt-2 font-medium italic">
+                          <p className="text-center text-xs text-stone-400 dark:text-stone-500 mt-2 font-medium italic">
                             {imgData.caption}
                           </p>
                         )}
@@ -290,13 +290,13 @@ export default function BlogDetail() {
                     return (
                       <div 
                         key={blockId} 
-                        className="my-8 bg-stone-50 border border-coffee/10 rounded-2xl p-6 md:p-8 space-y-4 shadow-inner"
+                        className="my-8 bg-stone-50 dark:bg-stone-800 border border-coffee/10 rounded-2xl p-6 md:p-8 space-y-4 shadow-inner"
                       >
                         <div className="flex items-start gap-3">
-                          <HelpCircle className="text-coffee h-6 w-6 mt-0.5 shrink-0" />
+                          <HelpCircle className="text-coffee dark:text-gold h-6 w-6 mt-0.5 shrink-0" />
                           <div>
                             <span className="text-[9px] font-black uppercase tracking-wider text-gold">Pregunta Interactiva</span>
-                            <h4 className="font-sans font-extrabold text-primary text-base md:text-lg mt-0.5 leading-snug">
+                            <h4 className="font-sans font-extrabold text-primary dark:text-gold text-base md:text-lg mt-0.5 leading-snug">
                               {qData.question}
                             </h4>
                           </div>
@@ -305,7 +305,7 @@ export default function BlogDetail() {
                         {/* Opciones */}
                         <div className="space-y-2.5 pt-2">
                           {(qData.options || []).map((option: string, oIdx: number) => {
-                            let optionStyle = 'bg-white border-stone-200 hover:border-coffee text-stone-700';
+                            let optionStyle = 'bg-white dark:bg-stone-800 border-stone-200 dark:border-stone-700 hover:border-coffee text-stone-700';
                             let icon = null;
 
                             if (isAnswered) {
@@ -319,7 +319,7 @@ export default function BlogDetail() {
                                 icon = <XCircle size={16} className="text-red-600 shrink-0" />;
                               } else {
                                 // Otras opciones deshabilitadas
-                                optionStyle = 'bg-white border-stone-100 text-stone-400 opacity-60';
+                                optionStyle = 'bg-white dark:bg-stone-800 border-stone-100 dark:border-stone-700 text-stone-400 opacity-60';
                               }
                             }
 
@@ -334,7 +334,7 @@ export default function BlogDetail() {
                                     [blockId]: oIdx
                                   }));
                                 }}
-                                className={`w-full flex items-center justify-between text-left px-4.5 py-3.5 rounded-xl border text-xs font-bold transition-all ${optionStyle} ${!isAnswered ? 'cursor-pointer hover:bg-stone-50' : 'cursor-default'}`}
+                                className={`w-full flex items-center justify-between text-left px-4.5 py-3.5 rounded-xl border text-xs font-bold transition-all ${optionStyle} ${!isAnswered ? 'cursor-pointer hover:bg-stone-50 dark:bg-stone-800' : 'cursor-default'}`}
                               >
                                 <span>{option}</span>
                                 {icon}
@@ -350,11 +350,11 @@ export default function BlogDetail() {
                               initial={{ opacity: 0, height: 0 }}
                               animate={{ opacity: 1, height: 'auto' }}
                               exit={{ opacity: 0, height: 0 }}
-                              className="mt-4 pt-4 border-t border-stone-200/60 flex gap-2.5 text-xs font-medium text-stone-600 leading-relaxed bg-[#faf2e7]/40 p-4 rounded-xl"
+                              className="mt-4 pt-4 border-t border-stone-200 dark:border-stone-700/60 flex gap-2.5 text-xs font-medium text-stone-600 leading-relaxed bg-[#faf2e7]/40 dark:bg-stone-800 p-4 rounded-xl"
                             >
                               <AlertCircle size={16} className="text-gold shrink-0 mt-0.5" />
                               <div>
-                                <span className="font-bold text-coffee block uppercase text-[10px] tracking-wider mb-0.5">Explicación</span>
+                                <span className="font-bold text-coffee dark:text-gold block uppercase text-[10px] tracking-wider mb-0.5">Explicación</span>
                                 <p>{qData.explanation}</p>
                               </div>
                             </motion.div>
@@ -369,7 +369,7 @@ export default function BlogDetail() {
                     return (
                       <div 
                         key={block.id} 
-                        className="my-6 rounded-2xl overflow-hidden shadow-sm border border-stone-150 p-2 bg-stone-50"
+                        className="my-6 rounded-2xl overflow-hidden shadow-sm border border-stone-150 dark:border-stone-700 p-2 bg-stone-50 dark:bg-stone-800"
                         dangerouslySetInnerHTML={{ __html: htmlData.html || '' }}
                       />
                     );
@@ -385,13 +385,13 @@ export default function BlogDetail() {
                     return (
                       <div 
                         key={blockId} 
-                        className="my-8 bg-stone-50 border border-coffee/10 rounded-2xl p-6 md:p-8 space-y-4 shadow-inner"
+                        className="my-8 bg-stone-50 dark:bg-stone-800 border border-coffee/10 rounded-2xl p-6 md:p-8 space-y-4 shadow-inner"
                       >
                         <div className="flex items-start gap-3">
-                          <CheckCircle2 className="text-coffee h-6 w-6 mt-0.5 shrink-0" />
+                          <CheckCircle2 className="text-coffee dark:text-gold h-6 w-6 mt-0.5 shrink-0" />
                           <div>
                             <span className="text-[9px] font-black uppercase tracking-wider text-gold">Desafío Verdadero o Falso</span>
-                            <h4 className="font-sans font-extrabold text-primary text-base md:text-lg mt-0.5 leading-snug">
+                            <h4 className="font-sans font-extrabold text-primary dark:text-gold text-base md:text-lg mt-0.5 leading-snug">
                               {tfData.statement}
                             </h4>
                           </div>
@@ -401,7 +401,7 @@ export default function BlogDetail() {
                         <div className="flex gap-4 pt-2">
                           {[true, false].map((val) => {
                             const label = val ? 'Verdadero' : 'Falso';
-                            let btnStyle = 'bg-white border-stone-200 hover:border-coffee text-stone-700';
+                            let btnStyle = 'bg-white dark:bg-stone-800 border-stone-200 dark:border-stone-700 hover:border-coffee text-stone-700';
                             let icon = null;
 
                             if (isAnswered) {
@@ -412,7 +412,7 @@ export default function BlogDetail() {
                                 btnStyle = 'bg-red-50 border-red-400 text-red-800 font-bold';
                                 icon = <XCircle size={14} className="text-red-600 shrink-0" />;
                               } else {
-                                btnStyle = 'bg-white border-stone-100 text-stone-400 opacity-60';
+                                btnStyle = 'bg-white dark:bg-stone-800 border-stone-100 dark:border-stone-700 text-stone-400 opacity-60';
                               }
                             }
 
@@ -427,7 +427,7 @@ export default function BlogDetail() {
                                     [blockId]: val
                                   }));
                                 }}
-                                className={`flex-1 flex items-center justify-center gap-2 px-5 py-3 rounded-xl border text-xs font-bold transition-all ${btnStyle} ${!isAnswered ? 'cursor-pointer hover:bg-stone-50' : 'cursor-default'}`}
+                                className={`flex-1 flex items-center justify-center gap-2 px-5 py-3 rounded-xl border text-xs font-bold transition-all ${btnStyle} ${!isAnswered ? 'cursor-pointer hover:bg-stone-50 dark:bg-stone-800' : 'cursor-default'}`}
                               >
                                 <span>{label}</span>
                                 {icon}
@@ -443,11 +443,11 @@ export default function BlogDetail() {
                               initial={{ opacity: 0, height: 0 }}
                               animate={{ opacity: 1, height: 'auto' }}
                               exit={{ opacity: 0, height: 0 }}
-                              className="mt-4 pt-4 border-t border-stone-200/60 flex gap-2.5 text-xs font-medium text-stone-600 leading-relaxed bg-[#faf2e7]/40 p-4 rounded-xl"
+                              className="mt-4 pt-4 border-t border-stone-200 dark:border-stone-700/60 flex gap-2.5 text-xs font-medium text-stone-600 leading-relaxed bg-[#faf2e7]/40 dark:bg-stone-800 p-4 rounded-xl"
                             >
                               <AlertCircle size={16} className="text-gold shrink-0 mt-0.5" />
                               <div>
-                                <span className="font-bold text-coffee block uppercase text-[10px] tracking-wider mb-0.5">Explicación</span>
+                                <span className="font-bold text-coffee dark:text-gold block uppercase text-[10px] tracking-wider mb-0.5">Explicación</span>
                                 <p>{tfData.explanation}</p>
                               </div>
                             </motion.div>
@@ -469,14 +469,14 @@ export default function BlogDetail() {
           </div>
 
           {/* Footer del Artículo */}
-          <div className="pt-8 border-t border-stone-100 flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div className="pt-8 border-t border-stone-100 dark:border-stone-700 flex flex-col sm:flex-row justify-between items-center gap-4">
             <div className="text-xs text-stone-450">
-              Escrito con pasión por el equipo de <span className="font-bold text-coffee">Rose Coffee</span>.
+              Escrito con pasión por el equipo de <span className="font-bold text-coffee dark:text-gold">Rose Coffee</span>.
             </div>
             
             <Link
               to="/blog"
-              className="flex items-center gap-1.5 px-4.5 py-2 rounded-xl bg-coffee/5 hover:bg-coffee/10 text-coffee text-xs font-black transition-all"
+              className="flex items-center gap-1.5 px-4.5 py-2 rounded-xl bg-coffee/5 hover:bg-coffee/10 text-coffee dark:text-gold text-xs font-black transition-all"
             >
               <BookOpen size={14} />
               <span>Ver todos los blogs</span>

@@ -1,10 +1,17 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLocation } from 'react-router-dom';
+import { 
+  Home, Star, Coffee, Calendar, BookOpen, 
+  Store, Filter, Grid, 
+  Info, Target, Clock, ShieldCheck, Image as ImageIcon, Users, 
+  PhoneCall, MapPin, Send
+} from 'lucide-react';
 
 interface Section {
   id: string;
   label: string;
+  icon: React.ElementType;
 }
 
 export default function StickyNav() {
@@ -18,30 +25,32 @@ export default function StickyNav() {
   let SECTIONS: Section[] = [];
   if (cleanPath === '/' || cleanPath === '/inicio') {
     SECTIONS = [
-      { id: 'hero', label: 'Inicio' },
-      { id: 'experience', label: 'Experiencia' },
-      { id: 'products', label: 'Favoritos' },
-      { id: 'location', label: 'Visítanos' },
+      { id: 'hero', label: 'Inicio', icon: Home },
+      { id: 'experience', label: 'Experiencia', icon: Star },
+      { id: 'products', label: 'Favoritos', icon: Coffee },
+      { id: 'events', label: 'Eventos', icon: Calendar },
+      { id: 'blog', label: 'Blog', icon: BookOpen },
     ];
   } else if (cleanPath === '/tienda') {
     SECTIONS = [
-      { id: 'store_hero', label: 'Tienda' },
-      { id: 'store_filters', label: 'Filtros' },
-      { id: 'store_grid', label: 'Productos' },
+      { id: 'store_hero', label: 'Tienda', icon: Store },
+      { id: 'store_filters', label: 'Filtros', icon: Filter },
+      { id: 'store_grid', label: 'Productos', icon: Grid },
     ];
   } else if (cleanPath === '/nosotros') {
     SECTIONS = [
-      { id: 'about_hero', label: 'Quiénes Somos' },
-      { id: 'about_vision_mission', label: 'Misión & Visión' },
-      { id: 'about_history', label: 'Nuestra Historia' },
-      { id: 'about_pillars', label: 'Pilares' },
-      { id: 'about_pastoral', label: 'El Equipo' },
+      { id: 'about_hero', label: 'Quiénes Somos', icon: Info },
+      { id: 'about_vision_mission', label: 'Misión & Visión', icon: Target },
+      { id: 'about_history', label: 'Nuestra Historia', icon: Clock },
+      { id: 'about_pillars', label: 'Pilares', icon: ShieldCheck },
+      { id: 'about_gallery', label: 'Galería', icon: ImageIcon },
+      { id: 'about_pastoral', label: 'El Equipo', icon: Users },
     ];
   } else if (cleanPath === '/contacto') {
     SECTIONS = [
-      { id: 'contact_hero', label: 'Contacto' },
-      { id: 'contact_info', label: 'Información' },
-      { id: 'contact_form', label: 'Escríbenos' },
+      { id: 'contact_hero', label: 'Contacto', icon: PhoneCall },
+      { id: 'contact_info', label: 'Información', icon: MapPin },
+      { id: 'contact_form', label: 'Escríbenos', icon: Send },
     ];
   }
 
@@ -91,7 +100,7 @@ export default function StickyNav() {
     const element = document.getElementById(id);
     if (element) {
       const yOffset = -100; // Offset for fixed navigation header
-      const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
       window.scrollTo({ top: y, behavior: 'smooth' });
       setActiveSection(id);
     }
@@ -102,10 +111,16 @@ export default function StickyNav() {
   }
 
   return (
-    <div className="fixed right-6 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-5 bg-[#faf2e7]/95 backdrop-blur-md px-3.5 py-7 rounded-full border border-gold/20 shadow-lg select-none">
+    <motion.div 
+      initial={{ opacity: 0, x: 50 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.5, delay: 0.2 }}
+      className="fixed right-6 top-1/2 -translate-y-1/2 z-40 hidden md:flex flex-col gap-6 bg-[#faf2e7]/95 backdrop-blur-md px-3.5 py-7 rounded-full border border-gold/20 shadow-lg select-none"
+    >
       {SECTIONS.map((section) => {
         const isActive = activeSection === section.id;
         const isHovered = hoveredSection === section.id;
+        const Icon = section.icon;
 
         return (
           <div
@@ -123,36 +138,39 @@ export default function StickyNav() {
                   animate={{ opacity: 1, x: -10, scale: 1 }}
                   exit={{ opacity: 0, x: 10, scale: 0.95 }}
                   transition={{ duration: 0.2 }}
-                  className="absolute right-8 px-3 py-1 bg-primary text-[#faf2e7] text-xs font-bold rounded-lg shadow-md whitespace-nowrap border border-white/10 pointer-events-none"
+                  className="absolute right-10 px-3 py-1.5 bg-primary text-[#faf2e7] text-xs font-bold rounded-lg shadow-md whitespace-nowrap border border-white/10 pointer-events-none"
                 >
                   {section.label}
                 </motion.div>
               )}
             </AnimatePresence>
 
-            {/* Indicator Dot */}
-            <div className="relative w-6 h-6 flex items-center justify-center">
+            {/* Indicator Dot / Icon */}
+            <div className="relative w-8 h-8 flex items-center justify-center">
               {/* Active Outer Ring */}
               {isActive && (
                 <motion.div
-                  layoutId="activeRing"
+                  layoutId="activeStickyRing"
                   className="absolute inset-0 rounded-full border-2 border-[#6b3a0e] bg-transparent shadow-xs"
                   transition={{ type: 'spring', stiffness: 300, damping: 30 }}
                 />
               )}
 
-              {/* Inner Circle Dot */}
+              {/* Inner Circle / Icon Wrapper */}
               <motion.div
                 animate={{
-                  scale: isActive ? 1.1 : isHovered ? 1.3 : 1,
+                  scale: isActive ? 1.15 : isHovered ? 1.25 : 1,
                   backgroundColor: isActive ? '#6b3a0e' : isHovered ? '#c8922a' : '#021a54',
+                  color: isActive ? '#faf2e7' : '#faf2e7'
                 }}
-                className={`w-2.5 h-2.5 rounded-full transition-transform duration-300`}
-              />
+                className={`w-5 h-5 rounded-full flex items-center justify-center transition-colors duration-300 shadow-sm`}
+              >
+                <Icon size={12} strokeWidth={isActive || isHovered ? 3 : 2} />
+              </motion.div>
             </div>
           </div>
         );
       })}
-    </div>
+    </motion.div>
   );
 }

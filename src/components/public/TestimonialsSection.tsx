@@ -68,13 +68,13 @@ export default function TestimonialsSection({ data }: TestimonialsSectionProps) 
         transition={{ duration: 0.55 }}
         className="text-center max-w-2xl mx-auto space-y-3"
       >
-        <span className="inline-block text-[10px] font-bold text-coffee uppercase tracking-widest border border-coffee/25 bg-coffee/5 px-4 py-1.5 rounded-full">
+        <span className="inline-block text-[10px] font-bold text-coffee dark:text-gold uppercase tracking-widest border border-coffee/25 bg-coffee/5 px-4 py-1.5 rounded-full">
           Opiniones
         </span>
-        <h2 className="text-3xl md:text-4xl font-bold text-primary">
+        <h2 className="text-3xl md:text-4xl font-bold text-primary dark:text-gold">
           {data?.title || 'Lo que dicen nuestros clientes'}
         </h2>
-        <p className="text-stone-500 text-sm md:text-base leading-relaxed">
+        <p className="text-stone-500 dark:text-stone-400 text-sm md:text-base leading-relaxed">
           {data?.subtitle || 'Nuestra mayor satisfacción es brindar una experiencia premium en cada taza y bocado.'}
         </p>
       </motion.div>
@@ -89,7 +89,7 @@ export default function TestimonialsSection({ data }: TestimonialsSectionProps) 
             transition={{ duration: 0.5, delay: index * 0.1 }}
             className="glass-card rounded-3xl p-6 flex flex-col justify-between relative"
           >
-            <div className="absolute top-6 right-6 text-coffee/10">
+            <div className="absolute top-6 right-6 text-coffee dark:text-gold/10">
               <Quote size={40} className="stroke-[3px]" />
             </div>
 
@@ -101,7 +101,7 @@ export default function TestimonialsSection({ data }: TestimonialsSectionProps) 
                 ))}
               </div>
 
-              <p className="text-stone-600 text-sm leading-relaxed italic">
+              <p className="text-stone-600 dark:text-stone-300 text-sm leading-relaxed italic">
                 "{testimonial.text}"
               </p>
             </div>
@@ -114,13 +114,13 @@ export default function TestimonialsSection({ data }: TestimonialsSectionProps) 
                   className="w-10 h-10 rounded-full object-cover border border-coffee/10"
                 />
               ) : (
-                <div className="w-10 h-10 rounded-full bg-coffee/10 flex items-center justify-center text-coffee font-bold text-sm">
+                <div className="w-10 h-10 rounded-full bg-coffee/10 flex items-center justify-center text-coffee dark:text-gold font-bold text-sm">
                   {testimonial.name[0]}
                 </div>
               )}
               <div className="text-left">
-                <h4 className="font-bold text-xs text-primary">{testimonial.name}</h4>
-                <p className="text-[10px] text-stone-400 font-medium">{testimonial.location}</p>
+                <h4 className="font-bold text-xs text-primary dark:text-stone-200">{testimonial.name}</h4>
+                <p className="text-[10px] text-stone-400 dark:text-stone-500 font-medium">{testimonial.location}</p>
               </div>
             </div>
           </motion.div>

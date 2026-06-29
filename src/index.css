@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   --color-brand-base: #faf2e7;
@@ -64,6 +65,13 @@
   box-shadow: 0 4px 20px rgba(107, 58, 14, 0.04);
 }
 
+/* Dark mode override for glass-card — prevents cream bg on dark backgrounds */
+.dark .glass-card {
+  background: rgba(41, 37, 36, 0.85); /* stone-800 */
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+}
+
 .glass-card-dark {
   background: rgba(2, 26, 84, 0.85);
   backdrop-filter: blur(12px);
@@ -72,13 +80,41 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
+/* Dark mode override for bg-cream utility */
+.dark .bg-cream {
+  background-color: #292524 !important; /* stone-800 */
+}
+
+/* Global fix for WebKit rendering glitches for backdrop-filter during animations */
+[class*="backdrop-blur"],
+[class*="glass-card"] {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
+@layer base {
+  .dark {
+    --color-brand-base: #0c0a09; /* Deep espresso black (stone-950) */
+    --color-cream: #1c1917; /* stone-900 */
+    --color-warm-stone: #292524; /* stone-800 */
+    --color-gray-150: #1c1917;
+    --color-gray-155: #292524;
+    --color-gray-250: #44403c;
+    --color-slate-55: #0c0a09;
+    --color-slate-150: #1c1917;
+    --color-slate-250: #292524;
+  }
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
     scroll-padding-top: 100px; /* Offset for fixed sticky navigation header */
   }
   html, body {
-    @apply font-sans bg-brand-base text-black;
+    @apply font-sans bg-brand-base text-black dark:text-stone-200 transition-colors duration-500;
   }
 
   ::selection {

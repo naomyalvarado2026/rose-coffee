@@ -82,12 +82,12 @@ const TopBar = () => {
   return (
     <div className={`transition-all duration-500 ease-in-out ${
       isTransparent 
-        ? 'absolute top-0 left-0 right-0 w-full bg-transparent border-transparent text-primary z-[60]' 
-        : 'bg-white/70 backdrop-blur-lg border-b border-white/20 text-gray-600 relative z-[60]'
+        ? 'absolute top-0 left-0 right-0 w-full bg-transparent border-transparent text-[#faf2e7] z-[60]' 
+        : 'bg-white/70 dark:bg-[#0c0a09]/95 backdrop-blur-lg border-b border-white/20 dark:border-white/5 text-gray-600 dark:text-stone-400 relative z-[60]'
     } text-sm py-2.5 px-4 md:px-8 flex justify-between items-center`}>
       <div className="flex gap-4">
         <span className={`hidden sm:inline font-medium text-xs transition-colors duration-500 ${
-          isTransparent ? 'text-primary/70' : 'text-gray-500'
+          isTransparent ? 'text-[#faf2e7]/70' : 'text-gray-500 dark:text-stone-400'
         }`}>
           Rose Coffee — Café de Especialidad y Masa Madre
         </span>
@@ -101,7 +101,7 @@ const TopBar = () => {
               <button
                 onClick={() => setUserMenuOpen(!userMenuOpen)}
                 className={`flex items-center gap-2 transition-colors duration-500 cursor-pointer py-1 font-semibold text-xs ${
-                  isTransparent ? 'text-primary hover:text-coffee' : 'text-gray-700 hover:text-primary'
+                  isTransparent ? 'text-[#faf2e7] hover:text-gold' : 'text-gray-700 dark:text-stone-300 hover:text-primary dark:hover:text-gold'
                 }`}
               >
                 {photoUrl ? (
@@ -112,7 +112,7 @@ const TopBar = () => {
                   />
                 ) : (
                   <div className={`w-6 h-6 rounded-full flex items-center justify-center font-bold text-[10px] uppercase transition-colors duration-500 ${
-                    isTransparent ? 'bg-primary/10 text-primary border border-primary/20' : 'bg-primary/10 text-primary'
+                    isTransparent ? 'bg-white/10 text-[#faf2e7] border border-[#faf2e7]/30' : 'bg-primary/10 text-primary'
                   }`}>
                     {firstName ? firstName[0] : user.email?.[0] || 'U'}
                   </div>
@@ -240,7 +240,7 @@ const TopBar = () => {
             <Link 
               to="/login" 
               className={`transition-colors duration-500 flex items-center gap-1.5 text-xs font-bold mr-2 ${
-                isTransparent ? 'text-primary hover:text-coffee' : 'text-gray-750 hover:text-primary'
+                isTransparent ? 'text-[#faf2e7] hover:text-gold' : 'text-gray-750 hover:text-primary'
               }`}
             >
               <User size={14} />
@@ -248,17 +248,33 @@ const TopBar = () => {
             </Link>
           )}
 
-          {/* Icono de Carrito */}
+         <div className="flex items-center gap-3 md:hidden">
           <Link 
-            to="/cart" 
-            aria-label="Carrito de compras"
-            className={`transition-colors duration-500 flex items-center gap-1 relative py-1 ${
-              isTransparent ? 'text-primary hover:text-coffee' : 'text-gray-700 hover:text-primary'
+            to={roleLower === 'admin' || hasPermission('dashboard', 'view') ? "/admin" : "/mis-compras"}
+            className={`flex items-center gap-2 transition-colors duration-500 cursor-pointer py-1 font-semibold text-xs ${
+              isTransparent ? 'text-[#faf2e7] hover:text-gold' : 'text-gray-700 dark:text-stone-300 hover:text-primary dark:hover:text-gold'
             }`}
           >
             <ShoppingCart size={16} />
             {totalItems > 0 && (
-              <span className="absolute -top-1 -right-1 bg-accent-red text-white text-[8px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-white">
+              <span className="absolute -top-1 -right-1 bg-accent-red text-white text-[8px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-white dark:border-stone-900">
+                {totalItems}
+              </span>
+            )}
+          </Link>
+         </div>
+
+          {/* Icono de Carrito */}
+          <Link 
+            to="/cart" 
+            aria-label="Carrito de compras"
+            className={`hidden md:flex transition-colors duration-500 items-center gap-1 relative py-1 ${
+              isTransparent ? 'text-[#faf2e7] hover:text-gold' : 'text-gray-700 dark:text-stone-300 hover:text-primary dark:hover:text-gold'
+            }`}
+          >
+            <ShoppingCart size={16} />
+            {totalItems > 0 && (
+              <span className="absolute -top-1 -right-1 bg-accent-red text-white text-[8px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-white dark:border-stone-900">
                 {totalItems}
               </span>
             )}

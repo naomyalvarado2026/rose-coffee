@@ -5,7 +5,6 @@ import { useAuthStore } from '../../store/useAuthStore';
 import { Link } from 'react-router-dom';
 import { 
   Trash2, 
-  ShoppingBag, 
   ArrowRight, 
   CreditCard, 
   ChevronLeft, 
@@ -221,8 +220,8 @@ const Cart = () => {
           <CheckCircle2 size={48} />
         </div>
         <h1 className="text-3xl font-sans font-bold text-primary mb-3">¡Pedido Recibido!</h1>
-        <p className="text-stone-600 mb-8 max-w-md mx-auto text-sm leading-relaxed">
-          Gracias por tu compra. Tu orden <span className="font-mono font-bold text-coffee">#{orderCompleted.slice(0, 8).toUpperCase()}</span> ha sido registrada exitosamente. 
+        <p className="text-stone-600 dark:text-stone-300 mb-8 max-w-md mx-auto text-sm leading-relaxed">
+          Gracias por tu compra. Tu orden <span className="font-mono font-bold text-coffee dark:text-gold">#{orderCompleted.slice(0, 8).toUpperCase()}</span> ha sido registrada exitosamente. 
           {paymentMethod === 'transfer' 
             ? ' Un administrador verificará tu comprobante y autorizará el despacho.'
             : ' Tu pago ha sido aprobado de forma instantánea.'}
@@ -236,7 +235,7 @@ const Cart = () => {
           </Link>
           <Link
             to="/tienda"
-            className="px-6 py-3 bg-white border border-gray-250 text-stone-700 rounded-xl font-semibold hover:bg-stone-50 transition-all text-sm"
+            className="px-6 py-3 bg-white dark:bg-stone-800 border border-gray-250 text-stone-700 rounded-xl font-semibold hover:bg-stone-50 dark:bg-stone-800 transition-all text-sm"
           >
             Seguir Comprando
           </Link>
@@ -252,9 +251,42 @@ const Cart = () => {
           title="Tu Carrito - Rose Coffee" 
           description="Revisa los productos en tu carrito de compras de Rose Coffee. Procesa tu pedido de café de especialidad y panes artesanales."
         />
-        <div className="inline-flex items-center justify-center w-20 h-20 bg-stone-100 text-stone-300 rounded-full mb-6">
-          <ShoppingBag size={40} />
-        </div>
+        <motion.div 
+          initial={{ scale: 0.8, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+          className="inline-flex items-center justify-center w-32 h-32 bg-stone-50 dark:bg-stone-800 rounded-full mb-6 border border-stone-100 dark:border-stone-700 shadow-sm relative overflow-hidden"
+        >
+          <svg viewBox="0 0 24 24" className="w-16 h-16 text-stone-300" fill="none" stroke="currentColor">
+            <motion.path
+              d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: 1 }}
+              transition={{ duration: 1.5, ease: "easeInOut" }}
+            />
+            <motion.path
+              d="M3 6h18"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: 1 }}
+              transition={{ duration: 1, ease: "easeInOut", delay: 0.5 }}
+            />
+            <motion.path
+              d="M16 10a4 4 0 0 1-8 0"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              initial={{ pathLength: 0 }}
+              animate={{ pathLength: 1 }}
+              transition={{ duration: 1, ease: "easeInOut", delay: 1 }}
+            />
+          </svg>
+        </motion.div>
         <h1 className="text-2xl font-sans font-bold text-primary mb-2">Tu carrito está vacío</h1>
         <p className="text-stone-500 mb-8 text-sm">
           Aún no has agregado productos o café de especialidad a tu carrito.
@@ -275,7 +307,7 @@ const Cart = () => {
   const total = subtotal + shippingCost;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 md:px-8 py-10 bg-brand-base text-black font-sans relative">
+    <div className="max-w-7xl mx-auto px-4 md:px-8 py-10 bg-brand-base dark:bg-stone-900 text-black dark:text-stone-100 font-sans relative">
       <SEOHead 
         title="Carrito de Compras - Rose Coffee" 
         description="Revisa y procesa tu pedido de café de especialidad y panadería artesanal de masa madre."
@@ -313,15 +345,15 @@ const Cart = () => {
         <button 
           onClick={handleBackStep} 
           disabled={step === 1}
-          className="text-primary hover:text-blue-900 flex items-center gap-1 text-sm font-semibold disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
+          className="text-primary dark:text-gold hover:text-blue-900 dark:hover:text-gold/80 flex items-center gap-1 text-sm font-semibold disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
         >
           <ChevronLeft size={16} />
           Paso anterior
         </button>
-        <h1 className="text-3xl font-sans font-bold text-primary mt-3">
+        <h1 className="text-3xl font-sans font-bold text-primary dark:text-gold mt-3">
           {step === 1 ? 'Revisión del Carrito' : step === 2 ? 'Datos de Contacto' : 'Detalles de Pago'}
         </h1>
-        <p className="text-stone-500 text-sm mt-0.5">Tienes {getTotalItems()} artículos en tu carrito.</p>
+        <p className="text-stone-500 dark:text-stone-400 text-sm mt-0.5">Tienes {getTotalItems()} artículos en tu carrito.</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
@@ -334,7 +366,7 @@ const Cart = () => {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -15 }}
-                className="bg-white rounded-2xl border border-gray-150 p-6 space-y-4 shadow-2xs"
+                className="bg-white dark:bg-stone-800 rounded-2xl border border-gray-150 dark:border-stone-700 p-6 space-y-4 shadow-2xs"
               >
                 <motion.div 
                   layout
@@ -358,18 +390,18 @@ const Cart = () => {
                             <img
                               src={item.variant?.cloudinary_image_url || item.product.cover_image_url || item.product.image_url || 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&q=80&w=600'}
                               alt={item.product.name}
-                              className="w-16 h-16 rounded-xl object-cover border border-gray-100 shadow-2xs"
+                              className="w-16 h-16 rounded-xl object-cover border border-gray-100 dark:border-stone-700 shadow-2xs"
                             />
                             <div>
-                              <h3 className="font-sans font-bold text-slate-900 text-sm md:text-base hover:text-coffee transition-colors leading-tight" style={{ color: '#0f172a' }}>
+                              <h3 className="font-sans font-bold text-slate-900 dark:text-stone-200 text-sm md:text-base hover:text-coffee dark:text-gold transition-colors leading-tight" style={{ color: '#0f172a' }}>
                                 {item.product.name}
                               </h3>
                               <div className="flex flex-wrap items-center gap-2 mt-1">
-                                <span className="text-[10px] text-coffee font-bold bg-coffee/5 px-2 py-0.5 rounded border border-coffee/10" style={{ color: '#6b3a0e' }}>
+                                <span className="text-[10px] text-coffee dark:text-gold font-bold bg-coffee/5 px-2 py-0.5 rounded border border-coffee/10" style={{ color: '#6b3a0e' }}>
                                   {item.product.category}
                                 </span>
                                 {item.variant && (
-                                  <span className="text-xs text-stone-500 font-medium bg-stone-50 border border-stone-150 px-2 py-0.5 rounded">
+                                  <span className="text-xs text-stone-500 font-medium bg-stone-50 dark:bg-stone-800 border border-stone-150 dark:border-stone-700 px-2 py-0.5 rounded">
                                     {item.variant.color_name ? `${item.variant.color_name} ` : ''}{item.variant.size ? `[Talla ${item.variant.size}]` : ''}
                                   </span>
                                 )}
@@ -379,7 +411,7 @@ const Cart = () => {
 
                           <div className="flex items-center justify-between w-full sm:w-auto gap-6 mt-4 sm:mt-0">
                             {item.product.type !== 'digital' ? (
-                              <div className="flex items-center border border-gray-200 rounded-lg bg-stone-50">
+                              <div className="flex items-center border border-gray-200 dark:border-stone-700 rounded-lg bg-stone-50 dark:bg-stone-800">
                                 <button
                                   onClick={() => updateQuantity(item.product.id, item.variant?.id, item.quantity - 1)}
                                   className="px-2.5 py-1 text-stone-500 hover:text-primary font-bold text-sm cursor-pointer"
@@ -397,18 +429,18 @@ const Cart = () => {
                                 </button>
                               </div>
                             ) : (
-                              <span className="text-xs font-bold text-purple-700 bg-purple-50 px-2.5 py-1 rounded-md border border-purple-200/50">
+                              <span className="text-xs font-bold text-purple-700 dark:text-purple-300 bg-purple-50 dark:bg-purple-900/30 px-2.5 py-1 rounded-md border border-purple-200/50 dark:border-purple-700/50">
                                 Acceso Digital
                               </span>
                             )}
 
                             <div className="text-right flex items-center gap-4">
-                              <span className="text-sm md:text-base font-bold text-slate-900" style={{ color: '#0f172a' }}>
+                              <span className="text-sm md:text-base font-bold text-slate-900 dark:text-stone-200" style={{ color: '#0f172a' }}>
                                 ${(price * item.quantity).toFixed(2)}
                               </span>
                               <button
                                 onClick={() => removeItem(item.product.id, item.variant?.id)}
-                                className="text-stone-400 hover:text-accent-red p-1.5 rounded-lg hover:bg-red-50 transition-colors cursor-pointer"
+                                className="text-stone-400 hover:text-accent-red p-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/30 transition-colors cursor-pointer"
                                 aria-label="Eliminar producto"
                               >
                                 <Trash2 size={16} />
@@ -421,7 +453,7 @@ const Cart = () => {
                   </AnimatePresence>
                 </motion.div>
 
-                <div className="pt-4 border-t border-gray-100 flex flex-col sm:flex-row justify-between items-center gap-3">
+                <div className="pt-4 border-t border-gray-100 dark:border-stone-700 flex flex-col sm:flex-row justify-between items-center gap-3">
                   <button
                     onClick={handleWhatsAppCheckout}
                     className="w-full sm:w-auto px-5 py-3 bg-emerald-500 hover:bg-emerald-455 text-white rounded-xl font-bold shadow-md shadow-emerald-100/50 flex items-center justify-center gap-2 text-xs transition-all cursor-pointer"
@@ -446,16 +478,16 @@ const Cart = () => {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -15 }}
-                className="bg-white rounded-2xl border border-gray-150 p-6 space-y-6 shadow-2xs"
+                className="bg-white dark:bg-stone-800 rounded-2xl border border-gray-150 dark:border-stone-700 p-6 space-y-6 shadow-2xs"
               >
-                <h2 className="text-xl font-sans font-bold text-primary pb-2 border-b border-gray-100 flex items-center gap-2">
+                <h2 className="text-xl font-sans font-bold text-primary dark:text-gold pb-2 border-b border-gray-100 dark:border-stone-700 flex items-center gap-2">
                   <Ticket size={20} className="text-primary" />
                   Información del Cliente
                 </h2>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="name" className="block text-xs font-bold text-stone-400 uppercase tracking-wider mb-1.5">Nombre Completo</label>
+                    <label htmlFor="name" className="block text-xs font-bold text-stone-400 dark:text-stone-500 uppercase tracking-wider mb-1.5">Nombre Completo</label>
                     <input
                       id="name"
                       type="text"
@@ -464,12 +496,12 @@ const Cart = () => {
                       autoComplete="name"
                       value={formData.name}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none focus:border-primary transition-all"
+                      className="w-full px-4 py-2.5 border border-gray-200 dark:border-stone-700 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none focus:border-primary transition-all"
                       placeholder="Ej. Juan Pérez"
                     />
                   </div>
                   <div>
-                    <label htmlFor="email" className="block text-xs font-bold text-stone-400 uppercase tracking-wider mb-1.5">Correo Electrónico</label>
+                    <label htmlFor="email" className="block text-xs font-bold text-stone-400 dark:text-stone-500 uppercase tracking-wider mb-1.5">Correo Electrónico</label>
                     <input
                       id="email"
                       type="email"
@@ -478,7 +510,7 @@ const Cart = () => {
                       autoComplete="email"
                       value={formData.email}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none focus:border-primary transition-all"
+                      className="w-full px-4 py-2.5 border border-gray-200 dark:border-stone-700 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none focus:border-primary transition-all"
                       placeholder="Ej. juan@correo.com"
                     />
                   </div>
@@ -486,7 +518,7 @@ const Cart = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <label htmlFor="phone" className="block text-xs font-bold text-stone-400 uppercase tracking-wider mb-1.5">Teléfono</label>
+                    <label htmlFor="phone" className="block text-xs font-bold text-stone-400 dark:text-stone-500 uppercase tracking-wider mb-1.5">Teléfono</label>
                     <input
                       id="phone"
                       type="tel"
@@ -495,19 +527,19 @@ const Cart = () => {
                       autoComplete="tel"
                       value={formData.phone}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none focus:border-primary transition-all"
+                      className="w-full px-4 py-2.5 border border-gray-200 dark:border-stone-700 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none focus:border-primary transition-all"
                       placeholder="Ej. 0991234567"
                     />
                   </div>
                   <div>
-                    <label htmlFor="delivery" className="block text-xs font-bold text-stone-400 uppercase tracking-wider mb-1.5">Método de Entrega</label>
+                    <label htmlFor="delivery" className="block text-xs font-bold text-stone-400 dark:text-stone-500 uppercase tracking-wider mb-1.5">Método de Entrega</label>
                     <select
                       id="delivery"
                       name="delivery"
                       autoComplete="shipping"
                       value={formData.delivery}
                       onChange={handleInputChange}
-                      className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm bg-white focus:ring-2 focus:ring-primary/20 focus:outline-none focus:border-primary transition-all"
+                      className="w-full px-4 py-2.5 border border-gray-200 dark:border-stone-700 rounded-xl text-sm bg-white dark:bg-stone-800 focus:ring-2 focus:ring-primary/20 focus:outline-none focus:border-primary transition-all"
                     >
                       <option value="pickup">Retirar en Tienda Física (Gratis)</option>
                       <option value="shipping">Envío a Domicilio (+$5.00)</option>
@@ -523,7 +555,7 @@ const Cart = () => {
                     className="grid grid-cols-1 md:grid-cols-3 gap-4"
                   >
                     <div className="md:col-span-2">
-                      <label htmlFor="address" className="block text-xs font-bold text-stone-400 uppercase tracking-wider mb-1.5">Dirección de Entrega</label>
+                      <label htmlFor="address" className="block text-xs font-bold text-stone-400 dark:text-stone-500 uppercase tracking-wider mb-1.5">Dirección de Entrega</label>
                       <input
                         id="address"
                         type="text"
@@ -532,12 +564,12 @@ const Cart = () => {
                         autoComplete="street-address"
                         value={formData.address}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none focus:border-primary transition-all"
+                        className="w-full px-4 py-2.5 border border-gray-200 dark:border-stone-700 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none focus:border-primary transition-all"
                         placeholder="Ej. Calle Principal 123 y Av. Intermedia"
                       />
                     </div>
                     <div>
-                      <label htmlFor="city" className="block text-xs font-bold text-stone-400 uppercase tracking-wider mb-1.5">Ciudad</label>
+                      <label htmlFor="city" className="block text-xs font-bold text-stone-400 dark:text-stone-500 uppercase tracking-wider mb-1.5">Ciudad</label>
                       <input
                         id="city"
                         type="text"
@@ -546,14 +578,14 @@ const Cart = () => {
                         autoComplete="address-level2"
                         value={formData.city}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none focus:border-primary transition-all"
+                        className="w-full px-4 py-2.5 border border-gray-200 dark:border-stone-700 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none focus:border-primary transition-all"
                         placeholder="Ej. Guayaquil"
                       />
                     </div>
                   </motion.div>
                 )}
 
-                <div className="pt-4 border-t border-gray-100 flex justify-end">
+                <div className="pt-4 border-t border-gray-100 dark:border-stone-700 flex justify-end">
                   <button
                     onClick={handleNextStep}
                     className="px-6 py-3 bg-primary hover:bg-blue-900 text-white rounded-xl font-bold shadow-md shadow-blue-100 flex items-center gap-2 text-sm transition-all cursor-pointer"
@@ -571,9 +603,9 @@ const Cart = () => {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -15 }}
-                className="bg-white rounded-2xl border border-gray-150 p-6 space-y-6 shadow-2xs"
+                className="bg-white dark:bg-stone-800 rounded-2xl border border-gray-150 dark:border-stone-700 p-6 space-y-6 shadow-2xs"
               >
-                <h2 className="text-xl font-sans font-bold text-primary pb-2 border-b border-gray-100 flex items-center gap-2">
+                <h2 className="text-xl font-sans font-bold text-primary dark:text-gold pb-2 border-b border-gray-100 dark:border-stone-700 flex items-center gap-2">
                   <CreditCard size={20} className="text-primary" />
                   Método de Pago
                 </h2>
@@ -585,7 +617,7 @@ const Cart = () => {
                     className={`p-4 rounded-xl border-2 text-left transition-all cursor-pointer ${
                       paymentMethod === 'card'
                         ? 'border-primary bg-blue-50/30'
-                        : 'border-gray-200 hover:bg-stone-50'
+                        : 'border-gray-200 hover:bg-stone-50 dark:bg-stone-800'
                     }`}
                   >
                     <div className="flex justify-between items-center mb-2">
@@ -593,7 +625,7 @@ const Cart = () => {
                       <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${
                         paymentMethod === 'card' ? 'border-primary bg-primary' : 'border-gray-300'
                       }`}>
-                        {paymentMethod === 'card' && <div className="w-1.5 h-1.5 bg-white rounded-full" />}
+                        {paymentMethod === 'card' && <div className="w-1.5 h-1.5 bg-white dark:bg-stone-800 rounded-full" />}
                       </div>
                     </div>
                     <span className="block font-bold text-sm text-primary">Tarjeta de Crédito</span>
@@ -605,7 +637,7 @@ const Cart = () => {
                     className={`p-4 rounded-xl border-2 text-left transition-all cursor-pointer ${
                       paymentMethod === 'transfer'
                         ? 'border-primary bg-blue-50/30'
-                        : 'border-gray-200 hover:bg-stone-50'
+                        : 'border-gray-200 hover:bg-stone-50 dark:bg-stone-800'
                     }`}
                   >
                     <div className="flex justify-between items-center mb-2">
@@ -613,7 +645,7 @@ const Cart = () => {
                       <div className={`w-4 h-4 rounded-full border flex items-center justify-center ${
                         paymentMethod === 'transfer' ? 'border-primary bg-primary' : 'border-gray-300'
                       }`}>
-                        {paymentMethod === 'transfer' && <div className="w-1.5 h-1.5 bg-white rounded-full" />}
+                        {paymentMethod === 'transfer' && <div className="w-1.5 h-1.5 bg-white dark:bg-stone-800 rounded-full" />}
                       </div>
                     </div>
                     <span className="block font-bold text-sm text-primary">Transferencia / Depósito</span>
@@ -623,15 +655,15 @@ const Cart = () => {
 
                 {/* Contenido según método de pago */}
                 {paymentMethod === 'card' ? (
-                  <div className="space-y-4 pt-4 border-t border-gray-100">
-                    <p className="text-stone-500 text-xs flex items-center gap-1.5 bg-stone-50 p-2.5 rounded-lg border border-stone-150">
+                  <div className="space-y-4 pt-4 border-t border-gray-100 dark:border-stone-700">
+                    <p className="text-stone-500 text-xs flex items-center gap-1.5 bg-stone-50 dark:bg-stone-800 p-2.5 rounded-lg border border-stone-150 dark:border-stone-700">
                       <Info size={14} className="text-primary shrink-0" />
                       Demostración: Usa números de tarjeta ficticios para simular la compra.
                     </p>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <label htmlFor="cardName" className="block text-xs font-bold text-stone-400 uppercase tracking-wider mb-1.5">Nombre en Tarjeta</label>
+                        <label htmlFor="cardName" className="block text-xs font-bold text-stone-400 dark:text-stone-500 uppercase tracking-wider mb-1.5">Nombre en Tarjeta</label>
                         <input
                           id="cardName"
                           type="text"
@@ -640,12 +672,12 @@ const Cart = () => {
                           autoComplete="cc-name"
                           value={formData.cardName}
                           onChange={handleInputChange}
-                          className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none focus:border-primary transition-all"
+                          className="w-full px-4 py-2.5 border border-gray-200 dark:border-stone-700 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none focus:border-primary transition-all"
                           placeholder="Ej. JUAN PEREZ"
                         />
                       </div>
                       <div>
-                        <label htmlFor="cardNumber" className="block text-xs font-bold text-stone-400 uppercase tracking-wider mb-1.5">Número de Tarjeta</label>
+                        <label htmlFor="cardNumber" className="block text-xs font-bold text-stone-400 dark:text-stone-500 uppercase tracking-wider mb-1.5">Número de Tarjeta</label>
                         <input
                           id="cardNumber"
                           type="text"
@@ -655,7 +687,7 @@ const Cart = () => {
                           maxLength={19}
                           value={formData.cardNumber}
                           onChange={handleInputChange}
-                          className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none focus:border-primary transition-all"
+                          className="w-full px-4 py-2.5 border border-gray-200 dark:border-stone-700 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none focus:border-primary transition-all"
                           placeholder="4000 1234 5678 9010"
                         />
                       </div>
@@ -663,7 +695,7 @@ const Cart = () => {
 
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label htmlFor="cardExpiry" className="block text-xs font-bold text-stone-400 uppercase tracking-wider mb-1.5">Expiración (MM/AA)</label>
+                        <label htmlFor="cardExpiry" className="block text-xs font-bold text-stone-400 dark:text-stone-500 uppercase tracking-wider mb-1.5">Expiración (MM/AA)</label>
                         <input
                           id="cardExpiry"
                           type="text"
@@ -673,12 +705,12 @@ const Cart = () => {
                           maxLength={5}
                           value={formData.cardExpiry}
                           onChange={handleInputChange}
-                          className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none focus:border-primary transition-all"
+                          className="w-full px-4 py-2.5 border border-gray-200 dark:border-stone-700 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none focus:border-primary transition-all"
                           placeholder="12/28"
                         />
                       </div>
                       <div>
-                        <label htmlFor="cardCvv" className="block text-xs font-bold text-stone-400 uppercase tracking-wider mb-1.5">CVV</label>
+                        <label htmlFor="cardCvv" className="block text-xs font-bold text-stone-400 dark:text-stone-500 uppercase tracking-wider mb-1.5">CVV</label>
                         <input
                           id="cardCvv"
                           type="password"
@@ -688,30 +720,30 @@ const Cart = () => {
                           maxLength={3}
                           value={formData.cardCvv}
                           onChange={handleInputChange}
-                          className="w-full px-4 py-2.5 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none focus:border-primary transition-all"
+                          className="w-full px-4 py-2.5 border border-gray-200 dark:border-stone-700 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none focus:border-primary transition-all"
                           placeholder="123"
                         />
                       </div>
                     </div>
                   </div>
                 ) : (
-                  <div className="space-y-4 pt-4 border-t border-gray-100">
-                    <div className="bg-stone-50 p-4 rounded-xl border border-stone-150 space-y-3">
+                  <div className="space-y-4 pt-4 border-t border-gray-100 dark:border-stone-700">
+                    <div className="bg-stone-50 dark:bg-stone-800 p-4 rounded-xl border border-stone-150 dark:border-stone-700 space-y-3">
                       <h4 className="font-bold text-sm text-primary">Cuentas Bancarias de Rose Coffee:</h4>
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
-                        <div className="bg-white p-2.5 rounded-lg border border-gray-100 shadow-3xs">
+                        <div className="bg-white dark:bg-stone-800 p-2.5 rounded-lg border border-gray-100 dark:border-stone-700 shadow-3xs">
                           <p className="font-bold text-primary">Banco Pichincha</p>
                           <p className="text-stone-500 mt-1">Cta. Ahorros</p>
                           <p className="font-mono font-semibold text-stone-700">#2201234567</p>
                           <p className="text-[10px] text-stone-400 mt-0.5 font-bold uppercase tracking-wider">Rose Coffee</p>
                         </div>
-                        <div className="bg-white p-2.5 rounded-lg border border-gray-100 shadow-3xs">
+                        <div className="bg-white dark:bg-stone-800 p-2.5 rounded-lg border border-gray-100 dark:border-stone-700 shadow-3xs">
                           <p className="font-bold text-primary">Banco Guayaquil</p>
                           <p className="text-stone-500 mt-1">Cta. Corriente</p>
                           <p className="font-mono font-semibold text-stone-700">#10987654</p>
                           <p className="text-[10px] text-stone-400 mt-0.5 font-bold uppercase tracking-wider">Rose Coffee</p>
                         </div>
-                        <div className="bg-white p-2.5 rounded-lg border border-gray-100 shadow-3xs">
+                        <div className="bg-white dark:bg-stone-800 p-2.5 rounded-lg border border-gray-100 dark:border-stone-700 shadow-3xs">
                           <p className="font-bold text-primary">Produbanco</p>
                           <p className="text-stone-500 mt-1">Cta. Ahorros</p>
                           <p className="font-mono font-semibold text-stone-700">#0345678912</p>
@@ -723,7 +755,7 @@ const Cart = () => {
                     <div className="space-y-2">
                       <label id="voucher-label" className="block text-xs font-bold text-stone-400 uppercase tracking-wider">Subir Foto de Comprobante</label>
                       <div className="flex items-center gap-4">
-                        <label htmlFor="voucherFile" className="flex flex-col items-center justify-center w-full md:w-64 h-32 border-2 border-dashed border-gray-250 rounded-xl hover:bg-stone-50 cursor-pointer transition-colors relative">
+                        <label htmlFor="voucherFile" className="flex flex-col items-center justify-center w-full md:w-64 h-32 border-2 border-dashed border-gray-250 rounded-xl hover:bg-stone-50 dark:bg-stone-800 cursor-pointer transition-colors relative">
                           <div className="flex flex-col items-center justify-center pt-5 pb-6 text-stone-400">
                             {uploadingVoucher ? (
                               <>
@@ -756,7 +788,7 @@ const Cart = () => {
                         </label>
                         
                         {voucherUrl && (
-                          <div className="w-24 h-24 rounded-lg overflow-hidden border border-gray-200 shadow-2xs relative shrink-0">
+                          <div className="w-24 h-24 rounded-lg overflow-hidden border border-gray-200 dark:border-stone-700 shadow-2xs relative shrink-0">
                             <img src={voucherUrl} alt="Comprobante" className="w-full h-full object-cover" />
                           </div>
                         )}
@@ -771,27 +803,27 @@ const Cart = () => {
 
         {/* Lado Derecho: Resumen de Compra Fijo */}
         <div className="lg:col-span-4 lg:sticky lg:top-24">
-          <div className="bg-white rounded-2xl border border-gray-150 p-6 space-y-6 shadow-2xs">
-            <h2 className="text-xl font-sans font-bold text-primary pb-2 border-b border-gray-100">
+          <div className="bg-white dark:bg-stone-800 rounded-2xl border border-gray-150 dark:border-stone-700 p-6 space-y-6 shadow-2xs">
+            <h2 className="text-xl font-sans font-bold text-primary pb-2 border-b border-gray-100 dark:border-stone-700">
               Resumen del Pedido
             </h2>
 
             <div className="space-y-3">
               <div className="flex justify-between text-sm text-stone-600">
                 <span>Subtotal</span>
-                <span className="font-semibold text-slate-800">${subtotal.toFixed(2)}</span>
+                <span className="font-semibold text-slate-800 dark:text-stone-200">${subtotal.toFixed(2)}</span>
               </div>
               <div className="flex justify-between text-sm text-stone-600">
                 <span>Entrega ({formData.delivery === 'pickup' ? 'Retiro' : 'Envío'})</span>
-                <span className="font-semibold text-slate-800">{shippingCost === 0 ? 'Gratis' : `$${shippingCost.toFixed(2)}`}</span>
+                <span className="font-semibold text-slate-800 dark:text-stone-200">{shippingCost === 0 ? 'Gratis' : `$${shippingCost.toFixed(2)}`}</span>
               </div>
-              <div className="flex justify-between text-sm text-stone-600 pb-3 border-b border-gray-100">
+              <div className="flex justify-between text-sm text-stone-600 pb-3 border-b border-gray-100 dark:border-stone-700">
                 <span>Impuesto / Transacción</span>
                 <span className="text-green-600 font-semibold uppercase text-xs tracking-wider">Gratis</span>
               </div>
-              <div className="flex justify-between text-base font-bold text-slate-800 pt-1">
+              <div className="flex justify-between text-base font-bold text-slate-800 dark:text-stone-200 pt-1">
                 <span>Total Final</span>
-                <span className="text-slate-900 text-xl font-extrabold">${total.toFixed(2)}</span>
+                <span className="text-slate-900 dark:text-stone-200 text-xl font-extrabold">${total.toFixed(2)}</span>
               </div>
             </div>
 

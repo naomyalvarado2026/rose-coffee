@@ -104,11 +104,11 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-brand-base px-4 py-12">
-      <div className="bg-white p-8 rounded-2xl border border-gray-150 shadow-md w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center bg-brand-base dark:bg-stone-900 px-4 py-12">
+      <div className="bg-white dark:bg-stone-800 p-8 rounded-2xl border border-gray-150 dark:border-stone-700 shadow-md w-full max-w-md">
         
         {/* Auth Toggle Tabs */}
-        <div className="flex border-b border-gray-100 mb-6">
+        <div className="flex border-b border-gray-100 dark:border-stone-700 mb-6">
           <button
             onClick={() => {
               setIsRegister(false);
@@ -133,7 +133,7 @@ const Login = () => {
           </button>
         </div>
 
-        <h2 className="text-2xl font-sans font-bold text-gray-800 mb-6 text-center">
+        <h2 className="text-2xl font-sans font-bold text-gray-800 dark:text-stone-200 mb-6 text-center">
           {isRegister ? 'Crear Cuenta Nueva' : 'Ingresar al Panel'}
         </h2>
         
@@ -160,7 +160,7 @@ const Login = () => {
                     autoComplete="given-name"
                     {...register('firstName')}
                     type="text" 
-                    className="w-full px-4 py-2 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none"
+                    className="w-full px-4 py-2 border border-gray-200 dark:border-stone-700 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none"
                     placeholder="Ej. Juan"
                   />
                 </div>
@@ -171,7 +171,7 @@ const Login = () => {
                     autoComplete="family-name"
                     {...register('lastName')}
                     type="text" 
-                    className="w-full px-4 py-2 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none"
+                    className="w-full px-4 py-2 border border-gray-200 dark:border-stone-700 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none"
                     placeholder="Ej. Pérez"
                   />
                 </div>
@@ -186,7 +186,7 @@ const Login = () => {
               autoComplete="email"
               {...register('email')}
               type="email" 
-              className="w-full px-4 py-2 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none"
+              className="w-full px-4 py-2 border border-gray-200 dark:border-stone-700 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none"
               placeholder="correo@ejemplo.com"
             />
             {errors.email && <p className="text-accent-red text-xs mt-1">{errors.email.message}</p>}
@@ -199,7 +199,7 @@ const Login = () => {
               autoComplete="current-password"
               {...register('password')}
               type="password" 
-              className="w-full px-4 py-2 border border-gray-200 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none"
+              className="w-full px-4 py-2 border border-gray-200 dark:border-stone-700 rounded-xl text-sm focus:ring-2 focus:ring-primary/20 focus:outline-none"
               placeholder="••••••••"
             />
             {errors.password && <p className="text-accent-red text-xs mt-1">{errors.password.message}</p>}
@@ -220,10 +220,10 @@ const Login = () => {
         {/* Divider */}
         <div className="relative my-6">
           <div className="absolute inset-0 flex items-center">
-            <div className="w-full border-t border-gray-100"></div>
+            <div className="w-full border-t border-gray-100 dark:border-stone-700"></div>
           </div>
           <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-white px-3 text-gray-400 font-bold">O también</span>
+            <span className="bg-white dark:bg-stone-800 px-3 text-gray-400 font-bold">O también</span>
           </div>
         </div>
 
