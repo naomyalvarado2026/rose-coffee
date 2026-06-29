@@ -203,7 +203,7 @@ export default function ProjectPresentation() {
               <div className="flex items-center gap-3">
                 <img src={logoRose} alt="Logo" className="h-12 w-auto animate-float" />
                 <div>
-                  <h3 className="font-black text-lg text-primary leading-tight">El Concepto del Isotipo</h3>
+                  <h3 className="font-black text-lg text-primary dark:text-white leading-tight">El Concepto del Isotipo</h3>
                   <span className="text-[10px] font-extrabold uppercase tracking-wide text-gold">Café y Gatitos</span>
                 </div>
               </div>
@@ -213,7 +213,7 @@ export default function ProjectPresentation() {
               </p>
 
               <div className="border-t border-stone-200 dark:border-stone-700/60 pt-4 space-y-3">
-                <h4 className="font-extrabold text-xs text-primary uppercase tracking-widest">Puntos Clave del Diseño:</h4>
+                <h4 className="font-extrabold text-xs text-primary dark:text-stone-200 uppercase tracking-widest">Puntos Clave del Diseño:</h4>
                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-stone-600">
                   <li className="flex items-center gap-2">
                     <span className="w-1.5 h-1.5 rounded-full bg-gold" />
@@ -259,7 +259,7 @@ export default function ProjectPresentation() {
                     <span className={`text-[10px] font-black tracking-wider uppercase ${color.text}`}>{color.hex}</span>
                   </div>
                   <div>
-                    <h4 className="font-extrabold text-xs text-primary leading-tight">{color.name}</h4>
+                    <h4 className="font-extrabold text-xs text-primary dark:text-white leading-tight">{color.name}</h4>
                     <p className="text-[9px] text-stone-500 mt-1 leading-snug">{color.desc}</p>
                   </div>
                 </motion.div>
@@ -375,7 +375,7 @@ export default function ProjectPresentation() {
               <ShieldCheck size={10} />
               <span>Back-Office de Negocios</span>
             </div>
-            <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-primary">
+            <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-primary dark:text-stone-100">
               Módulos y Herramientas del Panel Admin
             </h2>
             <div className="h-1 w-20 bg-coffee/30 rounded-full mx-auto" />
@@ -454,7 +454,7 @@ export default function ProjectPresentation() {
                   <div className="w-10 h-10 rounded-xl bg-coffee/5 border border-coffee/15 flex items-center justify-center text-coffee dark:text-gold">
                     <module.icon size={20} />
                   </div>
-                  <h3 className="font-extrabold text-base text-primary">{module.title}</h3>
+                  <h3 className="font-extrabold text-base text-primary dark:text-white">{module.title}</h3>
                   <p className="text-stone-600 text-xs leading-relaxed">{module.desc}</p>
                 </div>
                 
@@ -777,7 +777,7 @@ export default function ProjectPresentation() {
               <Database size={10} />
               <span>Infraestructura e Ingeniería</span>
             </div>
-            <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-primary">
+            <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-primary dark:text-stone-100">
               Stack Tecnológico & Arquitectura
             </h2>
             <div className="h-1 w-20 bg-coffee/30 rounded-full mx-auto" />
@@ -795,12 +795,12 @@ export default function ProjectPresentation() {
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-100 text-blue-800 text-[9px] font-bold uppercase tracking-wider">
                   Interfaz de Cliente
                 </div>
-                <h3 className="text-2xl font-black text-primary leading-tight">Front-End Moderno</h3>
-                <p className="text-stone-600 text-xs leading-relaxed">
-                  Construido con <strong className="text-primary">React 19</strong> y empaquetado con la velocidad extrema de <strong className="text-primary">Vite</strong>. La interfaz visual utiliza <strong className="text-primary">Tailwind CSS v4</strong> con un enfoque CSS-first de tokens nativos, complementado con las animaciones premium y dinámicas de <strong className="text-primary">Framer Motion</strong>.
+                <h3 className="text-2xl font-black text-primary dark:text-white leading-tight">Front-End Moderno</h3>
+                <p className="text-stone-600 dark:text-stone-300 text-xs leading-relaxed">
+                  Construido con <strong className="text-primary dark:text-white">React 19</strong> y empaquetado con la velocidad extrema de <strong className="text-primary dark:text-white">Vite</strong>. La interfaz visual utiliza <strong className="text-primary dark:text-white">Tailwind CSS v4</strong> con un enfoque CSS-first de tokens nativos, complementado con las animaciones premium y dinámicas de <strong className="text-primary dark:text-white">Framer Motion</strong>.
                 </p>
-                <p className="text-stone-600 text-xs leading-relaxed">
-                  La gestión de estado se centraliza utilizando <strong className="text-primary">Zustand</strong>, permitiendo modularidad extrema en el flujo del e-commerce y el carrito de compras sin sobrecargas de rendimiento.
+                <p className="text-stone-600 dark:text-stone-300 text-xs leading-relaxed">
+                  La gestión de estado se centraliza utilizando <strong className="text-primary dark:text-white">Zustand</strong>, permitiendo modularidad extrema en el flujo del e-commerce y el carrito de compras sin sobrecargas de rendimiento.
                 </p>
               </div>
 
@@ -822,9 +822,9 @@ export default function ProjectPresentation() {
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-[9px] font-bold uppercase tracking-wider">
                   Base de Datos & Auth
                 </div>
-                <h3 className="text-lg font-bold text-primary leading-tight">Backend Serverless</h3>
-                <p className="text-stone-600 text-xs leading-relaxed">
-                  Potenciado por <strong className="text-primary">Supabase</strong> bajo PostgreSQL. Cuenta con login federado (Google OAuth) y políticas de seguridad estrictas a nivel de filas (<strong className="text-primary">RLS</strong>).
+                <h3 className="text-lg font-bold text-primary dark:text-white leading-tight">Backend Serverless</h3>
+                <p className="text-stone-600 dark:text-stone-300 text-xs leading-relaxed">
+                  Potenciado por <strong className="text-primary dark:text-white">Supabase</strong> bajo PostgreSQL. Cuenta con login federado (Google OAuth) y políticas de seguridad estrictas a nivel de filas (<strong className="text-primary dark:text-white">RLS</strong>).
                 </p>
               </div>
               <div className="flex flex-wrap gap-1.5">
@@ -845,9 +845,9 @@ export default function ProjectPresentation() {
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-[9px] font-bold uppercase tracking-wider">
                   Assets & Modelos
                 </div>
-                <h3 className="text-lg font-bold text-primary leading-tight">Almacenamiento</h3>
-                <p className="text-stone-600 text-xs leading-relaxed">
-                  Optimización de imágenes con <strong className="text-primary">Cloudinary</strong> y resguardo de modelos 3D (`.glb`) en Supabase Storage o repositorios GitHub para CDN.
+                <h3 className="text-lg font-bold text-primary dark:text-white leading-tight">Almacenamiento</h3>
+                <p className="text-stone-600 dark:text-stone-300 text-xs leading-relaxed">
+                  Optimización de imágenes con <strong className="text-primary dark:text-white">Cloudinary</strong> y resguardo de modelos 3D (`.glb`) en Supabase Storage o repositorios GitHub para CDN.
                 </p>
               </div>
               <div className="flex flex-wrap gap-1.5">
@@ -868,7 +868,7 @@ export default function ProjectPresentation() {
                 <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-100 text-purple-800 text-[9px] font-bold uppercase tracking-wider">
                   Tecnologías Inmersivas
                 </div>
-                <h3 className="text-xl font-bold text-primary leading-tight">Computación Espacial Web</h3>
+                <h3 className="text-xl font-bold text-primary dark:text-white leading-tight">Computación Espacial Web</h3>
                 <p className="text-stone-600 text-xs leading-relaxed">
                   Rose Coffee implementa el estándar del consorcio W3C para **WebXR**. Además de la colocación de modelos 3D, incluye integración experimental con **MindAR** para el escaneo de imágenes físicas de menús y detonación de modelos 3D directamente sobre impresos del local.
                 </p>
