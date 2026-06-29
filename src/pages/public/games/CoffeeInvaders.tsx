@@ -43,8 +43,8 @@ export default function CoffeeInvaders() {
       const container = containerRef.current;
       const canvas = canvasRef.current;
       if (container && canvas) {
-        const maxWidth = Math.min(container.clientWidth, 600);
-        const maxHeight = window.innerHeight * 0.6;
+        const maxWidth = Math.min(container.clientWidth, 1000);
+        const maxHeight = window.innerHeight * 0.75;
         
         canvas.width = maxWidth;
         canvas.height = maxHeight;
@@ -56,7 +56,7 @@ export default function CoffeeInvaders() {
     };
     
     const canvas = canvasRef.current;
-    canvas.width = 600;
+    canvas.width = 1000;
     canvas.height = 800;
 
     engineRef.current = new CoffeeInvadersEngine(
@@ -156,7 +156,7 @@ export default function CoffeeInvaders() {
       </header>
 
       <main className="flex-1 flex flex-col items-center justify-center p-4 relative overflow-hidden touch-none select-none" ref={containerRef}>
-        <div className="relative w-full max-w-[600px] rounded-xl overflow-hidden shadow-[0_0_50px_rgba(239,68,68,0.2)] border-2 border-white/10 bg-[#000000] touch-none select-none">
+        <div className="relative w-full max-w-[1000px] rounded-xl overflow-hidden shadow-[0_0_50px_rgba(239,68,68,0.2)] border-2 border-white/10 bg-[#000000] touch-none select-none">
           <canvas
             ref={canvasRef}
             className="block w-full h-auto"
