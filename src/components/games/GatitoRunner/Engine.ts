@@ -36,6 +36,7 @@ export interface GameState {
   bossActive: boolean;
   combo: number;
   sugarRushFrames: number;
+  lastBossLevel?: number;
 }
 
 export interface Player {
@@ -63,6 +64,7 @@ export interface Obstacle {
   passed: boolean;
   vy?: number;
   hitHp?: number; // Some enemies can take hits
+  hurtFrames?: number;
 }
 
 export interface Projectile {
@@ -103,6 +105,7 @@ export class GatitoEngine {
   private bossHp = 0;
   private bossY = 0;
   private bossDirection = 1;
+  private bossHurtFrames = 0;
   private cloudPositions: {x: number, y: number, scale: number, speed: number}[] = [];
 
   constructor(width: number, height: number, sprites: Record<string, HTMLImageElement>, config: GatitoConfig) {
@@ -123,6 +126,7 @@ export class GatitoEngine {
       bossActive: false,
       combo: 0,
       sugarRushFrames: 0,
+      lastBossLevel: 0,
     };
 
     this.player = {
@@ -174,6 +178,7 @@ export class GatitoEngine {
     this.state.bossActive = false;
     this.state.combo = 0;
     this.state.sugarRushFrames = 0;
+    this.state.lastBossLevel = 0;
     
     this.obstacles = [];
     this.items = [];
@@ -231,13 +236,15 @@ export class GatitoEngine {
 
   private handleCombo(increase: boolean) {
     if (increase) {
-      this.state.combo++;
-      if (this.state.combo >= 10 && this.state.sugarRushFrames <= 0) {
-        // Trigger Sugar Rush
-        this.state.sugarRushFrames = 480; // 8 seconds at 60fps
-        this.state.combo = 0; // reset
-        // Spawn explosion of particles
-        this.particles.push(...createParticles(this.player.x, this.player.y, 50, '#f472b6'));
+      if (this.state.sugarRushFrames <= 0) {
+        this.state.combo++;
+        if (this.state.combo >= 10) {
+          // Trigger Sugar Rush
+          this.state.sugarRushFrames = 480; // 8 seconds at 60fps
+          this.state.combo = 0; // reset
+          // Spawn explosion of particles
+          this.particles.push(...createParticles(this.player.x, this.player.y, 50, '#f472b6'));
+        }
       }
     } else {
       this.state.combo = 0;
@@ -339,6 +346,7 @@ export class GatitoEngine {
         // Bounced on head!
         this.player.vy = this.JUMP_FORCE; // bounce off
         this.bossHp--;
+        this.bossHurtFrames = 10;
         this.particles.push(...createParticles(this.player.x + this.player.width/2, this.player.y + currentHeight, 20, '#ffffff'));
         
         if (this.bossHp <= 0) {
@@ -349,8 +357,9 @@ export class GatitoEngine {
       }
     } else {
       // Spawn boss at level 3, 6, 9 etc
-      if (this.state.level % 3 === 0 && this.state.level > 1 && !isSugarRush && Math.random() < 0.005) {
+      if (this.state.level % 3 === 0 && this.state.level > 1 && !isSugarRush && this.state.level !== this.state.lastBossLevel) {
         this.state.bossActive = true;
+        this.state.lastBossLevel = this.state.level;
         this.bossHp = 5; // increased hp for boss
         this.bossY = this.state.groundY - 150;
       }
@@ -367,6 +376,7 @@ export class GatitoEngine {
               p.y > bossHitbox.y && p.y < bossHitbox.y + bossHitbox.h) {
              p.active = false;
              this.bossHp -= 0.5; // Beans do half damage
+             this.bossHurtFrames = 10;
              this.particles.push(...createParticles(p.x, p.y, 10, '#78350f'));
              if (this.bossHp <= 0) {
                 this.state.bossActive = false;
@@ -382,6 +392,7 @@ export class GatitoEngine {
           if (!obs.passed && obs.type !== 'spill' && p.x > obs.x && p.x < obs.x + obs.width && p.y > obs.y && p.y < obs.y + obs.height) {
              p.active = false;
              obs.hitHp = (obs.hitHp || 1) - 1;
+             obs.hurtFrames = 10;
              this.particles.push(...createParticles(p.x, p.y, 10, '#c68e17'));
              if (obs.hitHp <= 0) {
                 obs.passed = true;
@@ -619,18 +630,31 @@ export class GatitoEngine {
 
     // Draw Boss
     if (this.state.bossActive) {
+      if (this.bossHurtFrames > 0) this.bossHurtFrames--;
+      
+      // Boss aura
+      ctx.shadowColor = '#ef4444';
+      ctx.shadowBlur = 20;
+      
       const bossSpriteName = this.bossHp <= 2 ? 'boss_angry' : 'boss_normal';
       const sprite = this.sprites[bossSpriteName];
       if (sprite) {
+        ctx.globalAlpha = this.bossHurtFrames > 0 && this.state.frames % 4 < 2 ? 0.5 : 1;
         drawSprite(ctx, sprite, this.state.canvasWidth - 150, this.bossY, 100, 100);
+        ctx.globalAlpha = 1;
       } else {
-        ctx.fillStyle = this.bossHp <= 2 ? '#b91c1c' : '#ef4444';
+        ctx.fillStyle = this.bossHurtFrames > 0 ? '#ffffff' : (this.bossHp <= 2 ? '#b91c1c' : '#ef4444');
         ctx.fillRect(this.state.canvasWidth - 150, this.bossY, 100, 100);
       }
+      ctx.shadowBlur = 0;
     }
 
     // Items
     this.items.forEach(item => {
+      // Glow effect based on item type
+      ctx.shadowColor = item.type.includes('coin') ? '#fbbf24' : (item.type === 'shield' ? '#3b82f6' : (item.type === 'magnet' ? '#f43f5e' : '#fcd34d'));
+      ctx.shadowBlur = 15;
+
       const sprite = this.sprites[item.type];
       if (sprite) {
         drawSprite(ctx, sprite, item.x, item.y, item.width, item.height);
@@ -640,10 +664,21 @@ export class GatitoEngine {
         ctx.arc(item.x + item.width/2, item.y + item.height/2, item.width/2, 0, Math.PI * 2);
         ctx.fill();
       }
+      ctx.shadowBlur = 0;
     });
 
     // Obstacles
     this.obstacles.forEach(obs => {
+      if (obs.hurtFrames && obs.hurtFrames > 0) obs.hurtFrames--;
+      
+      // Enemies danger aura
+      if (obs.type.startsWith('bird') || obs.type === 'boss_projectile') {
+         ctx.shadowColor = '#ef4444';
+         ctx.shadowBlur = 15;
+      }
+      
+      ctx.globalAlpha = obs.hurtFrames && obs.hurtFrames > 0 && this.state.frames % 4 < 2 ? 0.5 : 1;
+
       // For rolling donut
       if (obs.type === 'donut') {
          const sprite = this.sprites['donut'];
@@ -666,6 +701,9 @@ export class GatitoEngine {
           ctx.fillRect(obs.x, obs.y, obs.width, obs.height);
         }
       }
+
+      ctx.globalAlpha = 1;
+      ctx.shadowBlur = 0;
     });
     
     // Projectiles
