@@ -118,6 +118,21 @@ function App() {
             </div>
           }>
             <Routes>
+          {/* Standalone Game Routes */}
+          <Route path="/juegos/gatito-runner" element={<PageTransition><GatitoRunner /></PageTransition>} />
+          <Route path="/juegos/latte-art-puzzle" element={<PageTransition><LatteArtPuzzle /></PageTransition>} />
+          <Route path="/juegos/coffee-invaders" element={<PageTransition><CoffeeInvaders /></PageTransition>} />
+          <Route path="/juegos/memory-cafe" element={<PageTransition><MemoryCafe /></PageTransition>} />
+          <Route path="/juegos/coffee-clicker" element={<PageTransition><CoffeeClicker /></PageTransition>} />
+          <Route path="/juegos/clicker" element={<PageTransition><CoffeeClicker /></PageTransition>} />
+          <Route path="/juegos/evolution-2048" element={<PageTransition><Evolution2048 /></PageTransition>} />
+          <Route path="/juegos/palabra-del-dia" element={<PageTransition><WordleGame /></PageTransition>} />
+          <Route path="/juegos/flappy-taza" element={<PageTransition><FlappyTaza /></PageTransition>} />
+          <Route path="/juegos/barista-veloz" element={<PageTransition><FastBarista /></PageTransition>} />
+          <Route path="/juegos/ruleta" element={<PageTransition><LuckyWheel /></PageTransition>} />
+          <Route path="/juegos/atrapa-ingredientes" element={<PageTransition><CatchIngredients /></PageTransition>} />
+          <Route path="/juegos/bricks-breaker" element={<PageTransition><BricksBreaker /></PageTransition>} />
+
           {/* Public Routes */}
           <Route element={<PublicLayout />}>
             <Route path="/" element={<PageTransition><Home /></PageTransition>} />
@@ -130,20 +145,6 @@ function App() {
             <Route path="/blog" element={<PageTransition><BlogList /></PageTransition>} />
             <Route path="/blog/:slug" element={<PageTransition><BlogDetail /></PageTransition>} />
             <Route path="/juegos" element={<PageTransition><MiniGames /></PageTransition>} />
-            <Route path="/juegos/gatito-runner" element={<PageTransition><GatitoRunner /></PageTransition>} />
-            <Route path="/juegos/latte-art-puzzle" element={<PageTransition><LatteArtPuzzle /></PageTransition>} />
-            <Route path="/juegos/coffee-invaders" element={<PageTransition><CoffeeInvaders /></PageTransition>} />
-            <Route path="/juegos/memory-cafe" element={<PageTransition><MemoryCafe /></PageTransition>} />
-            <Route path="/juegos/coffee-clicker" element={<PageTransition><CoffeeClicker /></PageTransition>} />
-            <Route path="/juegos/clicker" element={<PageTransition><CoffeeClicker /></PageTransition>} />
-            <Route path="/juegos/evolution-2048" element={<PageTransition><Evolution2048 /></PageTransition>} />
-            <Route path="/juegos/palabra-del-dia" element={<PageTransition><WordleGame /></PageTransition>} />
-            <Route path="/juegos/flappy-taza" element={<PageTransition><FlappyTaza /></PageTransition>} />
-            <Route path="/juegos/barista-veloz" element={<PageTransition><FastBarista /></PageTransition>} />
-            <Route path="/juegos/ruleta" element={<PageTransition><LuckyWheel /></PageTransition>} />
-            <Route path="/juegos/atrapa-ingredientes" element={<PageTransition><CatchIngredients /></PageTransition>} />
-            <Route path="/juegos/bricks-breaker" element={<PageTransition><BricksBreaker /></PageTransition>} />
-
             <Route path="/mis-compras" element={<PageTransition><MyPurchases /></PageTransition>} />
             <Route path="/ar" element={<PageTransition><ARShowcase /></PageTransition>} />
             <Route path="/ar/menu" element={<PageTransition><ARMenuScanner /></PageTransition>} />
