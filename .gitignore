@@ -36,3 +36,11 @@ supabase/.temp
 
 # AI / Agent workspace
 .gemini
+
+# Scripts y archivos temporales
+scratch/
+insert_products.cjs
+temp.mjs
+update_gallery.mjs
+upload_images.mjs
+scripts/
