@@ -25,7 +25,7 @@ const BrandPresentation = () => {
 
         if (data) {
           const mapped = data.reduce((acc: Record<string, Record<string, any>>, item: Record<string, any>) => {
-            acc[item.section_id || item.id] = item;
+            acc[item.section || item.section_id || item.id] = item;
             return acc;
           }, {});
           setSectionsData(mapped);

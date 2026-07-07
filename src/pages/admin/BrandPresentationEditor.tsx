@@ -17,7 +17,7 @@ import { Link } from 'react-router-dom';
 interface DBPageSection {
   id: string;
   page: string;
-  section_id: string;
+  section: string;
   content_blocks: any[];
 }
 
@@ -53,7 +53,7 @@ export default function BrandPresentationEditor() {
 
       if (data) {
         const mapped = data.reduce((acc: any, item: any) => {
-          acc[item.section_id || item.id] = item as DBPageSection;
+          acc[item.section || item.section_id || item.id] = item as DBPageSection;
           return acc;
         }, {});
         
@@ -63,7 +63,7 @@ export default function BrandPresentationEditor() {
             mapped[meta.id] = {
               id: `${Date.now()}-${meta.id}`,
               page: 'brand_presentation',
-              section_id: meta.id,
+              section: meta.id,
               content_blocks: []
             };
           }
@@ -96,7 +96,7 @@ export default function BrandPresentationEditor() {
 
       const payload = {
         page: 'brand_presentation',
-        section_id: activeSectionId,
+        section: activeSectionId,
         content_blocks: currentSection.content_blocks
       };
 
@@ -105,7 +105,7 @@ export default function BrandPresentationEditor() {
         .from('page_contents')
         .select('id')
         .eq('page', 'brand_presentation')
-        .eq('section_id', activeSectionId)
+        .eq('section', activeSectionId)
         .maybeSingle();
 
       if (existing) {
