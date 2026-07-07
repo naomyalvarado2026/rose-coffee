@@ -54,7 +54,6 @@ export const CoverSlide: React.FC<CoverSlideProps> = ({ title, subtitle, author,
             className="w-full h-[120%] object-cover object-center origin-center will-change-transform opacity-40"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-primary/95 via-primary/70 to-primary pointer-events-none" />
-          <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay pointer-events-none" />
         </div>
       )}
       
