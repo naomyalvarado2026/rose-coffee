@@ -54,6 +54,8 @@ const AnalyticsManager = React.lazy(() => import('./pages/admin/AnalyticsManager
 const SettingsManager = React.lazy(() => import('./pages/admin/SettingsManager'));
 import ProtectedRoute from './components/common/ProtectedRoute';
 const ProjectPresentation = React.lazy(() => import('./pages/admin/ProjectPresentation'));
+const BrandPresentation = React.lazy(() => import('./pages/public/BrandPresentation'));
+const BrandPresentationEditor = React.lazy(() => import('./pages/admin/BrandPresentationEditor'));
 import CustomCursor from './components/common/CustomCursor';
 
 
@@ -149,6 +151,7 @@ function App() {
             <Route path="/ar" element={<PageTransition><ARShowcase /></PageTransition>} />
             <Route path="/ar/menu" element={<PageTransition><ARMenuScanner /></PageTransition>} />
             <Route path="/ar/showroom" element={<PageTransition><ARShowroom /></PageTransition>} />
+            <Route path="/presentacion-marca" element={<PageTransition><BrandPresentation /></PageTransition>} />
           </Route>
 
           {/* Protected Routes: Dashboard */}
@@ -156,6 +159,7 @@ function App() {
             <Route element={<AdminLayout />}>
               <Route path="/admin" element={<PageTransition><DashboardHome /></PageTransition>} />
               <Route path="/admin/presentacion" element={<PageTransition><ProjectPresentation /></PageTransition>} />
+              <Route path="/admin/presentacion-marca" element={<PageTransition><BrandPresentationEditor /></PageTransition>} />
             </Route>
           </Route>
 

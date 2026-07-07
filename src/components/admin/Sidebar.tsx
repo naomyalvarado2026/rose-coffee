@@ -129,6 +129,23 @@ const Sidebar = ({ isOpen, onClose }: SidebarProps) => {
           <span>Presentación Proyecto</span>
         </NavLink>
 
+        <NavLink 
+          to="/admin/presentacion-marca"
+          onClick={() => {
+            if (isMobile) onClose();
+          }}
+          className={({ isActive }) => 
+            `flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl transition-all duration-200 w-full text-xs font-semibold border cursor-pointer ${
+              isActive 
+                ? 'bg-white/10 border-gold text-white font-extrabold shadow-sm' 
+                : 'text-stone-300 hover:text-white hover:bg-white/5 border-white/5 hover:border-white/10'
+            }`
+          }
+        >
+          <Presentation size={14} className="text-gold" />
+          <span>Manual de Marca</span>
+        </NavLink>
+
         <button 
           onClick={() => {
             onClose();

@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { fadeInUp, staggerContainer } from '../../utils/animations';
-import { Compass, Sparkles, Coffee, Layers, ShieldCheck } from 'lucide-react';
+import { Compass, Sparkles, Coffee, Layers, ShieldCheck, Presentation } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { supabase } from '../../config/supabase';
 import BlockRenderer from '../../components/public/BlockRenderer';
 import { ImageGallerySection } from '../../components/public/ImageGallerySection';
@@ -130,6 +131,12 @@ const About = () => {
                         <BlockRenderer blocks={content_blocks} />
                       </div>
                     )}
+                    <div className="pt-6">
+                      <Link to="/presentacion-marca" className="inline-flex items-center gap-2 px-6 py-2.5 bg-gold/10 hover:bg-gold/20 text-gold border border-gold/30 rounded-xl font-bold transition-all duration-300 ease-in-out text-xs shadow-sm backdrop-blur-md">
+                        <Presentation size={14} />
+                        Manual de Marca Interactivo
+                      </Link>
+                    </div>
                   </motion.div>
                 </div>
               );

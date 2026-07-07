@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  ArrowRight, Sparkles, Coffee, ShoppingBag, Layers, Heart, Star, Sparkle
+  ArrowRight, Sparkles, Coffee, ShoppingBag, Layers, Heart, Star, Sparkle, Presentation
 } from 'lucide-react';
 import FloatingElements from '../../components/public/FloatingElements';
 import ScrollDrawSVG from '../../components/animations/ScrollDrawSVG';
@@ -290,9 +290,15 @@ const Home = () => {
                   </Link>
                 </MagneticButton>
                 <MagneticButton>
-                  <Link to="/ar" className="px-8 py-3.5 bg-white dark:bg-stone-800/10 hover:bg-white dark:bg-stone-800/20 text-[#faf2e7] border border-[#faf2e7]/30 rounded-2xl font-bold transition-all duration-300 ease-in-out text-xs flex items-center justify-center gap-1.5 shadow-2xs backdrop-blur-md w-full sm:w-auto">
+                  <Link to="/ar" className="px-8 py-3.5 bg-white/10 hover:bg-white/20 text-[#faf2e7] border border-[#faf2e7]/30 rounded-2xl font-bold transition-all duration-300 ease-in-out text-xs flex items-center justify-center gap-1.5 shadow-2xs backdrop-blur-md w-full sm:w-auto">
                     <Layers size={14} className="text-[#faf2e7]" />
                     Visualizar AR 3D
+                  </Link>
+                </MagneticButton>
+                <MagneticButton>
+                  <Link to="/presentacion-marca" className="px-8 py-3.5 bg-gold/10 hover:bg-gold/20 text-gold border border-gold/30 rounded-2xl font-bold transition-all duration-300 ease-in-out text-xs flex items-center justify-center gap-1.5 shadow-2xs backdrop-blur-md w-full sm:w-auto">
+                    <Presentation size={14} className="text-gold" />
+                    Manual de Marca
                   </Link>
                 </MagneticButton>
               </motion.div>
