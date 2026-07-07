@@ -1,5 +1,5 @@
 import React from 'react';
-import { CalendarRow } from '../ContentCalendarSection';
+import type { CalendarRow } from '../ContentCalendarSection';
 import { AdaptivePostImage } from '../AdaptivePostImage';
 import { motion } from 'framer-motion';
 

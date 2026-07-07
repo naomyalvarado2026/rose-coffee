@@ -1,5 +1,5 @@
 import React from 'react';
-import { CalendarRow } from '../ContentCalendarSection';
+import type { CalendarRow } from '../ContentCalendarSection';
 import { generateDaysForView, isSameDay, formatDateString } from './calendarDateUtils';
 import { AdaptivePostImage } from '../AdaptivePostImage';
 
@@ -55,8 +55,8 @@ export const CalendarWeekView: React.FC<CalendarWeekViewProps> = ({ currentDate,
                     className="bg-white dark:bg-stone-800 rounded-xl border border-stone-200 dark:border-stone-700 p-2 shadow-sm cursor-pointer hover:shadow-md transition-all group overflow-hidden"
                   >
                     {event.imageUrl && (
-                      <div className="w-full aspect-[4/5] bg-stone-100 rounded-lg overflow-hidden mb-2">
-                         <img src={event.imageUrl} alt="" className="w-full h-full object-cover group-hover:scale-105 transition-transform" />
+                      <div className="w-full rounded-lg overflow-hidden mb-2">
+                         <AdaptivePostImage src={event.imageUrl} ratio={event.imageAspectRatio} showBadge={false} />
                       </div>
                     )}
                     <div className="flex items-center gap-1.5 mb-1">

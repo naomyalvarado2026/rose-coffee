@@ -1,5 +1,5 @@
 import React from 'react';
-import { CalendarRow } from '../ContentCalendarSection';
+import type { CalendarRow } from '../ContentCalendarSection';
 import { LayoutTemplate, Target, AlignLeft, MessageCircle, Hash, MousePointerClick } from 'lucide-react';
 import { AdaptivePostImage } from '../AdaptivePostImage';
 

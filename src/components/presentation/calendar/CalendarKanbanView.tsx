@@ -1,7 +1,7 @@
 import React from 'react';
-import { CalendarRow } from '../ContentCalendarSection';
+import type { CalendarRow } from '../ContentCalendarSection';
 import { AdaptivePostImage } from '../AdaptivePostImage';
-import { Target, MousePointerClick, Calendar } from 'lucide-react';
+import { MousePointerClick, Calendar } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 interface CalendarKanbanViewProps {
