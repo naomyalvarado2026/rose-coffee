@@ -1,6 +1,14 @@
 @import "tailwindcss";
 @custom-variant dark (&:where(.dark, .dark *));
 
+@font-face {
+  font-family: 'Sunday Magic';
+  src: url('/fonts/SundayMagic-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
   --color-brand-base: #faf2e7;
   --color-primary: #021a54;
@@ -23,6 +31,7 @@
   --color-blue-250: #63b3ed;
 
   --font-sans: "Inter", sans-serif;
+  --font-sunday: "Sunday Magic", sans-serif;
 
   --color-cream: #fdf6ee;
   --color-warm-stone: #f5ebe0;

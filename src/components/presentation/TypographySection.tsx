@@ -1,12 +1,33 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { TypewriterEffect } from './TypewriterEffect';
 
 export interface TypographySpec {
   name: string;
   category: string;
   weights: string;
   specimen: string;
+  fontFamilyClass?: string;
+  useTypewriter?: boolean;
 }
+
+const professorPhrases = [
+  "Paola, la mejor directora de la carrera de multimedia.",
+  "Usiña, el mejor profesor, siempre inspirando a sus alumnos.",
+  "Victor, el mejor profesor de diseño e interactividad.",
+  "Ana Clara, la mejor profesora, llena de pasión por enseñar.",
+  "Bolívar, un profesor excelente y guía invaluable.",
+  "Paola, una profesora inspiradora y líder excepcional.",
+  "Usiña, maestro de la creatividad y la innovación.",
+  "Victor, un genio creativo y mentor excepcional.",
+  "Ana Clara, transmitiendo arte y conocimiento en cada clase.",
+  "Bolívar, el mejor profesor, estructurando mentes creativas.",
+  "Paola, guiando con visión y excelencia la carrera de multimedia.",
+  "Usiña, un gran profesor que transforma la enseñanza en arte.",
+  "Victor, impulsando el talento de cada estudiante.",
+  "Ana Clara, una docente que deja huella en sus alumnos.",
+  "Bolívar, pilar fundamental en nuestra formación académica."
+];
 
 interface TypographySectionProps {
   fonts?: TypographySpec[];
@@ -17,13 +38,16 @@ const defaultFonts: TypographySpec[] = [
     name: 'Sunday Magic',
     category: 'Primaria (Display)',
     weights: 'Regular',
-    specimen: 'El veloz murciélago hindú comía feliz cardillo y kiwi.'
+    specimen: 'El veloz murciélago hindú comía feliz cardillo y kiwi.',
+    fontFamilyClass: 'font-sunday',
+    useTypewriter: true
   },
   {
     name: 'Inter',
     category: 'Secundaria (Sans-Serif)',
     weights: 'Regular, Medium, SemiBold, Bold',
-    specimen: 'El veloz murciélago hindú comía feliz cardillo y kiwi. La cigüeña tocaba el saxofón detrás del palenque de paja.'
+    specimen: 'El veloz murciélago hindú comía feliz cardillo y kiwi. La cigüeña tocaba el saxofón detrás del palenque de paja.',
+    fontFamilyClass: 'font-sans'
   }
 ];
 
@@ -80,8 +104,8 @@ export const TypographySection: React.FC<TypographySectionProps> = ({ fonts = de
                     </p>
                   </div>
                   
-                  <div className="pt-4 border-t border-stone-100 dark:border-stone-800">
-                    <p className="text-xl font-medium text-stone-800 dark:text-stone-200 break-all leading-relaxed">
+                  <div className={`pt-4 border-t border-stone-100 dark:border-stone-800 ${font.fontFamilyClass || ''}`}>
+                    <p className="text-xl font-medium text-stone-800 dark:text-stone-200 break-all leading-relaxed tracking-wide">
                       Aa Bb Cc Dd Ee Ff Gg Hh Ii Jj Kk Ll Mm Nn Oo Pp Qq Rr Ss Tt Uu Vv Ww Xx Yy Zz 0123456789
                     </p>
                   </div>
@@ -89,15 +113,19 @@ export const TypographySection: React.FC<TypographySectionProps> = ({ fonts = de
 
                 <div className="md:col-span-8 flex flex-col justify-center">
                   <div className="space-y-8">
-                    <div>
-                      <p className="text-xs text-stone-400 font-bold uppercase tracking-wider mb-4">
+                    <div className={font.fontFamilyClass || ''}>
+                      <p className="text-xs text-stone-400 font-bold uppercase tracking-wider mb-4 font-sans">
                         Muestra de Texto
                       </p>
-                      <p className="text-2xl md:text-4xl font-bold text-primary dark:text-stone-100 leading-tight">
-                        {font.specimen}
+                      <p className="text-2xl md:text-4xl font-bold text-primary dark:text-stone-100 leading-tight min-h-[120px]">
+                        {font.useTypewriter ? (
+                          <TypewriterEffect phrases={professorPhrases} pauseDuration={2500} />
+                        ) : (
+                          font.specimen
+                        )}
                       </p>
                     </div>
-                    <div>
+                    <div className={font.fontFamilyClass || ''}>
                       <p className="text-lg md:text-xl text-stone-500 dark:text-stone-400 font-normal leading-relaxed">
                         {font.specimen}
                       </p>
