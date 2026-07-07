@@ -48,7 +48,7 @@ export const PrintPDFButton: React.FC<PrintPDFButtonProps> = ({
       };
 
       try {
-        await html2pdf().from(element).set(opt).save();
+        await html2pdf().from(element).set(opt as any).save();
         toast.success('¡Listo! Exportación PDF finalizada.');
       } catch (error) {
         console.error('Error al generar PDF:', error);
