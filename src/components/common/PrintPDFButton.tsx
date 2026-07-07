@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FileDown, Sparkles, Check } from 'lucide-react';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
+import html2pdf from 'html2pdf.js';
 
 interface PrintPDFButtonProps {
   title?: string;
@@ -20,26 +21,44 @@ export const PrintPDFButton: React.FC<PrintPDFButtonProps> = ({
     // Dismiss ALL visible toasts BEFORE printing so none appear in the PDF
     toast.dismiss();
 
-    // Small delay to let toasts fully disappear from the DOM
-    setTimeout(() => {
-      const originalTitle = document.title;
-      if (title) {
-        document.title = title;
+    // Notificamos al Typewriter que debe mostrar el texto completo
+    window.dispatchEvent(new Event('pdf-export-start'));
+
+    // Small delay to let toasts fully disappear and states to update
+    setTimeout(async () => {
+      const element = document.getElementById('brand-presentation-content');
+      
+      if (!element) {
+        setIsPrinting(false);
+        toast.error('Error: Contenido no encontrado.');
+        window.dispatchEvent(new Event('pdf-export-end'));
+        return;
       }
 
       // Add a class to body for extra print CSS control
       document.body.classList.add('printing-pdf');
 
-      window.print();
+      const opt = {
+        margin:       [0, 0, 0, 0],
+        filename:     `${title.replace(/ /g, '-')}.pdf`,
+        image:        { type: 'jpeg', quality: 1 },
+        html2canvas:  { scale: 2, useCORS: true, logging: false, scrollY: 0 },
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        pagebreak:    { mode: ['css', 'legacy'] }
+      };
 
-      // Restore after print dialog closes
-      setTimeout(() => {
-        document.body.classList.remove('printing-pdf');
-        document.title = originalTitle;
-        setIsPrinting(false);
+      try {
+        await html2pdf().from(element).set(opt).save();
         toast.success('¡Listo! Exportación PDF finalizada.');
-      }, 1000);
-    }, 300);
+      } catch (error) {
+        console.error('Error al generar PDF:', error);
+        toast.error('Ocurrió un error al generar el documento.');
+      } finally {
+        document.body.classList.remove('printing-pdf');
+        setIsPrinting(false);
+        window.dispatchEvent(new Event('pdf-export-end'));
+      }
+    }, 600);
   };
 
   return (
@@ -64,7 +83,7 @@ export const PrintPDFButton: React.FC<PrintPDFButtonProps> = ({
         </div>
 
         <span className="relative z-10 flex items-center gap-1">
-          {isPrinting ? 'Generando PDF...' : 'Guardar como PDF'}
+          {isPrinting ? 'Procesando documento...' : 'Guardar como PDF'}
           <Sparkles size={12} className="text-gold group-hover:text-[#0c0a09] animate-pulse ml-0.5" />
         </span>
       </motion.button>

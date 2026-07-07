@@ -20,8 +20,21 @@ export const TypewriterEffect: React.FC<TypewriterEffectProps> = ({
   const [isDeleting, setIsDeleting] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
 
+  const [isPdfExport, setIsPdfExport] = useState(false);
+
   useEffect(() => {
-    if (phrases.length === 0) return;
+    const handlePdfStart = () => setIsPdfExport(true);
+    const handlePdfEnd = () => setIsPdfExport(false);
+    window.addEventListener('pdf-export-start', handlePdfStart);
+    window.addEventListener('pdf-export-end', handlePdfEnd);
+    return () => {
+      window.removeEventListener('pdf-export-start', handlePdfStart);
+      window.removeEventListener('pdf-export-end', handlePdfEnd);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (phrases.length === 0 || isPdfExport) return;
 
     let timeoutId: ReturnType<typeof setTimeout>;
 
@@ -59,12 +72,14 @@ export const TypewriterEffect: React.FC<TypewriterEffectProps> = ({
     }
 
     return () => clearTimeout(timeoutId);
-  }, [currentText, isDeleting, isPaused, currentPhraseIndex, phrases, typingSpeed, deletingSpeed, pauseDuration]);
+  }, [currentText, isDeleting, isPaused, currentPhraseIndex, phrases, typingSpeed, deletingSpeed, pauseDuration, isPdfExport]);
 
   return (
     <span className={className}>
-      {currentText}
-      <span className="animate-pulse border-r-2 border-current ml-1" style={{ animationDuration: '0.8s' }}></span>
+      {isPdfExport ? phrases[0] : currentText}
+      {!isPdfExport && (
+        <span className="animate-pulse border-r-2 border-current ml-1" style={{ animationDuration: '0.8s' }}></span>
+      )}
     </span>
   );
 };

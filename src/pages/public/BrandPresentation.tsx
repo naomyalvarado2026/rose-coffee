@@ -169,11 +169,12 @@ const BrandPresentation = () => {
     <div className="relative font-sans bg-brand-base dark:bg-stone-950">
       <SEOHead title="Presentación de Marca | Rose Coffee" description="Descubre el manual de marca y la estrategia de Rose Coffee." />
 
-      {/* 1. Portada */}
-      <CoverSlide 
-        {...coverData} 
-        backgroundImage={coverData.backgroundImage ? resolveUrl(coverData.backgroundImage) : undefined} 
-      />
+      <div id="brand-presentation-content">
+        {/* 1. Portada */}
+        <CoverSlide 
+          {...coverData} 
+          backgroundImage={coverData.backgroundImage ? resolveUrl(coverData.backgroundImage) : undefined} 
+        />
 
       {/* 2. Descripción General */}
       {descriptionData && (
@@ -276,6 +277,7 @@ const BrandPresentation = () => {
 
       {/* 10. Cronograma 7 Días */}
       <ContentCalendarSection rows={calendarData} />
+      </div>
 
       {/* Botón Inteligente de Exportación PDF */}
       <PrintPDFButton title="Presentación Oficial de Marca - Rose Coffee" />
