@@ -39,7 +39,7 @@ export const CoverSlide: React.FC<CoverSlideProps> = ({ title, subtitle, author,
         className="relative z-10 max-w-4xl mx-auto px-6 w-full flex flex-col items-center text-center space-y-8"
       >
         <motion.div variants={{ initial: { opacity: 0, y: 20 }, animate: { opacity: 1, y: 0 } }} className="w-32 h-32 md:w-40 md:h-40 bg-white/10 backdrop-blur-xl rounded-full flex items-center justify-center p-6 border border-white/20 shadow-2xl">
-           <img src="/logo rose coffee.svg" alt="Rose Coffee" className="w-full h-full object-contain filter drop-shadow-lg" />
+           <img src="/logo.svg" alt="Rose Coffee" className="w-full h-full object-contain filter drop-shadow-lg" />
         </motion.div>
         
         <div className="space-y-4">

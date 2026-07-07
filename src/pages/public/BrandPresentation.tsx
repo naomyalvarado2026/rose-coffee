@@ -134,6 +134,28 @@ const BrandPresentation = () => {
   const typographyData = sectionsData['typography']?.content_blocks || undefined;
   const calendarData = sectionsData['calendar']?.content_blocks || undefined;
 
+  const descriptionData = sectionsData['description']?.content_blocks || [
+    { type: 'text', textContent: '<p>Rose Coffee es más que una cafetería; es un espacio donde la tradición del café de especialidad se encuentra con el arte de la masa madre.</p>' }
+  ];
+
+  const objectiveData = sectionsData['objective']?.content_blocks || [
+    { type: 'text', textContent: '<p>Posicionar a Rose Coffee como el destino principal para amantes del buen café y repostería artesanal, ofreciendo una experiencia phygital impecable.</p>' }
+  ];
+
+  const audienceData = sectionsData['audience']?.content_blocks || [
+    { type: 'columns', columns: ['Jóvenes profesionales', 'Estudiantes universitarios', 'Amantes de la gastronomía artesanal'] }
+  ];
+
+  const styleData = sectionsData['style']?.content_blocks || [
+    { type: 'image', imageUrl: '/hero_bg_new.webp', imageCaption: 'Fotografía cálida y texturas orgánicas' }
+  ];
+
+  const applicationsData = sectionsData['applications']?.content_blocks || [
+    { image_url: '/bg_coffee_bread.webp', caption: 'Bolsa de Café y Pan', category: 'Empaque' },
+    { image_url: '/hero_coffee_sourdough.webp', caption: 'Masa Madre', category: 'Producto' },
+    { image_url: '/coffee_roasting_process.webp', caption: 'Tostado', category: 'Proceso' }
+  ];
+
   return (
     <div className="relative font-sans bg-brand-base">
       <SEOHead title="Presentación de Marca | Rose Coffee" description="Descubre el manual de marca y la estrategia de Rose Coffee." />
@@ -142,43 +164,43 @@ const BrandPresentation = () => {
       <CoverSlide {...coverData} />
 
       {/* 2. Descripción General */}
-      {sectionsData['description']?.content_blocks && (
+      {descriptionData && (
         <section className="py-24 px-6 max-w-4xl mx-auto">
-          <div className="mb-12 text-center">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-12 text-center">
             <span className="inline-block text-[10px] font-bold text-coffee uppercase tracking-widest border border-coffee/25 bg-coffee/5 px-4 py-1.5 rounded-full mb-4">
               Introducción
             </span>
             <h2 className="text-3xl md:text-5xl font-bold text-primary mb-6">Descripción General</h2>
-          </div>
-          {renderBlocks(sectionsData['description'].content_blocks, 'light')}
+          </motion.div>
+          {renderBlocks(descriptionData, 'light')}
         </section>
       )}
 
       {/* 3. Objetivo del Proyecto */}
-      {sectionsData['objective']?.content_blocks && (
+      {objectiveData && (
         <section className="py-24 px-6 bg-primary w-full">
           <div className="max-w-4xl mx-auto">
-            <div className="mb-12 text-center">
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-12 text-center">
               <span className="inline-block text-[10px] font-bold text-gold uppercase tracking-widest border border-gold/30 bg-gold/10 px-4 py-1.5 rounded-full mb-4">
                 Propósito
               </span>
               <h2 className="text-3xl md:text-5xl font-bold text-stone-100 mb-6">Objetivo del Proyecto</h2>
-            </div>
-            {renderBlocks(sectionsData['objective'].content_blocks, 'dark')}
+            </motion.div>
+            {renderBlocks(objectiveData, 'dark')}
           </div>
         </section>
       )}
 
       {/* 4. Público Objetivo */}
-      {sectionsData['audience']?.content_blocks && (
+      {audienceData && (
         <section className="py-24 px-6 max-w-4xl mx-auto">
-          <div className="mb-12 text-center">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-12 text-center">
             <span className="inline-block text-[10px] font-bold text-coffee uppercase tracking-widest border border-coffee/25 bg-coffee/5 px-4 py-1.5 rounded-full mb-4">
               Target
             </span>
             <h2 className="text-3xl md:text-5xl font-bold text-primary mb-6">Público Objetivo</h2>
-          </div>
-          {renderBlocks(sectionsData['audience'].content_blocks, 'light')}
+          </motion.div>
+          {renderBlocks(audienceData, 'light')}
         </section>
       )}
 
@@ -192,30 +214,30 @@ const BrandPresentation = () => {
       <TypographySection fonts={typographyData} />
 
       {/* 8. Estilo Gráfico */}
-      {sectionsData['style']?.content_blocks && (
+      {styleData && (
         <section className="py-24 px-6 max-w-4xl mx-auto">
-          <div className="mb-12 text-center">
+          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-12 text-center">
             <span className="inline-block text-[10px] font-bold text-coffee uppercase tracking-widest border border-coffee/25 bg-coffee/5 px-4 py-1.5 rounded-full mb-4">
               Dirección de Arte
             </span>
             <h2 className="text-3xl md:text-5xl font-bold text-primary mb-6">Estilo Gráfico</h2>
-          </div>
-          {renderBlocks(sectionsData['style'].content_blocks, 'light')}
+          </motion.div>
+          {renderBlocks(styleData, 'light')}
         </section>
       )}
 
       {/* 9. Aplicaciones de Identidad */}
-      {sectionsData['applications']?.content_blocks && sectionsData['applications'].content_blocks.length > 0 && (
+      {applicationsData && applicationsData.length > 0 && (
         <section className="py-24 px-6 bg-white w-full">
           <div className="max-w-7xl mx-auto">
-            <div className="mb-12 text-center">
+            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-12 text-center">
               <span className="inline-block text-[10px] font-bold text-coffee uppercase tracking-widest border border-coffee/25 bg-coffee/5 px-4 py-1.5 rounded-full mb-4">
                 Mockups
               </span>
               <h2 className="text-3xl md:text-5xl font-bold text-primary mb-6">Aplicaciones de Identidad</h2>
-            </div>
+            </motion.div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {sectionsData['applications'].content_blocks.map((app: Record<string, any>, idx: number) => (
+              {applicationsData.map((app: Record<string, any>, idx: number) => (
                 <motion.div
                   key={idx}
                   initial={{ opacity: 0, y: 20 }}

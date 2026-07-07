@@ -54,7 +54,7 @@ export const LogoShowcase: React.FC<LogoShowcaseProps> = ({
         >
           <div className="absolute inset-0 opacity-5 bg-[url('/noise.png')] mix-blend-overlay pointer-events-none" />
           <img 
-            src="/logo rose coffee.svg" 
+            src="/logo.svg" 
             alt="Rose Coffee Main Logo" 
             className="w-full max-w-md object-contain filter drop-shadow-xl z-10"
           />

@@ -12,10 +12,10 @@ interface BrandColorsSectionProps {
 }
 
 const defaultColors: BrandColor[] = [
-  { hex: '#021a54', name: 'Deep Blue', description: 'Color primario, representa elegancia, profundidad y confianza.' },
-  { hex: '#faf2e7', name: 'Cream Base', description: 'Color base que aporta calidez, pureza y sensación orgánica.' },
-  { hex: '#6b3a0e', name: 'Coffee Brown', description: 'Representa el producto principal, arraigo a la tierra y artesanía.' },
-  { hex: '#c8922a', name: 'Gold Accent', description: 'Acento premium que resalta la exclusividad y alta calidad.' }
+  { hex: '#021a54', name: 'Azul', description: 'Color primario, representa elegancia y profundidad.' },
+  { hex: '#faf2e7', name: 'Blanquito', description: 'Color base que aporta pureza y calidez.' },
+  { hex: '#c8922a', name: 'Oro Detalle', description: 'Acento premium que resalta la exclusividad y alta calidad.' },
+  { hex: '#000000', name: 'Negro', description: 'Color sólido para acentos fuertes y alto contraste.' }
 ];
 
 export const BrandColorsSection: React.FC<BrandColorsSectionProps> = ({ colors = defaultColors }) => {

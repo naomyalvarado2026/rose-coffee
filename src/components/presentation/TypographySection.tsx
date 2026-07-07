@@ -14,9 +14,15 @@ interface TypographySectionProps {
 
 const defaultFonts: TypographySpec[] = [
   {
+    name: 'Sunday Magic',
+    category: 'Primaria (Display)',
+    weights: 'Regular',
+    specimen: 'El veloz murciélago hindú comía feliz cardillo y kiwi.'
+  },
+  {
     name: 'Inter',
-    category: 'Primaria (Sans-Serif)',
-    weights: 'Regular, Medium, SemiBold, Bold, ExtraBold',
+    category: 'Secundaria (Sans-Serif)',
+    weights: 'Regular, Medium, SemiBold, Bold',
     specimen: 'El veloz murciélago hindú comía feliz cardillo y kiwi. La cigüeña tocaba el saxofón detrás del palenque de paja.'
   }
 ];
