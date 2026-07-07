@@ -10,7 +10,7 @@ import { TypographyEditor } from '../../components/presentation/TypographyEditor
 import MediaSearchModal from '../../components/admin/MediaSearchModal';
 import MediaUploader from '../../components/common/MediaUploader';
 import { 
-  Save, Loader2, Layout, Eye, Search, Trash2
+  Save, Loader2, Layout, Eye, EyeOff, Search, Trash2, ArrowUp, ArrowDown
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -40,6 +40,9 @@ export default function BrandPresentationEditor() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [isMediaModalOpen, setIsMediaModalOpen] = useState(false);
+  
+  const [orderedSections, setOrderedSections] = useState<string[]>(SECTIONS_METADATA.map(s => s.id));
+  const [hiddenSections, setHiddenSections] = useState<string[]>([]);
 
   const fetchData = async () => {
     try {
@@ -70,6 +73,16 @@ export default function BrandPresentationEditor() {
         });
         
         setSections(mapped);
+        
+        const configRow = data.find(item => item.section === 'config');
+        if (configRow && configRow.content_blocks && configRow.content_blocks[0]) {
+          const cfg = configRow.content_blocks[0];
+          if (cfg.orderedSections) setOrderedSections(cfg.orderedSections);
+          if (cfg.hiddenSections) setHiddenSections(cfg.hiddenSections);
+        } else {
+          setOrderedSections(SECTIONS_METADATA.map(s => s.id));
+          setHiddenSections([]);
+        }
       }
     } catch (err: any) {
       console.error(err);
@@ -86,7 +99,60 @@ export default function BrandPresentationEditor() {
     load();
   }, []);
 
+  const saveConfig = async (newOrder: string[], newHidden: string[]) => {
+    try {
+      const payload = {
+        page: 'brand_presentation',
+        section: 'config',
+        name: 'Configuración',
+        title: 'Configuración de Presentación',
+        subtitle: 'Orden y visibilidad',
+        section_type: 'custom',
+        order_index: -1,
+        content_blocks: [{ orderedSections: newOrder, hiddenSections: newHidden }]
+      };
+      
+      const { data: existing } = await supabase
+        .from('page_contents')
+        .select('id')
+        .eq('page', 'brand_presentation')
+        .eq('section', 'config')
+        .maybeSingle();
 
+      if (existing) {
+        await supabase.from('page_contents').update(payload).eq('id', existing.id);
+      } else {
+        await supabase.from('page_contents').insert(payload);
+      }
+      toast.success('Configuración guardada correctamente');
+    } catch (err: any) {
+      console.error(err);
+      toast.error('Error al guardar configuración');
+    }
+  };
+
+  const moveSection = (index: number, direction: 'up' | 'down') => {
+    if (direction === 'up' && index === 0) return;
+    if (direction === 'down' && index === orderedSections.length - 1) return;
+    
+    const newOrder = [...orderedSections];
+    const swapIndex = direction === 'up' ? index - 1 : index + 1;
+    [newOrder[index], newOrder[swapIndex]] = [newOrder[swapIndex], newOrder[index]];
+    setOrderedSections(newOrder);
+    saveConfig(newOrder, hiddenSections);
+  };
+
+  const toggleVisibility = (id: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    let newHidden = [...hiddenSections];
+    if (newHidden.includes(id)) {
+      newHidden = newHidden.filter(x => x !== id);
+    } else {
+      newHidden.push(id);
+    }
+    setHiddenSections(newHidden);
+    saveConfig(orderedSections, newHidden);
+  };
 
   const handleSaveSection = async () => {
     setSaving(true);
@@ -200,20 +266,33 @@ export default function BrandPresentationEditor() {
           </Link>
           
           <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 px-2">Secciones</h3>
-          {SECTIONS_METADATA.map(section => (
-            <button
-              key={section.id}
-              onClick={() => setActiveSectionId(section.id)}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 text-left ${
-                activeSectionId === section.id
-                  ? 'bg-white dark:bg-stone-800 shadow-sm text-primary dark:text-gold border border-slate-200 dark:border-stone-700'
-                  : 'text-slate-500 hover:bg-slate-200/50 dark:hover:bg-stone-800/50 hover:text-slate-700'
-              }`}
-            >
-              <Layout size={16} className={activeSectionId === section.id ? 'text-primary dark:text-gold' : 'opacity-50'} />
-              <span className="truncate">{section.name}</span>
-            </button>
-          ))}
+          {orderedSections.map((sectionId, index) => {
+            const section = SECTIONS_METADATA.find(s => s.id === sectionId);
+            if (!section) return null;
+            const isHidden = hiddenSections.includes(section.id);
+            return (
+              <div key={section.id} className="flex items-center gap-1 mb-2">
+                <button
+                  onClick={() => setActiveSectionId(section.id)}
+                  className={`flex-1 flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 text-left ${
+                    activeSectionId === section.id
+                      ? 'bg-white dark:bg-stone-800 shadow-sm text-primary dark:text-gold border border-slate-200 dark:border-stone-700'
+                      : 'text-slate-500 hover:bg-slate-200/50 dark:hover:bg-stone-800/50 hover:text-slate-700'
+                  } ${isHidden ? 'opacity-50' : ''}`}
+                >
+                  {isHidden ? <EyeOff size={16} /> : <Layout size={16} className={activeSectionId === section.id ? 'text-primary dark:text-gold' : 'opacity-50'} />}
+                  <span className="truncate">{section.name}</span>
+                </button>
+                <div className="flex flex-col">
+                  <button onClick={() => moveSection(index, 'up')} disabled={index === 0} className="p-1 text-slate-400 hover:text-primary disabled:opacity-20"><ArrowUp size={14}/></button>
+                  <button onClick={() => moveSection(index, 'down')} disabled={index === orderedSections.length - 1} className="p-1 text-slate-400 hover:text-primary disabled:opacity-20"><ArrowDown size={14}/></button>
+                </div>
+                <button onClick={(e) => toggleVisibility(section.id, e)} className="p-2 text-slate-400 hover:text-primary transition-colors" title={isHidden ? 'Mostrar en web' : 'Ocultar de web'}>
+                  {isHidden ? <EyeOff size={16}/> : <Eye size={16}/>}
+                </button>
+              </div>
+            );
+          })}
         </div>
 
         {/* Editor Main Content */}

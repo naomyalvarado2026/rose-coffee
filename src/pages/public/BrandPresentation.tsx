@@ -19,6 +19,8 @@ const resolveUrl = (url?: string) => {
 
 const BrandPresentation = () => {
   const [sectionsData, setSectionsData] = useState<Record<string, Record<string, any>>>({});
+  const [orderedSections, setOrderedSections] = useState<string[]>(['cover', 'description', 'objective', 'audience', 'logo', 'colors', 'typography', 'style', 'applications', 'calendar']);
+  const [hiddenSections, setHiddenSections] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -36,6 +38,14 @@ const BrandPresentation = () => {
             acc[item.section || item.section_id || item.id] = item;
             return acc;
           }, {});
+          
+          const configRow = data.find((item: any) => item.section === 'config');
+          if (configRow && configRow.content_blocks && configRow.content_blocks[0]) {
+             const cfg = configRow.content_blocks[0];
+             if (cfg.orderedSections) setOrderedSections(cfg.orderedSections);
+             if (cfg.hiddenSections) setHiddenSections(cfg.hiddenSections);
+          }
+          
           setSectionsData(mapped);
         }
       } catch (err) {
@@ -170,113 +180,90 @@ const BrandPresentation = () => {
       <SEOHead title="Presentación de Marca | Rose Coffee" description="Descubre el manual de marca y la estrategia de Rose Coffee." />
 
       <div id="brand-presentation-content">
-        {/* 1. Portada */}
-        <CoverSlide 
-          {...coverData} 
-          backgroundImage={coverData.backgroundImage ? resolveUrl(coverData.backgroundImage) : undefined} 
-        />
-
-      {/* 2. Descripción General */}
-      {descriptionData && (
-        <section className="py-24 px-6 max-w-4xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-12 text-center">
-            <span className="inline-block text-[10px] font-bold text-coffee dark:text-gold uppercase tracking-widest border border-coffee/25 dark:border-gold/25 bg-coffee/5 dark:bg-gold/5 px-4 py-1.5 rounded-full mb-4">
-              Introducción
-            </span>
-            <h2 className="text-3xl md:text-5xl font-bold text-primary dark:text-stone-100 mb-6">Descripción General</h2>
-          </motion.div>
-          {renderBlocks(descriptionData, 'light')}
-        </section>
-      )}
-
-      {/* 3. Objetivo del Proyecto */}
-      {objectiveData && (
-        <section className="py-24 px-6 bg-primary w-full">
-          <div className="max-w-4xl mx-auto">
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-12 text-center">
-              <span className="inline-block text-[10px] font-bold text-gold uppercase tracking-widest border border-gold/30 bg-gold/10 px-4 py-1.5 rounded-full mb-4">
-                Propósito
-              </span>
-              <h2 className="text-3xl md:text-5xl font-bold text-stone-100 mb-6">Objetivo del Proyecto</h2>
-            </motion.div>
-            {renderBlocks(objectiveData, 'dark')}
-          </div>
-        </section>
-      )}
-
-      {/* 4. Público Objetivo */}
-      {audienceData && (
-        <section className="py-24 px-6 max-w-4xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-12 text-center">
-            <span className="inline-block text-[10px] font-bold text-coffee dark:text-gold uppercase tracking-widest border border-coffee/25 dark:border-gold/25 bg-coffee/5 dark:bg-gold/5 px-4 py-1.5 rounded-full mb-4">
-              Target
-            </span>
-            <h2 className="text-3xl md:text-5xl font-bold text-primary dark:text-stone-100 mb-6">Público Objetivo</h2>
-          </motion.div>
-          {renderBlocks(audienceData, 'light')}
-        </section>
-      )}
-
-      {/* 5. Logotipo */}
-      <LogoShowcase description={logoData.description} visibleVariants={logoData.visibleVariants} />
-
-      {/* 6. Paleta Cromática */}
-      <BrandColorsSection colors={colorsData} />
-
-      {/* 7. Tipografías */}
-      <TypographySection fonts={typographyData} />
-
-      {/* 8. Estilo Gráfico */}
-      {styleData && (
-        <section className="py-24 px-6 max-w-4xl mx-auto">
-          <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-12 text-center">
-            <span className="inline-block text-[10px] font-bold text-coffee dark:text-gold uppercase tracking-widest border border-coffee/25 dark:border-gold/25 bg-coffee/5 dark:bg-gold/5 px-4 py-1.5 rounded-full mb-4">
-              Dirección de Arte
-            </span>
-            <h2 className="text-3xl md:text-5xl font-bold text-primary dark:text-stone-100 mb-6">Estilo Gráfico</h2>
-          </motion.div>
-          {renderBlocks(styleData, 'light')}
-        </section>
-      )}
-
-      {/* 9. Aplicaciones de Identidad */}
-      {applicationsData && applicationsData.length > 0 && (
-        <section className="py-24 px-6 bg-white dark:bg-stone-900 w-full">
-          <div className="max-w-7xl mx-auto">
-            <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-12 text-center">
-              <span className="inline-block text-[10px] font-bold text-coffee dark:text-gold uppercase tracking-widest border border-coffee/25 dark:border-gold/25 bg-coffee/5 dark:bg-gold/5 px-4 py-1.5 rounded-full mb-4">
-                Mockups
-              </span>
-              <h2 className="text-3xl md:text-5xl font-bold text-primary dark:text-stone-100 mb-6">Aplicaciones de Identidad</h2>
-            </motion.div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {applicationsData.map((app: Record<string, any>, idx: number) => (
-                <motion.div
-                  key={idx}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: idx * 0.1 }}
-                  className="rounded-3xl overflow-hidden border border-stone-200 dark:border-stone-700 shadow-sm group bg-white dark:bg-stone-800"
-                >
-                  <div className="aspect-[4/3] bg-stone-100 dark:bg-stone-700 overflow-hidden">
-                    <img src={resolveUrl(app.image_url || app.imageUrl)} alt={app.caption || 'Aplicación'} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
-                  </div>
-                  {(app.caption || app.category) && (
-                    <div className="p-6 bg-white dark:bg-stone-800">
-                      {app.category && <p className="text-[10px] font-bold text-gold uppercase mb-1">{app.category}</p>}
-                      {app.caption && <p className="text-stone-700 dark:text-stone-300 font-medium">{app.caption}</p>}
-                    </div>
-                  )}
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* 10. Cronograma 7 Días */}
-      <ContentCalendarSection rows={calendarData} />
+        {orderedSections.filter(id => !hiddenSections.includes(id)).map(id => {
+           switch (id) {
+             case 'cover':
+               return <CoverSlide key={id} {...coverData} backgroundImage={coverData.backgroundImage ? resolveUrl(coverData.backgroundImage) : undefined} />;
+             case 'description':
+               return descriptionData ? (
+                 <section key={id} className="py-24 px-6 max-w-4xl mx-auto">
+                   <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-12 text-center">
+                     <span className="inline-block text-[10px] font-bold text-coffee dark:text-gold uppercase tracking-widest border border-coffee/25 dark:border-gold/25 bg-coffee/5 dark:bg-gold/5 px-4 py-1.5 rounded-full mb-4">Introducción</span>
+                     <h2 className="text-3xl md:text-5xl font-bold text-primary dark:text-stone-100 mb-6">Descripción General</h2>
+                   </motion.div>
+                   {renderBlocks(descriptionData, 'light')}
+                 </section>
+               ) : null;
+             case 'objective':
+               return objectiveData ? (
+                 <section key={id} className="py-24 px-6 bg-primary w-full">
+                   <div className="max-w-4xl mx-auto">
+                     <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-12 text-center">
+                       <span className="inline-block text-[10px] font-bold text-gold uppercase tracking-widest border border-gold/30 bg-gold/10 px-4 py-1.5 rounded-full mb-4">Propósito</span>
+                       <h2 className="text-3xl md:text-5xl font-bold text-stone-100 mb-6">Objetivo del Proyecto</h2>
+                     </motion.div>
+                     {renderBlocks(objectiveData, 'dark')}
+                   </div>
+                 </section>
+               ) : null;
+             case 'audience':
+               return audienceData ? (
+                 <section key={id} className="py-24 px-6 max-w-4xl mx-auto">
+                   <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-12 text-center">
+                     <span className="inline-block text-[10px] font-bold text-coffee dark:text-gold uppercase tracking-widest border border-coffee/25 dark:border-gold/25 bg-coffee/5 dark:bg-gold/5 px-4 py-1.5 rounded-full mb-4">Target</span>
+                     <h2 className="text-3xl md:text-5xl font-bold text-primary dark:text-stone-100 mb-6">Público Objetivo</h2>
+                   </motion.div>
+                   {renderBlocks(audienceData, 'light')}
+                 </section>
+               ) : null;
+             case 'logo':
+               return <LogoShowcase key={id} description={logoData.description} visibleVariants={logoData.visibleVariants} />;
+             case 'colors':
+               return <BrandColorsSection key={id} colors={colorsData} />;
+             case 'typography':
+               return <TypographySection key={id} fonts={typographyData} />;
+             case 'style':
+               return styleData ? (
+                 <section key={id} className="py-24 px-6 max-w-4xl mx-auto">
+                   <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-12 text-center">
+                     <span className="inline-block text-[10px] font-bold text-coffee dark:text-gold uppercase tracking-widest border border-coffee/25 dark:border-gold/25 bg-coffee/5 dark:bg-gold/5 px-4 py-1.5 rounded-full mb-4">Dirección de Arte</span>
+                     <h2 className="text-3xl md:text-5xl font-bold text-primary dark:text-stone-100 mb-6">Estilo Gráfico</h2>
+                   </motion.div>
+                   {renderBlocks(styleData, 'light')}
+                 </section>
+               ) : null;
+             case 'applications':
+               return (applicationsData && applicationsData.length > 0) ? (
+                 <section key={id} className="py-24 px-6 bg-white dark:bg-stone-900 w-full">
+                   <div className="max-w-7xl mx-auto">
+                     <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-12 text-center">
+                       <span className="inline-block text-[10px] font-bold text-coffee dark:text-gold uppercase tracking-widest border border-coffee/25 dark:border-gold/25 bg-coffee/5 dark:bg-gold/5 px-4 py-1.5 rounded-full mb-4">Mockups</span>
+                       <h2 className="text-3xl md:text-5xl font-bold text-primary dark:text-stone-100 mb-6">Aplicaciones de Identidad</h2>
+                     </motion.div>
+                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                       {applicationsData.map((app: Record<string, any>, idx: number) => (
+                         <motion.div key={idx} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: idx * 0.1 }} className="rounded-3xl overflow-hidden border border-stone-200 dark:border-stone-700 shadow-sm group bg-white dark:bg-stone-800">
+                           <div className="aspect-[4/3] bg-stone-100 dark:bg-stone-700 overflow-hidden">
+                             <img src={resolveUrl(app.image_url || app.imageUrl)} alt={app.caption || 'Aplicación'} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                           </div>
+                           {(app.caption || app.category) && (
+                             <div className="p-6 bg-white dark:bg-stone-800">
+                               {app.category && <p className="text-[10px] font-bold text-gold uppercase mb-1">{app.category}</p>}
+                               {app.caption && <p className="text-stone-700 dark:text-stone-300 font-medium">{app.caption}</p>}
+                             </div>
+                           )}
+                         </motion.div>
+                       ))}
+                     </div>
+                   </div>
+                 </section>
+               ) : null;
+             case 'calendar':
+               return <ContentCalendarSection key={id} rows={calendarData} />;
+             default:
+               return null;
+           }
+        })}
       </div>
 
       {/* Botón Inteligente de Exportación PDF */}
