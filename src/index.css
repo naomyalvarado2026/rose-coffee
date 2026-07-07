@@ -209,37 +209,110 @@
   }
 }
 
-/* Print optimizations for intelligent PDF export */
+/* ========================================================================
+   Print optimizations for intelligent PDF export
+   ======================================================================== */
 @media print {
-  header, nav, footer, .print\:hidden, #custom-cursor {
+  /* ---- 1. Hide all UI chrome ---- */
+  header, nav, footer,
+  .print\:hidden,
+  #custom-cursor,
+  [data-sonner-toaster],
+  [data-sonner-toast],
+  [role="status"],
+  .fixed {
     display: none !important;
+    visibility: hidden !important;
   }
-  
+
+  /* ---- 2. Force light mode & clean canvas ---- */
+  html {
+    color-scheme: light !important;
+  }
+
   body, html {
-    background-color: #ffffff !important;
+    background-color: #faf2e7 !important;
     color: #1c1917 !important;
     width: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
+    font-size: 11pt !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
   }
 
+  /* Remove dark mode overrides in print */
+  .dark body, .dark html,
+  [class*="dark:bg-stone-950"],
+  [class*="dark:bg-stone-900"] {
+    background-color: #faf2e7 !important;
+    color: #1c1917 !important;
+  }
+
+  /* ---- 3. Global print resets ---- */
   * {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
     cursor: auto !important;
     box-shadow: none !important;
+    text-shadow: none !important;
+    animation: none !important;
+    transition: none !important;
   }
 
-  .prose, section, div[class*="rounded-3xl"], .grid > div {
-    break-inside: avoid;
-    page-break-inside: avoid;
+  /* ---- 4. Force brand background colors ---- */
+  .bg-primary {
+    background-color: #021a54 !important;
+    color: #ffffff !important;
   }
-
-  /* Force background colors to print */
-  .bg-primary { background-color: #021a54 !important; }
   .bg-coffee { background-color: #6b3a0e !important; }
   .bg-gold { background-color: #c8922a !important; }
+  .bg-brand-base { background-color: #faf2e7 !important; }
+  .bg-white { background-color: #ffffff !important; }
+
+  /* Force brand text colors */
   .text-primary { color: #021a54 !important; }
   .text-gold { color: #c8922a !important; }
+  .text-coffee { color: #6b3a0e !important; }
+  .text-brand-base { color: #faf2e7 !important; }
+  .text-stone-100 { color: #f5f5f4 !important; }
+  .text-stone-300 { color: #d6d3d1 !important; }
+  .text-stone-400 { color: #a8a29e !important; }
+  .text-stone-500 { color: #78716c !important; }
+  .text-stone-600 { color: #57534e !important; }
+  .text-stone-700 { color: #44403c !important; }
+
+  /* ---- 5. Cover slide: full first page ---- */
+  section:first-of-type {
+    min-height: 100vh !important;
+    page-break-after: always !important;
+    break-after: page !important;
+  }
+
+  /* ---- 6. Page break control ---- */
+  section {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  .prose, div[class*="rounded-3xl"], .grid > div,
+  div[class*="rounded-2xl"], div[class*="rounded-[32px]"],
+  div[class*="rounded-[40px]"] {
+    break-inside: avoid !important;
+    page-break-inside: avoid !important;
+  }
+
+  /* ---- 7. Images ---- */
+  img {
+    max-width: 100% !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* ---- 8. Clean up rounded corners for print ---- */
+  [class*="rounded-3xl"],
+  [class*="rounded-[40px]"] {
+    border-radius: 16px !important;
+  }
 }
 

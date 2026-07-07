@@ -16,27 +16,30 @@ export const PrintPDFButton: React.FC<PrintPDFButtonProps> = ({
 
   const handlePrint = () => {
     setIsPrinting(true);
-    toast.info('Preparando documento optimizado para PDF...', {
-      description: 'En la ventana que se abrirá, selecciona el destino "Guardar como PDF".',
-      duration: 3500,
-    });
 
-    // Pequeño retardo para dar tiempo al toast de renderizarse o a las animaciones de asentarse
+    // Dismiss ALL visible toasts BEFORE printing so none appear in the PDF
+    toast.dismiss();
+
+    // Small delay to let toasts fully disappear from the DOM
     setTimeout(() => {
       const originalTitle = document.title;
       if (title) {
         document.title = title;
       }
 
+      // Add a class to body for extra print CSS control
+      document.body.classList.add('printing-pdf');
+
       window.print();
 
-      // Restaurar el título después de imprimir
+      // Restore after print dialog closes
       setTimeout(() => {
+        document.body.classList.remove('printing-pdf');
         document.title = originalTitle;
         setIsPrinting(false);
         toast.success('¡Listo! Exportación PDF finalizada.');
       }, 1000);
-    }, 400);
+    }, 300);
   };
 
   return (

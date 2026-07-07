@@ -158,7 +158,7 @@ const BrandPresentation = () => {
   ];
 
   return (
-    <div className="relative font-sans bg-brand-base">
+    <div className="relative font-sans bg-brand-base dark:bg-stone-950">
       <SEOHead title="Presentación de Marca | Rose Coffee" description="Descubre el manual de marca y la estrategia de Rose Coffee." />
 
       {/* 1. Portada */}
@@ -168,10 +168,10 @@ const BrandPresentation = () => {
       {descriptionData && (
         <section className="py-24 px-6 max-w-4xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-12 text-center">
-            <span className="inline-block text-[10px] font-bold text-coffee uppercase tracking-widest border border-coffee/25 bg-coffee/5 px-4 py-1.5 rounded-full mb-4">
+            <span className="inline-block text-[10px] font-bold text-coffee dark:text-gold uppercase tracking-widest border border-coffee/25 dark:border-gold/25 bg-coffee/5 dark:bg-gold/5 px-4 py-1.5 rounded-full mb-4">
               Introducción
             </span>
-            <h2 className="text-3xl md:text-5xl font-bold text-primary mb-6">Descripción General</h2>
+            <h2 className="text-3xl md:text-5xl font-bold text-primary dark:text-stone-100 mb-6">Descripción General</h2>
           </motion.div>
           {renderBlocks(descriptionData, 'light')}
         </section>
@@ -196,10 +196,10 @@ const BrandPresentation = () => {
       {audienceData && (
         <section className="py-24 px-6 max-w-4xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-12 text-center">
-            <span className="inline-block text-[10px] font-bold text-coffee uppercase tracking-widest border border-coffee/25 bg-coffee/5 px-4 py-1.5 rounded-full mb-4">
+            <span className="inline-block text-[10px] font-bold text-coffee dark:text-gold uppercase tracking-widest border border-coffee/25 dark:border-gold/25 bg-coffee/5 dark:bg-gold/5 px-4 py-1.5 rounded-full mb-4">
               Target
             </span>
-            <h2 className="text-3xl md:text-5xl font-bold text-primary mb-6">Público Objetivo</h2>
+            <h2 className="text-3xl md:text-5xl font-bold text-primary dark:text-stone-100 mb-6">Público Objetivo</h2>
           </motion.div>
           {renderBlocks(audienceData, 'light')}
         </section>
@@ -218,10 +218,10 @@ const BrandPresentation = () => {
       {styleData && (
         <section className="py-24 px-6 max-w-4xl mx-auto">
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-12 text-center">
-            <span className="inline-block text-[10px] font-bold text-coffee uppercase tracking-widest border border-coffee/25 bg-coffee/5 px-4 py-1.5 rounded-full mb-4">
+            <span className="inline-block text-[10px] font-bold text-coffee dark:text-gold uppercase tracking-widest border border-coffee/25 dark:border-gold/25 bg-coffee/5 dark:bg-gold/5 px-4 py-1.5 rounded-full mb-4">
               Dirección de Arte
             </span>
-            <h2 className="text-3xl md:text-5xl font-bold text-primary mb-6">Estilo Gráfico</h2>
+            <h2 className="text-3xl md:text-5xl font-bold text-primary dark:text-stone-100 mb-6">Estilo Gráfico</h2>
           </motion.div>
           {renderBlocks(styleData, 'light')}
         </section>
@@ -229,13 +229,13 @@ const BrandPresentation = () => {
 
       {/* 9. Aplicaciones de Identidad */}
       {applicationsData && applicationsData.length > 0 && (
-        <section className="py-24 px-6 bg-white w-full">
+        <section className="py-24 px-6 bg-white dark:bg-stone-900 w-full">
           <div className="max-w-7xl mx-auto">
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="mb-12 text-center">
-              <span className="inline-block text-[10px] font-bold text-coffee uppercase tracking-widest border border-coffee/25 bg-coffee/5 px-4 py-1.5 rounded-full mb-4">
+              <span className="inline-block text-[10px] font-bold text-coffee dark:text-gold uppercase tracking-widest border border-coffee/25 dark:border-gold/25 bg-coffee/5 dark:bg-gold/5 px-4 py-1.5 rounded-full mb-4">
                 Mockups
               </span>
-              <h2 className="text-3xl md:text-5xl font-bold text-primary mb-6">Aplicaciones de Identidad</h2>
+              <h2 className="text-3xl md:text-5xl font-bold text-primary dark:text-stone-100 mb-6">Aplicaciones de Identidad</h2>
             </motion.div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {applicationsData.map((app: Record<string, any>, idx: number) => (
@@ -245,15 +245,15 @@ const BrandPresentation = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: idx * 0.1 }}
-                  className="rounded-3xl overflow-hidden border border-stone-200 shadow-sm group"
+                  className="rounded-3xl overflow-hidden border border-stone-200 dark:border-stone-700 shadow-sm group bg-white dark:bg-stone-800"
                 >
-                  <div className="aspect-[4/3] bg-stone-100 overflow-hidden">
+                  <div className="aspect-[4/3] bg-stone-100 dark:bg-stone-700 overflow-hidden">
                     <img src={app.image_url || app.imageUrl} alt={app.caption || 'Aplicación'} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   </div>
                   {(app.caption || app.category) && (
-                    <div className="p-6 bg-white">
+                    <div className="p-6 bg-white dark:bg-stone-800">
                       {app.category && <p className="text-[10px] font-bold text-gold uppercase mb-1">{app.category}</p>}
-                      {app.caption && <p className="text-stone-700 font-medium">{app.caption}</p>}
+                      {app.caption && <p className="text-stone-700 dark:text-stone-300 font-medium">{app.caption}</p>}
                     </div>
                   )}
                 </motion.div>
