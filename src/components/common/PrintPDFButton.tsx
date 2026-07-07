@@ -2,15 +2,12 @@ import React, { useState } from 'react';
 import { FileDown, Sparkles, Check } from 'lucide-react';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
-import html2pdf from 'html2pdf.js';
 
 interface PrintPDFButtonProps {
-  title?: string;
   className?: string;
 }
 
 export const PrintPDFButton: React.FC<PrintPDFButtonProps> = ({
-  title = 'Presentación Oficial Rose Coffee',
   className = '',
 }) => {
   const [isPrinting, setIsPrinting] = useState(false);
