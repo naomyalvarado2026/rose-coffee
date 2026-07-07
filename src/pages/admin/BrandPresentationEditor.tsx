@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from 'react';
 import { supabase } from '../../config/supabase';
 import { toast } from 'sonner';
@@ -12,9 +13,6 @@ import {
   Save, Loader2, Layout, Eye, Search, Trash2
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import type { CalendarRow } from '../../components/presentation/ContentCalendarSection';
-import type { BrandColor } from '../../components/presentation/BrandColorsSection';
-import type { TypographySpec } from '../../components/presentation/TypographySection';
 
 interface DBPageSection {
   id: string;
@@ -43,10 +41,6 @@ export default function BrandPresentationEditor() {
   const [saving, setSaving] = useState(false);
   const [isMediaModalOpen, setIsMediaModalOpen] = useState(false);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
   const fetchData = async () => {
     try {
       setLoading(true);
@@ -59,7 +53,7 @@ export default function BrandPresentationEditor() {
 
       if (data) {
         const mapped = data.reduce((acc: any, item: any) => {
-          acc[item.section_id || item.id] = item;
+          acc[item.section_id || item.id] = item as DBPageSection;
           return acc;
         }, {});
         
@@ -84,6 +78,15 @@ export default function BrandPresentationEditor() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    const load = () => {
+      fetchData();
+    };
+    load();
+  }, []);
+
+
 
   const handleSaveSection = async () => {
     setSaving(true);

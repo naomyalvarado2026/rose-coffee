@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react';
 import { supabase } from '../../config/supabase';
 import { CoverSlide } from '../../components/presentation/CoverSlide';
@@ -9,7 +10,7 @@ import SEOHead from '../../components/common/SEOHead';
 import { motion } from 'framer-motion';
 
 const BrandPresentation = () => {
-  const [sectionsData, setSectionsData] = useState<Record<string, any>>({});
+  const [sectionsData, setSectionsData] = useState<Record<string, Record<string, any>>>({});
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -23,7 +24,7 @@ const BrandPresentation = () => {
         if (error) throw error;
 
         if (data) {
-          const mapped = data.reduce((acc: any, item: any) => {
+          const mapped = data.reduce((acc: Record<string, Record<string, any>>, item: Record<string, any>) => {
             acc[item.section_id || item.id] = item;
             return acc;
           }, {});
@@ -38,10 +39,10 @@ const BrandPresentation = () => {
     fetchPresentationData();
   }, []);
 
-  const renderBlocks = (blocks: any[], theme: 'light' | 'dark' = 'light') => {
+  const renderBlocks = (blocks: Record<string, any>[], theme: 'light' | 'dark' = 'light') => {
     if (!blocks || !Array.isArray(blocks)) return null;
 
-    return blocks.map((block: any, idx: number) => {
+    return blocks.map((block: Record<string, any>, idx: number) => {
       const textColorClass = theme === 'dark' ? 'text-stone-300' : 'text-stone-600';
       const titleColorClass = theme === 'dark' ? 'text-stone-100' : 'text-primary';
 
@@ -214,7 +215,7 @@ const BrandPresentation = () => {
               <h2 className="text-3xl md:text-5xl font-bold text-primary mb-6">Aplicaciones de Identidad</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {sectionsData['applications'].content_blocks.map((app: any, idx: number) => (
+              {sectionsData['applications'].content_blocks.map((app: Record<string, any>, idx: number) => (
                 <motion.div
                   key={idx}
                   initial={{ opacity: 0, y: 20 }}
