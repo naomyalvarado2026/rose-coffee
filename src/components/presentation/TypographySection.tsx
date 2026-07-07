@@ -64,7 +64,11 @@ const defaultFonts: TypographySpec[] = [
 ];
 
 export const TypographySection: React.FC<TypographySectionProps> = ({ fonts = defaultFonts }) => {
-  const displayFonts = fonts && fonts.length > 0 ? fonts : defaultFonts;
+  const displayFonts = fonts && fonts.length > 0 ? fonts.map(f => {
+    if (f.name === 'Sunday Magic') return { ...f, useTypewriter: true, customPhrases: f.customPhrases || professorPhrases };
+    if (f.name === 'Inter') return { ...f, useTypewriter: true, customPhrases: f.customPhrases || interPhrases };
+    return f;
+  }) : defaultFonts;
 
   return (
     <section className="py-24 bg-brand-base dark:bg-stone-950 w-full overflow-hidden">
