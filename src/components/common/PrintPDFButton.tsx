@@ -25,31 +25,16 @@ export const PrintPDFButton: React.FC<PrintPDFButtonProps> = ({
     window.dispatchEvent(new Event('pdf-export-start'));
 
     // Small delay to let toasts fully disappear and states to update
-    setTimeout(async () => {
-      const element = document.getElementById('brand-presentation-content');
-      
-      if (!element) {
-        setIsPrinting(false);
-        toast.error('Error: Contenido no encontrado.');
-        window.dispatchEvent(new Event('pdf-export-end'));
-        return;
-      }
-
+    setTimeout(() => {
       // Add a class to body for extra print CSS control
       document.body.classList.add('printing-pdf');
 
-      const opt = {
-        margin:       0,
-        filename:     `${title.replace(/ /g, '-')}.pdf`,
-        image:        { type: 'jpeg' as 'jpeg', quality: 1 },
-        html2canvas:  { scale: 2, useCORS: true, logging: false, scrollY: 0 },
-        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
-        pagebreak:    { mode: ['css', 'legacy'] }
-      };
-
       try {
-        await html2pdf().from(element).set(opt as any).save();
-        toast.success('¡Listo! Exportación PDF finalizada.');
+        // Usamos la impresión nativa del navegador. 
+        // Es inmensamente superior a html2pdf porque mantiene vectores, texto seleccionable 
+        // y no colapsa con CSS complejo (mix-blend-mode, radial-gradients, etc).
+        window.print();
+        toast.success('¡Listo! Archivo generado.');
       } catch (error) {
         console.error('Error al generar PDF:', error);
         toast.error('Ocurrió un error al generar el documento.');
