@@ -1,0 +1,28 @@
+# Rose Coffee - Reglas Globales para Antigravity / IA
+
+Estas instrucciones son CRÍTICAS y obligatorias para cualquier asistente de Inteligencia Artificial que opere en este repositorio.
+
+## Configuración de Despliegue y Alojamiento
+- **Plataforma:** El proyecto está desplegado en **GitHub Pages**.
+- **Rama de despliegue:** `gh-pages`
+- **URL en vivo:** `https://naomyalvarado2026.github.io/rose-coffee/`
+- **Ruta base (Base Path):** `/rose-coffee/` (Configurado en `vite.config.ts`)
+- **Automatización:** Los despliegues se realizan mediante **GitHub Actions** en el flujo `Deploy to GitHub Pages` cuando se hace PUSH a la rama `main`.
+
+## Reglas Obligatorias antes de actuar:
+
+1. **NO SUGERIR DESPLIEGUES MANUALES:** 
+   Nunca sugieras ni ejecutes el comando `npm run deploy` u otros comandos de publicación manual como `gh-pages -d dist` a menos que GitHub Actions esté completamente inoperativo o la usuaria lo exija explícitamente.
+
+2. **VERIFICAR ESTADO DEL DESPLIEGUE ANTE RECLAMOS WEB:**
+   Si la usuaria reporta que "los cambios no se ven en la página web", tu **PRIMERA ACCIÓN** debe ser verificar si el código se desplegó correctamente.
+   - Ejecuta: `git log origin/gh-pages -n 1 --format="%H %ci"` para verificar la última fecha de actualización de la web en vivo.
+   - Si la fecha es antigua, infórmale a la usuaria que la compilación falló o que el Action no se ejecutó, en lugar de asumir que tu código frontend está mal.
+
+3. **VERIFICAR TOKENS Y PERMISOS:**
+   Cualquier modificación a la carpeta `.github/workflows/` puede ser bloqueada si el editor de código (VS Code) no tiene el scope de `workflow` en su token de GitHub. Si esto sucede, indícale a la usuaria que debe hacerlo a través de la interfaz web de GitHub.
+
+4. **EVITAR TIPOS `any` ESTRICTOS EN COMPILACIÓN:**
+   El proyecto compila con TypeScript (`tsc -b`). Asegúrate de que tus modificaciones en los archivos `.tsx` o `.ts` no generen errores de TypeScript (como el uso de variables implícitas o mal mapeadas) que rompan el paso de construcción del CI/CD de GitHub Actions. Si debes ignorar tipos dinámicos provenientes de la base de datos (Supabase), utiliza `/* eslint-disable @typescript-eslint/no-explicit-any */` en la cabecera.
+
+**Al leer este archivo, tu comportamiento debe ajustarse a estas reglas inmediatamente.**
