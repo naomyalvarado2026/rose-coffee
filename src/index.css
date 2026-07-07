@@ -208,3 +208,38 @@
     cursor: none !important;
   }
 }
+
+/* Print optimizations for intelligent PDF export */
+@media print {
+  header, nav, footer, .print\:hidden, #custom-cursor {
+    display: none !important;
+  }
+  
+  body, html {
+    background-color: #ffffff !important;
+    color: #1c1917 !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    cursor: auto !important;
+    box-shadow: none !important;
+  }
+
+  .prose, section, div[class*="rounded-3xl"], .grid > div {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Force background colors to print */
+  .bg-primary { background-color: #021a54 !important; }
+  .bg-coffee { background-color: #6b3a0e !important; }
+  .bg-gold { background-color: #c8922a !important; }
+  .text-primary { color: #021a54 !important; }
+  .text-gold { color: #c8922a !important; }
+}
+

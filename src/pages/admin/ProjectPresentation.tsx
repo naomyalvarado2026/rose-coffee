@@ -27,6 +27,7 @@ import {
   Sparkles
 } from 'lucide-react';
 import logoRose from '../../assets/logo rose coffee/1 rose coffee.svg';
+import { PrintPDFButton } from '../../components/common/PrintPDFButton';
 
 const GithubIcon = ({ size = 16 }: { size?: number }) => (
   <svg 
@@ -1051,6 +1052,8 @@ export default function ProjectPresentation() {
         </div>
       </section>
 
+      {/* Botón Inteligente de Exportación PDF */}
+      <PrintPDFButton title="Presentación Arquitectónica del Proyecto - Rose Coffee" />
     </div>
   );
 }

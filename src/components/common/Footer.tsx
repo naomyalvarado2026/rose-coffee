@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import logoRose from '../../assets/logo rose coffee/1 rose coffee.svg';
 import {
-  Mail, Phone, MapPin, Clock, Heart, MessageCircle
+  Mail, Phone, MapPin, Clock, Heart, MessageCircle, Sparkles, Palette, Presentation, ArrowRight
 } from 'lucide-react';
 import { supabase } from '../../config/supabase';
 
@@ -389,6 +389,67 @@ const Footer = () => {
             </motion.div>
           </motion.div>
 
+        </motion.div>
+
+        {/* Presentaciones Oficiales Banner (Impactantes Accesos Directos) */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-40px' }}
+          className="my-12 p-8 rounded-3xl bg-gradient-to-r from-gold/15 via-[#0c0a09]/80 to-coffee/20 border border-gold/30 shadow-2xl backdrop-blur-xl relative overflow-hidden group"
+        >
+          {/* Brillo de fondo sutil */}
+          <div className="absolute -right-20 -top-20 w-64 h-64 bg-gold/10 rounded-full blur-3xl group-hover:bg-gold/20 transition-all duration-700 pointer-events-none" />
+          
+          <div className="relative z-10 flex flex-col lg:flex-row items-center justify-between gap-8">
+            <div className="text-center lg:text-left max-w-xl">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-gold/20 border border-gold/40 text-gold text-[10px] font-extrabold uppercase tracking-widest mb-2 shadow-inner">
+                <Sparkles size={12} className="animate-pulse" /> Documentación Oficial
+              </span>
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight">
+                Descubre el Universo <span className="text-gradient-coffee font-black">Rose Coffee</span>
+              </h3>
+              <p className="text-xs text-gray-300 mt-2 font-medium leading-relaxed">
+                Explora a fondo nuestra arquitectura, modelo de negocio y nuestra identidad visual en dos presentaciones interactivas de alta gama.
+              </p>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
+              {/* Botón 1: Presentación de Marca */}
+              <Link
+                to="/presentacion-marca"
+                className="group/btn relative flex items-center justify-between sm:justify-center gap-3 px-6 py-4 rounded-2xl bg-white/5 hover:bg-gold text-white hover:text-[#030612] border border-white/15 hover:border-transparent font-bold text-xs transition-all duration-500 shadow-lg hover:shadow-gold/30 hover:scale-105 overflow-hidden flex-1 sm:flex-initial"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-xl bg-gold/20 group-hover/btn:bg-[#030612]/10 flex items-center justify-center text-gold group-hover/btn:text-[#030612] transition-colors">
+                    <Palette size={16} />
+                  </div>
+                  <div className="text-left">
+                    <span className="block text-[10px] opacity-75 uppercase tracking-wider font-extrabold">Identidad & Visual</span>
+                    <span className="text-sm font-black tracking-tight">Presentación de Marca</span>
+                  </div>
+                </div>
+                <ArrowRight size={16} className="text-gold group-hover/btn:text-[#030612] transform group-hover/btn:translate-x-1 transition-all ml-2" />
+              </Link>
+
+              {/* Botón 2: Presentación del Proyecto */}
+              <Link
+                to="/presentacion-proyecto"
+                className="group/btn relative flex items-center justify-between sm:justify-center gap-3 px-6 py-4 rounded-2xl bg-gradient-to-r from-gold to-amber-500 hover:from-amber-400 hover:to-gold text-[#030612] font-bold text-xs transition-all duration-500 shadow-xl shadow-gold/20 hover:shadow-gold/40 hover:scale-105 overflow-hidden flex-1 sm:flex-initial"
+              >
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-xl bg-[#030612]/15 flex items-center justify-center text-[#030612] transition-colors">
+                    <Presentation size={16} />
+                  </div>
+                  <div className="text-left">
+                    <span className="block text-[10px] opacity-80 uppercase tracking-wider font-extrabold">Arquitectura & Negocio</span>
+                    <span className="text-sm font-black tracking-tight">Presentación Proyecto</span>
+                  </div>
+                </div>
+                <ArrowRight size={16} className="text-[#030612] transform group-hover/btn:translate-x-1 transition-all ml-2" />
+              </Link>
+            </div>
+          </div>
         </motion.div>
 
         {/* Bottom Bar: Copyright */}

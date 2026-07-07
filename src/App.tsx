@@ -152,6 +152,7 @@ function App() {
             <Route path="/ar/menu" element={<PageTransition><ARMenuScanner /></PageTransition>} />
             <Route path="/ar/showroom" element={<PageTransition><ARShowroom /></PageTransition>} />
             <Route path="/presentacion-marca" element={<PageTransition><BrandPresentation /></PageTransition>} />
+            <Route path="/presentacion-proyecto" element={<PageTransition><ProjectPresentation /></PageTransition>} />
           </Route>
 
           {/* Protected Routes: Dashboard */}

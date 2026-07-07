@@ -8,6 +8,7 @@ import { LogoShowcase } from '../../components/presentation/LogoShowcase';
 import { ContentCalendarSection } from '../../components/presentation/ContentCalendarSection';
 import SEOHead from '../../components/common/SEOHead';
 import { motion } from 'framer-motion';
+import { PrintPDFButton } from '../../components/common/PrintPDFButton';
 
 const BrandPresentation = () => {
   const [sectionsData, setSectionsData] = useState<Record<string, Record<string, any>>>({});
@@ -265,6 +266,8 @@ const BrandPresentation = () => {
       {/* 10. Cronograma 7 Días */}
       <ContentCalendarSection rows={calendarData} />
 
+      {/* Botón Inteligente de Exportación PDF */}
+      <PrintPDFButton title="Presentación Oficial de Marca - Rose Coffee" />
     </div>
   );
 };
