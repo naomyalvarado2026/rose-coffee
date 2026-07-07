@@ -97,6 +97,7 @@ export default function BrandPresentationEditor() {
       const payload = {
         page: 'brand_presentation',
         section: activeSectionId,
+        name: SECTIONS_METADATA.find(s => s.id === activeSectionId)?.name || 'Sección',
         content_blocks: currentSection.content_blocks
       };
 

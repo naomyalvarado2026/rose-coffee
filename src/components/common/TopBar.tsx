@@ -25,7 +25,7 @@ const TopBar = () => {
     setUpdatingProfilePhoto(true);
     const formData = new FormData();
     formData.append('file', file);
-    formData.append('upload_preset', import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET || 'rose_coffee_web');
+    formData.append('upload_preset', import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET || 'ml_default');
 
     try {
       const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || 'dbp0kfq3k';

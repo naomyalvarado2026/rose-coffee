@@ -76,7 +76,7 @@ export default function MediaUploader({
   const widgetRef = useRef<CloudinaryUploadWidget | null>(null);
 
   const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || 'dbp0kfq3k';
-  const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET || 'rose_coffee_web';
+  const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET || 'ml_default';
 
   useEffect(() => {
     let isMounted = true;
