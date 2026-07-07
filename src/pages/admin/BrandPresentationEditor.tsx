@@ -1,22 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { supabase } from '../../config/supabase';
 import { toast } from 'sonner';
-import { motion } from 'framer-motion';
-import { useConfirmStore } from '../../store/useConfirmStore';
 import AdminHeader from '../../components/admin/AdminHeader';
-import BlockBuilder, { ContentBlock } from '../../components/admin/BlockBuilder';
+import BlockBuilder from '../../components/admin/BlockBuilder';
 import { ContentCalendarEditor } from '../../components/presentation/ContentCalendarEditor';
 import { BrandColorsEditor } from '../../components/presentation/BrandColorsEditor';
 import { TypographyEditor } from '../../components/presentation/TypographyEditor';
 import MediaSearchModal from '../../components/admin/MediaSearchModal';
 import MediaUploader from '../../components/common/MediaUploader';
 import { 
-  Save, Loader2, Layout, Eye, Search, Image as ImageIcon
+  Save, Loader2, Layout, Eye, Search, Trash2
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { CalendarRow } from '../../components/presentation/ContentCalendarSection';
-import { BrandColor } from '../../components/presentation/BrandColorsSection';
-import { TypographySpec } from '../../components/presentation/TypographySection';
+import type { CalendarRow } from '../../components/presentation/ContentCalendarSection';
+import type { BrandColor } from '../../components/presentation/BrandColorsSection';
+import type { TypographySpec } from '../../components/presentation/TypographySection';
 
 interface DBPageSection {
   id: string;
@@ -177,7 +175,7 @@ export default function BrandPresentationEditor() {
     <div className="min-h-screen bg-slate-50 dark:bg-stone-900 pb-20">
       <AdminHeader 
         title="Editor de Presentación de Marca" 
-        subtitle="Gestiona el manual de marca y estrategia phygital"
+        description="Gestiona el manual de marca y estrategia phygital"
       />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 mt-8 flex flex-col lg:flex-row gap-8">
@@ -286,7 +284,7 @@ export default function BrandPresentationEditor() {
                   <MediaSearchModal 
                     isOpen={isMediaModalOpen}
                     onClose={() => setIsMediaModalOpen(false)}
-                    onSelectMedia={(url) => {
+                    onSelect={(url: string) => {
                       updateCoverData('backgroundImage', url);
                       setIsMediaModalOpen(false);
                     }}
@@ -387,7 +385,7 @@ export default function BrandPresentationEditor() {
                   <MediaSearchModal 
                     isOpen={isMediaModalOpen}
                     onClose={() => setIsMediaModalOpen(false)}
-                    onSelectMedia={(url) => {
+                    onSelect={(url: string) => {
                       addApplication(url);
                       setIsMediaModalOpen(false);
                     }}

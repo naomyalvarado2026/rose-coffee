@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrandColor } from './BrandColorsSection';
+import type { BrandColor } from './BrandColorsSection';
 import { Plus, Trash2 } from 'lucide-react';
 
 interface BrandColorsEditorProps {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { TypographySpec } from './TypographySection';
+import type { TypographySpec } from './TypographySection';
 import { Plus, Trash2 } from 'lucide-react';
 
 interface TypographyEditorProps {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { supabase } from '../../config/supabase';
 import { CoverSlide } from '../../components/presentation/CoverSlide';
 import { BrandColorsSection } from '../../components/presentation/BrandColorsSection';
@@ -135,7 +135,7 @@ const BrandPresentation = () => {
 
   return (
     <div className="relative font-sans bg-brand-base">
-      <SEOHead title="Presentación de Marca | Rose Coffee" />
+      <SEOHead title="Presentación de Marca | Rose Coffee" description="Descubre el manual de marca y la estrategia de Rose Coffee." />
 
       {/* 1. Portada */}
       <CoverSlide {...coverData} />
