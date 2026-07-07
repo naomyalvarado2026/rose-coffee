@@ -61,17 +61,23 @@ export default function MediaUploader({
   const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
   const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
 
-  const openWidget = useCallback(async () => {
-    await ensureWidgetScript();
+  useEffect(() => {
+    let isMounted = true;
 
-    // Lazily create the widget once
-    if (!widgetRef.current) {
+    if (!cloudName || !uploadPreset) {
+      console.error('Cloudinary variables missing');
+      return;
+    }
+
+    ensureWidgetScript().then(() => {
+      if (!isMounted) return;
       const cld = (window as any).cloudinary;
       if (!cld) {
         console.error('Cloudinary global not found after script load');
         return;
       }
 
+      // Initialize the widget once on mount
       widgetRef.current = cld.createUploadWidget(
         {
           cloudName,
@@ -111,7 +117,6 @@ export default function MediaUploader({
               sourceBg: '#F1F5F9',
             },
             fonts: {
-              default: null,
               "'Inter', sans-serif": {
                 url: 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap',
                 active: true,
@@ -135,20 +140,29 @@ export default function MediaUploader({
           }
         }
       );
-    }
+    });
 
-    widgetRef.current.open();
-  }, [cloudName, uploadPreset, folder, multiple, allowedFormats, onUploadSuccess]);
-
-  // Clean up on unmount
-  useEffect(() => {
+    // Clean up on unmount
     return () => {
+      isMounted = false;
       if (widgetRef.current) {
         widgetRef.current.destroy();
         widgetRef.current = null;
       }
     };
-  }, []);
+  }, [cloudName, uploadPreset, folder, multiple, allowedFormats, onUploadSuccess]);
+
+  const openWidget = useCallback(() => {
+    if (!cloudName || !uploadPreset) {
+      alert('Configuración de Cloudinary incompleta.');
+      return;
+    }
+    if (widgetRef.current) {
+      widgetRef.current.open();
+    } else {
+      alert('El widget de subida aún no está listo. Intenta de nuevo en un segundo.');
+    }
+  }, [cloudName, uploadPreset]);
 
   return (
     <button
