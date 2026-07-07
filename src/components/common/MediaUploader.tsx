@@ -144,6 +144,7 @@ export default function MediaUploader({
         (error: Error | null, result: CloudinaryResult) => {
           if (error) {
             console.error('Cloudinary Upload Error:', error);
+            document.body.style.overflow = '';
             return;
           }
           if (result.event === 'success') {
@@ -154,6 +155,11 @@ export default function MediaUploader({
               info.resource_type as 'image' | 'video' | 'raw',
               info.format
             );
+          }
+          if (result.event === 'close' || result.event === 'success') {
+            // Fix bug where Cloudinary widget leaves the body unscrollable
+            document.body.style.overflow = '';
+            document.documentElement.style.overflow = '';
           }
         }
       );
