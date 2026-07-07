@@ -10,6 +10,13 @@ import SEOHead from '../../components/common/SEOHead';
 import { motion } from 'framer-motion';
 import { PrintPDFButton } from '../../components/common/PrintPDFButton';
 
+const resolveUrl = (url?: string) => {
+  if (!url) return '';
+  if (url.startsWith('http') || url.startsWith('data:')) return url;
+  const base = import.meta.env.BASE_URL || '/';
+  return url.startsWith('/') ? `${base}${url.slice(1)}` : `${base}${url}`;
+};
+
 const BrandPresentation = () => {
   const [sectionsData, setSectionsData] = useState<Record<string, Record<string, any>>>({});
   const [loading, setLoading] = useState(true);
@@ -81,7 +88,7 @@ const BrandPresentation = () => {
               className="my-8 flex flex-col items-center"
             >
               <img
-                src={block.imageUrl || block.image_url}
+                src={resolveUrl(block.imageUrl || block.image_url)}
                 alt={block.imageCaption || ''}
                 className="rounded-3xl shadow-xl max-w-full h-auto max-h-[600px] object-cover"
               />
@@ -162,7 +169,10 @@ const BrandPresentation = () => {
       <SEOHead title="Presentación de Marca | Rose Coffee" description="Descubre el manual de marca y la estrategia de Rose Coffee." />
 
       {/* 1. Portada */}
-      <CoverSlide {...coverData} />
+      <CoverSlide 
+        {...coverData} 
+        backgroundImage={coverData.backgroundImage ? resolveUrl(coverData.backgroundImage) : undefined} 
+      />
 
       {/* 2. Descripción General */}
       {descriptionData && (
@@ -248,7 +258,7 @@ const BrandPresentation = () => {
                   className="rounded-3xl overflow-hidden border border-stone-200 dark:border-stone-700 shadow-sm group bg-white dark:bg-stone-800"
                 >
                   <div className="aspect-[4/3] bg-stone-100 dark:bg-stone-700 overflow-hidden">
-                    <img src={app.image_url || app.imageUrl} alt={app.caption || 'Aplicación'} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    <img src={resolveUrl(app.image_url || app.imageUrl)} alt={app.caption || 'Aplicación'} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                   </div>
                   {(app.caption || app.category) && (
                     <div className="p-6 bg-white dark:bg-stone-800">

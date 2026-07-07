@@ -37,8 +37,10 @@ export const TypewriterEffect: React.FC<TypewriterEffectProps> = ({
 
     if (isDeleting) {
       if (currentText.length === 0) {
-        setIsDeleting(false);
-        setCurrentPhraseIndex((prev) => (prev + 1) % phrases.length);
+        timeoutId = setTimeout(() => {
+          setIsDeleting(false);
+          setCurrentPhraseIndex((prev) => (prev + 1) % phrases.length);
+        }, 0);
       } else {
         timeoutId = setTimeout(() => {
           setCurrentText(currentText.substring(0, currentText.length - 1));
