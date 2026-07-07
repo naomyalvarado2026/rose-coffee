@@ -40,7 +40,7 @@ export const PrintPDFButton: React.FC<PrintPDFButtonProps> = ({
         setIsPrinting(false);
         window.dispatchEvent(new Event('pdf-export-end'));
       }
-    }, 600);
+    }, 1500);
   };
 
   return (

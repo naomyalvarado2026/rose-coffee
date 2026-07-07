@@ -215,9 +215,7 @@
 @media (pointer: fine) {
   *, *::before, *::after {
     cursor: none !important;
-  }
-}
-
+  }\n
 /* ========================================================================
    Print optimizations for intelligent PDF export
    ======================================================================== */
@@ -268,6 +266,17 @@
     animation: none !important;
     transition: none !important;
   }
+  
+  /* Force framer-motion initial states to be visible */
+  [style*="opacity"] {
+    opacity: 1 !important;
+  }
+  
+  /* Hide decorative glow effects that break print layout */
+  [class*="mix-blend-screen"],
+  [class*="mix-blend-overlay"] {
+    display: none !important;
+  }
 
   /* ---- 4. Force brand background colors ---- */
   .bg-primary {
@@ -284,12 +293,16 @@
   .text-gold { color: #c8922a !important; }
   .text-coffee { color: #6b3a0e !important; }
   .text-brand-base { color: #faf2e7 !important; }
+  .text-white { color: #ffffff !important; }
+  .text-stone-50 { color: #fafaf9 !important; }
   .text-stone-100 { color: #f5f5f4 !important; }
   .text-stone-300 { color: #d6d3d1 !important; }
   .text-stone-400 { color: #a8a29e !important; }
   .text-stone-500 { color: #78716c !important; }
   .text-stone-600 { color: #57534e !important; }
   .text-stone-700 { color: #44403c !important; }
+  .text-stone-800 { color: #292524 !important; }
+  .text-stone-900 { color: #1c1917 !important; }
 
   /* ---- 5. Cover slide: full first page ---- */
   section:first-of-type {
