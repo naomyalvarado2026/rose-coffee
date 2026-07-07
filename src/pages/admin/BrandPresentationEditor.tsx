@@ -94,11 +94,15 @@ export default function BrandPresentationEditor() {
       const currentSection = sections[activeSectionId];
       if (!currentSection) return;
 
+      const sectionMetadata = SECTIONS_METADATA.find(s => s.id === activeSectionId);
       const payload = {
         page: 'brand_presentation',
         section: activeSectionId,
-        name: SECTIONS_METADATA.find(s => s.id === activeSectionId)?.name || 'Sección',
-        title: SECTIONS_METADATA.find(s => s.id === activeSectionId)?.name || 'Sección',
+        name: sectionMetadata?.name || 'Sección',
+        title: sectionMetadata?.name || 'Sección',
+        subtitle: sectionMetadata?.description || '',
+        section_type: 'custom',
+        order_index: SECTIONS_METADATA.findIndex(s => s.id === activeSectionId) * 10,
         content_blocks: currentSection.content_blocks
       };
 
