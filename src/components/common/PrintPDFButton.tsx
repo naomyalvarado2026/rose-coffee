@@ -39,7 +39,7 @@ export const PrintPDFButton: React.FC<PrintPDFButtonProps> = ({
       document.body.classList.add('printing-pdf');
 
       const opt = {
-        margin:       [0, 0, 0, 0],
+        margin:       0,
         filename:     `${title.replace(/ /g, '-')}.pdf`,
         image:        { type: 'jpeg', quality: 1 },
         html2canvas:  { scale: 2, useCORS: true, logging: false, scrollY: 0 },
