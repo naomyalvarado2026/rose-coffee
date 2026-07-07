@@ -28,7 +28,7 @@ const TopBar = () => {
     formData.append('upload_preset', import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET || 'rose_coffee_web');
 
     try {
-      const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || 'degrlmvsq';
+      const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || 'dbp0kfq3k';
       const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
         method: 'POST',
         body: formData,
