@@ -18,12 +18,12 @@ import {
 } from '../../components/animations/MotionWrappers';
 import MagneticButton from '../../components/animations/MagneticButton';
 import MarqueeText from '../../components/public/MarqueeText';
-import CoffeeSubscription from '../../components/public/CoffeeSubscription';
+
 import SourdoughBenefits from '../../components/public/SourdoughBenefits';
 import TestimonialsSection from '../../components/public/TestimonialsSection';
 import CoffeeJourneySection from '../../components/public/CoffeeJourneySection';
 import OriginSection from '../../components/public/OriginSection';
-import RoseClubSection from '../../components/public/RoseClubSection';
+
 import StoreHoursSection from '../../components/public/StoreHoursSection';
 import { ImageGallerySection } from '../../components/public/ImageGallerySection';
 import SEOHead from '../../components/common/SEOHead';
@@ -229,8 +229,7 @@ const Home = () => {
     { id: 'home_events', visible: true, order: 6 },
     { id: 'home_origin', visible: true, order: 7 },
     { id: 'sourdough', visible: true, order: 8 },
-    { id: 'home_roseclub_module', visible: true, order: 9 },
-    { id: 'home_subscriptions', visible: true, order: 10 },
+
     { id: 'home_birthdays', visible: true, order: 11 },
     { id: 'home_sermons', visible: true, order: 12 },
     { id: 'home_schedules', visible: false, order: 13 }
@@ -484,10 +483,7 @@ const Home = () => {
         return <OriginSection data={sectionsData['home_origin']} />;
       case 'sourdough':
         return <SourdoughBenefits />;
-      case 'home_roseclub_module':
-        return sectionsData['home_roseclub_module'] ? <RoseClubSection /> : null;
-      case 'home_subscriptions':
-        return sectionsData['home_subscriptions'] ? <CoffeeSubscription data={sectionsData['home_subscriptions']} /> : null;
+
       case 'home_birthdays':
         return <TestimonialsSection data={birthdaySection} />;
       case 'home_sermons':

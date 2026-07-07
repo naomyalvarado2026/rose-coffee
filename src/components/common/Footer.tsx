@@ -143,7 +143,7 @@ const Footer = () => {
           className="mb-16 pb-12 border-b border-white/10 flex flex-col md:flex-row items-center justify-between gap-8"
         >
           <div className="text-center md:text-left max-w-md">
-            <h3 className="text-2xl font-bold font-sans text-white mb-2 tracking-tight">Únete a nuestro club</h3>
+            <h3 className="text-2xl font-bold font-sans text-white mb-2 tracking-tight">Suscríbete a nuestras novedades</h3>
             <p className="text-xs text-gray-350 leading-relaxed font-medium">
               Suscríbete para recibir noticias, ofertas exclusivas, y los mejores secretos sobre nuestro café de especialidad y masa madre.
             </p>

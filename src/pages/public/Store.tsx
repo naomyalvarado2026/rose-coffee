@@ -9,7 +9,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 import ARViewer from '../../components/public/ARViewer';
 import SEOHead from '../../components/common/SEOHead';
 
-import CoffeeSubscription from '../../components/public/CoffeeSubscription';
 import MagneticButton from '../../components/animations/MagneticButton';
 import coffeeRoastingImg from '/coffee_roasting_process.webp';
 import FloatingElements from '../../components/public/FloatingElements';
@@ -437,10 +436,7 @@ const Store = () => {
         )}
       </div>
 
-      {/* COFFEE CLUB SUBSCRIPTIONS */}
-      <div className="pt-12">
-        <CoffeeSubscription />
-      </div>
+
 
       {/* Quick View Modal */}
       <AnimatePresence>
