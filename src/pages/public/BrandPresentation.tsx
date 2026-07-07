@@ -143,15 +143,16 @@ const BrandPresentation = () => {
   const calendarData = sectionsData['calendar']?.content_blocks || undefined;
 
   const descriptionData = sectionsData['description']?.content_blocks || [
-    { type: 'text', textContent: '<p>Rose Coffee es más que una cafetería; es un espacio donde la tradición del café de especialidad se encuentra con el arte de la masa madre.</p>' }
+    { type: 'text', textContent: '<p>El proyecto se desarrolla para la cafetería <strong>Rose Coffee</strong> bajo el concepto creativo <em>"Del origen a la mesa"</em>.</p><p>La propuesta consiste en transformar la experiencia tradicional de consumo integrando espacios físicos y digitales, con el fin de comunicar la historia, el proceso artesanal y el valor gastronómico de su producto estrella: el pan de masa madre.</p><p>Se basa en un enfoque phygital transmedia que construye un ecosistema digital compuesto por una página web interactiva, contenido audiovisual, campañas publicitarias y experiencias de realidad aumentada.</p><p>El objetivo de esta integración es generar conexiones emocionales auténticas con los consumidores y extender la interacción con la marca más allá del espacio físico de la cafetería.</p>' }
   ];
 
   const objectiveData = sectionsData['objective']?.content_blocks || [
-    { type: 'text', textContent: '<p>Posicionar a Rose Coffee como el destino principal para amantes del buen café y repostería artesanal, ofreciendo una experiencia phygital impecable.</p>' }
+    { type: 'text', textContent: '<p>El objetivo general es diseñar una <strong>experiencia phygital transmedia</strong> utilizando narrativa audiovisual, contenidos interactivos y realidad aumentada.</p><p>Esta experiencia está orientada a fortalecer tanto la experiencia digital como la fidelización de los clientes en una cafetería-panadería artesanal.</p>' }
   ];
 
   const audienceData = sectionsData['audience']?.content_blocks || [
-    { type: 'columns', columns: ['Jóvenes profesionales', 'Estudiantes universitarios', 'Amantes de la gastronomía artesanal'] }
+    { type: 'text', textContent: '<p>El proyecto está dirigido a <strong>jóvenes y adultos de entre 18 y 35 años de edad</strong>.</p><p>Se trata de consumidores de café y productos artesanales que mantienen hábitos digitales activos y son usuarios frecuentes de dispositivos móviles, redes sociales y plataformas web.</p><p>Este grupo demográfico se caracteriza por buscar y valorar experiencias auténticas, innovación tecnológica y propuestas gastronómicas que les ofrezcan una interacción dinámica y significativa con las marcas.</p>' },
+    { type: 'columns', columns: ['Jóvenes y adultos (18 - 35 años)', 'Consumidores digitales activos', 'Amantes de la gastronomía y tecnología'] }
   ];
 
   const styleData = sectionsData['style']?.content_blocks || [
