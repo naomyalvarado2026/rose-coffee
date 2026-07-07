@@ -74,9 +74,9 @@ export const LogoShowcase: React.FC<LogoShowcaseProps> = ({
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: (index % 7) * 0.05 }}
-                className="bg-stone-50 dark:bg-stone-800 rounded-2xl p-4 aspect-square flex items-center justify-center border border-stone-150 dark:border-stone-700 hover:border-primary dark:hover:border-gold hover:shadow-md transition-all group relative cursor-pointer"
+                className="checkerboard rounded-2xl p-4 aspect-square flex items-center justify-center border border-stone-200 dark:border-stone-700 hover:border-primary dark:hover:border-gold hover:shadow-md transition-all group relative cursor-pointer overflow-hidden"
               >
-                <span className="absolute top-2 left-2 text-[8px] font-bold text-stone-300 dark:text-stone-600">
+                <span className="absolute top-2 left-2 text-[8px] font-bold text-stone-400 dark:text-stone-500 z-10 bg-white/50 dark:bg-black/50 px-1 rounded backdrop-blur-sm">
                   #{logo.id}
                 </span>
                 <img 
