@@ -47,6 +47,23 @@ function ensureWidgetScript(): Promise<void> {
   });
 }
 
+// ── Cloudinary Types ───────────────────────────────────────────────────
+interface CloudinaryUploadWidget {
+  open: () => void;
+  destroy: () => void;
+  close: () => void;
+}
+
+interface CloudinaryResult {
+  event: string;
+  info: {
+    secure_url: string;
+    public_id: string;
+    resource_type: string;
+    format: string;
+  };
+}
+
 // ── Component ──────────────────────────────────────────────────────────
 export default function MediaUploader({
   onUploadSuccess,
@@ -56,7 +73,7 @@ export default function MediaUploader({
   className = '',
   multiple = false,
 }: MediaUploaderProps) {
-  const widgetRef = useRef<any>(null);
+  const widgetRef = useRef<CloudinaryUploadWidget | null>(null);
 
   const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
   const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
@@ -71,7 +88,7 @@ export default function MediaUploader({
 
     ensureWidgetScript().then(() => {
       if (!isMounted) return;
-      const cld = (window as any).cloudinary;
+      const cld = (window as unknown as { cloudinary: { createUploadWidget: (options: unknown, callback: (error: Error | null, result: CloudinaryResult) => void) => CloudinaryUploadWidget } }).cloudinary;
       if (!cld) {
         console.error('Cloudinary global not found after script load');
         return;
@@ -124,7 +141,7 @@ export default function MediaUploader({
             },
           },
         },
-        (error: any, result: any) => {
+        (error: Error | null, result: CloudinaryResult) => {
           if (error) {
             console.error('Cloudinary Upload Error:', error);
             return;
