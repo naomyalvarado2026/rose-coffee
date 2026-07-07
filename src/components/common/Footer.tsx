@@ -97,7 +97,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="relative bg-gradient-to-b from-[#0a1128] to-[#030612] text-white overflow-hidden mt-auto">
+    <footer className="print:hidden relative bg-gradient-to-b from-[#0a1128] to-[#030612] text-white overflow-hidden mt-auto">
       
       {/* Liquid gold flowing animated line on top of the footer */}
       <div className="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-gold/10 via-gold to-gold/10 bg-[length:200%_auto] animate-gold-flow z-20 shadow-[0_0_15px_rgba(200,146,42,0.3)]" />

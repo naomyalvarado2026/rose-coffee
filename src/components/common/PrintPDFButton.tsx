@@ -40,7 +40,7 @@ export const PrintPDFButton: React.FC<PrintPDFButtonProps> = ({
   };
 
   return (
-    <div className={`fixed bottom-6 right-6 z-50 print:hidden ${className}`}>
+    <div className={`fixed bottom-24 right-6 md:bottom-28 md:right-8 z-50 print:hidden ${className}`}>
       <motion.button
         onClick={handlePrint}
         disabled={isPrinting}

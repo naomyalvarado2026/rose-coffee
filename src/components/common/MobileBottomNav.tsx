@@ -19,7 +19,7 @@ export default function MobileBottomNav() {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-40 bg-white dark:bg-stone-800/85 backdrop-blur-md border-t border-stone-200 dark:border-stone-700/60 shadow-lg px-4 py-2.5 md:hidden flex justify-around items-center">
+    <nav className="print:hidden fixed bottom-0 left-0 right-0 z-40 bg-white dark:bg-stone-800/85 backdrop-blur-md border-t border-stone-200 dark:border-stone-700/60 shadow-lg px-4 py-2.5 md:hidden flex justify-around items-center">
       {NAV_ITEMS.map((item) => {
         const isActive = location.pathname === item.path;
         const Icon = item.icon;

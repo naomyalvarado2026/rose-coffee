@@ -80,7 +80,7 @@ const TopBar = () => {
   const isAuthorized = roleLower === 'admin' || hasPermission('dashboard', 'view');
 
   return (
-    <div className={`transition-all duration-500 ease-in-out ${
+    <div className={`print:hidden transition-all duration-500 ease-in-out ${
       isTransparent 
         ? 'absolute top-0 left-0 right-0 w-full bg-transparent border-transparent text-[#faf2e7] z-[60]' 
         : 'bg-white/70 dark:bg-[#0c0a09]/95 backdrop-blur-lg border-b border-white/20 dark:border-white/5 text-gray-600 dark:text-stone-400 relative z-[60]'

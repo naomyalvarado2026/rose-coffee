@@ -38,7 +38,7 @@ export default function WhatsAppFAB() {
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ delay: 1, duration: 0.5 }}
-      className="fixed bottom-6 right-6 z-40 hidden md:block"
+      className="print:hidden fixed bottom-6 right-6 z-40 hidden md:block"
     >
       <a
         href={whatsappUrl}

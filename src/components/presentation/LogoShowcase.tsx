@@ -1,5 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import logoRose from '../../assets/logo rose coffee/1 rose coffee.svg';
 
 interface LogoShowcaseProps {
   description?: string;
@@ -54,7 +55,7 @@ export const LogoShowcase: React.FC<LogoShowcaseProps> = ({
         >
           <div className="absolute inset-0 opacity-5 bg-[url('/noise.png')] mix-blend-overlay pointer-events-none" />
           <img 
-            src="/logo.svg" 
+            src={logoRose} 
             alt="Rose Coffee Main Logo" 
             className="w-full max-w-md object-contain filter drop-shadow-xl z-10"
           />
