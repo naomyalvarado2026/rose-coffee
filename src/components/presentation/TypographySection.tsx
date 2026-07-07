@@ -9,6 +9,7 @@ export interface TypographySpec {
   specimen: string;
   fontFamilyClass?: string;
   useTypewriter?: boolean;
+  customPhrases?: string[];
 }
 
 const professorPhrases = [
@@ -29,6 +30,14 @@ const professorPhrases = [
   "Bolívar, pilar fundamental en nuestra formación académica."
 ];
 
+const interPhrases = [
+  "Inter garantiza una legibilidad perfecta en cualquier pantalla.",
+  "Diseño limpio y neutro, ideal para interfaces de usuario.",
+  "La mejor opción para una experiencia digital impecable.",
+  "Versatilidad absoluta, desde textos largos hasta microcopias.",
+  "Elegancia, claridad y funcionalidad en cada carácter."
+];
+
 interface TypographySectionProps {
   fonts?: TypographySpec[];
 }
@@ -40,14 +49,17 @@ const defaultFonts: TypographySpec[] = [
     weights: 'Regular',
     specimen: 'El veloz murciélago hindú comía feliz cardillo y kiwi.',
     fontFamilyClass: 'font-sunday',
-    useTypewriter: true
+    useTypewriter: true,
+    customPhrases: professorPhrases
   },
   {
     name: 'Inter',
     category: 'Secundaria (Sans-Serif)',
     weights: 'Regular, Medium, SemiBold, Bold',
     specimen: 'El veloz murciélago hindú comía feliz cardillo y kiwi. La cigüeña tocaba el saxofón detrás del palenque de paja.',
-    fontFamilyClass: 'font-sans'
+    fontFamilyClass: 'font-sans',
+    useTypewriter: true,
+    customPhrases: interPhrases
   }
 ];
 
@@ -77,7 +89,7 @@ export const TypographySection: React.FC<TypographySectionProps> = ({ fonts = de
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="bg-white dark:bg-stone-900 rounded-[32px] border border-stone-200 dark:border-stone-800 p-8 md:p-12 shadow-sm relative overflow-hidden group"
+              className="bg-white dark:bg-stone-900 rounded-[32px] border border-stone-200 dark:border-stone-800 p-8 md:p-12 shadow-sm hover:shadow-xl relative overflow-hidden group transition-shadow duration-500"
             >
               {/* Background decorative letter */}
               <div className="absolute -right-12 -top-24 text-[300px] font-black text-stone-50 dark:text-stone-800/30 select-none pointer-events-none group-hover:scale-110 transition-transform duration-700">
@@ -117,9 +129,9 @@ export const TypographySection: React.FC<TypographySectionProps> = ({ fonts = de
                       <p className="text-xs text-stone-400 font-bold uppercase tracking-wider mb-4 font-sans">
                         Muestra de Texto
                       </p>
-                      <p className="text-2xl md:text-4xl font-bold text-primary dark:text-stone-100 leading-tight min-h-[120px]">
+                      <p className={`text-2xl md:text-4xl text-primary dark:text-stone-100 leading-tight min-h-[120px] ${font.fontFamilyClass === 'font-sans' ? 'font-semibold md:text-3xl' : 'font-bold'}`}>
                         {font.useTypewriter ? (
-                          <TypewriterEffect phrases={professorPhrases} pauseDuration={2500} />
+                          <TypewriterEffect phrases={font.customPhrases || [font.specimen]} pauseDuration={2500} />
                         ) : (
                           font.specimen
                         )}

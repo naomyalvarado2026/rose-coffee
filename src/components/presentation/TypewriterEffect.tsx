@@ -48,7 +48,9 @@ export const TypewriterEffect: React.FC<TypewriterEffectProps> = ({
       }
     } else {
       if (currentText.length === fullText.length) {
-        setIsPaused(true);
+        timeoutId = setTimeout(() => {
+          setIsPaused(true);
+        }, 0);
       } else {
         timeoutId = setTimeout(() => {
           setCurrentText(fullText.substring(0, currentText.length + 1));
