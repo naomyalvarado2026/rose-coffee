@@ -244,7 +244,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
       // 2. Listen for future auth changes (sign-in, sign-out, token refresh)
       const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-        console.log('[Auth Event]', event, session?.user?.email);
+        // console.log('[Auth Event]', event, session?.user?.email);
 
         const currentUser = get().user;
 

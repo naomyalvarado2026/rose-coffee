@@ -32,7 +32,7 @@ export const CoverSlide: React.FC<CoverSlideProps> = ({ title, subtitle, author,
     <section 
       ref={containerRef}
       onMouseMove={handleMouseMove}
-      className="relative min-h-screen flex items-center justify-center text-white overflow-hidden pt-32 pb-16 md:py-24 w-full bg-primary"
+      className="cover-slide-print relative min-h-screen flex items-center justify-center text-white overflow-hidden pt-32 pb-16 md:py-24 w-full bg-primary"
     >
       {/* Interactive Glow */}
       <div 

@@ -502,7 +502,7 @@
   .text-stone-900 { color: #1c1917 !important; }
 
   /* ---- 5. Cover slide: full first page ---- */
-  section:first-of-type {
+  .cover-slide-print {
     min-height: 100vh !important;
     page-break-after: always !important;
     break-after: page !important;

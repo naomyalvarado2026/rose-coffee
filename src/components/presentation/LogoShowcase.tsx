@@ -53,7 +53,7 @@ export const LogoShowcase: React.FC<LogoShowcaseProps> = ({
           viewport={{ once: true }}
           className="bg-primary dark:bg-stone-950 rounded-[40px] border border-primary/20 dark:border-stone-800 p-12 md:p-24 flex items-center justify-center mb-16 shadow-inner relative overflow-hidden"
         >
-          <div className="absolute inset-0 opacity-10 bg-[url('/noise.png')] mix-blend-overlay pointer-events-none" />
+          <div className="absolute inset-0 opacity-10 mix-blend-overlay pointer-events-none" />
           <img 
             src={logoRose} 
             alt="Rose Coffee Main Logo" 
