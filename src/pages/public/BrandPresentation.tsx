@@ -267,7 +267,7 @@ const BrandPresentation = () => {
       </div>
 
       {/* Botón Inteligente de Exportación PDF */}
-      <PrintPDFButton title="Presentación Oficial de Marca - Rose Coffee" />
+      <PrintPDFButton />
     </div>
   );
 };

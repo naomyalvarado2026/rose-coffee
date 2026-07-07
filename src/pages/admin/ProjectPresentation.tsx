@@ -1053,7 +1053,7 @@ export default function ProjectPresentation() {
       </section>
 
       {/* Botón Inteligente de Exportación PDF */}
-      <PrintPDFButton title="Presentación Arquitectónica del Proyecto - Rose Coffee" />
+      <PrintPDFButton />
     </div>
   );
 }
