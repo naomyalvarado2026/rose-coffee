@@ -131,6 +131,7 @@ export default function SettingsManager() {
           id: 'business_settings',
           page: 'settings',
           section: 'general',
+          name: 'Configuración General',
           title: 'Configuración General',
           subtitle: 'Parámetros y Redes',
           content_blocks: [{
