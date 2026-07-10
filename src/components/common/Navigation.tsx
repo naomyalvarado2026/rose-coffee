@@ -1,10 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, ShoppingCart } from 'lucide-react';
+import { ShoppingCart } from 'lucide-react';
 import { useCartStore } from '../../store/useCartStore';
-import { motion, AnimatePresence } from 'framer-motion';
-import logoRose from '../../assets/logo rose coffee/2 rose coffee.svg';
-import { slideInRight, staggerContainer, fadeInUp } from '../../utils/animations';
+
 
 import ThemeToggle from './ThemeToggle';
 
