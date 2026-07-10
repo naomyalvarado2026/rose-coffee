@@ -47,7 +47,7 @@ const DPadButton = ({
   if (!active) return <div className="w-14 h-14" />; // empty space
   return (
     <button 
-      className="bg-white/10 w-14 h-14 rounded-full flex items-center justify-center active:bg-white/30 touch-none select-none transition-colors shadow-lg border border-white/5"
+      className="bg-white/10 w-14 h-14 rounded-full flex items-center justify-center active:bg-white/30 touch-none select-none pointer-events-auto transition-colors shadow-lg border border-white/5"
       onPointerDown={(e) => { e.preventDefault(); onAction(true); }}
       onPointerUp={(e) => { e.preventDefault(); onAction(false); }}
       onPointerLeave={(e) => { e.preventDefault(); onAction(false); }}
@@ -64,7 +64,7 @@ const ActionButton = ({ config }: { config: NonNullable<MobileGameControllerProp
   
   return (
     <button 
-      className={`${colorClass} w-16 h-16 rounded-full flex items-center justify-center touch-none select-none border-2 transition-transform active:scale-95`}
+      className={`${colorClass} w-16 h-16 rounded-full flex items-center justify-center touch-none select-none pointer-events-auto border-2 transition-transform active:scale-95`}
       onPointerDown={(e) => { e.preventDefault(); config.onPress(true); }}
       onPointerUp={(e) => { e.preventDefault(); config.onPress(false); }}
       onPointerLeave={(e) => { e.preventDefault(); config.onPress(false); }}

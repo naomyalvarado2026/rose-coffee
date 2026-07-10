@@ -526,7 +526,7 @@ const GatitoRunner: React.FC = () => {
           {/* Mobile Controls Overlay */}
           {isPlaying && !isGameOver && (
             <MobileGameController 
-              className="absolute bottom-4 left-0 w-full flex justify-between px-6 sm:hidden z-50 pointer-events-none [&_button]:pointer-events-auto"
+              className="absolute bottom-4 left-0 w-full flex justify-between px-6 lg:hidden z-50 pointer-events-none [&_button]:pointer-events-auto"
               dPadConfig={{ up: false, down: true, left: false, right: false }}
               onDown={(active) => { if (engineRef.current) engineRef.current.crouch(active) }}
               actionA={{

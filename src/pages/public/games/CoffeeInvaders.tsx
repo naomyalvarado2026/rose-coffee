@@ -358,7 +358,7 @@ export default function CoffeeInvaders() {
           </AnimatePresence>
           {gameState.isPlaying && !gameState.isGameOver && (
             <MobileGameController
-              className="absolute bottom-4 left-0 w-full flex justify-between px-6 sm:hidden z-50 pointer-events-none [&_button]:pointer-events-auto"
+              className="absolute bottom-4 left-0 w-full flex justify-between px-6 lg:hidden z-50 pointer-events-none [&_button]:pointer-events-auto"
               dPadConfig={{ up: false, down: false, left: true, right: true }}
               onDirX={handleDir}
               actionA={{
