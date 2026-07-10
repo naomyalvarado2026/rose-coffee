@@ -10,7 +10,7 @@ import CartDrawer from '../components/store/CartDrawer';
 
 const PublicLayout = () => {
   return (
-    <div className="min-h-screen w-full overflow-x-hidden flex flex-col bg-brand-base dark:bg-stone-900 text-gray-800 dark:text-stone-100 transition-colors duration-300 font-sans pb-16 md:pb-0">
+    <div className="min-h-screen w-full overflow-x-hidden flex flex-col bg-brand-base dark:bg-stone-900 text-gray-800 dark:text-stone-100 transition-colors duration-300 font-sans">
       <Preloader />
       <TopBar />
       <Navigation />
