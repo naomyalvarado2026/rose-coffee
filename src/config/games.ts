@@ -70,5 +70,29 @@ export const GAMES = [
     path: '/juegos/coffee-invaders',
     image: `${import.meta.env.BASE_URL}games-covers/invaders-cover.png`,
     tags: ['Arcade', 'Shooter', 'Retro']
+  },
+  {
+    id: 'evolution-2048',
+    title: 'Evolución 2048',
+    description: 'Combina granos y bebidas de café hasta alcanzar la perfección del 2048.',
+    path: '/juegos/evolution-2048',
+    image: 'https://images.unsplash.com/photo-1559525839-b184a4d698c7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    tags: ['Puzzle', 'Mental', 'Casual']
+  },
+  {
+    id: 'memory-cafe',
+    title: 'Memory Café',
+    description: 'Encuentra las parejas de bebidas de café y entrena tu memoria visual.',
+    path: '/juegos/memory-cafe',
+    image: 'https://images.unsplash.com/photo-1511920170033-f8396924c348?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    tags: ['Memoria', 'Mental', 'Casual']
+  },
+  {
+    id: 'catch-ingredients',
+    title: 'Atrapa Ingredientes',
+    description: 'Atrapa los ingredientes correctos que caen para preparar un café delicioso.',
+    path: '/juegos/atrapa-ingredientes',
+    image: `${import.meta.env.BASE_URL}games-covers/catch-cover.png`,
+    tags: ['Arcade', 'Reflejos', 'Infantil']
   }
 ];
