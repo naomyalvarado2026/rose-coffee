@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Settings, Save, Shield, Phone, CreditCard, Loader2, MapPin } from 'lucide-react';
+import { Settings, Save, Shield, Phone, CreditCard, Loader2, MapPin, Gamepad2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import AdminHeader from '../../components/admin/AdminHeader';
 import { toast } from 'sonner';
 import { supabase } from '../../config/supabase';
-
+import { GAMES } from '../../config/games';
 export default function SettingsManager() {
   const [phone, setPhone] = useState('+593980372113');
   const [address, setAddress] = useState('E25 y Av. 17 de Septiembre, Milagro, Ecuador.');
@@ -24,6 +24,8 @@ export default function SettingsManager() {
     Sábado: { open: true, start: '08:00', end: '20:00' },
     Domingo: { open: false, start: '09:00', end: '18:00' }
   });
+
+  const [gamesVisibility, setGamesVisibility] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     const fetchSettings = async () => {
@@ -92,6 +94,9 @@ export default function SettingsManager() {
             setDailyHours(cfg.daily_hours);
             localStorage.setItem('rose_coffee_business_hours', JSON.stringify(cfg.daily_hours));
           }
+          if (cfg.games_visibility) {
+            setGamesVisibility(cfg.games_visibility);
+          }
         }
       } catch (err) {
         console.error('Error fetching settings from database:', err);
@@ -134,7 +139,8 @@ export default function SettingsManager() {
             instagram_url: instagramUrl,
             tiktok_url: tiktokUrl,
             whatsapp_orders: whatsappOrders,
-            daily_hours: dailyHours
+            daily_hours: dailyHours,
+            games_visibility: gamesVisibility
           }],
           updated_at: new Date().toISOString()
         });
@@ -343,6 +349,39 @@ export default function SettingsManager() {
               {loading ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}
               {loading ? 'Guardando...' : 'Guardar Configuración'}
             </button>
+          </div>
+        </div>
+
+        {/* Visibilidad de Juegos */}
+        <div className="lg:col-span-2 bg-white dark:bg-stone-800 border border-coffee/10 rounded-3xl p-6 md:p-8 shadow-2xs space-y-6">
+          <div className="space-y-1 border-b border-stone-100 dark:border-stone-700 pb-3">
+            <h3 className="text-sm font-extrabold text-stone-900 dark:text-stone-200 flex items-center gap-1.5">
+              <Gamepad2 size={16} className="text-gold" />
+              Visibilidad de Mini Juegos
+            </h3>
+            <p className="text-[10px] text-stone-400 font-medium">Oculta o muestra juegos específicos en la página pública de juegos.</p>
+          </div>
+          <div className="space-y-4">
+            {GAMES.map((game) => {
+              const isVisible = gamesVisibility[game.id] !== false; // defaults to true
+              return (
+                <div key={game.id} className="flex items-center justify-between p-3.5 bg-stone-50 border border-stone-150 dark:border-stone-700 rounded-2xl">
+                  <div className="space-y-0.5 text-left flex items-center gap-3">
+                    <img src={game.image} alt={game.title} className="w-10 h-10 object-cover rounded-lg" />
+                    <div>
+                      <span className="text-xs font-bold text-stone-800 dark:text-stone-200 block">{game.title}</span>
+                      <span className="text-[10px] text-stone-400 font-medium">{game.tags.join(', ')}</span>
+                    </div>
+                  </div>
+                  <button 
+                    onClick={() => setGamesVisibility(prev => ({ ...prev, [game.id]: !isVisible }))}
+                    className={`w-11 h-6 rounded-full relative transition-colors duration-200 cursor-pointer ${isVisible ? 'bg-coffee' : 'bg-stone-300'}`}
+                  >
+                    <div className={`w-4 h-4 bg-white rounded-full absolute top-1 transition-all duration-200 ${isVisible ? 'left-6' : 'left-1'}`} />
+                  </button>
+                </div>
+              );
+            })}
           </div>
         </div>
 

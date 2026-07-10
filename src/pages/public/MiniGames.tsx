@@ -2,85 +2,43 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Play, Star, Trophy, Gamepad2 } from 'lucide-react';
-import OptimizedMedia from '../../components/common/OptimizedMedia';
-
-const GAMES = [
-  {
-    id: 'coffee-clicker',
-    title: 'Coffee Clicker',
-    description: 'Haz clic para ganar granos de café y comprar mejoras para tu cafetería.',
-    path: '/juegos/coffee-clicker',
-    image: '/games-covers/clicker-cover.png',
-    tags: ['Idle', 'Clicker', 'Casual']
-  },
-  {
-    id: 'gatito-runner',
-    title: 'Gatito Runner',
-    description: 'Salta y esquiva obstáculos con nuestro lindo gatito en la cafetería.',
-    path: '/juegos/gatito-runner',
-    image: '/games-covers/runner-cover.png',
-    tags: ['Arcade', 'Reflejos', '1 Jugador']
-  },
-  {
-    id: 'wordle',
-    title: 'La Palabra del Día',
-    description: 'Adivina la palabra relacionada con el café en 6 intentos.',
-    path: '/juegos/palabra-del-dia',
-    image: '/games-covers/wordle-cover.png',
-    tags: ['Palabras', 'Mental', 'Casual']
-  },
-  {
-    id: 'flappy-taza',
-    title: 'Flappy Taza',
-    description: 'Vuela con una taza de café esquivando obstáculos.',
-    path: '/juegos/flappy-taza',
-    image: 'https://images.unsplash.com/photo-1498804103079-a6351b050096?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-    tags: ['Arcade', 'Reflejos', 'Retro']
-  },
-  {
-    id: 'fast-barista',
-    title: 'Barista Veloz',
-    description: 'Prepara los pedidos de café combinando ingredientes antes de que acabe el tiempo.',
-    path: '/juegos/barista-veloz',
-    image: '/games-covers/barista-cover.png',
-    tags: ['Acción', 'Tiempo', 'Casual']
-  },
-  {
-    id: 'lucky-wheel',
-    title: 'Ruleta de Granos',
-    description: 'Prueba tu suerte y gana premios increíbles girando la ruleta.',
-    path: '/juegos/ruleta',
-    image: '/games-covers/wheel-cover.png',
-    tags: ['Suerte', 'Apuestas', 'Casual']
-  },
-  {
-    id: 'bricks-breaker',
-    title: 'Coffee Bricks Breaker',
-    description: 'Rebota el grano de café para romper los bloques y atrapar power-ups.',
-    path: '/juegos/bricks-breaker',
-    image: '/games-covers/bricks-cover.png',
-    tags: ['Arcade', 'Retro', 'Físicas']
-  },
-  {
-    id: 'latte-art-puzzle',
-    title: 'Latte Art Puzzle',
-    description: 'Acomoda las piezas, completa líneas horizontales y gana granos de café.',
-    path: '/juegos/latte-art-puzzle',
-    image: '/games-covers/tetris-cover.png',
-    tags: ['Puzzle', 'Mental', 'Casual']
-  },
-  {
-    id: 'coffee-invaders',
-    title: 'Coffee Invaders',
-    description: 'Defiende tu cafetería de las tazas alienígenas en este frenético arcade retro.',
-    path: '/juegos/coffee-invaders',
-    image: '/games-covers/invaders-cover.png',
-    tags: ['Arcade', 'Shooter', 'Retro']
-  }
-];
+import OptimizedMedia from '../../components/common/OptimizedMedia';import { GAMES } from '../../config/games';
+import { supabase } from '../../config/supabase';
 
 
 const MiniGames: React.FC = () => {
+  const [visibleGames, setVisibleGames] = React.useState<typeof GAMES>([]);
+  const [loading, setLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    const fetchVisibility = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('page_contents')
+          .select('*')
+          .eq('id', 'business_settings')
+          .maybeSingle();
+
+        if (!error && data && data.content_blocks && data.content_blocks[0]) {
+          const cfg = data.content_blocks[0];
+          if (cfg.games_visibility) {
+            const visible = GAMES.filter(game => cfg.games_visibility[game.id] !== false);
+            setVisibleGames(visible);
+            return;
+          }
+        }
+        // default: all visible
+        setVisibleGames(GAMES);
+      } catch (err) {
+        console.error('Error fetching game visibility:', err);
+        setVisibleGames(GAMES);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchVisibility();
+  }, []);
+
   return (
     <div className="min-h-screen pt-32 pb-16 px-6 lg:px-24 font-sans text-primary dark:text-stone-100">
       <div className="max-w-7xl mx-auto">
@@ -103,7 +61,11 @@ const MiniGames: React.FC = () => {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {GAMES.map((game, idx) => (
+          {loading ? (
+            <div className="col-span-full flex justify-center py-12">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gold"></div>
+            </div>
+          ) : visibleGames.map((game, idx) => (
             <motion.div
               key={game.id}
               initial={{ opacity: 0, y: 20 }}
