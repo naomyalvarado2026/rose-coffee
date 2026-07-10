@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ShoppingCart } from 'lucide-react';
 import { useCartStore } from '../../store/useCartStore';
-
+import { motion } from 'framer-motion';
+import logoRose from '../../assets/logo rose coffee/2 rose coffee.svg';
 
 import ThemeToggle from './ThemeToggle';
 
