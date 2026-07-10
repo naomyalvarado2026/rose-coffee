@@ -522,7 +522,7 @@ const Home = () => {
 
 
   return (
-    <div className="space-y-16 pb-20 text-left bg-brand-base dark:bg-stone-900 text-black dark:text-stone-100 font-sans relative">
+    <div className="space-y-16 text-left bg-brand-base dark:bg-stone-900 text-black dark:text-stone-100 font-sans relative">
       <SEOHead 
         title="Café de Especialidad & Masa Madre" 
         description="Rose Coffee en Milagro, Ecuador. Granos seleccionados de Loja y Zaruma tostados al instante y panes de masa madre fermentados por 24 horas."

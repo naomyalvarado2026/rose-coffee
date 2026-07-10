@@ -11,7 +11,6 @@ import ThemeToggle from './ThemeToggle';
 const Navigation = () => {
   const totalItems = useCartStore((state) => state.getTotalItems());
   const openDrawer = useCartStore((state) => state.openDrawer);
-  const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [hoveredPath, setHoveredPath] = useState<string | null>(null);
@@ -24,11 +23,6 @@ const Navigation = () => {
     handleScroll();
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const toggleMenu = () => setIsOpen(!isOpen);
-  const closeMenu = () => {
-    setIsOpen(false);
-  };
 
   // Helper to check active paths
   const isPathActive = (path: string) => location.pathname === path;
@@ -59,7 +53,6 @@ const Navigation = () => {
       <div className="max-w-7xl mx-auto px-4 md:px-8 py-4 flex justify-between items-center">
         <Link 
           to="/" 
-          onClick={closeMenu} 
           className="flex items-center gap-2.5 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 rounded-lg p-1"
         >
           <img 
@@ -166,98 +159,7 @@ const Navigation = () => {
           </button>
         </div>
 
-        {/* Hamburguesa Móvil */}
-        <motion.button
-          whileTap={{ scale: 0.9 }}
-          onClick={toggleMenu}
-          className={`md:hidden p-2 focus:outline-none focus:ring-2 rounded-lg transition-all cursor-pointer ${
-            isTransparent 
-              ? 'text-[#faf2e7] hover:bg-white/10 focus:ring-white/20' 
-              : 'text-primary hover:bg-gray-100 focus:ring-primary/10'
-          }`}
-          aria-label="Toggle menu"
-        >
-          <motion.div animate={{ rotate: isOpen ? 90 : 0 }}>
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
-          </motion.div>
-        </motion.button>
       </div>
-
-      {/* Menú Móvil */}
-      <AnimatePresence>
-        {isOpen && (
-          <>
-            {/* Backdrop Blur Overlay */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={closeMenu}
-              className="fixed inset-0 z-40 bg-black/20 backdrop-blur-sm md:hidden"
-            />
-
-            {/* Side Drawer */}
-            <motion.div
-              variants={slideInRight}
-              initial="initial"
-              animate="animate"
-              exit="exit"
-              className="fixed right-0 top-0 bottom-0 w-4/5 max-w-sm z-50 bg-white dark:bg-stone-800/90 backdrop-blur-xl border-l border-white/20 shadow-2xl p-6 flex flex-col justify-between md:hidden overflow-y-auto"
-            >
-              <div>
-                <div className="flex justify-between items-center mb-10">
-                  <span className="font-sans font-bold text-xl text-primary">Menú</span>
-                  <motion.button
-                    whileHover={{ scale: 1.1, rotate: 90 }}
-                    whileTap={{ scale: 0.9 }}
-                    onClick={closeMenu}
-                    className="text-primary p-2 hover:bg-gray-100 rounded-lg transition-colors cursor-pointer"
-                  >
-                    <X size={24} />
-                  </motion.button>
-                </div>
-
-                {/* Enlaces de Menú Móvil */}
-                <motion.ul 
-                  variants={staggerContainer}
-                  initial="initial"
-                  animate="animate"
-                  className="space-y-4 flex flex-col"
-                >
-                  {navLinks.map((link) => (
-                    <motion.li 
-                      key={link.path} 
-                      variants={fadeInUp}
-                      whileHover={{ x: 10, scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <Link
-                        to={link.path}
-                        onClick={closeMenu}
-                        className={`text-lg font-sans font-bold text-primary block hover:text-coffee transition-colors py-3 px-4 rounded-xl ${
-                          isPathActive(link.path) ? 'bg-coffee/10 text-coffee' : 'hover:bg-gray-50'
-                        }`}
-                      >
-                        {link.name}
-                      </Link>
-                    </motion.li>
-                  ))}
-                </motion.ul>
-              </div>
-
-              {/* Pie de menú móvil */}
-              <motion.div 
-                variants={fadeInUp}
-                className="text-center text-xs text-gray-400 mt-auto pt-6 border-t border-gray-200 dark:border-stone-700 flex flex-col items-center gap-2"
-              >
-                <img src={logoRose} alt="Logo" width={31} height={32} className="h-8 w-auto opacity-75" />
-                <p className="font-medium text-slate-500">Rose Coffee</p>
-                <p className="mt-1">© {new Date().getFullYear()} Todos los derechos reservados.</p>
-              </motion.div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
     </motion.nav>
   );
 };
