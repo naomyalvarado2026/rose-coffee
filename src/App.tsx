@@ -1,8 +1,8 @@
-import React, { useEffect, useState, Suspense } from 'react';
+import React, { useEffect, Suspense } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { useAuthStore } from './store/useAuthStore';
 import { Toaster } from 'sonner';
-import { motion, AnimatePresence } from 'framer-motion';
+
 import ScrollToTop from './components/common/ScrollToTop';
 import ConfirmDialog from './components/common/ConfirmDialog';
 import { PageTransition } from './components/animations/MotionWrappers';
@@ -60,53 +60,13 @@ import CustomCursor from './components/common/CustomCursor';
 
 
 function App() {
-  const [isAppLoading, setIsAppLoading] = useState(true);
 
   useEffect(() => {
     useAuthStore.getState().initializeAuth();
-    // Simular carga inicial para mostrar la animación
-    const timer = setTimeout(() => {
-      setIsAppLoading(false);
-    }, 2500);
-    return () => clearTimeout(timer);
   }, []);
 
   return (
     <>
-      <AnimatePresence>
-        {isAppLoading && (
-          <motion.div 
-            initial={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.8, ease: "easeInOut" }}
-            className="fixed inset-0 z-[9999] bg-[#faf2e7] flex flex-col items-center justify-center pointer-events-none"
-          >
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.85 }}
-              animate={{ opacity: 1, scale: [0.97, 1.03, 0.97] }}
-              transition={{
-                opacity: { duration: 0.5, ease: "easeOut" },
-                scale: { repeat: Infinity, duration: 1.4, ease: "easeInOut" }
-              }}
-              className="w-64 h-64 flex items-center justify-center opacity-90 drop-shadow-lg"
-            >
-              <img 
-                src={`${import.meta.env.BASE_URL}logo.svg`}
-                alt="Rose Coffee Logo" 
-                className="w-full h-full object-contain"
-              />
-            </motion.div>
-            <motion.h2 
-              initial={{ opacity: 0, y: 15, filter: "blur(4px)" }}
-              animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ delay: 0.8, duration: 1 }}
-              className="mt-6 font-sans text-3xl text-coffee dark:text-gold font-extrabold tracking-[0.2em] uppercase"
-            >
-              Rose Coffee
-            </motion.h2>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       <CustomCursor />
       <Toaster richColors position="top-right" />
