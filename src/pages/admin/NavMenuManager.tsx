@@ -11,9 +11,10 @@ export default function NavMenuManager() {
   const [items, setItems] = useState<NavItem[]>([]);
   const [saving, setSaving] = useState(false);
 
+  // Set initial items when loaded
   useEffect(() => {
-    if (navItems.length > 0) {
-      // Sort by order initially
+    if (navItems.length > 0 && items.length === 0) {
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       setItems([...navItems].sort((a, b) => a.order - b.order));
     }
   }, [navItems]);
@@ -26,7 +27,8 @@ export default function NavMenuManager() {
       await updateNavItems(updated);
       setItems(updated);
       toast.success('Menú guardado exitosamente');
-    } catch (error) {
+    } catch (err) {
+      console.error(err);
       toast.error('Error al guardar el menú');
     } finally {
       setSaving(false);
