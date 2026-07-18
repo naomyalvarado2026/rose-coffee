@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { useAuthStore } from '../../store/useAuthStore';
 import { supabase } from '../../config/supabase';
 import { 
@@ -56,8 +56,8 @@ export default function DashboardHome() {
     topProduct: 'Ninguno'
   });
 
-  const [rawOrders, setRawOrders] = useState<Record<string, any>[]>([]);
-  const [rawProducts, setRawProducts] = useState<Record<string, any>[]>([]);
+  const [rawOrders, setRawOrders] = useState<Record<string, unknown>[]>([]);
+  const [rawProducts, setRawProducts] = useState<Record<string, unknown>[]>([]);
 
   const computeSalesData = (ordersList: Record<string, any>[], filter: 'today' | 'week' | 'month' | 'year') => {
     const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
@@ -171,7 +171,7 @@ export default function DashboardHome() {
     return [];
   };
 
-  const fetchDashboardData = async () => {
+  const fetchDashboardData = useCallback(async () => {
     setLoading(true);
     try {
       const sevenDaysAgo = new Date();
@@ -264,122 +264,16 @@ export default function DashboardHome() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
 
-  const computeSalesData = (ordersList: any[], filter: 'today' | 'week' | 'month' | 'year') => {
-    const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
-    const weekdays = ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'];
-    const paidOrders = ordersList.filter(o => o.status === 'paid' || o.status === 'completed');
+  useEffect(() => {
+    fetchDashboardData();
+  }, [fetchDashboardData]);
 
-    if (filter === 'today') {
-      const hourlySales: Record<string, { Ventas: number; Pedidos: number }> = {};
-      const hours = ['08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00'];
-      hours.forEach(h => { hourlySales[h] = { Ventas: 0, Pedidos: 0 }; });
+  type TimelineEvent = { id: string; type: string; title: string; description: string; time: string; timestamp: number };
 
-      const todayStr = new Date().toDateString();
-      paidOrders.filter(o => new Date(o.created_at).toDateString() === todayStr).forEach(o => {
-        const date = new Date(o.created_at);
-        const hour = date.getHours();
-        let slot = '20:00';
-        if (hour < 10) slot = '08:00';
-        else if (hour < 12) slot = '10:00';
-        else if (hour < 14) slot = '12:00';
-        else if (hour < 16) slot = '14:00';
-        else if (hour < 18) slot = '16:00';
-        else if (hour < 20) slot = '18:00';
-        
-        hourlySales[slot].Ventas += o.total || 0;
-        hourlySales[slot].Pedidos += 1;
-      });
-
-      return Object.entries(hourlySales).map(([name, data]) => ({
-        name,
-        Ventas: Number(data.Ventas.toFixed(2)),
-        Pedidos: data.Pedidos
-      }));
-    }
-
-    if (filter === 'week') {
-      const weeklySales: Record<string, { Ventas: number; Pedidos: number }> = {};
-      const today = new Date();
-      for (let i = 6; i >= 0; i--) {
-        const d = new Date(today.getFullYear(), today.getMonth(), today.getDate() - i);
-        weeklySales[weekdays[d.getDay()]] = { Ventas: 0, Pedidos: 0 };
-      }
-
-      paidOrders.forEach(o => {
-        const date = new Date(o.created_at);
-        const dayName = weekdays[date.getDay()];
-        if (weeklySales[dayName] !== undefined) {
-          const diffTime = Math.abs(today.getTime() - date.getTime());
-          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-          if (diffDays <= 7) {
-            weeklySales[dayName].Ventas += o.total || 0;
-            weeklySales[dayName].Pedidos += 1;
-          }
-        }
-      });
-
-      return Object.entries(weeklySales).map(([name, data]) => ({
-        name,
-        Ventas: Number(data.Ventas.toFixed(2)),
-        Pedidos: data.Pedidos
-      }));
-    }
-
-    if (filter === 'month') {
-      const monthlySales: Record<string, { Ventas: number; Pedidos: number }> = {};
-      const today = new Date();
-      for (let i = 5; i >= 0; i--) {
-        const d = new Date(today.getFullYear(), today.getMonth() - i, 1);
-        monthlySales[months[d.getMonth()]] = { Ventas: 0, Pedidos: 0 };
-      }
-
-      paidOrders.forEach(o => {
-        const date = new Date(o.created_at);
-        const mName = months[date.getMonth()];
-        if (monthlySales[mName] !== undefined) {
-          monthlySales[mName].Ventas += o.total || 0;
-          monthlySales[mName].Pedidos += 1;
-        }
-      });
-
-      return Object.entries(monthlySales).map(([name, data]) => ({
-        name,
-        Ventas: Number(data.Ventas.toFixed(2)),
-        Pedidos: data.Pedidos
-      }));
-    }
-
-    if (filter === 'year') {
-      const annualSales: Record<string, { Ventas: number; Pedidos: number }> = {};
-      const today = new Date();
-      for (let i = 11; i >= 0; i--) {
-        const d = new Date(today.getFullYear(), today.getMonth() - i, 1);
-        annualSales[months[d.getMonth()]] = { Ventas: 0, Pedidos: 0 };
-      }
-
-      paidOrders.forEach(o => {
-        const date = new Date(o.created_at);
-        const mName = months[date.getMonth()];
-        if (annualSales[mName] !== undefined) {
-          annualSales[mName].Ventas += o.total || 0;
-          annualSales[mName].Pedidos += 1;
-        }
-      });
-
-      return Object.entries(annualSales).map(([name, data]) => ({
-        name,
-        Ventas: Number(data.Ventas.toFixed(2)),
-        Pedidos: data.Pedidos
-      }));
-    }
-
-    return [];
-  };
-
-  const getTimelineEvents = (ordersList: Record<string, any>[], productsList: Record<string, any>[], now: number) => {
-    const events: any[] = [];
+  const getTimelineEvents = (ordersList: Record<string, unknown>[], productsList: Record<string, unknown>[], now: number): TimelineEvent[] => {
+    const events: TimelineEvent[] = [];
     const sortedOrders = [...ordersList].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
     
     sortedOrders.slice(0, 4).forEach(o => {

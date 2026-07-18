@@ -14,7 +14,8 @@ import {
   BookOpen,
   Menu,
   Shield,
-  Box
+  Box,
+  Paintbrush
 } from 'lucide-react';
 
 export interface AdminModule {
@@ -137,6 +138,13 @@ export const ADMIN_MODULES: AdminModule[] = [
     name: 'Configuración',
     path: '/admin/configuracion',
     icon: Settings
+  },
+  {
+    id: 'settings',
+    label: 'Gestor de Colores',
+    name: 'Colores & Tema',
+    path: '/admin/colores',
+    icon: Paintbrush
   }
 ];
 

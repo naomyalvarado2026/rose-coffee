@@ -53,11 +53,13 @@ const MarketingManager = React.lazy(() => import('./pages/admin/MarketingManager
 const ProductionManager = React.lazy(() => import('./pages/admin/ProductionManager'));
 const AnalyticsManager = React.lazy(() => import('./pages/admin/AnalyticsManager'));
 const SettingsManager = React.lazy(() => import('./pages/admin/SettingsManager'));
+const ColorManager = React.lazy(() => import('./pages/admin/ColorManager'));
 import ProtectedRoute from './components/common/ProtectedRoute';
 const ProjectPresentation = React.lazy(() => import('./pages/admin/ProjectPresentation'));
 const BrandPresentation = React.lazy(() => import('./pages/public/BrandPresentation'));
 const BrandPresentationEditor = React.lazy(() => import('./pages/admin/BrandPresentationEditor'));
 import CustomCursor from './components/common/CustomCursor';
+import { useThemeColors } from './hooks/useThemeColors';
 
 
 function App() {
@@ -65,6 +67,9 @@ function App() {
   useEffect(() => {
     useAuthStore.getState().initializeAuth();
   }, []);
+
+  // Apply custom theme colors from Supabase on startup
+  useThemeColors();
 
   return (
     <>
@@ -179,6 +184,7 @@ function App() {
           <Route element={<ProtectedRoute module="settings" />}>
             <Route element={<AdminLayout />}>
               <Route path="/admin/configuracion" element={<PageTransition><SettingsManager /></PageTransition>} />
+              <Route path="/admin/colores" element={<PageTransition><ColorManager /></PageTransition>} />
             </Route>
           </Route>
         </Routes>
