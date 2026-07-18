@@ -42,6 +42,7 @@ const StoreManager = React.lazy(() => import('./pages/admin/StoreManager'));
 const LogosManager = React.lazy(() => import('./pages/admin/LogosManager'));
 const UsersManager = React.lazy(() => import('./pages/admin/UsersManager'));
 const PageEditor = React.lazy(() => import('./pages/admin/PageEditor'));
+const NavMenuManager = React.lazy(() => import('./pages/admin/NavMenuManager'));
 const BlogManager = React.lazy(() => import('./pages/admin/BlogManager'));
 const AdminARManager = React.lazy(() => import('./pages/admin/AdminARManager'));
 const ARShowroomManager = React.lazy(() => import('./pages/admin/ARShowroomManager'));
@@ -128,6 +129,7 @@ function App() {
           <Route element={<ProtectedRoute module="pages" />}>
             <Route element={<AdminLayout />}>
               <Route path="/admin/paginas" element={<PageTransition><PageEditor /></PageTransition>} />
+              <Route path="/admin/navegacion" element={<PageTransition><NavMenuManager /></PageTransition>} />
               <Route path="/admin/marketing" element={<PageTransition><MarketingManager /></PageTransition>} />
               <Route path="/admin/blogs" element={<PageTransition><BlogManager /></PageTransition>} />
             </Route>

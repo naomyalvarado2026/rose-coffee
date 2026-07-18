@@ -14,7 +14,8 @@ export interface GatitoConfig {
 }
 
 export const GATITO_SKINS: GatitoConfig[] = [
-  { id: 'street', name: 'Gato Callejero', desc: 'Con mandil negro', price: 0, color: '#f97316', apronColor: '#1c1917', jumpCount: 1, hasShield: false, magnetDuration: 600 },
+  { id: 'blue_default', name: 'Gato Barista', desc: 'El barista estrella con mandil azul', price: 0, color: '#3B82F6', apronColor: '#1E3A8A', jumpCount: 1, hasShield: false, magnetDuration: 600 },
+  { id: 'street', name: 'Gato Callejero', desc: 'Con mandil negro', price: 1500, color: '#f97316', apronColor: '#1c1917', jumpCount: 1, hasShield: false, magnetDuration: 600 },
   { id: 'ninja', name: 'Gato Ninja', desc: 'Doble salto + mandil rojo', price: 3000, color: '#1e293b', apronColor: '#b91c1c', jumpCount: 2, hasShield: false, magnetDuration: 600 },
   { id: 'magnet', name: 'Gato Imán', desc: 'Imán x2 + mandil azul', price: 8000, color: '#fcd34d', apronColor: '#1d4ed8', jumpCount: 1, hasShield: false, magnetDuration: 1200 },
   { id: 'tank', name: 'Gato Tanque', desc: 'Escudo inicial + mandil dorado', price: 15000, color: '#475569', apronColor: '#eab308', jumpCount: 1, hasShield: true, magnetDuration: 600 },
@@ -53,6 +54,8 @@ export interface Player {
   shieldActive: boolean;
   magnetActiveFrames: number;
   ammo: number;
+  dashFrames: number;
+  spillSlowFrames: number;
 }
 
 export interface Obstacle {
@@ -65,6 +68,8 @@ export interface Obstacle {
   vy?: number;
   hitHp?: number; // Some enemies can take hits
   hurtFrames?: number;
+  baseY?: number;
+  offsetY?: number;
 }
 
 export interface Projectile {
@@ -143,6 +148,8 @@ export class GatitoEngine {
       shieldActive: config.hasShield,
       magnetActiveFrames: 0,
       ammo: 3, // start with 3 espresso shots
+      dashFrames: 0,
+      spillSlowFrames: 0,
     };
 
     this.obstacles = [];
@@ -193,6 +200,8 @@ export class GatitoEngine {
     this.player.shieldActive = this.config.hasShield;
     this.player.magnetActiveFrames = 0;
     this.player.ammo = 3;
+    this.player.dashFrames = 0;
+    this.player.spillSlowFrames = 0;
   }
 
   public jump() {
@@ -220,6 +229,14 @@ export class GatitoEngine {
     this.player.isCrouching = isCrouching;
   }
 
+  public dash() {
+    if (!this.state.isPlaying || this.state.isGameOver) return;
+    if (this.player.dashFrames <= 0) {
+       this.player.dashFrames = 20; // 20 frames dash
+       this.particles.push(...createParticles(this.player.x, this.player.y + this.player.height / 2, 20, '#38bdf8'));
+    }
+  }
+
   public shoot() {
     if (!this.state.isPlaying || this.state.isGameOver) return;
     if (this.player.ammo > 0) {
@@ -238,7 +255,7 @@ export class GatitoEngine {
     if (increase) {
       if (this.state.sugarRushFrames <= 0) {
         this.state.combo++;
-        if (this.state.combo >= 10) {
+        if (this.state.combo >= 8) {
           // Trigger Sugar Rush
           this.state.sugarRushFrames = 480; // 8 seconds at 60fps
           this.state.combo = 0; // reset
@@ -278,13 +295,30 @@ export class GatitoEngine {
     }
 
     const currentMultiplier = isSugarRush ? 2 : (1 + Math.floor(this.state.combo / 2));
-    this.state.speed = (this.BASE_SPEED + Math.floor(this.state.frames / 1000)) * (isSugarRush ? 1.5 : 1);
+    
+    // Slow effect
+    if (this.player.spillSlowFrames > 0) {
+      this.player.spillSlowFrames--;
+    }
+    const isSlowed = this.player.spillSlowFrames > 0;
+    
+    // Speed calc
+    let targetSpeed = (this.BASE_SPEED + Math.floor(this.state.frames / 500)) * (isSugarRush ? 1.5 : 1);
+    if (isSlowed) targetSpeed *= 0.5;
+    if (this.player.dashFrames > 0) targetSpeed *= 2.5;
+
+    this.state.speed = targetSpeed;
     
     // Level up every 10000 points
     this.state.level = 1 + Math.floor(this.state.score / 10000);
 
     // Player Physics
-    this.player.vy += this.GRAVITY;
+    if (this.player.dashFrames > 0) {
+       this.player.dashFrames--;
+       this.player.vy = 0; // stop gravity
+    } else {
+       this.player.vy += this.GRAVITY;
+    }
     this.player.y += this.player.vy;
 
     const currentHeight = this.player.isCrouching ? this.player.height * 0.6 : this.player.height;
@@ -452,8 +486,8 @@ export class GatitoEngine {
 
     // Obstacles update
     this.obstacles.forEach((obs) => {
-      // Sugar rush destroys obstacles near player
-      if (isSugarRush && Math.abs(this.player.x - obs.x) < 300) {
+      // Sugar rush or dash destroys obstacles near player
+      if ((isSugarRush || this.player.dashFrames > 0) && Math.abs(this.player.x - obs.x) < 300 && obs.type !== 'spill') {
         obs.passed = true;
         this.particles.push(...createParticles(obs.x, obs.y, 10, '#cbd5e1'));
         obs.y = 9999; // throw away
@@ -462,6 +496,21 @@ export class GatitoEngine {
 
       if (obs.type === 'boss_projectile') {
         obs.x -= this.state.speed * 1.5;
+      } else if (obs.type === 'bird_1') {
+        obs.x -= this.state.speed * 1.2;
+        if (obs.baseY) {
+           obs.offsetY = Math.sin(this.state.frames * 0.1) * 30;
+           obs.y = obs.baseY + obs.offsetY;
+        }
+      } else if (obs.type === 'bird_2') {
+        obs.x -= this.state.speed * 1.5;
+        obs.y += 1;
+      } else if (obs.type === 'bread') {
+        obs.x -= this.state.speed;
+        if (obs.x > this.player.x + 200 && obs.baseY) {
+           obs.offsetY = Math.sin(this.state.frames * 0.5) * 5; // wobbly
+           obs.y = obs.baseY + obs.offsetY;
+        }
       } else {
         obs.x -= this.state.speed;
       }
@@ -479,14 +528,18 @@ export class GatitoEngine {
           this.player.y + hitboxPadding < obs.y + obs.height - hitboxPadding &&
           this.player.y + currentHeight - hitboxPadding > obs.y + hitboxPadding
         ) {
-          if (this.player.shieldActive) {
+          if (obs.type === 'spill') {
+             this.player.spillSlowFrames = 90; // 1.5 seconds slow
+             obs.passed = true;
+             this.particles.push(...createParticles(this.player.x, this.player.y + currentHeight, 20, '#4a3018'));
+          } else if (this.player.shieldActive) {
              this.player.shieldActive = false;
              this.player.isHurt = true;
-             this.player.hurtFrames = 60;
+             this.player.hurtFrames = 180;
              this.particles.push(...createParticles(this.player.x, this.player.y, 30, '#60a5fa'));
           } else {
             this.player.isHurt = true;
-            this.player.hurtFrames = 60;
+            this.player.hurtFrames = 180;
             this.state.lives--;
             this.handleCombo(false);
             this.particles.push(...createParticles(this.player.x + this.player.width / 2, this.player.y + currentHeight / 2, 20, '#ff4444'));
@@ -528,15 +581,29 @@ export class GatitoEngine {
            });
         } else if (r < 0.5) {
           // Spawn coin
-          this.items.push({
-            x: this.state.canvasWidth,
-            y: this.state.groundY - 40 - Math.random() * 80,
-            width: 30, height: 30,
-            type: 'coin', collected: false
-          });
+          const yPos = this.state.groundY - 40 - Math.random() * 80;
+          const arcPattern = Math.random() > 0.5;
+          if (arcPattern) {
+             for(let i=0; i<3; i++) {
+                this.items.push({
+                   x: this.state.canvasWidth + (i * 40),
+                   y: yPos - Math.sin((i/2) * Math.PI) * 40,
+                   width: 30, height: 30,
+                   type: 'coin', collected: false
+                });
+             }
+          } else {
+             this.items.push({
+               x: this.state.canvasWidth,
+               y: yPos,
+               width: 30, height: 30,
+               type: 'coin', collected: false
+             });
+          }
         } else {
           // Spawn obstacle
           const types: Obstacle['type'][] = ['bread', 'croissant', 'donut', 'spill', 'bird_1'];
+          if (this.state.level >= 3) types.push('bird_2');
           const type = types[Math.floor(Math.random() * types.length)];
           
           if (type === 'spill') {
@@ -544,10 +611,11 @@ export class GatitoEngine {
               x: this.state.canvasWidth, y: this.state.groundY - 15,
               width: 50, height: 15, type: 'spill', passed: false
              });
-          } else if (type === 'bird_1') {
+          } else if (type === 'bird_1' || type === 'bird_2') {
+             const by = this.state.groundY - 80 - Math.random() * 40;
              this.obstacles.push({
-              x: this.state.canvasWidth, y: this.state.groundY - 80 - Math.random() * 40,
-              width: 40, height: 30, type: 'bird_1', passed: false, hitHp: 1
+              x: this.state.canvasWidth, y: by,
+              width: 40, height: 30, type: type, passed: false, hitHp: 1, baseY: by
             });
           } else if (type === 'donut') {
              this.obstacles.push({
@@ -555,9 +623,10 @@ export class GatitoEngine {
               width: 40, height: 40, type: 'donut', passed: false, hitHp: 2
              });
           } else {
+            const by = this.state.groundY - 35;
             this.obstacles.push({
-              x: this.state.canvasWidth, y: this.state.groundY - 35,
-              width: 40, height: 35, type, passed: false, hitHp: 1
+              x: this.state.canvasWidth, y: by,
+              width: 40, height: 35, type, passed: false, hitHp: 1, baseY: by
             });
           }
         }

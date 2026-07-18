@@ -6,8 +6,10 @@ import { motion } from 'framer-motion';
 import logoRose from '../../assets/logo rose coffee/2 rose coffee.svg';
 
 import ThemeToggle from './ThemeToggle';
+import { useNavConfig } from '../../hooks/useNavConfig';
 
 const Navigation = () => {
+  const { navItems } = useNavConfig();
   const totalItems = useCartStore((state) => state.getTotalItems());
   const openDrawer = useCartStore((state) => state.openDrawer);
   const location = useLocation();
@@ -29,15 +31,9 @@ const Navigation = () => {
   const isHome = location.pathname === '/';
   const isTransparent = isHome && !isScrolled;
 
-  const navLinks = [
-    { name: 'Inicio', path: '/' },
-    { name: 'Tienda', path: '/tienda' },
-    { name: 'Nosotros', path: '/nosotros' },
-    { name: 'Blog', path: '/blog' },
-    { name: 'AR 3D', path: '/ar' },
-    { name: 'Juegos', path: '/juegos' },
-    { name: 'Contacto', path: '/contacto' },
-  ];
+  const visibleNavLinks = navItems
+    .filter(item => item.isVisible)
+    .sort((a, b) => a.order - b.order);
 
   return (
     <motion.nav 
@@ -77,7 +73,7 @@ const Navigation = () => {
           <ul className={`flex items-center transition-colors duration-500 ${
             isTransparent ? 'text-[#faf2e7]' : 'text-primary'
           }`}>
-            {navLinks.filter(l => l.name !== 'Tienda').map((link) => (
+            {visibleNavLinks.filter(l => l.path !== '/tienda').map((link) => (
               <li 
                 key={link.path}
                 className="relative px-3 py-2"
@@ -112,7 +108,7 @@ const Navigation = () => {
                       : (isPathActive(link.path) ? 'text-coffee font-bold' : 'hover:text-coffee')
                   }`}
                 >
-                  {link.name}
+                  {link.label}
                 </Link>
               </li>
             ))}

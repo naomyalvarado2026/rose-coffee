@@ -11,7 +11,8 @@ import {
   LineChart,
   Settings,
   Palette,
-  BookOpen
+  BookOpen,
+  Menu
 } from 'lucide-react';
 
 export interface AdminModule {
@@ -85,6 +86,13 @@ export const ADMIN_MODULES: AdminModule[] = [
     name: 'Blogs',
     path: '/admin/blogs',
     icon: BookOpen
+  },
+  {
+    id: 'pages',
+    label: 'Gestor de Menú',
+    name: 'Menú Web',
+    path: '/admin/navegacion',
+    icon: Menu
   },
   {
     id: 'ar_manager',

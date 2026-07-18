@@ -342,28 +342,6 @@ const Home = () => {
                 ));
               })()}
             </StaggerContainer>
-
-            <SlideUp className="relative w-full max-w-4xl mx-auto h-[400px] mt-16 rounded-3xl overflow-hidden bg-stone-100 dark:bg-stone-900/50 border border-stone-200 dark:border-stone-800 shadow-xl">
-              <div className="absolute inset-0 flex items-center justify-center cursor-grab active:cursor-grabbing">
-                <model-viewer
-                  src={`${import.meta.env.BASE_URL}coffee_bean.glb`}
-                  auto-rotate
-                  camera-controls
-                  rotation-per-second="10deg"
-                  shadow-intensity="1.5"
-                  exposure="1"
-                  className="w-full h-full"
-                  style={{ width: '100%', height: '100%', background: 'transparent' }}
-                ></model-viewer>
-              </div>
-              <div className="absolute top-4 left-4 bg-white/80 dark:bg-stone-800/80 backdrop-blur-md px-4 py-2 rounded-2xl border border-stone-200 dark:border-stone-700 pointer-events-none z-10">
-                <p className="text-sm font-bold text-stone-800 dark:text-stone-200 flex items-center gap-2">
-                  <Layers size={16} className="text-primary" />
-                  Grano de Café Interactivo
-                </p>
-                <p className="text-xs text-stone-500 mt-1">Arrastra para rotar • Usa el scroll para acercar</p>
-              </div>
-            </SlideUp>
           </section>
         );
       case 'home_journey':

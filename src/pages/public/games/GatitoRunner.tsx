@@ -63,10 +63,10 @@ const GatitoRunner: React.FC = () => {
   const { beans, addBeans, spendBeans } = useGameWallet();
   const [unlockedCats, setUnlockedCats] = useState<string[]>(() => {
     const saved = localStorage.getItem('gatito_unlocked');
-    return saved ? JSON.parse(saved) : ['street'];
+    return saved ? JSON.parse(saved) : ['blue_default', 'street'];
   });
   const [selectedCatId, setSelectedCatId] = useState<string>(() => {
-    return localStorage.getItem('gatito_selected') || 'street';
+    return localStorage.getItem('gatito_selected') || 'blue_default';
   });
 
   const touchStartY = useRef<number | null>(null);
@@ -220,6 +220,9 @@ const GatitoRunner: React.FC = () => {
       } else if (e.code === 'ArrowDown' || e.code === 'KeyS') {
         e.preventDefault();
         engineRef.current.crouch(true);
+      } else if (e.code === 'KeyD' || e.code === 'ShiftLeft') {
+        e.preventDefault();
+        engineRef.current.dash();
       } else if (e.code === 'KeyX') {
         e.preventDefault();
         engineRef.current.shoot();
@@ -355,7 +358,7 @@ const GatitoRunner: React.FC = () => {
               Gatito Runner 2.0
             </h1>
             <p className="text-xs sm:text-sm text-stone-500 dark:text-stone-400">
-              <span className="hidden md:inline">ESPACIO/ARRIBA saltar, ABAJO agacharse. 'X' Disparar café. 'P' Pausa. </span>
+              <span className="hidden md:inline">ESPACIO/ARRIBA saltar, ABAJO agacharse. 'X' Disparar café. 'D'/SHIFT Dash. 'P' Pausa. </span>
               <span className="md:hidden">Toca izq. para saltar, abajo para agacharte. Toca der. para disparar. </span>
             </p>
           </div>
@@ -505,8 +508,8 @@ const GatitoRunner: React.FC = () => {
               </div>
               
               {combo > 1 && (
-                <div className={`font-black text-xl italic drop-shadow-md ${combo >= 10 ? 'text-fuchsia-400 animate-pulse text-2xl' : 'text-gold'} transition-all`}>
-                  x{combo > 10 ? 10 : combo} COMBO
+                <div className={`font-black text-xl italic drop-shadow-md ${combo >= 8 ? 'text-fuchsia-400 animate-pulse text-2xl' : 'text-gold'} transition-all`}>
+                  x{combo > 8 ? 8 : combo} COMBO
                 </div>
               )}
               

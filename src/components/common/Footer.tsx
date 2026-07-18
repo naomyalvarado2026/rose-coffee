@@ -6,8 +6,10 @@ import {
   Mail, Phone, MapPin, Clock, Heart, MessageCircle, Sparkles, Palette, Presentation, ArrowRight
 } from 'lucide-react';
 import { supabase } from '../../config/supabase';
+import { useNavConfig } from '../../hooks/useNavConfig';
 
 const Footer = () => {
+  const { navItems } = useNavConfig();
   const currentYear = new Date().getFullYear();
 
   const [phone, setPhone] = useState(() => localStorage.getItem('rose_coffee_business_phone') || '+593980372113');
@@ -77,14 +79,19 @@ const Footer = () => {
     }
   ];
 
+  const isVisible = (id: string) => {
+    const item = navItems.find(n => n.id === id);
+    return item ? item.isVisible : true;
+  };
+
   const quickLinks = [
     { name: 'Inicio', path: '/' },
     { name: 'Tienda de Café', path: '/tienda' },
-    { name: 'Nosotros', path: '/nosotros' },
-    { name: 'Blog de Especialidad', path: '/blog' },
+    isVisible('nosotros') ? { name: 'Nosotros', path: '/nosotros' } : null,
+    isVisible('blog') ? { name: 'Blog de Especialidad', path: '/blog' } : null,
     { name: 'Visualización AR 3D', path: '/ar' },
-    { name: 'Contacto', path: '/contacto' }
-  ];
+    isVisible('contacto') ? { name: 'Contacto', path: '/contacto' } : null
+  ].filter(Boolean) as { name: string, path: string }[];
 
   // Framer Motion column animation definition
   const columnFadeInUp = {

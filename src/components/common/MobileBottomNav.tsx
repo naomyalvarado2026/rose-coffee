@@ -4,6 +4,7 @@ import { Home, ShoppingBag, Layers, ShoppingCart, User, Gamepad2, Info, FileText
 import { useCartStore } from '../../store/useCartStore';
 import { useAuthStore } from '../../store/useAuthStore';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavConfig } from '../../hooks/useNavConfig';
 
 export default function MobileBottomNav() {
   const location = useLocation();
@@ -11,6 +12,12 @@ export default function MobileBottomNav() {
   const totalItems = useCartStore((state) => state.getTotalItems());
   const openDrawer = useCartStore((state) => state.openDrawer);
   const { user } = useAuthStore();
+  const { navItems } = useNavConfig();
+  
+  const isVisible = (id: string) => {
+    const item = navItems.find(n => n.id === id);
+    return item ? item.isVisible : true;
+  };
   
   const [activeGroup, setActiveGroup] = useState<string | null>(null);
   const navRef = useRef<HTMLElement>(null);
@@ -26,12 +33,25 @@ export default function MobileBottomNav() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Close popovers when route changes
-  useEffect(() => {
+  const [prevPath, setPrevPath] = useState(location.pathname);
+  if (location.pathname !== prevPath) {
+    setPrevPath(location.pathname);
     setActiveGroup(null);
-  }, [location.pathname]);
+  }
 
-  const NAV_CONFIG = [
+  interface NavItemConfig {
+    id?: string;
+    label: string;
+    icon?: React.ElementType;
+    type?: string;
+    path?: string;
+    action?: string;
+    badge?: number;
+    color?: string;
+    items?: NavItemConfig[];
+  }
+
+  const NAV_CONFIG: NavItemConfig[] = [
     {
       id: 'inicio',
       label: 'Inicio',
@@ -55,9 +75,9 @@ export default function MobileBottomNav() {
       icon: Sparkles,
       type: 'group',
       items: [
-        { path: '/juegos', label: 'Juegos', icon: Gamepad2, color: 'text-indigo-500' },
+        isVisible('juegos') ? { path: '/juegos', label: 'Juegos', icon: Gamepad2, color: 'text-indigo-500' } : null,
         { path: '/ar', label: 'AR 3D', icon: Layers, color: 'text-fuchsia-500' }
-      ]
+      ].filter(Boolean)
     },
     {
       id: 'explorar',
@@ -66,14 +86,14 @@ export default function MobileBottomNav() {
       type: 'group',
       items: [
         { path: user ? '/mis-compras' : '/login', label: user ? 'Mi Perfil' : 'Ingresar', icon: User, color: 'text-blue-500' },
-        { path: '/blog', label: 'Blog', icon: FileText, color: 'text-rose-500' },
-        { path: '/nosotros', label: 'Nosotros', icon: Info, color: 'text-emerald-500' },
-        { path: '/contacto', label: 'Contacto', icon: Phone, color: 'text-teal-500' }
-      ]
+        isVisible('blog') ? { path: '/blog', label: 'Blog', icon: FileText, color: 'text-rose-500' } : null,
+        isVisible('nosotros') ? { path: '/nosotros', label: 'Nosotros', icon: Info, color: 'text-emerald-500' } : null,
+        isVisible('contacto') ? { path: '/contacto', label: 'Contacto', icon: Phone, color: 'text-teal-500' } : null
+      ].filter(Boolean)
     }
   ];
 
-  const handleAction = (item: any) => {
+  const handleAction = (item: NavItemConfig) => {
     setActiveGroup(null);
     if (item.action === 'cart') {
       openDrawer();
@@ -82,9 +102,9 @@ export default function MobileBottomNav() {
     }
   };
 
-  const isGroupActive = (config: any) => {
+  const isGroupActive = (config: NavItemConfig) => {
     if (config.type === 'link') return location.pathname === config.path;
-    return config.items?.some((item: any) => item.path && location.pathname === item.path);
+    return config.items?.some((item) => item.path && location.pathname === item.path);
   };
 
   return (
@@ -173,9 +193,9 @@ export default function MobileBottomNav() {
                   />
                   
                   {/* Opciones */}
-                  {config.items?.map((item: any, idx: number) => {
+                  {config.items?.map((item, idx: number) => {
                     const isItemActive = location.pathname === item.path;
-                    const ItemIcon = item.icon;
+                    const ItemIcon = item.icon as React.ElementType;
                     return (
                       <button
                         key={idx}
