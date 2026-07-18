@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Menu, Save, Eye, EyeOff, ArrowUp, ArrowDown, Loader2 } from 'lucide-react';
 import AdminHeader from '../../components/admin/AdminHeader';
 import { toast } from 'sonner';
