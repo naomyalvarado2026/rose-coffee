@@ -12,13 +12,29 @@ import { ChartSkeleton } from '../../components/common/Skeletons';
 import SEOHead from '../../components/common/SEOHead';
 import { ADMIN_MODULES } from '../../config/adminModules';
 
-// Custom tooltip for Cruce Ventas vs Pedidos
-const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?: Record<string, any>[]; label?: string }) => {
+// Typed interfaces for Supabase query results
+interface Order {
+  id: string;
+  status: string;
+  total: number;
+  created_at: string;
+  customer_name: string;
+  payment_method: string;
+  order_items?: Array<{ quantity: number; products?: { name: string } }>;
+}
+interface Product {
+  id: string;
+  name: string;
+  stock: number;
+  stock_min?: number;
+}
+type TooltipPayloadItem = { name: string; value: number; color?: string };
+const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?: TooltipPayloadItem[]; label?: string }) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-primary text-stone-100 border border-white/10 px-3.5 py-2.5 rounded-xl shadow-xl text-xs font-semibold font-sans text-left">
         <p className="font-bold text-gold mb-1.5">{label}</p>
-        {payload.map((item: any, idx: number) => (
+        {payload.map((item, idx) => (
           <div key={idx} className="flex items-center gap-2 mt-0.5 justify-between">
             <div className="flex items-center gap-1.5">
               <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: item.color || '#c8922a' }}></div>
@@ -56,10 +72,10 @@ export default function DashboardHome() {
     topProduct: 'Ninguno'
   });
 
-  const [rawOrders, setRawOrders] = useState<Record<string, unknown>[]>([]);
-  const [rawProducts, setRawProducts] = useState<Record<string, unknown>[]>([]);
+  const [rawOrders, setRawOrders] = useState<Order[]>([]);
+  const [rawProducts, setRawProducts] = useState<Product[]>([]);
 
-  const computeSalesData = (ordersList: Record<string, any>[], filter: 'today' | 'week' | 'month' | 'year') => {
+  const computeSalesData = (ordersList: Order[], filter: 'today' | 'week' | 'month' | 'year') => {
     const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
     const weekdays = ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'];
     const paidOrders = ordersList.filter(o => o.status === 'paid' || o.status === 'completed');
@@ -228,7 +244,7 @@ export default function DashboardHome() {
       // Top product
       const productSalesMap: Record<string, number> = {};
       paidOrders.forEach(o => {
-        o.order_items?.forEach((item: any) => {
+        o.order_items?.forEach((item) => {
           const pName = item.products?.name || 'Otro';
           productSalesMap[pName] = (productSalesMap[pName] || 0) + (item.quantity || 0);
         });
@@ -266,13 +282,14 @@ export default function DashboardHome() {
     }
   }, []);
 
+  // eslint-disable-next-line react-compiler/react-compiler -- async fetch cannot call setState synchronously
   useEffect(() => {
     fetchDashboardData();
   }, [fetchDashboardData]);
 
   type TimelineEvent = { id: string; type: string; title: string; description: string; time: string; timestamp: number };
 
-  const getTimelineEvents = (ordersList: Record<string, unknown>[], productsList: Record<string, unknown>[], now: number): TimelineEvent[] => {
+  const getTimelineEvents = (ordersList: Order[], productsList: Product[], now: number): TimelineEvent[] => {
     const events: TimelineEvent[] = [];
     const sortedOrders = [...ordersList].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
     

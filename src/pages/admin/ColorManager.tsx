@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { Palette, Sun, Moon, Save, RotateCcw, Loader2, Eye } from 'lucide-react';
 import AdminHeader from '../../components/admin/AdminHeader';
 import { toast } from 'sonner';
@@ -59,28 +59,32 @@ export default function ColorManager() {
   const [previewLive, setPreviewLive] = useState(false);
 
   // ─── Load from Supabase ──────────────────────────────────
-  const loadColors = useCallback(async () => {
-    setLoading(true);
-    try {
-      const { data } = await supabase
-        .from('site_config')
-        .select('key, value')
-        .in('key', ['theme_colors_light', 'theme_colors_dark']);
+  useEffect(() => {
+    let mounted = true;
+    const run = async () => {
+      if (!mounted) return;
+      setLoading(true);
+      try {
+        const { data } = await supabase
+          .from('site_config')
+          .select('key, value')
+          .in('key', ['theme_colors_light', 'theme_colors_dark']);
 
-      if (data) {
-        const lightEntry = data.find(d => d.key === 'theme_colors_light');
-        const darkEntry = data.find(d => d.key === 'theme_colors_dark');
-        if (lightEntry?.value) setLightColors({ ...DEFAULT_LIGHT, ...(lightEntry.value as ThemeColorMap) });
-        if (darkEntry?.value) setDarkColors({ ...DEFAULT_DARK, ...(darkEntry.value as ThemeColorMap) });
+        if (data && mounted) {
+          const lightEntry = data.find(d => d.key === 'theme_colors_light');
+          const darkEntry = data.find(d => d.key === 'theme_colors_dark');
+          if (lightEntry?.value) setLightColors({ ...DEFAULT_LIGHT, ...(lightEntry.value as ThemeColorMap) });
+          if (darkEntry?.value) setDarkColors({ ...DEFAULT_DARK, ...(darkEntry.value as ThemeColorMap) });
+        }
+      } catch (err) {
+        console.error('Error loading colors:', err);
+      } finally {
+        if (mounted) setLoading(false);
       }
-    } catch (err) {
-      console.error('Error loading colors:', err);
-    } finally {
-      setLoading(false);
-    }
+    };
+    run();
+    return () => { mounted = false; };
   }, []);
-
-  useEffect(() => { loadColors(); }, [loadColors]);
 
   // ─── Live preview ────────────────────────────────────────
   useEffect(() => {
