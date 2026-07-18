@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useAuthStore } from '../../store/useAuthStore';
 import { supabase } from '../../config/supabase';
 import { 
@@ -13,7 +13,7 @@ import SEOHead from '../../components/common/SEOHead';
 import { ADMIN_MODULES } from '../../config/adminModules';
 
 // Custom tooltip for Cruce Ventas vs Pedidos
-const CustomTooltip = ({ active, payload, label }: any) => {
+const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?: Record<string, any>[]; label?: string }) => {
   if (active && payload && payload.length) {
     return (
       <div className="bg-primary text-stone-100 border border-white/10 px-3.5 py-2.5 rounded-xl shadow-xl text-xs font-semibold font-sans text-left">
@@ -56,20 +56,120 @@ export default function DashboardHome() {
     topProduct: 'Ninguno'
   });
 
-  const [rawOrders, setRawOrders] = useState<any[]>([]);
-  const [rawProducts, setRawProducts] = useState<any[]>([]);
-  const [salesData, setSalesData] = useState<any[]>([]);
+  const [rawOrders, setRawOrders] = useState<Record<string, any>[]>([]);
+  const [rawProducts, setRawProducts] = useState<Record<string, any>[]>([]);
 
-  useEffect(() => {
-    fetchDashboardData();
-  }, []);
+  const computeSalesData = (ordersList: Record<string, any>[], filter: 'today' | 'week' | 'month' | 'year') => {
+    const months = ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'];
+    const weekdays = ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'];
+    const paidOrders = ordersList.filter(o => o.status === 'paid' || o.status === 'completed');
 
-  // Update chart data whenever timeFilter or rawOrders change
-  useEffect(() => {
-    if (rawOrders.length > 0) {
-      setSalesData(computeSalesData(rawOrders, timeFilter));
+    if (filter === 'today') {
+      const hourlySales: Record<string, { Ventas: number; Pedidos: number }> = {};
+      const hours = ['08:00', '10:00', '12:00', '14:00', '16:00', '18:00', '20:00'];
+      hours.forEach(h => { hourlySales[h] = { Ventas: 0, Pedidos: 0 }; });
+
+      const todayStr = new Date().toDateString();
+      paidOrders.filter(o => new Date(o.created_at).toDateString() === todayStr).forEach(o => {
+        const date = new Date(o.created_at);
+        const hour = date.getHours();
+        let slot = '20:00';
+        if (hour < 10) slot = '08:00';
+        else if (hour < 12) slot = '10:00';
+        else if (hour < 14) slot = '12:00';
+        else if (hour < 16) slot = '14:00';
+        else if (hour < 18) slot = '16:00';
+        else if (hour < 20) slot = '18:00';
+        
+        hourlySales[slot].Ventas += o.total || 0;
+        hourlySales[slot].Pedidos += 1;
+      });
+
+      return Object.entries(hourlySales).map(([name, data]) => ({
+        name,
+        Ventas: Number(data.Ventas.toFixed(2)),
+        Pedidos: data.Pedidos
+      }));
     }
-  }, [timeFilter, rawOrders]);
+
+    if (filter === 'week') {
+      const weeklySales: Record<string, { Ventas: number; Pedidos: number }> = {};
+      const today = new Date();
+      for (let i = 6; i >= 0; i--) {
+        const d = new Date(today.getFullYear(), today.getMonth(), today.getDate() - i);
+        weeklySales[weekdays[d.getDay()]] = { Ventas: 0, Pedidos: 0 };
+      }
+
+      paidOrders.forEach(o => {
+        const date = new Date(o.created_at);
+        const dayName = weekdays[date.getDay()];
+        if (weeklySales[dayName] !== undefined) {
+          const diffTime = Math.abs(today.getTime() - date.getTime());
+          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+          if (diffDays <= 7) {
+            weeklySales[dayName].Ventas += o.total || 0;
+            weeklySales[dayName].Pedidos += 1;
+          }
+        }
+      });
+
+      return Object.entries(weeklySales).map(([name, data]) => ({
+        name,
+        Ventas: Number(data.Ventas.toFixed(2)),
+        Pedidos: data.Pedidos
+      }));
+    }
+
+    if (filter === 'month') {
+      const monthlySales: Record<string, { Ventas: number; Pedidos: number }> = {};
+      const today = new Date();
+      for (let i = 5; i >= 0; i--) {
+        const d = new Date(today.getFullYear(), today.getMonth() - i, 1);
+        monthlySales[months[d.getMonth()]] = { Ventas: 0, Pedidos: 0 };
+      }
+
+      paidOrders.forEach(o => {
+        const date = new Date(o.created_at);
+        const mName = months[date.getMonth()];
+        if (monthlySales[mName] !== undefined) {
+          monthlySales[mName].Ventas += o.total || 0;
+          monthlySales[mName].Pedidos += 1;
+        }
+      });
+
+      return Object.entries(monthlySales).map(([name, data]) => ({
+        name,
+        Ventas: Number(data.Ventas.toFixed(2)),
+        Pedidos: data.Pedidos
+      }));
+    }
+
+    if (filter === 'year') {
+      const annualSales: Record<string, { Ventas: number; Pedidos: number }> = {};
+      const today = new Date();
+      for (let i = 11; i >= 0; i--) {
+        const d = new Date(today.getFullYear(), today.getMonth() - i, 1);
+        annualSales[months[d.getMonth()]] = { Ventas: 0, Pedidos: 0 };
+      }
+
+      paidOrders.forEach(o => {
+        const date = new Date(o.created_at);
+        const mName = months[date.getMonth()];
+        if (annualSales[mName] !== undefined) {
+          annualSales[mName].Ventas += o.total || 0;
+          annualSales[mName].Pedidos += 1;
+        }
+      });
+
+      return Object.entries(annualSales).map(([name, data]) => ({
+        name,
+        Ventas: Number(data.Ventas.toFixed(2)),
+        Pedidos: data.Pedidos
+      }));
+    }
+
+    return [];
+  };
 
   const fetchDashboardData = async () => {
     setLoading(true);
@@ -278,7 +378,7 @@ export default function DashboardHome() {
     return [];
   };
 
-  const getTimelineEvents = (ordersList: any[], productsList: any[]) => {
+  const getTimelineEvents = (ordersList: Record<string, any>[], productsList: Record<string, any>[], now: number) => {
     const events: any[] = [];
     const sortedOrders = [...ordersList].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
     
@@ -302,7 +402,7 @@ export default function DashboardHome() {
         title: `Alerta: Stock Bajo`,
         description: `El insumo "${p.name}" cuenta con apenas ${p.stock} unidades en vitrina.`,
         time: `Crítico`,
-        timestamp: Date.now() - 1000
+        timestamp: now - 1000
       });
     });
 
@@ -310,9 +410,9 @@ export default function DashboardHome() {
 
     if (events.length === 0) {
       events.push(
-        { id: 'mock-1', type: 'order', title: 'Pedido #A02B Recibido', description: 'Cliente: Ana de Castro. Total: $24.50', time: 'Hoy, 15:20', timestamp: Date.now() },
-        { id: 'mock-2', type: 'stock', title: 'Alerta: Stock Bajo', description: 'El producto "Croissant de Almendras" tiene 3 unidades.', time: 'Hoy, 12:30', timestamp: Date.now() - 3600000 },
-        { id: 'mock-3', type: 'order', title: 'Pedido #B19F Completado', description: 'Cliente: Carlos Mendoza. Total: $12.00', time: 'Ayer, 18:15', timestamp: Date.now() - 86400000 }
+        { id: 'mock-1', type: 'order', title: 'Pedido #A02B Recibido', description: 'Cliente: Ana de Castro. Total: $24.50', time: 'Hoy, 15:20', timestamp: now },
+        { id: 'mock-2', type: 'stock', title: 'Alerta: Stock Bajo', description: 'El producto "Croissant de Almendras" tiene 3 unidades.', time: 'Hoy, 12:30', timestamp: now - 3600000 },
+        { id: 'mock-3', type: 'order', title: 'Pedido #B19F Completado', description: 'Cliente: Carlos Mendoza. Total: $12.00', time: 'Ayer, 18:15', timestamp: now - 86400000 }
       );
     }
 
@@ -320,7 +420,11 @@ export default function DashboardHome() {
   };
 
   const displayName = firstName ? `${firstName}` : user?.email?.split('@')[0] || 'Administrador';
-  const timelineEvents = getTimelineEvents(rawOrders, rawProducts);
+  
+  // Memoized derived data to avoid cascading renders
+  const salesData = useMemo(() => computeSalesData(rawOrders, timeFilter), [rawOrders, timeFilter]);
+  const [currentNow] = useState(() => Date.now());
+  const timelineEvents = useMemo(() => getTimelineEvents(rawOrders, rawProducts, currentNow), [rawOrders, rawProducts, currentNow]);
 
   return (
     <div className="space-y-6 text-left animate-fadeIn font-sans">
