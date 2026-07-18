@@ -3,7 +3,8 @@ import { Menu, Save, Eye, EyeOff, ArrowUp, ArrowDown, Loader2 } from 'lucide-rea
 import AdminHeader from '../../components/admin/AdminHeader';
 import { toast } from 'sonner';
 import { useNavConfig } from '../../hooks/useNavConfig';
-import { NavItem, getIconByName } from '../../config/navConfig';
+import type { NavItem } from '../../config/navConfig';
+import { getIconByName } from '../../config/navConfig';
 
 export default function NavMenuManager() {
   const { navItems, updateNavItems, loading: configLoading } = useNavConfig();

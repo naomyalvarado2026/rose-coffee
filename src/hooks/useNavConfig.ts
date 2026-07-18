@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '../config/supabase';
-import { DEFAULT_NAV_ITEMS, NavItem } from '../config/navConfig';
+import type { NavItem } from '../config/navConfig';
+import { DEFAULT_NAV_ITEMS } from '../config/navConfig';
 
 export const useNavConfig = () => {
   const [navItems, setNavItems] = useState<NavItem[]>(DEFAULT_NAV_ITEMS);

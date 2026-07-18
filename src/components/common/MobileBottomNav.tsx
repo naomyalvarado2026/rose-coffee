@@ -74,22 +74,22 @@ export default function MobileBottomNav() {
       label: 'Jugar',
       icon: Sparkles,
       type: 'group',
-      items: [
+      items: ([
         isVisible('juegos') ? { path: '/juegos', label: 'Juegos', icon: Gamepad2, color: 'text-indigo-500' } : null,
         { path: '/ar', label: 'AR 3D', icon: Layers, color: 'text-fuchsia-500' }
-      ].filter(Boolean)
+      ].filter(Boolean) as NavItemConfig[])
     },
     {
       id: 'explorar',
       label: 'Más',
       icon: LayoutGrid,
       type: 'group',
-      items: [
+      items: ([
         { path: user ? '/mis-compras' : '/login', label: user ? 'Mi Perfil' : 'Ingresar', icon: User, color: 'text-blue-500' },
         isVisible('blog') ? { path: '/blog', label: 'Blog', icon: FileText, color: 'text-rose-500' } : null,
         isVisible('nosotros') ? { path: '/nosotros', label: 'Nosotros', icon: Info, color: 'text-emerald-500' } : null,
         isVisible('contacto') ? { path: '/contacto', label: 'Contacto', icon: Phone, color: 'text-teal-500' } : null
-      ].filter(Boolean)
+      ].filter(Boolean) as NavItemConfig[])
     }
   ];
 
@@ -110,7 +110,7 @@ export default function MobileBottomNav() {
   return (
     <nav ref={navRef} className="print:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 dark:bg-stone-900/95 backdrop-blur-xl border-t border-stone-200 dark:border-stone-800 shadow-[0_-8px_30px_rgba(0,0,0,0.04)] px-2 py-2 pb-safe md:hidden flex justify-around items-center">
       {NAV_CONFIG.map((config) => {
-        const Icon = config.icon;
+        const Icon = (config.icon || Home) as React.ElementType;
         const isActive = isGroupActive(config);
         const isOpen = activeGroup === config.id;
 
@@ -123,7 +123,7 @@ export default function MobileBottomNav() {
                   navigate(config.path);
                   setActiveGroup(null);
                 } else {
-                  setActiveGroup(isOpen ? null : config.id);
+                  setActiveGroup(isOpen ? null : (config.id || null));
                 }
               }}
               className="flex flex-col items-center justify-center relative py-1 w-full text-stone-500 active:scale-95 transition-transform focus-visible:outline-none group"
