@@ -10,6 +10,7 @@ import {
 } from 'recharts';
 import { ChartSkeleton } from '../../components/common/Skeletons';
 import SEOHead from '../../components/common/SEOHead';
+import { ADMIN_MODULES } from '../../config/adminModules';
 
 // Custom tooltip for Cruce Ventas vs Pedidos
 const CustomTooltip = ({ active, payload, label }: any) => {
@@ -565,6 +566,32 @@ export default function DashboardHome() {
           </div>
         </div>
 
+      </div>
+
+      {/* Quick Access Tools Grid */}
+      <div className="space-y-4 pt-4">
+        <h2 className="font-sans font-extrabold text-stone-950 dark:text-stone-100 text-lg flex items-center gap-2">
+          <Layers className="text-gold" size={20} />
+          Accesos Rápidos a Herramientas
+        </h2>
+        
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+          {ADMIN_MODULES.filter(m => m.id !== 'dashboard').map((module, idx) => (
+            <Link 
+              key={idx}
+              to={module.path}
+              className="bg-white dark:bg-stone-800 border border-coffee/10 hover:border-gold/50 rounded-2xl p-4 shadow-2xs hover:shadow-md transition-all duration-300 flex flex-col items-center justify-center gap-3 text-center group hover:-translate-y-1"
+            >
+              <div className="w-12 h-12 rounded-full bg-stone-50 dark:bg-stone-700/50 text-stone-500 group-hover:bg-gold/10 group-hover:text-gold group-hover:scale-110 transition-all duration-300 flex items-center justify-center">
+                <module.icon size={24} />
+              </div>
+              <div>
+                <h3 className="font-bold text-xs text-stone-800 dark:text-stone-200 group-hover:text-gold transition-colors">{module.name}</h3>
+                <p className="text-[9px] text-stone-400 mt-0.5 line-clamp-1">{module.label}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
       </div>
 
     </div>

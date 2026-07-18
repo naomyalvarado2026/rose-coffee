@@ -12,7 +12,9 @@ import {
   Settings,
   Palette,
   BookOpen,
-  Menu
+  Menu,
+  Shield,
+  Box
 } from 'lucide-react';
 
 export interface AdminModule {
@@ -102,11 +104,25 @@ export const ADMIN_MODULES: AdminModule[] = [
     icon: Layers
   },
   {
+    id: 'ar_manager',
+    label: 'Showroom AR',
+    name: 'Showroom AR',
+    path: '/admin/ar-showroom',
+    icon: Box
+  },
+  {
     id: 'logos',
     label: 'Gestor de Logos',
     name: 'Gestor de Logos',
     path: '/admin/logos',
     icon: Palette
+  },
+  {
+    id: 'users',
+    label: 'Usuarios y Permisos',
+    name: 'Usuarios',
+    path: '/admin/usuarios',
+    icon: Shield
   },
   {
     id: 'analytics',
