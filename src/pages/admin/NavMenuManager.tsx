@@ -10,14 +10,13 @@ export default function NavMenuManager() {
   const { navItems, updateNavItems, loading: configLoading } = useNavConfig();
   const [items, setItems] = useState<NavItem[]>([]);
   const [saving, setSaving] = useState(false);
+  const [initialized, setInitialized] = useState(false);
 
-  // Set initial items when loaded
-  useEffect(() => {
-    if (navItems.length > 0 && items.length === 0) {
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-      setItems([...navItems].sort((a, b) => a.order - b.order));
-    }
-  }, [navItems]);
+  // Set initial items when loaded (React recommended pattern over useEffect)
+  if (navItems.length > 0 && !initialized) {
+    setInitialized(true);
+    setItems([...navItems].sort((a, b) => a.order - b.order));
+  }
 
   const handleSave = async () => {
     setSaving(true);
