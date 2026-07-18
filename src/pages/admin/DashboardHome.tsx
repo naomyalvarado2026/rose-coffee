@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useAuthStore } from '../../store/useAuthStore';
 import { supabase } from '../../config/supabase';
 import { 
@@ -29,6 +29,48 @@ interface Product {
   stock_min?: number;
 }
 type TooltipPayloadItem = { name: string; value: number; color?: string };
+type TimelineEvent = { id: string; type: string; title: string; description: string; time: string; timestamp: number };
+
+function getTimelineEvents(ordersList: Order[], productsList: Product[], now: number): TimelineEvent[] {
+  const events: TimelineEvent[] = [];
+  const sortedOrders = [...ordersList].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+
+  sortedOrders.slice(0, 4).forEach(o => {
+    const time = new Date(o.created_at).toLocaleTimeString('es-EC', { hour: '2-digit', minute: '2-digit' });
+    const dateStr = new Date(o.created_at).toLocaleDateString('es-EC', { day: 'numeric', month: 'short' });
+    events.push({
+      id: `order-${o.id}`,
+      type: 'order',
+      title: `Pedido #${o.id.substring(0, 4).toUpperCase()} Recibido`,
+      description: `Cliente: ${o.customer_name} por $${o.total.toFixed(2)} (${o.payment_method === 'card' ? 'Online' : 'Transferencia'})`,
+      time: `${dateStr}, ${time}`,
+      timestamp: new Date(o.created_at).getTime()
+    });
+  });
+
+  productsList.filter(p => (p.stock ?? 0) <= (p.stock_min ?? 5)).slice(0, 2).forEach(p => {
+    events.push({
+      id: `stock-${p.id}`,
+      type: 'stock',
+      title: 'Alerta: Stock Bajo',
+      description: `El insumo "${p.name}" cuenta con apenas ${p.stock} unidades en vitrina.`,
+      time: 'Crítico',
+      timestamp: now - 1000
+    });
+  });
+
+  events.sort((a, b) => b.timestamp - a.timestamp);
+
+  if (events.length === 0) {
+    events.push(
+      { id: 'mock-1', type: 'order', title: 'Pedido #A02B Recibido', description: 'Cliente: Ana de Castro. Total: $24.50', time: 'Hoy, 15:20', timestamp: now },
+      { id: 'mock-2', type: 'stock', title: 'Alerta: Stock Bajo', description: 'El producto "Croissant de Almendras" tiene 3 unidades.', time: 'Hoy, 12:30', timestamp: now - 3600000 },
+      { id: 'mock-3', type: 'order', title: 'Pedido #B19F Completado', description: 'Cliente: Carlos Mendoza. Total: $12.00', time: 'Ayer, 18:15', timestamp: now - 86400000 }
+    );
+  }
+
+  return events.slice(0, 6);
+}
 const CustomTooltip = ({ active, payload, label }: { active?: boolean; payload?: TooltipPayloadItem[]; label?: string }) => {
   if (active && payload && payload.length) {
     return (
@@ -187,151 +229,84 @@ export default function DashboardHome() {
     return [];
   };
 
-  const fetchDashboardData = useCallback(async () => {
-    setLoading(true);
-    try {
-      const sevenDaysAgo = new Date();
-      sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
+  useEffect(() => {
+    let mounted = true;
+    const run = async () => {
+      if (!mounted) return;
+      setLoading(true);
+      try {
+        const sevenDaysAgo = new Date();
+        sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
-      const [profilesRes, newCustomersRes, productsRes, ordersRes] = await Promise.all([
-        supabase.from('profiles').select('*', { count: 'exact', head: true }),
-        supabase.from('profiles').select('*', { count: 'exact', head: true }).gte('created_at', sevenDaysAgo.toISOString()),
-        supabase.from('products').select('*'),
-        supabase.from('orders').select('*, order_items(*, products(*))'),
-      ]);
+        const [profilesRes, newCustomersRes, productsRes, ordersRes] = await Promise.all([
+          supabase.from('profiles').select('*', { count: 'exact', head: true }),
+          supabase.from('profiles').select('*', { count: 'exact', head: true }).gte('created_at', sevenDaysAgo.toISOString()),
+          supabase.from('products').select('*'),
+          supabase.from('orders').select('*, order_items(*, products(*))'),
+        ]);
 
-      const orders = ordersRes.data || [];
-      const products = productsRes.data || [];
-      setRawOrders(orders);
-      setRawProducts(products);
+        if (!mounted) return;
+        const orders = (ordersRes.data || []) as Order[];
+        const products = (productsRes.data || []) as Product[];
+        setRawOrders(orders);
+        setRawProducts(products);
 
-      const paidOrders = orders.filter(o => o.status === 'paid' || o.status === 'completed');
-      const totalSales = paidOrders.reduce((sum, o) => sum + (o.total || 0), 0);
+        const paidOrders = orders.filter(o => o.status === 'paid' || o.status === 'completed');
+        const totalSales = paidOrders.reduce((sum, o) => sum + (o.total || 0), 0);
 
-      // Today sales
-      const todayStr = new Date().toDateString();
-      const todaySales = paidOrders
-        .filter(o => new Date(o.created_at).toDateString() === todayStr)
-        .reduce((sum, o) => sum + (o.total || 0), 0);
+        const todayStr = new Date().toDateString();
+        const todaySales = paidOrders
+          .filter(o => new Date(o.created_at).toDateString() === todayStr)
+          .reduce((sum, o) => sum + (o.total || 0), 0);
 
-      // Yesterday sales
-      const yesterdayStr = new Date(Date.now() - 24 * 60 * 60 * 1000).toDateString();
-      const yesterdaySales = paidOrders
-        .filter(o => new Date(o.created_at).toDateString() === yesterdayStr)
-        .reduce((sum, o) => sum + (o.total || 0), 0);
+        const yesterdayStr = new Date(Date.now() - 24 * 60 * 60 * 1000).toDateString();
+        const yesterdaySales = paidOrders
+          .filter(o => new Date(o.created_at).toDateString() === yesterdayStr)
+          .reduce((sum, o) => sum + (o.total || 0), 0);
 
-      const pctChangeToday = yesterdaySales > 0 ? ((todaySales - yesterdaySales) / yesterdaySales) * 100 : 0;
+        const pctChangeToday = yesterdaySales > 0 ? ((todaySales - yesterdaySales) / yesterdaySales) * 100 : 0;
 
-      // Current month sales
-      const currentMonth = new Date().getMonth();
-      const currentYear = new Date().getFullYear();
-      const monthSales = paidOrders
-        .filter(o => {
-          const d = new Date(o.created_at);
-          return d.getMonth() === currentMonth && d.getFullYear() === currentYear;
-        })
-        .reduce((sum, o) => sum + (o.total || 0), 0);
+        const currentMonth = new Date().getMonth();
+        const currentYear = new Date().getFullYear();
+        const monthSales = paidOrders
+          .filter(o => {
+            const d = new Date(o.created_at);
+            return d.getMonth() === currentMonth && d.getFullYear() === currentYear;
+          })
+          .reduce((sum, o) => sum + (o.total || 0), 0);
 
-      // Ticket average
-      const ticketAverage = paidOrders.length > 0 ? (totalSales / paidOrders.length) : 0;
+        const ticketAverage = paidOrders.length > 0 ? (totalSales / paidOrders.length) : 0;
+        const pendingOrdersCount = orders.filter(o => o.status !== 'completed' && o.status !== 'cancelled').length;
+        const lowStockCount = products.filter(p => (p.stock ?? 0) <= (p.stock_min ?? 5)).length;
 
-      // Pedidos pendientes
-      const pendingOrdersCount = orders.filter(o => o.status !== 'completed' && o.status !== 'cancelled').length;
-
-      // Low stock count
-      const lowStockCount = products.filter(p => (p.stock ?? 0) <= (p.stock_min ?? 5)).length;
-
-      // Top product
-      const productSalesMap: Record<string, number> = {};
-      paidOrders.forEach(o => {
-        o.order_items?.forEach((item) => {
-          const pName = item.products?.name || 'Otro';
-          productSalesMap[pName] = (productSalesMap[pName] || 0) + (item.quantity || 0);
+        const productSalesMap: Record<string, number> = {};
+        paidOrders.forEach(o => {
+          o.order_items?.forEach((item) => {
+            const pName = item.products?.name || 'Otro';
+            productSalesMap[pName] = (productSalesMap[pName] || 0) + (item.quantity || 0);
+          });
         });
-      });
-      
-      let topProduct = 'Ninguno';
-      let maxQty = 0;
-      Object.entries(productSalesMap).forEach(([name, qty]) => {
-        if (qty > maxQty) {
-          maxQty = qty;
-          topProduct = name;
-        }
-      });
+        let topProduct = 'Ninguno';
+        let maxQty = 0;
+        Object.entries(productSalesMap).forEach(([name, qty]) => {
+          if (qty > maxQty) { maxQty = qty; topProduct = name; }
+        });
 
-      setStats({
-        customersCount: profilesRes.count || 0,
-        newCustomersCount: newCustomersRes.count || 0,
-        productsCount: products.length,
-        ordersCount: orders.length,
-        pendingOrdersCount,
-        totalSales,
-        todaySales,
-        yesterdaySales,
-        pctChangeToday,
-        monthSales,
-        ticketAverage,
-        lowStockCount,
-        topProduct
-      });
-
-    } catch (err) {
-      console.error('Error fetching dashboard stats:', err);
-    } finally {
-      setLoading(false);
-    }
+        setStats({ customersCount: profilesRes.count || 0, newCustomersCount: newCustomersRes.count || 0, productsCount: products.length, ordersCount: orders.length, pendingOrdersCount, totalSales, todaySales, yesterdaySales, pctChangeToday, monthSales, ticketAverage, lowStockCount, topProduct });
+      } catch (err) {
+        console.error('Error fetching dashboard stats:', err);
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    };
+    run();
+    return () => { mounted = false; };
   }, []);
 
-  // eslint-disable-next-line react-compiler/react-compiler -- async fetch cannot call setState synchronously
-  useEffect(() => {
-    fetchDashboardData();
-  }, [fetchDashboardData]);
 
-  type TimelineEvent = { id: string; type: string; title: string; description: string; time: string; timestamp: number };
-
-  const getTimelineEvents = (ordersList: Order[], productsList: Product[], now: number): TimelineEvent[] => {
-    const events: TimelineEvent[] = [];
-    const sortedOrders = [...ordersList].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
-    
-    sortedOrders.slice(0, 4).forEach(o => {
-      const time = new Date(o.created_at).toLocaleTimeString('es-EC', { hour: '2-digit', minute: '2-digit' });
-      const dateStr = new Date(o.created_at).toLocaleDateString('es-EC', { day: 'numeric', month: 'short' });
-      events.push({
-        id: `order-${o.id}`,
-        type: 'order',
-        title: `Pedido #${o.id.substring(0, 4).toUpperCase()} Recibido`,
-        description: `Cliente: ${o.customer_name} por $${o.total.toFixed(2)} (${o.payment_method === 'card' ? 'Online' : 'Transferencia'})`,
-        time: `${dateStr}, ${time}`,
-        timestamp: new Date(o.created_at).getTime()
-      });
-    });
-
-    productsList.filter(p => (p.stock ?? 0) <= (p.stock_min ?? 5)).slice(0, 2).forEach(p => {
-      events.push({
-        id: `stock-${p.id}`,
-        type: 'stock',
-        title: `Alerta: Stock Bajo`,
-        description: `El insumo "${p.name}" cuenta con apenas ${p.stock} unidades en vitrina.`,
-        time: `Crítico`,
-        timestamp: now - 1000
-      });
-    });
-
-    events.sort((a, b) => b.timestamp - a.timestamp);
-
-    if (events.length === 0) {
-      events.push(
-        { id: 'mock-1', type: 'order', title: 'Pedido #A02B Recibido', description: 'Cliente: Ana de Castro. Total: $24.50', time: 'Hoy, 15:20', timestamp: now },
-        { id: 'mock-2', type: 'stock', title: 'Alerta: Stock Bajo', description: 'El producto "Croissant de Almendras" tiene 3 unidades.', time: 'Hoy, 12:30', timestamp: now - 3600000 },
-        { id: 'mock-3', type: 'order', title: 'Pedido #B19F Completado', description: 'Cliente: Carlos Mendoza. Total: $12.00', time: 'Ayer, 18:15', timestamp: now - 86400000 }
-      );
-    }
-
-    return events.slice(0, 6);
-  };
 
   const displayName = firstName ? `${firstName}` : user?.email?.split('@')[0] || 'Administrador';
-  
+
   // Memoized derived data to avoid cascading renders
   const salesData = useMemo(() => computeSalesData(rawOrders, timeFilter), [rawOrders, timeFilter]);
   const [currentNow] = useState(() => Date.now());
