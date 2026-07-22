@@ -9,18 +9,26 @@ import { ImageGallerySection } from '../../components/public/ImageGallerySection
 import OptimizedMedia from '../../components/common/OptimizedMedia';
 import SEOHead from '../../components/common/SEOHead';
 import FloatingElements from '../../components/public/FloatingElements';
+import { Floating3DBreadGallery } from '../../components/public/Floating3DBreadGallery';
 
-// Importaciones de fotos locales y video de masa madre
+// Importaciones de fotos locales de masa madre
 import founderNaomyImg from '../../assets/naomy.webp';
 import harinaMasaMadre from '../../assets/Fotos/Harina de masa madre.webp';
 import masaMadreStarter from '../../assets/Fotos/Masa Madre.webp';
 import naomyAmasando2 from '../../assets/Fotos/Naomy amasando 2.webp';
-import naomyAmasando1 from '../../assets/Fotos/Naomy amasando.webp';
 import panCenital from '../../assets/Fotos/Pan de masa madre plano cenital.webp';
 import panEntero from '../../assets/Fotos/Pan de masa madre plano entero.webp';
-import videoAmasando from '../../assets/Fotos/Video de amasando la masa madre.mp4';
 import gatitaMirando from '../../assets/Fotos/gatita mirando un pan de masa madre.webp';
 import gatitaConPan from '../../assets/Fotos/pan de masa madre y una gatita.webp';
+
+interface AboutSection {
+  id: string;
+  section_type?: string;
+  name?: string;
+  title?: string;
+  subtitle?: string;
+  content_blocks?: any[];
+}
 
 const DEFAULT_GALLERY_SLIDES = [
   { id: 'slide_starter', url: masaMadreStarter, caption: 'Nuestra Masa Madre: Burbujeante, activa y alimentada a diario con harinas seleccionadas.' },
@@ -31,7 +39,7 @@ const DEFAULT_GALLERY_SLIDES = [
   { id: 'slide_kitty', url: gatitaConPan, caption: 'El Toque de Hogar: Una gatita curiosa atraída por el aroma irresistible de nuestra masa madre.' }
 ];
 
-const DEFAULT_ABOUT_SECTIONS = [
+const DEFAULT_ABOUT_SECTIONS: AboutSection[] = [
   { id: 'about_hero', section_type: 'custom', name: 'Héroe Principal', title: 'Quiénes Somos', subtitle: 'La historia de pasión por el café de especialidad y la fermentación natural de masa madre en Milagro, Ecuador.', content_blocks: [] },
   { id: 'about_vision_mission', section_type: 'custom', name: 'Misión y Visión', title: 'Misión & Visión', subtitle: 'Nuestros objetivos y compromiso de calidad artesanal.', content_blocks: [] },
   { id: 'about_history', section_type: 'custom', name: 'Nuestra Historia', title: 'Nuestra Historia', subtitle: 'El camino de experimentación y dedicación que dio vida a Rose Coffee.', content_blocks: [] },
@@ -41,7 +49,7 @@ const DEFAULT_ABOUT_SECTIONS = [
 ];
 
 const About = () => {
-  const [sections, setSections] = useState<any[]>([]);
+  const [sections, setSections] = useState<AboutSection[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -201,51 +209,39 @@ const About = () => {
             if (id === 'about_history') {
               return (
                 <div key={id} id={id}>
-                  {content_blocks && content_blocks.length > 0 ? (
-                    <div className="bg-white dark:bg-stone-800 rounded-3xl border border-stone-200 dark:border-stone-700 p-8 md:p-12 shadow-xs space-y-4 text-left">
-                      <h2 className="text-2xl md:text-3xl font-extrabold text-primary dark:text-white border-b border-stone-100 dark:border-stone-700 pb-4 font-sans">
-                        {title || 'Nuestra Historia'}
-                      </h2>
-                      {subtitle && <p className="text-stone-500 dark:text-stone-400 text-sm">{subtitle}</p>}
-                      <BlockRenderer blocks={content_blocks} />
-                    </div>
-                  ) : (
-                    <motion.section 
-                      variants={fadeInUp}
-                      initial="initial"
-                      whileInView="animate"
-                      viewport={{ once: true, amount: 0.2 }}
-                      className="bg-white dark:bg-stone-800 rounded-[36px] border border-stone-200 dark:border-stone-700 p-8 md:p-12 shadow-xs space-y-6 text-left relative overflow-hidden"
-                    >
-                      <h2 className="text-2xl md:text-3xl font-extrabold text-primary dark:text-white border-b border-stone-100 dark:border-stone-700 pb-4 font-sans">Nuestra Historia</h2>
-                      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                        <div className="lg:col-span-7 space-y-4 text-stone-600 text-xs md:text-sm leading-relaxed font-medium text-justify">
-                          <p>
-                            En un mundo que exige inmediatez y en un mercado dominado por la producción industrial acelerada, Rose Coffee nació como un acto de rebeldía en el corazón de Milagro. Todo comenzó con una premisa simple pero poderosa: las mejores cosas de la vida no se pueden apresurar. Nuestra historia no inició con máquinas complejas, sino con los elementos más puros de la naturaleza: agua, harina, tiempo y granos de café de especialidad cuidadosamente seleccionados.
-                          </p>
-                          <p>
-                            Al darnos cuenta de que la panadería moderna había perdido su esencia, decidimos volver al origen para trazar el camino del futuro. Rescatamos la técnica milenaria de la masa madre, dedicando hasta 72 horas de fermentación lenta para crear cada hogaza, y la fusionamos con la maestría del barismo contemporáneo.
-                          </p>
-                          <p>
-                            Rose Coffee no es solo una cafetería; es un santuario donde el tiempo se detiene para que el sabor respire. Nacimos para devolverle a nuestra comunidad el verdadero crujido del pan rústico y el aroma honesto de un café con identidad, uniendo la calidez del horno tradicional con la innovación de una experiencia digital inmersiva. Aquí, cada taza y cada rebanada narran una historia de paciencia, técnica y pasión absoluta.
-                          </p>
-                        </div>
-                        <div className="lg:col-span-5">
-                          <div className="relative rounded-[28px] shadow-xl border border-stone-200 dark:border-stone-700 p-2.5 bg-white dark:bg-stone-800/80 backdrop-blur-xs overflow-hidden group">
-                            <video 
-                              src={videoAmasando} 
-                              poster={naomyAmasando1}
-                              controls
-                              className="w-full h-72 object-cover rounded-[20px] shadow-inner"
-                              preload="metadata"
-                            >
-                              Tu navegador no soporta la reproducción de video.
-                            </video>
-                          </div>
-                        </div>
+                  <motion.section 
+                    variants={fadeInUp}
+                    initial="initial"
+                    whileInView="animate"
+                    viewport={{ once: true, amount: 0.2 }}
+                    className="bg-white dark:bg-stone-800 rounded-[36px] border border-stone-200 dark:border-stone-700 p-8 md:p-12 shadow-xs space-y-6 text-left relative overflow-hidden"
+                  >
+                    <h2 className="text-2xl md:text-3xl font-extrabold text-primary dark:text-white border-b border-stone-100 dark:border-stone-700 pb-4 font-sans">
+                      {title || 'Nuestra Historia'}
+                    </h2>
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                      <div className="lg:col-span-7 space-y-4 text-stone-600 dark:text-stone-300 text-xs md:text-sm leading-relaxed font-medium text-justify">
+                        {content_blocks && content_blocks.length > 0 ? (
+                          <BlockRenderer blocks={content_blocks} />
+                        ) : (
+                          <>
+                            <p>
+                              En un mundo que exige inmediatez y en un mercado dominado por la producción industrial acelerada, Rose Coffee nació como un acto de rebeldía en el corazón de Milagro. Todo comenzó con una premisa simple pero poderosa: las mejores cosas de la vida no se pueden apresurar. Nuestra historia no inició con máquinas complejas, sino con los elementos más puros de la naturaleza: agua, harina, tiempo y granos de café de especialidad cuidadosamente seleccionados.
+                            </p>
+                            <p>
+                              Al darnos cuenta de que la panadería moderna había perdido su esencia, decidimos volver al origen para trazar el camino del futuro. Rescatamos la técnica milenaria de la masa madre, dedicando hasta 72 horas de fermentación lenta para crear cada hogaza, y la fusionamos con la maestría del barismo contemporáneo.
+                            </p>
+                            <p>
+                              Rose Coffee no es solo una cafetería; es un santuario donde el tiempo se detiene para que el sabor respire. Nacimos para devolverle a nuestra comunidad el verdadero crujido del pan rústico y el aroma honesto de un café con identidad, uniendo la calidez del horno tradicional con la innovación de una experiencia digital inmersiva. Aquí, cada taza y cada rebanada narran una historia de paciencia, técnica y pasión absoluta.
+                            </p>
+                          </>
+                        )}
                       </div>
-                    </motion.section>
-                  )}
+                      <div className="lg:col-span-5 flex items-center justify-center">
+                        <Floating3DBreadGallery />
+                      </div>
+                    </div>
+                  </motion.section>
                 </div>
               );
             }

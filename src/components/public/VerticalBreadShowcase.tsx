@@ -45,14 +45,16 @@ export const VerticalBreadShowcase: React.FC = () => {
     return () => clearInterval(timer);
   }, [isPlaying, handleNext]);
 
-  // Keep active thumbnail scrolled into view in vertical list
+  // Scroll thumbnail container locally without triggering window scroll
   useEffect(() => {
     if (scrollContainerRef.current) {
       const activeEl = scrollContainerRef.current.children[selectedIndex] as HTMLElement;
       if (activeEl) {
-        activeEl.scrollIntoView({
-          behavior: 'smooth',
-          block: 'nearest'
+        const container = scrollContainerRef.current;
+        const targetScrollLeft = activeEl.offsetLeft - (container.clientWidth / 2) + (activeEl.clientWidth / 2);
+        container.scrollTo({
+          left: Math.max(0, targetScrollLeft),
+          behavior: 'smooth'
         });
       }
     }

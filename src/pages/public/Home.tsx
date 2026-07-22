@@ -21,11 +21,11 @@ import MarqueeText from '../../components/public/MarqueeText';
 
 import SourdoughBenefits from '../../components/public/SourdoughBenefits';
 import TestimonialsSection from '../../components/public/TestimonialsSection';
-import CoffeeJourneySection from '../../components/public/CoffeeJourneySection';
 import OriginSection from '../../components/public/OriginSection';
 
 import StoreHoursSection from '../../components/public/StoreHoursSection';
 import { VerticalBreadShowcase } from '../../components/public/VerticalBreadShowcase';
+import { Store3DBentoGrid } from '../../components/public/Store3DBentoGrid';
 import SEOHead from '../../components/common/SEOHead';
 import heroImgFallback from '/bg_coffee_bread.webp';
 
@@ -343,10 +343,13 @@ const Home = () => {
             </StaggerContainer>
           </section>
         );
-      case 'home_journey':
-        return <CoffeeJourneySection data={sectionsData['home_journey']} />;
       case 'home_gallery':
-        return <VerticalBreadShowcase />;
+        return (
+          <div className="space-y-16">
+            <VerticalBreadShowcase />
+            <Store3DBentoGrid />
+          </div>
+        );
       case 'products':
         return (
           <section id="products" className="max-w-7xl mx-auto px-6 space-y-12">
