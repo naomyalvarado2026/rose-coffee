@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { BREADS_CATALOG } from '../../data/breadsData';
 import OptimizedMedia from '../common/OptimizedMedia';
@@ -14,19 +14,19 @@ export const Floating3DBreadGallery: React.FC = () => {
   const showcaseBreads = BREADS_CATALOG;
   const currentBread = showcaseBreads[currentIndex];
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     if (isFlipping) return;
     setIsFlipping(true);
     setCurrentIndex((prev) => (prev + 1) % showcaseBreads.length);
     setTimeout(() => setIsFlipping(false), 500);
-  };
+  }, [isFlipping, showcaseBreads.length]);
 
-  const handlePrev = () => {
+  const handlePrev = useCallback(() => {
     if (isFlipping) return;
     setIsFlipping(true);
     setCurrentIndex((prev) => (prev - 1 + showcaseBreads.length) % showcaseBreads.length);
     setTimeout(() => setIsFlipping(false), 500);
-  };
+  }, [isFlipping, showcaseBreads.length]);
 
   // Autoplay subtle 3D rotation
   useEffect(() => {
@@ -35,7 +35,7 @@ export const Floating3DBreadGallery: React.FC = () => {
       handleNext();
     }, 5500);
     return () => clearInterval(interval);
-  }, [isHovered, isLightboxOpen, currentIndex]);
+  }, [isHovered, isLightboxOpen, handleNext]);
 
   return (
     <div className="relative w-full h-full flex flex-col items-center justify-center p-2">
