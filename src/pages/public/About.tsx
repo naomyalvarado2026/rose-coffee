@@ -27,7 +27,9 @@ interface AboutSection {
   name?: string;
   title?: string;
   subtitle?: string;
-  content_blocks?: any[];
+  content_blocks?: Record<string, unknown>[];
+  cover_image_url?: string;
+  [key: string]: unknown;
 }
 
 const DEFAULT_GALLERY_SLIDES = [
