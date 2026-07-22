@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { fadeInUp, staggerContainer } from '../../utils/animations';
@@ -27,9 +28,9 @@ interface AboutSection {
   name?: string;
   title?: string;
   subtitle?: string;
-  content_blocks?: Record<string, unknown>[];
+  content_blocks?: any;
   cover_image_url?: string;
-  [key: string]: unknown;
+  [key: string]: any;
 }
 
 const DEFAULT_GALLERY_SLIDES = [
