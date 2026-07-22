@@ -25,7 +25,9 @@ import CoffeeJourneySection from '../../components/public/CoffeeJourneySection';
 import OriginSection from '../../components/public/OriginSection';
 
 import StoreHoursSection from '../../components/public/StoreHoursSection';
-import { ImageGallerySection } from '../../components/public/ImageGallerySection';
+import { VerticalBreadShowcase } from '../../components/public/VerticalBreadShowcase';
+import { BreadBentoGrid } from '../../components/public/BreadBentoGrid';
+import { BreadMarquee } from '../../components/public/BreadMarquee';
 import SEOHead from '../../components/common/SEOHead';
 import heroImgFallback from '/bg_coffee_bread.webp';
 
@@ -135,7 +137,6 @@ const Home = () => {
   }, []);
 
   const welcomeSection = sectionsData['home_welcome'];
-  const gallerySection = sectionsData['home_gallery'];
   const eventsSection = sectionsData['home_events'];
   const blogSection = sectionsData['home_sermons'];
 
@@ -347,9 +348,13 @@ const Home = () => {
       case 'home_journey':
         return <CoffeeJourneySection data={sectionsData['home_journey']} />;
       case 'home_gallery':
-        return gallerySection && gallerySection.content_blocks && gallerySection.content_blocks.length > 0 ? (
-          <ImageGallerySection title={gallerySection.title || 'Nuestros Productos en Imágenes'} subtitle={gallerySection.subtitle || 'Momentos especiales de nuestro proceso artesanal y productos de Rose Coffee.'} slides={gallerySection.content_blocks} />
-        ) : null;
+        return (
+          <div className="space-y-12">
+            <VerticalBreadShowcase />
+            <BreadMarquee />
+            <BreadBentoGrid />
+          </div>
+        );
       case 'products':
         return (
           <section id="products" className="max-w-7xl mx-auto px-6 space-y-12">
