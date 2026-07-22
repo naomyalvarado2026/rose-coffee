@@ -223,7 +223,7 @@ const About = () => {
                       {title || 'Nuestra Historia'}
                     </h2>
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                      <div className="lg:col-span-7 space-y-4 text-stone-600 dark:text-stone-300 text-xs md:text-sm leading-relaxed font-medium text-justify">
+                      <div className="lg:col-span-6 space-y-4 text-stone-600 dark:text-stone-300 text-xs md:text-sm leading-relaxed font-medium text-justify">
                         {content_blocks && content_blocks.length > 0 ? (
                           <BlockRenderer blocks={content_blocks} />
                         ) : (
@@ -240,7 +240,7 @@ const About = () => {
                           </>
                         )}
                       </div>
-                      <div className="lg:col-span-5 flex items-center justify-center">
+                      <div className="lg:col-span-6 flex items-center justify-center">
                         <Floating3DBreadGallery />
                       </div>
                     </div>
