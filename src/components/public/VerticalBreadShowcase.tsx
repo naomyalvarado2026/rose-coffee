@@ -240,8 +240,8 @@ export const VerticalBreadShowcase: React.FC = () => {
                 </p>
 
                 {/* Technical Specifications Grid (4 Cards) */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2">
-                  <div className="bg-stone-50 dark:bg-stone-800/60 p-3 rounded-2xl border border-stone-200/60 dark:border-stone-700/60 text-left">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-3">
+                  <div className="bg-stone-50 dark:bg-stone-800/60 p-3.5 rounded-2xl border border-stone-200/60 dark:border-stone-700/60 text-left">
                     <div className="flex items-center gap-1.5 text-coffee dark:text-gold mb-1">
                       <Clock size={15} />
                       <span className="text-[10px] font-extrabold uppercase tracking-wider text-stone-400">Fermentación</span>
@@ -251,7 +251,7 @@ export const VerticalBreadShowcase: React.FC = () => {
                     </p>
                   </div>
 
-                  <div className="bg-stone-50 dark:bg-stone-800/60 p-3 rounded-2xl border border-stone-200/60 dark:border-stone-700/60 text-left">
+                  <div className="bg-stone-50 dark:bg-stone-800/60 p-3.5 rounded-2xl border border-stone-200/60 dark:border-stone-700/60 text-left">
                     <div className="flex items-center gap-1.5 text-coffee dark:text-gold mb-1">
                       <Droplets size={15} />
                       <span className="text-[10px] font-extrabold uppercase tracking-wider text-stone-400">Hidratación</span>
@@ -261,7 +261,7 @@ export const VerticalBreadShowcase: React.FC = () => {
                     </p>
                   </div>
 
-                  <div className="bg-stone-50 dark:bg-stone-800/60 p-3 rounded-2xl border border-stone-200/60 dark:border-stone-700/60 text-left">
+                  <div className="bg-stone-50 dark:bg-stone-800/60 p-3.5 rounded-2xl border border-stone-200/60 dark:border-stone-700/60 text-left">
                     <div className="flex items-center gap-1.5 text-coffee dark:text-gold mb-1">
                       <Wheat size={15} />
                       <span className="text-[10px] font-extrabold uppercase tracking-wider text-stone-400">Miga</span>
@@ -271,7 +271,7 @@ export const VerticalBreadShowcase: React.FC = () => {
                     </p>
                   </div>
 
-                  <div className="bg-stone-50 dark:bg-stone-800/60 p-3 rounded-2xl border border-stone-200/60 dark:border-stone-700/60 text-left">
+                  <div className="bg-stone-50 dark:bg-stone-800/60 p-3.5 rounded-2xl border border-stone-200/60 dark:border-stone-700/60 text-left">
                     <div className="flex items-center gap-1.5 text-coffee dark:text-gold mb-1">
                       <Flame size={15} />
                       <span className="text-[10px] font-extrabold uppercase tracking-wider text-stone-400">Corteza</span>
@@ -283,7 +283,7 @@ export const VerticalBreadShowcase: React.FC = () => {
                 </div>
 
                 {/* Flavor Profile Pills */}
-                <div className="space-y-2">
+                <div className="pt-2 space-y-2">
                   <span className="text-[10px] font-extrabold uppercase tracking-wider text-stone-400 block">
                     Notas de Sabor & Cata
                   </span>
@@ -291,7 +291,7 @@ export const VerticalBreadShowcase: React.FC = () => {
                     {activeBread.flavorNotes.map((note, idx) => (
                       <span
                         key={idx}
-                        className="bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 text-xs font-bold px-3 py-1.5 rounded-xl border border-stone-200 dark:border-stone-700 flex items-center gap-1"
+                        className="bg-stone-100 dark:bg-stone-800 text-stone-700 dark:text-stone-300 text-xs font-bold px-3 py-1.5 rounded-xl border border-stone-200 dark:border-stone-700 flex items-center gap-1.5 shadow-xs"
                       >
                         <Sparkles size={11} className="text-gold" />
                         {note}
@@ -301,7 +301,7 @@ export const VerticalBreadShowcase: React.FC = () => {
                 </div>
 
                 {/* Coffee Pairing Recommendation Banner */}
-                <div className="bg-gradient-to-r from-stone-900 to-stone-800 dark:from-stone-950 dark:to-stone-900 p-4 rounded-2xl border border-gold/30 text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                <div className="my-4 bg-gradient-to-r from-stone-900 to-stone-800 dark:from-stone-950 dark:to-stone-900 p-5 rounded-2xl border border-gold/30 text-white flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-md">
                   <div className="space-y-1">
                     <div className="flex items-center gap-2 text-gold text-xs font-bold uppercase tracking-wider">
                       <Coffee size={14} />
@@ -316,23 +316,23 @@ export const VerticalBreadShowcase: React.FC = () => {
                   </div>
                   <Link
                     to="/tienda"
-                    className="shrink-0 bg-gold hover:bg-gold-dark text-stone-950 text-xs font-black px-4 py-2 rounded-xl transition-all flex items-center gap-1 cursor-pointer"
+                    className="shrink-0 bg-gold hover:bg-gold-dark text-stone-950 text-xs font-black px-4 py-2.5 rounded-xl transition-all flex items-center gap-1.5 shadow-md cursor-pointer hover:scale-105"
                   >
                     Ver Café <ArrowRight size={13} />
                   </Link>
                 </div>
 
-                {/* Action Buttons with Magic UI ShimmerButton */}
-                <div className="flex flex-col sm:flex-row gap-4 pt-2">
-                  <Link to="/tienda" className="flex-1">
-                    <ShimmerButton className="w-full bg-coffee hover:bg-coffee-dark text-white font-bold py-3.5 text-xs rounded-2xl shadow-lg border border-coffee/30">
+                {/* Action Buttons with Magic UI ShimmerButton - Balanced Layout */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 pt-4 border-t border-stone-100 dark:border-stone-800/80">
+                  <Link to="/tienda" className="w-full">
+                    <ShimmerButton className="w-full bg-coffee hover:bg-coffee-dark text-white font-bold py-3.5 px-4 text-xs rounded-2xl shadow-lg border border-coffee/30">
                       <ShoppingBag size={15} />
                       Pedir {activeBread.name} (${activeBread.price.toFixed(2)})
                     </ShimmerButton>
                   </Link>
 
-                  <Link to="/ar" className="flex-1">
-                    <button className="w-full bg-stone-100 dark:bg-stone-800 hover:bg-stone-200 dark:hover:bg-stone-700 text-stone-800 dark:text-stone-200 font-bold py-3.5 text-xs rounded-2xl border border-stone-300 dark:border-stone-700 transition-all flex items-center justify-center gap-2 cursor-pointer">
+                  <Link to="/ar" className="w-full">
+                    <button className="w-full h-full bg-stone-100 dark:bg-stone-800 hover:bg-stone-200 dark:hover:bg-stone-700 text-stone-800 dark:text-stone-200 font-bold py-3.5 px-4 text-xs rounded-2xl border border-stone-300 dark:border-stone-700 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-xs">
                       <Layers size={15} className="text-coffee dark:text-gold" />
                       Visualizar en AR 3D
                     </button>
