@@ -26,8 +26,6 @@ import OriginSection from '../../components/public/OriginSection';
 
 import StoreHoursSection from '../../components/public/StoreHoursSection';
 import { VerticalBreadShowcase } from '../../components/public/VerticalBreadShowcase';
-import { BreadBentoGrid } from '../../components/public/BreadBentoGrid';
-import { BreadMarquee } from '../../components/public/BreadMarquee';
 import SEOHead from '../../components/common/SEOHead';
 import heroImgFallback from '/bg_coffee_bread.webp';
 
@@ -348,13 +346,7 @@ const Home = () => {
       case 'home_journey':
         return <CoffeeJourneySection data={sectionsData['home_journey']} />;
       case 'home_gallery':
-        return (
-          <div className="space-y-12">
-            <VerticalBreadShowcase />
-            <BreadMarquee />
-            <BreadBentoGrid />
-          </div>
-        );
+        return <VerticalBreadShowcase />;
       case 'products':
         return (
           <section id="products" className="max-w-7xl mx-auto px-6 space-y-12">

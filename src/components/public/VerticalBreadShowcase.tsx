@@ -67,17 +67,17 @@ export const VerticalBreadShowcase: React.FC = () => {
           <span>Colección de Masa Madre Artesanal</span>
         </div>
         <h2 className="text-3xl md:text-5xl font-extrabold text-stone-900 dark:text-stone-100 tracking-tight">
-          Nuestras Hogazas en <span className="text-coffee dark:text-gold italic font-serif">Formato 3:4</span>
+          Nuestras Hogazas <span className="text-coffee dark:text-gold italic font-serif">Artesanales</span>
         </h2>
         <p className="text-stone-600 dark:text-stone-400 text-sm md:text-base leading-relaxed">
-          Explora la galería vertical de panes artesanales de Rose Coffee. Haz clic o desplázate para descubrir los ingredientes, el proceso de fermentación salvaje y su maridaje perfecto.
+          Explora nuestra variedad de panes de masa madre horneados diariamente. Haz clic o desplázate para descubrir los ingredientes, el proceso de fermentación salvaje y su maridaje perfecto.
         </p>
       </div>
 
-      {/* Main Grid: Left = 3:4 Vertical Gallery | Right = Detailed Description Panel */}
+      {/* Main Grid: Left = Vertical Gallery | Right = Detailed Description Panel */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
 
-        {/* LEFT COLUMN: VERTICAL 3:4 GALLERY (5 columns on LG screens) */}
+        {/* LEFT COLUMN: VERTICAL GALLERY (5 columns on LG screens) */}
         <div className="lg:col-span-5 flex flex-col items-center">
           
           {/* Main Active 3:4 Vertical Image Display */}
@@ -139,7 +139,7 @@ export const VerticalBreadShowcase: React.FC = () => {
           <div className="w-full max-w-sm mt-6 relative">
             <div className="flex items-center justify-between mb-3 px-1">
               <span className="text-xs font-extrabold text-stone-500 uppercase tracking-widest">
-                Galería Vertical 3:4 ({selectedIndex + 1} de {BREADS_CATALOG.length})
+                Variedades de Pan ({selectedIndex + 1} de {BREADS_CATALOG.length})
               </span>
               <div className="flex gap-2">
                 <button

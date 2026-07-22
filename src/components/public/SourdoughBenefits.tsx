@@ -1,6 +1,6 @@
 import { motion, useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
-import breadImg from '/fotos/panes/Pan 1.png';
+import breadImg from '../../assets/sourdough_bread.webp';
 
 interface Benefit {
   id: string;
